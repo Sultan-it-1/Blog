@@ -163,12 +163,12 @@ sudo apt install wireguard -y</code></pre>
   <pre><code class="language-bash"></code>sudo bash -c "wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey"</code></pre>
 </div>
 
-        <p data-ar="🔑 هذا الأمر ينشئ مفتاح خاص (<code>privatekey</code>) ومفتاح عام (<code>publickey</code>)." data-en="🔑 This command creates a private key (<code>privatekey</code>) and a public key (<code>publickey</code>).">
+        <p data-ar="🔑 هذا الأمر ينشئ مفتاح خاص (privatekey) ومفتاح عام (publickey)." data-en="🔑 This command creates a private key (privatekey) and a public key (publickey).">
           🔑 هذا الأمر ينشئ مفتاح خاص (<code>privatekey</code>) ومفتاح عام (<code>publickey</code>).
         </p>
         <div class="note">
-          <strong data-ar="💡 ليش استخدمنا <code>bash -c</code>؟" data-en="💡 Why did we use <code>bash -c</code>?">  💡 ليش استخدمنا <code>bash -c</code>؟</strong><br/>
-          <span data-ar="عشان نقدر ننفذ أمر فيه بايب <code>|</code> بصلاحيات <code>sudo</code>." data-en="So we can execute a command with pipes <code>|</code> with <code>sudo</code> privileges.">عشان نقدر ننفذ أمر فيه بايب <code>|</code> بصلاحيات <code>sudo</code>.</span>
+          <strong data-ar="💡 ليش استخدمنا bash -c؟" data-en="💡 Why did we use bash -c?">💡 ليش استخدمنا <code>bash -c</code>؟</strong><br/>
+          <span data-ar="عشان نقدر ننفذ أمر فيه بايب | بصلاحيات sudo." data-en="So we can execute a command with pipes | with sudo privileges.">عشان نقدر ننفذ أمر فيه بايب <code>|</code> بصلاحيات <code>sudo</code>.</span>
         </div>
 
         <h2 data-ar="4️⃣ ضبط صلاحيات المفاتيح" data-en="4️⃣ Setting Key Permissions">4️⃣ ضبط صلاحيات المفاتيح</h2>
@@ -199,7 +199,7 @@ sudo ls -l /etc/wireguard</code></pre>
 
     
 
-        <p data-ar="ابحث عن الواجهة الحقيقية (غير <code>lo</code>) اللي فيها عنوان IP مثل:" data-en="Look for the real interface (not <code>lo</code>) that has an IP address like:">ابحث عن الواجهة الحقيقية (غير <code>lo</code>) اللي فيها عنوان IP مثل:</p>
+        <p data-ar="ابحث عن الواجهة الحقيقية (غير lo) اللي فيها عنوان IP مثل:" data-en="Look for the real interface (not lo) that has an IP address like:">ابحث عن الواجهة الحقيقية (غير <code>lo</code>) اللي فيها عنوان IP مثل:</p>
 
         <div class="code-block"> 
   <div class="code-header">
@@ -210,7 +210,7 @@ sudo ls -l /etc/wireguard</code></pre>
 </div>
 
    
-        <p data-ar="📌 في هذا المثال، اسم الواجهة هو <code>eth0</code>." data-en="📌 In this example, the interface name is <code>eth0</code>.">📌 في هذا المثال، اسم الواجهة هو <code>eth0</code>.</p>
+        <p data-ar="📌 في هذا المثال، اسم الواجهة هو eth0." data-en="📌 In this example, the interface name is eth0.">📌 في هذا المثال، اسم الواجهة هو <code>eth0</code>.</p>
 
         <h2 data-ar="6️⃣ إنشاء وتعديل ملف الإعداد" data-en="6️⃣ Creating and Editing Configuration File">6️⃣ إنشاء وتعديل ملف الإعداد</h2>
         
@@ -225,7 +225,7 @@ sudo ls -l /etc/wireguard</code></pre>
         
        
 
-        <h2 data-ar="7️⃣ محتوى <code>wg0.conf</code> (مع الشرح)" data-en="7️⃣ Content of <code>wg0.conf</code> (with explanation)">7️⃣ محتوى <code>wg0.conf</code> (مع الشرح)</h2>
+        <h2 data-ar="7️⃣ محتوى wg0.conf (مع الشرح)" data-en="7️⃣ Content of wg0.conf (with explanation)">7️⃣ محتوى <code>wg0.conf</code> (مع الشرح)</h2>
 
           <div class="code-block"> 
   <div class="code-header">
@@ -243,8 +243,8 @@ PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]</
         
        
         <ul>
-          <li data-ar="غير <code>eth0</code> لاسم واجهتك اللي طلع من الخطوة 5." data-en="Replace <code>eth0</code> with your interface name from step 5.">غير <code>eth0</code> لاسم واجهتك اللي طلع من الخطوة 5.</li>
-          <li data-ar="للحصول على المفتاح الخاص: اخرج من المحرر <code>Ctrl + X</code> ثم نفذ الأمر التالي ونسخ المفتاح:" data-en="To get the private key: exit the editor with <code>Ctrl + X</code> then run the following command and copy the key:">للحصول على المفتاح الخاص: اخرج من المحرر <code>Ctrl + X</code> ثم نفذ الأمر التالي ونسخ المفتاح:</li>
+          <li data-ar="غير eth0 لاسم واجهتك اللي طلع من الخطوة 5." data-en="Replace eth0 with your interface name from step 5.">غير <code>eth0</code> لاسم واجهتك اللي طلع من الخطوة 5.</li>
+          <li data-ar="للحصول على المفتاح الخاص: اخرج من المحرر Ctrl + X ثم نفذ الأمر التالي ونسخ المفتاح:" data-en="To get the private key: exit the editor with Ctrl + X then run the following command and copy the key:">للحصول على المفتاح الخاص: اخرج من المحرر <code>Ctrl + X</code> ثم نفذ الأمر التالي ونسخ المفتاح:</li>
         </ul>
 
    <div class="code-block"> 
@@ -258,8 +258,8 @@ PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]</
 
         <h2 data-ar="8️⃣ حفظ الملف والخروج من Nano" data-en="8️⃣ Saving File and Exiting Nano">8️⃣ حفظ الملف والخروج من Nano</h2>
         <ul>
-          <li data-ar="للحفظ: <code>Ctrl + O</code> ثم Enter" data-en="To save: <code>Ctrl + O</code> then Enter">للحفظ: <code>Ctrl + O</code> ثم Enter</li>
-          <li data-ar="للخروج: <code>Ctrl + X</code>" data-en="To exit: <code>Ctrl + X</code>">للخروج: <code>Ctrl + X</code></li>
+          <li data-ar="للحفظ: Ctrl + O ثم Enter" data-en="To save: Ctrl + O then Enter">للحفظ: <code>Ctrl + O</code> ثم Enter</li>
+          <li data-ar="للخروج: Ctrl + X" data-en="To exit: Ctrl + X">للخروج: <code>Ctrl + X</code></li>
         </ul>
 
         <h2 data-ar="📱 إعداد العميل (Client)" data-en="📱 Client Setup">📱 إعداد العميل (Client)</h2>
@@ -277,18 +277,18 @@ PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]</
         <h2 data-ar="🔟 إعداد ملف العميل" data-en="🔟 Client Configuration Setup">🔟 إعداد ملف العميل</h2>
         <p data-ar="داخل التطبيق:" data-en="Inside the app:">داخل التطبيق:</p>
         <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
-          <li class="step" data-ar="اضغط على <code>+</code> واختر <strong>Create from scratch</strong>." data-en="Press <code>+</code> and choose <strong>Create from scratch</strong>.">اضغط على <code>+</code> واختر <strong>Create from scratch</strong>.</li>
+          <li class="step" data-ar="اضغط على + واختر Create from scratch." data-en="Press + and choose Create from scratch.">اضغط على <code>+</code> واختر <strong>Create from scratch</strong>.</li>
           <li class="step" data-ar="اختر اسم مناسب." data-en="Choose a suitable name.">اختر اسم مناسب.</li>
-          <li class="step" data-ar="اضغط <strong>Generate keypair</strong>." data-en="Press <strong>Generate keypair</strong>.">اضغط <strong>Generate keypair</strong>.</li>
+          <li class="step" data-ar="اضغط Generate keypair." data-en="Press Generate keypair.">اضغط <strong>Generate keypair</strong>.</li>
           <li class="step" data-ar="بيعطيك مفتاح خاص وآخر عام للعميل." data-en="It will give you a private and public key for the client.">بيعطيك مفتاح خاص وآخر عام للعميل.</li>
-          <li class="step" data-ar="في Address اكتب: <code>10.0.0.2/24</code>" data-en="In Address field, enter: <code>10.0.0.2/24</code>">في Address اكتب: <code>10.0.0.2/24</code></li>
-          <li class="step" data-ar="في DNS اكتب: <code>1.1.1.1</code>" data-en="In DNS field, enter: <code>1.1.1.1</code>">في DNS اكتب: <code>1.1.1.1</code></li>
+          <li class="step" data-ar="في Address اكتب: 10.0.0.2/24" data-en="In Address field, enter: 10.0.0.2/24">في Address اكتب: <code>10.0.0.2/24</code></li>
+          <li class="step" data-ar="في DNS اكتب: 1.1.1.1" data-en="In DNS field, enter: 1.1.1.1">في DNS اكتب: <code>1.1.1.1</code></li>
           <li class="step" data-ar="أضف peer جديد:" data-en="Add a new peer:">أضف peer جديد:</li>
         </ol>
 
         <h3 data-ar="Peer:" data-en="Peer:">Peer:</h3>
         <ul>
-          <li data-ar="<strong>Public key:</strong> الصق المفتاح العام اللي حصلته من السيرفر:" data-en="<strong>Public key:</strong> Paste the public key you got from the server:"><strong>Public key:</strong> الصق المفتاح العام اللي حصلته من السيرفر:</li>
+          <li data-ar="Public key: الصق المفتاح العام اللي حصلته من السيرفر:" data-en="Public key: Paste the public key you got from the server:"><strong>Public key:</strong> الصق المفتاح العام اللي حصلته من السيرفر:</li>
                   <p data-ar="تقدر تحصله عن طريق الامر التالي:" data-en="You can get it using the following command:">تقدر تحصله عن طريق الامر التالي:</p>
 
         </ul>
@@ -303,7 +303,7 @@ PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]</
 
 
         <ul>
-          <li data-ar="<strong>Endpoint:</strong> عنوان السيرفر مع البورت، مثل:" data-en="<strong>Endpoint:</strong> Server address with port, like:"><strong>Endpoint:</strong> عنوان السيرفر مع البورت، مثل:</li>
+          <li data-ar="Endpoint: عنوان السيرفر مع البورت، مثل:" data-en="Endpoint: Server address with port, like:"><strong>Endpoint:</strong> عنوان السيرفر مع البورت، مثل:</li>
         </ul>
         
         <div class="code-block"> 
@@ -328,7 +328,7 @@ sudo wg-quick save wg0</code></pre>
 
 
         
-        <p data-ar="استبدل <code>[public_key_client]</code>  بالمفتاح العام للعميل(المفتاح اللذي انشائته في تطبيق الجوال)." data-en="Replace <code>[public_key_client]</code> with the client's public key (the key you created in the mobile app).">استبدل <code>[public_key_client]</code>  بالمفتاح العام للعميل(المفتاح اللذي انشائته في تطبيق الجوال).</p>
+        <p data-ar="استبدل [public_key_client] بالمفتاح العام للعميل(المفتاح اللذي انشائته في تطبيق الجوال)." data-en="Replace [public_key_client] with the client's public key (the key you created in the mobile app).">استبدل <code>[public_key_client]</code> بالمفتاح العام للعميل(المفتاح اللذي انشائته في تطبيق الجوال).</p>
 
         <h2 data-ar="1️⃣2️⃣ تشغيل WireGuard تلقائيًا عند الإقلاع" data-en="1️⃣2️⃣ Running WireGuard Automatically on Boot">1️⃣2️⃣ تشغيل WireGuard تلقائيًا عند الإقلاع</h2>
 
