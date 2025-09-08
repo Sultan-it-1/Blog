@@ -165,6 +165,29 @@ code {
     line-height: 1.6;
 }
 
+/* تنسيقات الكود المضمن (inline code) */
+p code, li code, span code, h1 code, h2 code, h3 code, strong code {
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--primary-color);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 600;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* تنسيقات النص العريض (strong) */
+strong {
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+/* تنسيقات النص العريض المضمن */
+p strong, li strong, span strong {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
 /* ===== الاستجابة للشاشات الصغيرة ===== */
 @media (max-width: 768px) {
     .article-content {
