@@ -1,0 +1,18 @@
+[
+  {
+    "title_ar": "كيف تنشئ سيرفر على AWS لتشغيل WireGuard VPN",
+    "title_en": "How to create a server on AWS to run WireGuard VPN",
+    "file": "aws.html"
+  },
+  {
+    "title_ar": " شرح انشاء سيرفر VPN خاص بك ",
+    "title_en": "How to create your own WireGuard VPN server",
+    "file": "wireguard.html"
+  },
+  {
+    "title_ar": "إعداد خادم لينكس آمن من الصفر",
+    "title_en": "Setting up a secure Linux server from scratch",
+    "file": "linux-server.html"
+  }
+]
+

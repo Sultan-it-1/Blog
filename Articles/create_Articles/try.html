@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد مقالات تقنية متقدم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --gradient-start: #1a2a6c;
+            --gradient-middle: #b21f1f;
+            --gradient-end: #1a2a6c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .app-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 900px) {
+            .app-container {
+                flex-direction: column;
+            }
+        }
+        
+        .form-container {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .preview-container {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }
+        
+        .dual-input {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .dual-input .form-group {
+            flex: 1;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-success:hover {
+            background: #27ae60;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .preview {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            flex: 1;
+            border: 1px solid #eee;
+            overflow: auto;
+        }
+        
+        .article {
+            margin-bottom: 30px;
+        }
+        
+        .article h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .article-meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .article p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .code-block {
+            background: #dbd8d8;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #1e1e1e;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        .code-lang {
+            font-weight: 600;
+        }
+        
+        .copy-btn {
+            background: #3a3a3a;
+            color: #ccc;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .keyword {
+            color: #569cd6;
+        }
+        
+        .function {
+            color: #dcdcaa;
+        }
+        
+        .string {
+            color: #ce9178;
+        }
+        
+        .number {
+            color: #b5cea8;
+        }
+        
+        .comment {
+            color: #6a9955;
+        }
+        
+        .result-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .result-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+        
+        #html-output {
+            width: 100%;
+            min-height: 300px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--success);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(120%);
+            transition: transform 0.3s ease-out;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: var(--danger);
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .footer a {
+            color: #f1c40f;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: #f1f1f1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .sections-container {
+            margin-top: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 100px;
+        }
+        
+        .section-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .section-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-type {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .section-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .section-controls button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .section-content {
+            padding: 10px 0;
+        }
+        
+        .section-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .section-handle {
+            cursor: move;
+            padding: 5px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .empty-sections {
+            text-align: center;
+            color: #777;
+            padding: 20px;
+            font-style: italic;
+        }
+        
+        .sortable-ghost {
+            opacity: 0.5;
+            background: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code"></i> مولد مقالات تقنية متقدم</h1>
+            <p>أداة متطورة لإنشاء مقالات برمجية مع دعم أقسام متعددة وإمكانية إعادة الترتيب</p>
+        </header>
+        
+        <div class="app-container">
+            <div class="form-container">
+                <h2 class="section-title"><i class="fas fa-edit"></i> إدخال بيانات المقالة</h2>
+                
+                <div class="tabs">
+                    <div class="tab active" data-tab="content">المحتوى</div>
+                    <div class="tab" data-tab="sections">الأقسام</div>
+                    <div class="tab" data-tab="settings">الإعدادات</div>
+                </div>
+                
+                <div class="tab-content active" id="content-tab">
+                    <div class="dual-input">
+                        <div class="form-group">
+                            <label for="title-ar">عنوان المقال (العربية)</label>
+                            <input type="text" id="title-ar" class="form-control" value="تطوير APIs باستخدام Node.js">
+                        </div>
+                        <div class="form-group">
+                            <label for="title-en">عنوان المقال (الإنجليزية)</label>
+                            <input type="text" id="title-en" class="form-control" value="Developing APIs with Node.js">
+                        </div>
+                    </div>
+                    
+                    <div class="dual-input">
+                        <div class="form-group">
+                            <label for="meta-ar">معلومات النشر (العربية)</label>
+                            <input type="text" id="meta-ar" class="form-control" value="نُشر في 3 يونيو 2024 | بواسطة سلطان عايض">
+                        </div>
+                        <div class="form-group">
+                            <label for="meta-en">معلومات النشر (الإنجليزية)</label>
+                            <input type="text" id="meta-en" class="form-control" value="Published on June 3, 2024 | By Sultan Ayidh">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="sections-tab">
+                    <div class="form-group">
+                        <h3>إدارة أقسام المقالة</h3>
+                        <p>يمكنك إضافة أقسام نصية أو برمجية وإعادة ترتيبها حسب الحاجة</p>
+                        
+                        <div class="section-actions">
+                            <button id="add-text-section" class="btn">
+                                <i class="fas fa-paragraph"></i> إضافة قسم نصي
+                            </button>
+                            <button id="add-code-section" class="btn">
+                                <i class="fas fa-code"></i> إضافة قسم برمجي
+                            </button>
+                        </div>
+                        
+                        <div class="sections-container" id="sections-container">
+                            <div class="empty-sections">
+                                <i class="fas fa-info-circle"></i>
+                                <p>لم يتم إضافة أي أقسام بعد</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="settings-tab">
+                    <div class="form-group">
+                        <label for="theme">السمة اللونية</label>
+                        <select id="theme" class="form-control">
+                            <option value="blue">أزرق (افتراضي)</option>
+                            <option value="green">أخضر</option>
+                            <option value="purple">بنفسجي</option>
+                            <option value="dark">داكن</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="auto-preview" checked>
+                            معاينة تلقائية عند التغيير
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="syntax-highlight" checked>
+                            تمييز بناء الجملة البرمجية
+                        </label>
+                    </div>
+                </div>
+                
+                <button id="generate-btn" class="btn btn-block">
+                    <i class="fas fa-cogs"></i> توليد المقالة
+                </button>
+            </div>
+            
+            <div class="preview-container">
+                <h2 class="section-title"><i class="fas fa-eye"></i> معاينة النتيجة</h2>
+                <div class="preview" id="live-preview">
+                    <article class="article">
+                        <h2>تطوير APIs باستخدام Node.js</h2>
+                        <div class="article-meta">نُشر في 3 يونيو 2024 | بواسطة سلطان عايض</div>
+                        <p class="empty-preview">أضف أقسامًا لرؤية معاينة المقالة هنا...</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <div class="result-header">
+                <h3 class="result-title"><i class="fas fa-file-code"></i> كود HTML الناتج</h3>
+                <div>
+                    <button id="copy-btn" class="btn btn-success">
+                        <i class="fas fa-copy"></i> نسخ الكود
+                    </button>
+                    <button id="new-tab-btn" class="btn">
+                        <i class="fas fa-external-link-alt"></i> فتح في نافذة جديدة
+                    </button>
+                </div>
+            </div>
+            <textarea id="html-output" readonly></textarea>
+        </div>
+        
+        <div class="footer">
+            <p>تم تطوير هذه الأداة باستخدام HTML, CSS و JavaScript | &copy; 2023 جميع الحقوق محفوظة</p>
+            <p>مشروع مفتوح المصدر | <a href="#"><i class="fab fa-github"></i> المساهمة على GitHub</a></p>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">تم نسخ الكود بنجاح!</div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // عناصر الواجهة
+            const generateBtn = document.getElementById('generate-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const newTabBtn = document.getElementById('new-tab-btn');
+            const notification = document.getElementById('notification');
+            const htmlOutput = document.getElementById('html-output');
+            const resultContainer = document.getElementById('result-container');
+            const livePreview = document.getElementById('live-preview');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const addTextBtn = document.getElementById('add-text-section');
+            const addCodeBtn = document.getElementById('add-code-section');
+            const sectionsContainer = document.getElementById('sections-container');
+            
+            // عناصر الإدخال
+            const titleAr = document.getElementById('title-ar');
+            const titleEn = document.getElementById('title-en');
+            const metaAr = document.getElementById('meta-ar');
+            const metaEn = document.getElementById('meta-en');
+            const themeSelect = document.getElementById('theme');
+            const autoPreview = document.getElementById('auto-preview');
+            const syntaxHighlight = document.getElementById('syntax-highlight');
+            
+            // متغيرات التطبيق
+            let sections = [];
+            let sectionCounter = 0;
+            
+            // إدارة التبويبات
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // إزالة النشاط من جميع التبويبات والمحتويات
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(tc => tc.classList.remove('active'));
+                    
+                    // إضافة النشاط للتبويب والمحتوى المحدد
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab') + '-tab';
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // إضافة قسم نصي
+            addTextBtn.addEventListener('click', function() {
+                sectionCounter++;
+                const sectionId = `section-${sectionCounter}`;
+                
+                sections.push({
+                    id: sectionId,
+                    type: 'text',
+                    contentAr: '',
+                    contentEn: ''
+                });
+                
+                renderSections();
+                updatePreview();
+                
+                // التبديل إلى تبويب الأقسام
+                document.querySelector('.tab[data-tab="sections"]').click();
+            });
+            
+            // إضافة قسم برمجي
+            addCodeBtn.addEventListener('click', function() {
+                sectionCounter++;
+                const sectionId = `section-${sectionCounter}`;
+                
+                sections.push({
+                    id: sectionId,
+                    type: 'code',
+                    language: 'JavaScript',
+                    code: '// اكتب الكود الخاص بك هنا\nconsole.log("مرحبًا بالعالم!");'
+                });
+                
+                renderSections();
+                updatePreview();
+                
+                // التبديل إلى تبويب الأقسام
+                document.querySelector('.tab[data-tab="sections"]').click();
+            });
+            
+            // تهرب الأحرف الخاصة في HTML
+            const escapeHtml = (text) => {
+                return text
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            };
+            
+            // دالة لتلوين الكود البرمجي
+            const highlightCode = (code) => {
+                if (!syntaxHighlight.checked) {
+                    return escapeHtml(code);
+                }
+                
+                // استبدال الأحرف الخاصة
+                code = escapeHtml(code);
+                
+                // تلوين الكلمات المفتاحية
+                const keywords = ['const', 'let', 'var', 'function', 'if', 'else', 'for', 'while', 'return', 
+                                 'class', 'new', 'this', 'try', 'catch', 'import', 'export', 'default', 
+                                 'async', 'await', 'require', 'module', 'exports', 'true', 'false', 'null', 
+                                 'undefined', 'switch', 'case', 'break', 'continue', 'throw', 'delete', 
+                                 'in', 'of', 'instanceof', 'typeof'];
+                
+                keywords.forEach(keyword => {
+                    const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+                    code = code.replace(regex, `<span class="keyword">${keyword}</span>`);
+                });
+                
+                // تلوين التوابع
+                const functions = ['function', '=>', 'console\\.log', 'require', 'use', 'get', 'post', 
+                                  'listen', 'json', 'express', 'app\\.use', 'app\\.get', 'app\\.post', 
+                                  'app\\.listen', 'res\\.json', 'res\\.send'];
+                
+                functions.forEach(func => {
+                    const regex = new RegExp(`\\b${func}\\b`, 'g');
+                    code = code.replace(regex, `<span class="function">${func}</span>`);
+                });
+                
+                // تلوين النصوص
+                const stringRegex = /('.*?'|".*?")/g;
+                code = code.replace(stringRegex, '<span class="string">$1</span>');
+                
+                // تلوين الأرقام
+                const numberRegex = /\b\d+\b/g;
+                code = code.replace(numberRegex, '<span class="number">$&</span>');
+                
+                // تلوين التعليقات
+                const commentRegex = /(\/\/.*)/g;
+                code = code.replace(commentRegex, '<span class="comment">$1</span>');
+                
+                return code;
+            };
+            
+            // عرض الأقسام في الواجهة
+            const renderSections = () => {
+                if (sections.length === 0) {
+                    sectionsContainer.innerHTML = `
+                        <div class="empty-sections">
+                            <i class="fas fa-info-circle"></i>
+                            <p>لم يتم إضافة أي أقسام بعد</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                sectionsContainer.innerHTML = '';
+                
+                sections.forEach((section, index) => {
+                    const sectionElement = document.createElement('div');
+                    sectionElement.className = 'section-item';
+                    sectionElement.dataset.id = section.id;
+                    
+                    if (section.type === 'text') {
+                        sectionElement.innerHTML = `
+                            <div class="section-header">
+                                <div class="section-type">
+                                    <i class="fas fa-paragraph"></i> قسم نصي #${index + 1}
+                                </div>
+                                <div class="section-controls">
+                                    <button class="btn btn-danger delete-section" data-id="${section.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <span class="section-handle">
+                                        <i class="fas fa-arrows-alt"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div class="dual-input">
+                                    <div class="form-group">
+                                        <label>المحتوى (العربية)</label>
+                                        <textarea class="form-control section-text-ar" data-id="${section.id}" placeholder="أدخل المحتوى النصي بالعربية">${section.contentAr || ''}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>المحتوى (الإنجليزية)</label>
+                                        <textarea class="form-control section-text-en" data-id="${section.id}" placeholder="أدخل المحتوى النصي بالإنجليزية">${section.contentEn || ''}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        sectionElement.innerHTML = `
+                            <div class="section-header">
+                                <div class="section-type">
+                                    <i class="fas fa-code"></i> قسم برمجي #${index + 1}
+                                </div>
+                                <div class="section-controls">
+                                    <button class="btn btn-danger delete-section" data-id="${section.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <span class="section-handle">
+                                        <i class="fas fa-arrows-alt"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div class="form-group">
+                                    <label>لغة البرمجة</label>
+                                    <select class="form-control section-code-lang" data-id="${section.id}">
+                                        <option value="JavaScript" ${section.language === 'JavaScript' ? 'selected' : ''}>JavaScript</option>
+                                        <option value="Python" ${section.language === 'Python' ? 'selected' : ''}>Python</option>
+                                        <option value="HTML" ${section.language === 'HTML' ? 'selected' : ''}>HTML</option>
+                                        <option value="CSS" ${section.language === 'CSS' ? 'selected' : ''}>CSS</option>
+                                        <option value="PHP" ${section.language === 'PHP' ? 'selected' : ''}>PHP</option>
+                                        <option value="Java" ${section.language === 'Java' ? 'selected' : ''}>Java</option>
+                                        <option value="C++" ${section.language === 'C++' ? 'selected' : ''}>C++</option>
+                                        <option value="SQL" ${section.language === 'SQL' ? 'selected' : ''}>SQL</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>الكود البرمجي</label>
+                                    <textarea class="form-control section-code-content" data-id="${section.id}" rows="6">${section.code || ''}</textarea>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    sectionsContainer.appendChild(sectionElement);
+                });
+                
+                // إضافة أحداث لحذف الأقسام
+                document.querySelectorAll('.delete-section').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const sectionId = this.dataset.id;
+                        sections = sections.filter(s => s.id !== sectionId);
+                        renderSections();
+                        updatePreview();
+                        showNotification('تم حذف القسم بنجاح', 'success');
+                    });
+                });
+                
+                // إضافة أحداث لتحديث المحتوى
+                document.querySelectorAll('.section-text-ar, .section-text-en, .section-code-content').forEach(input => {
+                    input.addEventListener('input', function() {
+                        const sectionId = this.dataset.id;
+                        const section = sections.find(s => s.id === sectionId);
+                        
+                        if (section.type === 'text') {
+                            if (this.classList.contains('section-text-ar')) {
+                                section.contentAr = this.value;
+                            } else {
+                                section.contentEn = this.value;
+                            }
+                        } else {
+                            section.code = this.value;
+                        }
+                        
+                        updatePreview();
+                    });
+                });
+                
+                document.querySelectorAll('.section-code-lang').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const sectionId = this.dataset.id;
+                        const section = sections.find(s => s.id === sectionId);
+                        section.language = this.value;
+                        updatePreview();
+                    });
+                });
+                
+                // تمكين السحب والإفلات
+                new Sortable(sectionsContainer, {
+                    handle: '.section-handle',
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function(evt) {
+                        const movedItem = sections[evt.oldIndex];
+                        sections.splice(evt.oldIndex, 1);
+                        sections.splice(evt.newIndex, 0, movedItem);
+                        updatePreview();
+                    }
+                });
+            };
+            
+            // تحديث المعاينة الحية
+            const updatePreview = () => {
+                if (!autoPreview.checked) return;
+                
+                if (sections.length === 0) {
+                    livePreview.innerHTML = `
+                        <article class="article">
+                            <h2>${escapeHtml(titleAr.value)}</h2>
+                            <div class="article-meta">${escapeHtml(metaAr.value)}</div>
+                            <p class="empty-preview">أضف أقسامًا لرؤية معاينة المقالة هنا...</p>
+                        </article>
+                    `;
+                    return;
+                }
+                
+                let previewContent = `
+                    <article class="article">
+                        <h2>${escapeHtml(titleAr.value)}</h2>
+                        <div class="article-meta">${escapeHtml(metaAr.value)}</div>
+                `;
+                
+                sections.forEach(section => {
+                    if (section.type === 'text') {
+                        previewContent += `
+                            <p>${escapeHtml(section.contentAr)}</p>
+                        `;
+                    } else {
+                        const code = highlightCode(section.code);
+                        previewContent += `
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-lang">${escapeHtml(section.language)}</span>
+                                    <button class="copy-btn">Copy</button>
+                                </div>
+                                <pre><code>${code}</code></pre>
+                            </div>
+                        `;
+                    }
+                });
+                
+                previewContent += `</article>`;
+                livePreview.innerHTML = previewContent;
+                
+                // إضافة أحداث النسخ لأزرار النسخ في المعاينة
+                livePreview.querySelectorAll('.copy-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const codeBlock = this.parentElement.nextElementSibling;
+                        const text = codeBlock.textContent;
+                        copyToClipboard(text);
+                        
+                        // عرض إشعار النسخ
+                        showNotification('تم نسخ الكود بنجاح!', 'success');
+                    });
+                });
+            };
+            
+            // توليد كود HTML
+            const generateHtmlCode = () => {
+                let sectionsHtml = '';
+                
+                sections.forEach(section => {
+                    if (section.type === 'text') {
+                        sectionsHtml += `
+                            <p>${escapeHtml(section.contentAr)}</p>
+                        `;
+                    } else {
+                        const code = highlightCode(section.code);
+                        sectionsHtml += `
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-lang">${escapeHtml(section.language)}</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre><code>${code}</code></pre>
+                            </div>
+                        `;
+                    }
+                });
+                
+                return `<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>${escapeHtml(titleAr.value)}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .article {
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .article h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .article-meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin: 10px 0 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .article p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .code-block {
+            background: #dbd8d8;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #1e1e1e;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        .code-lang {
+            font-weight: 600;
+        }
+        
+        .copy-btn {
+            background: #3a3a3a;
+            color: #ccc;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+        
+        .keyword {
+            color: #569cd6;
+        }
+        
+        .function {
+            color: #dcdcaa;
+        }
+        
+        .string {
+            color: #ce9178;
+        }
+        
+        .number {
+            color: #b5cea8;
+        }
+        
+        .comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <article class="article">
+        <h2>${escapeHtml(titleAr.value)}</h2>
+        <div class="article-meta">${escapeHtml(metaAr.value)}</div>
+        ${sectionsHtml}
+    </article>
+    
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block');
+            const codeContent = codeBlock.querySelector('code').textContent;
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeContent;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            const originalText = button.textContent;
+            button.textContent = 'تم النسخ!';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        }
+    <\/script>
+</body>
+</html>`;
+            };
+            
+            // نسخ النص إلى الحافظة
+            const copyToClipboard = (text) => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            };
+            
+            // عرض الإشعار
+            const showNotification = (message, type = 'success') => {
+                notification.textContent = message;
+                notification.className = 'notification';
+                
+                if (type === 'error') {
+                    notification.classList.add('error');
+                } else {
+                    notification.classList.remove('error');
+                }
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            };
+            
+            // أحداث المستخدم
+            generateBtn.addEventListener('click', function() {
+                if (sections.length === 0) {
+                    showNotification('يرجى إضافة أقسام أولاً!', 'error');
+                    return;
+                }
+                
+                const htmlCode = generateHtmlCode();
+                htmlOutput.value = htmlCode;
+                resultContainer.style.display = 'block';
+                
+                // التمرير إلى منطقة النتائج
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+                
+                showNotification('تم توليد كود HTML بنجاح!', 'success');
+            });
+            
+            copyBtn.addEventListener('click', function() {
+                if (!htmlOutput.value) {
+                    showNotification('لا يوجد كود لنسخه!', 'error');
+                    return;
+                }
+                
+                copyToClipboard(htmlOutput.value);
+                showNotification('تم نسخ كود HTML بنجاح!', 'success');
+            });
+            
+            newTabBtn.addEventListener('click', function() {
+                if (!htmlOutput.value) {
+                    showNotification('لا يوجد كود لعرضه!', 'error');
+                    return;
+                }
+                
+                const newWindow = window.open();
+                newWindow.document.write(htmlOutput.value);
+                newWindow.document.close();
+            });
+            
+            // تحديث عند تغيير المحتوى
+            titleAr.addEventListener('input', updatePreview);
+            titleEn.addEventListener('input', updatePreview);
+            metaAr.addEventListener('input', updatePreview);
+            metaEn.addEventListener('input', updatePreview);
+            
+            // تغيير السمة اللونية
+            themeSelect.addEventListener('change', function() {
+                const theme = this.value;
+                document.documentElement.style.setProperty('--primary', 
+                    theme === 'green' ? '#2ecc71' : 
+                    theme === 'purple' ? '#9b59b6' : 
+                    theme === 'dark' ? '#34495e' : '#3498db');
+            });
+            
+            // التهيئة الأولية
+            renderSections();
+            updatePreview();
+        });
+    </script>
+</body>
+</html>

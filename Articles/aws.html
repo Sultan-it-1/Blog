@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-ar="كيف تنشئ سيرفر على AWS لتشغيل WireGuard VPN" data-en="How to create a server on AWS to run WireGuard VPN">كيف تنشئ سيرفر على AWS لتشغيل WireGuard VPN</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="Articles.css">
+    
+    <!-- Immediate theme application to prevent flash -->
+    <script>
+      // Apply theme immediately before page renders
+      (function() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'dark') {
+          document.documentElement.style.setProperty('--bg-color', '#0a0a0a');
+          document.documentElement.style.setProperty('--text-color', '#ffffff');
+          document.documentElement.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.05)');
+          document.documentElement.style.setProperty('--border-color', 'rgba(255, 255, 255, 0.1)');
+          document.body.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo" data-ar="مدونة تقنية" data-en="Tech Blog">مدونة تقنية</div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="../index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="../index.html#blog" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
+                <a href="../index.html#about" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
+            </div>
+            
+            <div class="controls desktop-controls">
+                <div class="language-selector">
+                    <button class="btn-icon" onclick="toggleLanguageDropdown()">🌐</button>
+                    <div class="dropdown" id="languageDropdown">
+                        <div class="dropdown-item" onclick="changeLanguage('ar')">العربية</div>
+                        <div class="dropdown-item" onclick="changeLanguage('en')">English</div>
+                    </div>
+                </div>
+                <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">☀️</button>
+            </div>
+            
+            <!-- Mobile Hamburger Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </nav>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-content">
+                <div class="mobile-nav-links">
+                    <a href="../index.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="../index.html#blog" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
+                    <a href="../index.html#about" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-language-selector">
+                        <button class="btn-icon" onclick="changeLanguage('ar')">عربي</button>
+                        <button class="btn-icon" onclick="changeLanguage('en')">EN</button>
+                    </div>
+                    <button class="btn-icon" onclick="toggleTheme()" id="mobileThemeBtn">🌙</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html#blog" class="back-btn">
+            <span data-ar="← العودة للمدونة" data-en="← Back to Blog">← العودة للمدونة</span>
+        </a>
+        
+        <article class="article">
+            <h1 data-ar="كيف تنشئ سيرفر على AWS لتشغيل WireGuard VPN" data-en="How to create a server on AWS to run WireGuard VPN">كيف تنشئ سيرفر على AWS لتشغيل WireGuard VPN</h1>
+            
+            <div class="article-meta">
+                <span data-ar="نُشر في 11 يونيو 2025 | بواسطة سلطان عايض" 
+                      data-en="Published on June 11, 2025 | By Sultan Ayidh">
+                    نُشر في 11 يونيو 2025 | بواسطة سلطان عايض
+                </span>
+            </div>
+
+            <div class="article-content">
+                <h2 data-ar="1. ما هو AWS؟" data-en="1. What is AWS?">1. ما هو AWS؟</h2>
+                <ul>
+                    <li data-ar="AWS يعني Amazon Web Services، وهو موقع إلكتروني ضخم يقدم خدمات استضافة سيرفرات على الإنترنت."
+                        data-en="AWS stands for Amazon Web Services, a large website that provides web hosting services for servers.">
+                        AWS يعني Amazon Web Services، وهو موقع إلكتروني ضخم يقدم خدمات استضافة سيرفرات على الإنترنت.
+                    </li>
+                    <li data-ar="السيرفر هو كمبيوتر قوي يشتغل 24 ساعة، وتقدر تستخدمه لتشغيل برامج مثل VPN."
+                        data-en="A server is a powerful computer that runs 24/7, which you can use to run programs like VPN.">
+                        السيرفر هو كمبيوتر قوي يشتغل 24 ساعة، وتقدر تستخدمه لتشغيل برامج مثل VPN.
+                    </li>
+                </ul>
+
+                <h2 data-ar="2. كيف تدخل موقع AWS؟" data-en="2. How to access AWS website?">2. كيف تدخل موقع AWS؟</h2>
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="افتح متصفح الإنترنت عندك (مثل جوجل كروم أو فايرفوكس)."
+                              data-en="Open your internet browser (like Google Chrome or Firefox).">
+                            افتح متصفح الإنترنت عندك (مثل جوجل كروم أو فايرفوكس).
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="في مربع البحث (أو في شريط العنوان) اكتب: 'AWS' أو 'Amazon Web Services' واضغط Enter."
+                              data-en="In the search box (or address bar) type: 'AWS' or 'Amazon Web Services' and press Enter.">
+                            في مربع البحث (أو في شريط العنوان) اكتب: "AWS" أو "Amazon Web Services" واضغط Enter.
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="اختار أول نتيجة غالبًا بتكون https://aws.amazon.com"
+                              data-en="Choose the first result which is usually https://aws.amazon.com">
+                            اختار أول نتيجة غالبًا بتكون https://aws.amazon.com
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="اضغط على زر Sign Up (تسجيل حساب جديد)."
+                              data-en="Click on the Sign Up button (create new account).">
+                            اضغط على زر Sign Up (تسجيل حساب جديد).
+                        </span>
+                    </li>
+                </ol>
+
+                <h2 data-ar="3. إنشاء حساب في AWS" data-en="3. Create AWS account">3. إنشاء حساب في AWS</h2>
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="عبّي بياناتك: البريد الإلكتروني، كلمة السر، الاسم، وغيرها."
+                              data-en="Fill in your details: email, password, name, etc.">
+                            عبّي بياناتك: البريد الإلكتروني، كلمة السر، الاسم، وغيرها.
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="راح يطلب منك بطاقة ائتمان (فيه فترة تجريبية مجانية لمدة سنة في بعض الخدمات، لكن لازم تدخل بيانات البطاقة عشان يتحققوا)."
+                              data-en="You'll be asked for a credit card (there's a free trial for some services for one year, but you need to enter card details for verification).">
+                            راح يطلب منك بطاقة ائتمان (فيه فترة تجريبية مجانية لمدة سنة في بعض الخدمات، لكن لازم تدخل بيانات البطاقة عشان يتحققوا).
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="بعد التسجيل، سجل دخول بحسابك."
+                              data-en="After registration, log in with your account.">
+                            بعد التسجيل، سجل دخول بحسابك.
+                        </span>
+                    </li>
+                </ol>
+
+                <h2 data-ar="4. الدخول على خدمة إنشاء سيرفر (EC2)" data-en="4. Access EC2 service">4. الدخول على خدمة إنشاء سيرفر (EC2)</h2>
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="بعد ما تدخل لحسابك، في الصفحة الرئيسية، في مربع البحث العلوي، اكتب EC2 واضغط على النتيجة."
+                              data-en="After logging in, on the main page, in the top search box, type EC2 and select the result.">
+                            بعد ما تدخل لحسابك، في الصفحة الرئيسية، في مربع البحث العلوي، اكتب EC2 واضغط على النتيجة.
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="خدمة EC2 هي خدمة إنشاء سيرفرات افتراضية."
+                              data-en="EC2 service is for creating virtual servers.">
+                            خدمة EC2 هي خدمة إنشاء سيرفرات افتراضية.
+                        </span>
+                    </li>
+                </ol>
+
+                <h2 data-ar="5. إنشاء سيرفر جديد (Instance)" data-en="5. Create new server (Instance)">5. إنشاء سيرفر جديد (Instance)</h2>
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="في صفحة EC2، اضغط على زر Launch Instance (تشغيل سيرفر جديد)."
+                              data-en="On the EC2 page, click on Launch Instance (start new server).">
+                            في صفحة EC2، اضغط على زر Launch Instance (تشغيل سيرفر جديد).
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="بيطلب منك تختار نظام التشغيل (Operating System)، اختار Ubuntu (هو نظام تشغيل شبيه للينكس ومجاني)."
+                              data-en="You'll be asked to choose an Operating System, select Ubuntu (it's a Linux-like free OS).">
+                            بيطلب منك تختار نظام التشغيل (Operating System)، اختار Ubuntu (هو نظام تشغيل شبيه للينكس ومجاني).
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="بعدين حدد مواصفات السيرفر (المكان اللي بيشتغل فيه، حجم الذاكرة، المعالج...)."
+                              data-en="Then specify server specs (location, memory size, processor...).">
+                            بعدين حدد مواصفات السيرفر (المكان اللي بيشتغل فيه، حجم الذاكرة، المعالج...).
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="خذ الخيارات الافتراضية أو الصغيرة عشان التجربة تكون سهلة ورخيصة."
+                              data-en="Choose default or small options to make the experience easy and cheap.">
+                            خذ الخيارات الافتراضية أو الصغيرة عشان التجربة تكون سهلة ورخيصة.
+                        </span>
+                    </li>
+                </ol>
+
+                <h2 data-ar="6. إنشاء ملف المفتاح الخاص (Key Pair)" data-en="6. Create Key Pair file">6. إنشاء ملف المفتاح الخاص (Key Pair)</h2>
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="راح يطلب منك تنشئ ملف Key Pair وهو ملف مهم جدًا."
+                              data-en="You'll be asked to create a Key Pair file which is very important.">
+                            راح يطلب منك تنشئ ملف Key Pair وهو ملف مهم جدًا.
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="هذا الملف هو اللي راح تستخدمه عشان تدخل للسيرفر عبر SSH."
+                              data-en="This file is what you'll use to access the server via SSH.">
+                            هذا الملف هو اللي راح تستخدمه عشان تدخل للسيرفر عبر SSH.
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="اختر اسم للملف واضغط Download عشان تنزل الملف على جهازك (عادة يكون بصيغة pem)."
+                              data-en="Choose a name for the file and click Download to save it to your device (usually in .pem format).">
+                            اختر اسم للملف واضغط Download عشان تنزل الملف على جهازك (عادة يكون بصيغة pem).
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="احتفظ بالملف في مكان آمن، لأنه بدون هذا الملف ما تقدر تدخل للسيرفر."
+                              data-en="Keep the file in a safe place, because without it you can't access the server.">
+                            احتفظ بالملف في مكان آمن، لأنه بدون هذا الملف ما تقدر تدخل للسيرفر.
+                        </span>
+                    </li>
+                </ol>
+
+                <img src="https://sultanayidh.site/Blog/image/aws1.png" alt="واجهة إنشاء سيرفر على AWS" class="article-image" data-ar="واجهة إنشاء سيرفر على AWS" data-en="AWS server creation interface">
+
+                <h2 data-ar="7. إعداد قواعد الدخول (Inbound Rules)" data-en="7. Configure Inbound Rules">7. إعداد قواعد الدخول (Inbound Rules)</h2>
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="في صفحة إنشاء السيرفر، في جزء Security Group (مجموعة الأمان)، بتحدد قواعد الفتح للسيرفر."
+                              data-en="On the server creation page, in the Security Group section, you specify access rules for the server.">
+                            في صفحة إنشاء السيرفر، في جزء Security Group (مجموعة الأمان)، بتحدد قواعد الفتح للسيرفر.
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="اضغط على edit"
+                              data-en="Click on edit">
+                            اضغط على edit
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="ثم اضغط إضافة قاعدة جديدة وقم بالتالي:"
+                              data-en="Then click add new rule and do the following:">
+                            ثم اضغط إضافة قاعدة جديدة وقم بالتالي:
+                        </span>
+                    </li>
+                </ol>
+
+                <img src="https://sultanayidh.site/Blog/image/aws2.png" alt="إعداد قواعد الدخول على AWS" class="article-image" data-ar="إعداد قواعد الدخول على AWS" data-en="AWS inbound rules configuration">
+
+                <h2 data-ar="8. تشغيل السيرفر" data-en="8. Launch the server">8. تشغيل السيرفر</h2>
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="اضغط على زر Launch لتشغيل السيرفر."
+                              data-en="Click the Launch button to start the server.">
+                            اضغط على زر Launch لتشغيل السيرفر.
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="بعد دقائق، السيرفر بيشتغل ويعطيك عنوان Public IPv4 address (مثل 54.67.153.151)."
+                              data-en="After a few minutes, the server will start and give you a Public IPv4 address (like 54.67.153.151).">
+                            بعد دقائق، السيرفر بيشتغل ويعطيك عنوان Public IPv4 address (مثل 54.67.153.151).
+                        </span>
+                    </li>
+                </ol>
+
+                <h2 data-ar="9. الدخول على السيرفر باستخدام SSH" data-en="9. Access server using SSH">9. الدخول على السيرفر باستخدام SSH</h2>
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="افتح برنامج Terminal إذا تستخدم لينكس أو ماك، أو PowerShell / CMD لو تستخدم ويندوز"
+                              data-en="Open Terminal if you use Linux or Mac, or PowerShell/CMD if you use Windows">
+                            افتح برنامج Terminal إذا تستخدم لينكس أو ماك، أو PowerShell / CMD لو تستخدم ويندوز
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="في التيرمينال (الواجهة النصية)، اكتب الأمر التالي (مع تعديل المسار واسم ملف المفتاح والعنوان)"
+                              data-en="In the terminal (text interface), type the following command (adjusting the path, key file name and address)">
+                            في التيرمينال (الواجهة النصية)، اكتب الأمر التالي (مع تعديل المسار واسم ملف المفتاح والعنوان)
+                        </span>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">Bash</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">ssh -i مسار_الملف ubuntu@عنوان_IPv4</code></pre>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <span data-ar="مثال:"
+                              data-en="Example:">
+                            مثال:
+                        </span>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">Bash</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">ssh -i ~/Downloads/aws-key.pem ubuntu@54.67.153.151</code></pre>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <span data-ar="إذا ظهرت رسالة أمان، اكتب yes وادخل."
+                              data-en="If a security message appears, type yes and enter.">
+                            إذا ظهرت رسالة أمان، اكتب yes وادخل.
+                        </span>
+                    </li>
+                </ol>
+
+                <div class="note">
+                    <div class="note-title">🔐 <span data-ar="نصائح أمانية" data-en="Security Tips">نصائح أمانية</span></div>
+                    <p data-ar="احرص على عدم مشاركة ملف المفتاح (.pem) مع أي شخص، فهو بمثابة كلمة السر لسيرفرك."
+                       data-en="Make sure not to share your key file (.pem) with anyone, it's like a password for your server.">
+                        احرص على عدم مشاركة ملف المفتاح (.pem) مع أي شخص، فهو بمثابة كلمة السر لسيرفرك.
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <div style="text-align: center; margin: 3rem 0;">
+            <a href="../index.html#blog" class="btn" data-ar="العودة إلى المدونة" data-en="Back to Blog">العودة إلى المدونة</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-ar="© ٢٠٢٤ مدونة تقنية. جميع الحقوق محفوظة." data-en="© 2024 Tech Blog. All rights reserved.">© ٢٠٢٤ مدونة تقنية. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

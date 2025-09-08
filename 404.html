@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الصفحة غير موجودة</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 1.5rem;
+      max-width: 90%;
+    }
+
+    .btn {
+      margin-top: 2rem;
+      padding: 0.8rem 2rem;
+      background-color: #ffffff22;
+      border: 1px solid white;
+      border-radius: 5px;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #ffffff44;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fuzzyCanvas"></canvas>
+
+  <div class="message">
+    هالصفحة شكلها ضاعت! تأكد من الرابط أو ارجع للصفحة الرئيسية.
+  </div>
+
+  <a href="/" class="btn">رجوع للصفحة الرئيسية</a>
+
+  <script>
+    const canvas = document.getElementById('fuzzyCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const text = '404';
+    const fontSize = 'clamp(40px, 20vw, 120px)';  // حجم مرن حسب الشاشة
+    const fontWeight = 900;
+    const fontFamily = 'sans-serif';
+    const color = 'red'; // لون النص أحمر
+    const enableHover = true;
+    const baseIntensity = 0.18;
+    const hoverIntensity = 0.5;
+    const fuzzRange = 30;
+
+    let isHovering = false;
+    let animationFrameId;
+
+    function getFontSizeInPx() {
+      const temp = document.createElement('span');
+      temp.style.fontSize = fontSize;
+      document.body.appendChild(temp);
+      const computedSize = parseFloat(window.getComputedStyle(temp).fontSize);
+      document.body.removeChild(temp);
+      return computedSize;
+    }
+
+    function init() {
+      const numericFontSize = getFontSizeInPx();
+
+      const offscreen = document.createElement('canvas');
+      const offCtx = offscreen.getContext('2d');
+
+      offCtx.font = `${fontWeight} ${numericFontSize}px ${fontFamily}`;
+      const metrics = offCtx.measureText(text);
+      const width = Math.ceil(metrics.width + 20);
+      const height = Math.ceil(numericFontSize * 1.2);
+
+      offscreen.width = width;
+      offscreen.height = height;
+
+      offCtx.font = `${fontWeight} ${numericFontSize}px ${fontFamily}`;
+      offCtx.fillStyle = color;
+      offCtx.textBaseline = 'top';
+      offCtx.fillText(text, 10, 0);
+
+      canvas.width = width + 100;
+      canvas.height = height;
+      ctx.translate(50, 0);
+
+      const run = () => {
+        ctx.clearRect(-fuzzRange, -fuzzRange, canvas.width, canvas.height);
+        const intensity = isHovering ? hoverIntensity : baseIntensity;
+        for (let j = 0; j < height; j++) {
+          const dx = Math.floor(intensity * (Math.random() - 0.5) * fuzzRange);
+          ctx.drawImage(offscreen, 0, j, width, 1, dx, j, width, 1);
+        }
+        animationFrameId = requestAnimationFrame(run);
+      };
+
+      run();
+
+      if (enableHover) {
+        canvas.addEventListener('mousemove', (e) => {
+          const rect = canvas.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          isHovering = x >= 0 && x <= width && y >= 0 && y <= height;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+          isHovering = false;
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+          e.preventDefault();
+          const rect = canvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          const x = touch.clientX - rect.left;
+          const y = touch.clientY - rect.top;
+          isHovering = x >= 0 && x <= width && y >= 0 && y <= height;
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', () => {
+          isHovering = false;
+        });
+      }
+    }
+
+    window.addEventListener('load', init);
+  </script>
+</body>
+</html>

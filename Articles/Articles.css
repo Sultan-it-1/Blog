@@ -1,0 +1,192 @@
+/* ===== تنسيقات خاصة بالأكواد البرمجية ===== */
+.code-block {
+    direction: ltr !important;
+    text-align: left !important;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    position: relative;
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+}
+
+.code-block pre {
+    direction: ltr !important;
+    text-align: left !important;
+    margin: 0;
+    overflow-x: auto;
+}
+
+.code-block code {
+    direction: ltr !important;
+    text-align: left !important;
+    display: block;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.code-header {
+    direction: ltr !important;
+    text-align: left !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #333;
+}
+
+.code-lang {
+    color: #569cd6;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.copy-btn {
+    background: #007acc;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.3s ease;
+}
+
+.copy-btn:hover {
+    background: #005a9e;
+}
+
+.copy-btn.copied {
+    background: #28a745;
+}
+
+/* ===== تنسيقات المقالات ===== */
+.article-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+}
+
+.article-content h2 {
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin: 2.5rem 0 1.5rem;
+    font-size: 1.8rem;
+}
+
+.article-content h3 {
+    margin: 2rem 0 1rem;
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+}
+
+/* ===== تنسيقات الخطوات المرقمة ===== */
+.step {
+    counter-increment: step-counter;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-right: 2.5rem;
+}
+
+.step::before {
+    content: counter(step-counter);
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* ===== تنسيقات الملاحظات ===== */
+.note {
+    background: rgba(102, 126, 234, 0.1);
+    border-right: 4px solid var(--primary-color);
+    padding: 1rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.note-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ===== زر الرجوع ===== */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.back-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateX(-5px);
+}
+
+/* ===== تنسيقات الصور ===== */
+.article-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+/* ===== تنسيقات الكود العامة ===== */
+code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* ===== الاستجابة للشاشات الصغيرة ===== */
+@media (max-width: 768px) {
+    .article-content {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+    
+    .article-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .article-content h3 {
+        font-size: 1.3rem;
+    }
+    
+    .step {
+        padding-right: 2rem;
+    }
+    
+    .step::before {
+        width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.8rem;
+    }
+}

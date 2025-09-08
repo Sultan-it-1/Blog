@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-ar="إعداد خادم لينكس آمن" data-en="Setting Up a Secure Linux Server">إعداد خادم لينكس آمن</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="Articles.css">
+    
+    <!-- Immediate theme application to prevent flash -->
+    <script>
+      // Apply theme immediately before page renders
+      (function() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'dark') {
+          document.documentElement.style.setProperty('--bg-color', '#0a0a0a');
+          document.documentElement.style.setProperty('--text-color', '#ffffff');
+          document.documentElement.style.setProperty('--card-bg', 'rgba(255, 255, 255, 0.05)');
+          document.documentElement.style.setProperty('--border-color', 'rgba(255, 255, 255, 0.1)');
+          document.body.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo" data-ar="مدونة تقنية" data-en="Tech Blog">مدونة تقنية</div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="../index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="../index.html#blog" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
+                <a href="../index.html#about" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
+            </div>
+            
+            <div class="controls desktop-controls">
+                <div class="language-selector">
+                    <button class="btn-icon" onclick="toggleLanguageDropdown()">🌐</button>
+                    <div class="dropdown" id="languageDropdown">
+                        <div class="dropdown-item" onclick="changeLanguage('ar')">العربية</div>
+                        <div class="dropdown-item" onclick="changeLanguage('en')">English</div>
+                    </div>
+                </div>
+                <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">☀️</button>
+            </div>
+            
+            <!-- Mobile Hamburger Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </nav>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-content">
+                <div class="mobile-nav-links">
+                    <a href="../index.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="../index.html#blog" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
+                    <a href="../index.html#about" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-language-selector">
+                        <button class="btn-icon" onclick="changeLanguage('ar')">عربي</button>
+                        <button class="btn-icon" onclick="changeLanguage('en')">EN</button>
+                    </div>
+                    <button class="btn-icon" onclick="toggleTheme()" id="mobileThemeBtn">🌙</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html#blog" class="back-btn">
+            <span data-ar="← العودة للمدونة" data-en="← Back to Blog">← العودة للمدونة</span>
+        </a>
+        
+        <article class="article">
+            <h1 data-ar="إعداد خادم لينكس آمن من الصفر" data-en="Setting Up a Secure Linux Server from Scratch">إعداد خادم لينكس آمن من الصفر</h1>
+            
+            <div class="article-meta">
+                <span data-ar="آخر تحديث: ١ يونيو ٢٠٢٤" data-en="Last updated: June 1, 2024">آخر تحديث: ١ يونيو ٢٠٢٤</span>
+                <span> | </span>
+                <span data-ar="وقت القراءة: ١٠ دقائق" data-en="Reading time: 10 mins">وقت القراءة: ١٠ دقائق</span>
+            </div>
+
+            <div class="article-content">
+                <p data-ar="في هذا الدليل الشامل، سنتعرف على كيفية إعداد خادم لينكس آمن خطوة بخطوة، بدءاً من التثبيت الأساسي وحتى تأمين الخادم ضد الاختراقات." 
+                   data-en="In this comprehensive guide, we'll learn how to set up a secure Linux server step by step, from basic installation to securing the server against breaches.">
+                    في هذا الدليل الشامل، سنتعرف على كيفية إعداد خادم لينكس آمن خطوة بخطوة، بدءاً من التثبيت الأساسي وحتى تأمين الخادم ضد الاختراقات.
+                </p>
+                
+                <div class="note">
+                    <div class="note-title">📌 <span data-ar="ملاحظة مهمة" data-en="Important Note">ملاحظة مهمة</span></div>
+                    <p data-ar="هذا الدليل مخصص لأوبونتو سيرفر 20.04 LTS، لكن معظم الأوامر تعمل على أي توزيعة لينكس." 
+                       data-en="This guide is for Ubuntu Server 20.04 LTS, but most commands work on any Linux distribution.">
+                        هذا الدليل مخصص لأوبونتو سيرفر 20.04 LTS، لكن معظم الأوامر تعمل على أي توزيعة لينكس.
+                    </p>
+                </div>
+
+                <h2 data-ar="المتطلبات الأساسية" data-en="Prerequisites">المتطلبات الأساسية</h2>
+                
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="خادم مخصص أو VPS مع وصول root" 
+                              data-en="Dedicated server or VPS with root access">
+                            خادم مخصص أو VPS مع وصول root
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="اتصال إنترنت مستقر" 
+                              data-en="Stable internet connection">
+                            اتصال إنترنت مستقر
+                        </span>
+                    </li>
+                    <li class="step">
+                        <span data-ar="معرفة أساسية بأوامر لينكس" 
+                              data-en="Basic knowledge of Linux commands">
+                            معرفة أساسية بأوامر لينكس
+                        </span>
+                    </li>
+                </ol>
+
+                <h2 data-ar="١. التثبيت والإعداد الأولي" data-en="1. Installation and Initial Setup">١. التثبيت والإعداد الأولي</h2>
+                
+                <h3 data-ar="تحديث النظام" data-en="System Update">تحديث النظام</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code class="language-bash"># تحديث قائمة الحزم
+sudo apt update
+
+# ترقية جميع الحزم المثبتة
+sudo apt upgrade -y
+
+# تثبيت الحزم الأساسية
+sudo apt install -y ufw fail2ban git curl wget</code></pre>
+                </div>
+
+                <h3 data-ar="إنشاء مستخدم جديد" data-en="Create New User">إنشاء مستخدم جديد</h3>
+                
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="إنشاء مستخدم جديد (استبدل yourusername باسم المستخدم المطلوب)" 
+                              data-en="Create new user (replace yourusername with desired username)">
+                            إنشاء مستخدم جديد (استبدل yourusername باسم المستخدم المطلوب)
+                        </span>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <div class="code-header">
+                                <span class="code-lang">Bash</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">sudo adduser yourusername
+sudo usermod -aG sudo yourusername</code></pre>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <span data-ar="نسخ مفاتيح SSH للمستخدم الجديد" 
+                              data-en="Copy SSH keys for new user">
+                            نسخ مفاتيح SSH للمستخدم الجديد
+                        </span>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <div class="code-header">
+                                <span class="code-lang">Bash</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">sudo mkdir -p /home/yourusername/.ssh
+sudo cp ~/.ssh/authorized_keys /home/yourusername/.ssh/
+sudo chown -R yourusername:yourusername /home/yourusername/.ssh
+sudo chmod 700 /home/yourusername/.ssh
+sudo chmod 600 /home/yourusername/.ssh/authorized_keys</code></pre>
+                        </div>
+                    </li>
+                </ol>
+
+                <h2 data-ar="٢. تأمين الخادم" data-en="2. Server Security">٢. تأمين الخادم</h2>
+                
+                <div class="note">
+                    <div class="note-title">🔒 <span data-ar="نصائح أمانية" data-en="Security Tips">نصائح أمانية</span></div>
+                    <p data-ar="هذه الخطوات ضرورية لحماية خادمك من الهجمات الشائعة." 
+                       data-en="These steps are essential to protect your server from common attacks.">
+                        هذه الخطوات ضرورية لحماية خادمك من الهجمات الشائعة.
+                    </p>
+                </div>
+
+                <ol style="counter-reset: step-counter; list-style: none; padding-right: 0;">
+                    <li class="step">
+                        <span data-ar="تكوين جدار الحماية (UFW)" 
+                              data-en="Configure Firewall (UFW)">
+                            تكوين جدار الحماية (UFW)
+                        </span>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <div class="code-header">
+                                <span class="code-lang">Bash</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># السماح لخدمة SSH
+sudo ufw allow OpenSSH
+
+# تفعيل جدار الحماية
+sudo ufw enable
+
+# عرض القواعد المطبقة
+sudo ufw status verbose</code></pre>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <span data-ar="تأمين خدمة SSH" 
+                              data-en="Secure SSH Service">
+                            تأمين خدمة SSH
+                        </span>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <div class="code-header">
+                                <span class="code-lang">Bash</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># تغيير منفذ SSH الافتراضي (اختياري)
+sudo sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config
+
+# منع الدخول كـ root
+sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
+
+# تقليل وقت تسجيل الدخول
+sudo sed -i 's/#LoginGraceTime 2m/LoginGraceTime 1m/g' /etc/ssh/sshd_config
+
+# إعادة تشغيل خدمة SSH
+sudo systemctl restart sshd</code></pre>
+                        </div>
+                    </li>
+                </ol>
+
+                <h2 data-ar="٣. المراقبة والصيانة" data-en="3. Monitoring and Maintenance">٣. المراقبة والصيانة</h2>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><code class="language-bash"># تثبيت أدوات المراقبة
+sudo apt install -y htop nmon
+
+# عرض العمليات النشطة
+htop
+
+# مراقبة أداء النظام
+nmon</code></pre>
+                </div>
+
+                <div class="note">
+                    <div class="note-title">💡 <span data-ar="نصيحة أخيرة" data-en="Final Tip">نصيحة أخيرة</span></div>
+                    <p data-ar="قم بتحديث نظامك بانتظام وتأكد من عمل نسخ احتياطية دورية." 
+                       data-en="Update your system regularly and make sure to perform periodic backups.">
+                        قم بتحديث نظامك بانتظام وتأكد من عمل نسخ احتياطية دورية.
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <div style="text-align: center; margin: 3rem 0;">
+            <a href="../index.html#blog" class="btn" data-ar="العودة إلى المدونة" data-en="Back to Blog">العودة إلى المدونة</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-ar="© ٢٠٢٤ مدونة تقنية. جميع الحقوق محفوظة." data-en="© 2024 Tech Blog. All rights reserved.">© ٢٠٢٤ مدونة تقنية. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
