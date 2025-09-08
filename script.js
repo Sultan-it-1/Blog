@@ -142,7 +142,12 @@ function toggleLanguageDropdown() {
 function showPage(pageId) {
     const pages = document.querySelectorAll('.page');
     pages.forEach(page => page.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+        // Update URL hash without triggering hashchange event
+        history.replaceState(null, null, '#' + pageId);
+    }
 }
 
 // نسخ الكود
@@ -322,6 +327,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load articles
     loadArticles();
+
+    // Handle hash navigation (for links like #about, #blog)
+    function handleHashNavigation() {
+        const hash = window.location.hash.substring(1); // Remove the # symbol
+        if (hash && document.getElementById(hash)) {
+            showPage(hash);
+        } else {
+            // Default to blog page if no hash or invalid hash
+            showPage('blog');
+        }
+    }
+    
+    // Handle hash on initial page load
+    handleHashNavigation();
+    
+    // Handle hash changes (when user clicks back/forward or changes URL)
+    window.addEventListener('hashchange', handleHashNavigation);
 
     // كل مرة يظهر فيها قسم المدونة
     document.querySelectorAll('.nav-link').forEach(link => {
