@@ -248,11 +248,46 @@
             text-decoration: none;
             display: inline-block;
             margin: 0.5rem;
+            min-width: 200px;
+            text-align: center;
         }
         
         .content-section .content-btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Content buttons container */
+        .content-buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .content-section .content-btn {
+                min-width: 180px;
+                padding: 1rem 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content-buttons-container {
+                flex-direction: column;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+            
+            .content-section .content-btn {
+                min-width: 220px;
+                padding: 1.2rem 1rem;
+            }
         }
         
         @keyframes pulse {
@@ -289,6 +324,26 @@
                 height: 60px;
                 font-size: 1.5rem;
             }
+            
+            /* Content section mobile adjustments */
+            .content-section {
+                padding: 2rem 0;
+            }
+            
+            .content-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .content-section p {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .content-section .content-btn {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+                margin: 0.3rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -311,6 +366,28 @@
             
             .features {
                 padding: 3rem 0;
+            }
+            
+            /* Further mobile adjustments */
+            .content-section {
+                padding: 1.5rem 0;
+            }
+            
+            .content-section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .content-section .content-btn {
+                font-size: 0.9rem;
+                padding: 0.7rem 1.2rem;
+                margin: 0.2rem;
+                border-radius: 25px;
+            }
+            
+            /* Mobile button container adjustments */
+            .content-section > div[style*='flex'] {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
@@ -418,7 +495,7 @@
                 </div>
                 
                 <!-- Added more internal links -->
-                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem;">
+                <div class="content-buttons-container">
                     <a href="about.html" class="btn content-btn" data-ar="تعرف علينا أكثر" data-en="Learn More About Us">تعرف علينا أكثر</a>
                     <a href="Articles/aws.html" class="btn content-btn" data-ar="مقال AWS" data-en="AWS Article">مقال AWS</a>
                     <a href="Articles/wireguard.html" class="btn content-btn" data-ar="مقال WireGuard" data-en="WireGuard Article">مقال WireGuard</a>
