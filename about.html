@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدونة تقنية - من نحن</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ensure the main content takes up full height and footer stays at bottom */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex: 1 0 auto;
+            padding: 2rem 0;
+        }
+        
+        footer {
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+        
+        /* Enhanced about page styling */
+        .about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            position: relative;
+        }
+        
+        .about-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .about-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        /* About content styling */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+        
+        .about-content:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .about-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+        
+        .about-content h2 {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .intro-text {
+            font-size: 1.4rem !important;
+            font-weight: 600;
+            color: var(--primary-color) !important;
+            margin-bottom: 2rem !important;
+            text-align: center;
+        }
+        
+        .intro-text strong {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        
+        .about-cta {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .about-cta .btn {
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .about-cta .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Profile section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+        
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .about-header h1 {
+                font-size: 2rem;
+            }
+            
+            .about-header p {
+                font-size: 1.1rem;
+            }
+            
+            .about-content {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+            
+            .about-content h2 {
+                font-size: 1.7rem;
+            }
+            
+            .about-content p {
+                font-size: 1rem;
+            }
+            
+            .intro-text {
+                font-size: 1.2rem !important;
+            }
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .about-header {
+                padding: 1.5rem 0;
+                margin-bottom: 2rem;
+            }
+            
+            .about-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .about-header p {
+                font-size: 1rem;
+            }
+            
+            .about-content {
+                padding: 1.5rem;
+            }
+            
+            .about-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .intro-text {
+                font-size: 1.1rem !important;
+            }
+            
+            .social-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo" data-ar="مدونة تقنية" data-en="Tech Blog">مدونة تقنية</div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="home.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="blog.html" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
+                <a href="about.html" class="nav-link active" data-ar="من نحن" data-en="About Us">من نحن</a>
+            </div>
+            
+            <div class="controls desktop-controls">
+                <div class="language-selector">
+                    <button class="btn-icon" onclick="toggleLanguageDropdown()">🌐</button>
+                    <div class="dropdown" id="languageDropdown">
+                        <div class="dropdown-item" onclick="changeLanguage('ar')">العربية</div>
+                        <div class="dropdown-item" onclick="changeLanguage('en')">English</div>
+                    </div>
+                </div>
+                <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+            
+            <!-- Mobile Hamburger Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </nav>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-content">
+                <div class="mobile-nav-links">
+                    <a href="home.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="blog.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
+                    <a href="about.html" class="mobile-nav-link active" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-language-selector">
+                        <button class="btn-icon" onclick="changeLanguage('ar')">عربي</button>
+                        <button class="btn-icon" onclick="changeLanguage('en')">EN</button>
+                    </div>
+                    <button class="btn-icon" onclick="toggleTheme()" id="mobileThemeBtn">🌙</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="about-header">
+                <h1 data-ar="من نحن" data-en="About Us">من نحن</h1>
+                <p data-ar="تعرف على فريقنا وقصتنا وراء إنشاء هذه المدونة التقنية" data-en="Get to know our team and the story behind creating this tech blog">تعرف على فريقنا وقصتنا وراء إنشاء هذه المدونة التقنية</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="profile-section">
+                    <img src="image/profile.jpg" alt="Profile Picture" class="profile-image" onerror="this.style.display='none'">
+                    <h2 data-ar="مرحباً بكم في مدونتي التقنية" data-en="Welcome to My Tech Blog">مرحباً بكم في مدونتي التقنية</h2>
+                    
+                    <p class="intro-text" data-ar="أنا سلطان عايض، مطور ومهتم بعالم التقنية والبرمجة." data-en="I'm Sultan Ayidh, a developer passionate about technology and programming.">
+                        أنا <strong>سلطان عايض</strong>، مطور ومهتم بعالم التقنية والبرمجة.
+                    </p>
+                    
+                    <p data-ar="أشارككم في هذه المدونة خبراتي ومعرفتي في مجال التكنولوجيا، من خلال مقالات تطبيقية ونصائح عملية تساعدكم في رحلتكم التقنية." data-en="Through this blog, I share my experience and knowledge in the tech field with practical articles and tips to help you on your technical journey.">
+                        أشارككم في هذه المدونة خبراتي ومعرفتي في مجال التكنولوجيا، من خلال مقالات تطبيقية ونصائح عملية تساعدكم في رحلتكم التقنية.
+                    </p>
+                    
+                    <p data-ar="هذه المدونة جزء من موقعي الشخصي، حيث يمكنكم الاطلاع على أعمالي وخدماتي المختلفة في مجال التطوير والتقنية." data-en="This blog is part of my personal website, where you can explore my various works and services in development and technology.">
+                        هذه المدونة جزء من موقعي الشخصي، حيث يمكنكم الاطلاع على أعمالي وخدماتي المختلفة في مجال التطوير والتقنية.
+                    </p>
+                    
+                    <div class="social-links">
+                        <a href="https://github.com/sultanayidh" target="_blank" class="social-link" aria-label="GitHub">🐙</a>
+                        <a href="https://linkedin.com/in/sultanayidh" target="_blank" class="social-link" aria-label="LinkedIn">💼</a>
+                        <a href="https://twitter.com/sultanayidh" target="_blank" class="social-link" aria-label="Twitter">🐦</a>
+                    </div>
+                </div>
+                
+                <div class="about-cta">
+                    <a href="https://sultanayidh.site/" target="_blank" class="btn hero-btn" data-ar="زيارة موقعي الشخصي" data-en="Visit My Website">زيارة موقعي الشخصي</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-ar="© 2024 مدونة تقنية. جميع الحقوق محفوظة." data-en="© 2024 Tech Blog. All rights reserved.">© 2024 مدونة تقنية. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Apply theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTheme();
+            // Set active class for navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === 'about.html') {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
