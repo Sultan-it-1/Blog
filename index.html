@@ -3,13 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدونة تقنية</title>
-    <meta http-equiv="refresh" content="0; url=home.html">
+    <title>مدونة تقنية - الرئيسية</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional custom styles for home page */
+        /* Ensure the main content takes up full height and footer stays at bottom */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex: 1 0 auto;
+            padding: 2rem 0;
+        }
+        
+        footer {
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+        
+        /* Reduce the opacity of floating shapes */
+        .shape {
+            opacity: 0.15;
+        }
+        
+        /* Reduce body background gradient intensity */
+        body::before {
+            opacity: 0.05;
+        }
+        
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        
+        .hero-btn {
+            font-size: 1.2rem;
+            padding: 1.2rem 2.5rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+            position: relative;
+            z-index: 2;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        .features {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .features-container {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between;
+            gap: 2.5rem;
+        }
+        
+        .feature-card {
+            flex: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            min-width: 0;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 0.05;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        
+        .feature-card:hover h3 {
+            color: var(--primary-color);
+        }
+        
+        .feature-card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.8;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.05;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .features-container {
+                flex-direction: column !important;
+                gap: 1.5rem;
+            }
+            
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 0 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .hero-btn {
+                font-size: 1rem;
+                padding: 1rem 2rem;
+            }
+            
+            .features {
+                padding: 3rem 0;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <p>إذا لم يتم تحويلك تلقائيًا، يرجى <a href="home.html">النقر هنا</a> للانتقال إلى الصفحة الرئيسية.</p>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo" data-ar="مدونة تقنية" data-en="Tech Blog">مدونة تقنية</div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="/" class="nav-link active" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="blog.html" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
+                <a href="about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
+            </div>
+            
+            <div class="controls desktop-controls">
+                <div class="language-selector">
+                    <button class="btn-icon" onclick="toggleLanguageDropdown()">🌐</button>
+                    <div class="dropdown" id="languageDropdown">
+                        <div class="dropdown-item" onclick="changeLanguage('ar')">العربية</div>
+                        <div class="dropdown-item" onclick="changeLanguage('en')">English</div>
+                    </div>
+                </div>
+                <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+            
+            <!-- Mobile Hamburger Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </nav>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-content">
+                <div class="mobile-nav-links">
+                    <a href="/" class="mobile-nav-link active" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="blog.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
+                    <a href="about.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-language-selector">
+                        <button class="btn-icon" onclick="changeLanguage('ar')">عربي</button>
+                        <button class="btn-icon" onclick="changeLanguage('en')">EN</button>
+                    </div>
+                    <button class="btn-icon" onclick="toggleTheme()" id="mobileThemeBtn">🌙</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 data-ar="مرحباً بكم في مدونتنا التقنية" data-en="Welcome to Our Tech Blog">مرحباً بكم في مدونتنا التقنية</h1>
+                <p data-ar="استكشف أحدث التقنيات والابتكارات في عالم البرمجة والتكنولوجيا" data-en="Explore the latest technologies and innovations in the world of programming and technology">استكشف أحدث التقنيات والابتكارات في عالم البرمجة والتكنولوجيا</p>
+                <a href="blog.html" class="btn hero-btn" data-ar="استكشف المقالات" data-en="Explore Articles">استكشف المقالات</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <div class="features-container">
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3 data-ar="مقالات تعليمية" data-en="Educational Articles">مقالات تعليمية</h3>
+                        <p data-ar="تعلم أحدث التقنيات والأساليب من خلال مقالات مبسطة وسهلة الفهم" data-en="Learn the latest technologies and techniques through simplified and easy-to-understand articles">تعلم أحدث التقنيات والأساليب من خلال مقالات مبسطة وسهلة الفهم</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3 data-ar="تقنيات متطورة" data-en="Advanced Techniques">تقنيات متطورة</h3>
+                        <p data-ar="استكشف التقنيات الناشئة والمستقبلية التي تشكل مستقبل التكنولوجيا" data-en="Explore emerging and future technologies that shape the future of technology">استكشف التقنيات الناشئة والمستقبلية التي تشكل مستقبل التكنولوجيا</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 data-ar="محتوى مفيد" data-en="Useful Content">محتوى مفيد</h3>
+                        <p data-ar="مقالات عملية وتطبيقية تساعدك في تطوير مهاراتك التقنية" data-en="Practical and applied articles to help you develop your technical skills">مقالات عملية وتطبيقية تساعدك في تطوير مهاراتك التقنية</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-ar="© 2024 مدونة تقنية. جميع الحقوق محفوظة." data-en="© 2024 Tech Blog. All rights reserved.">© 2024 مدونة تقنية. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
     <script>
-        window.location.href = "home.html";
+        // Apply theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTheme();
+            // Set active class for navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === 'home.html') {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
