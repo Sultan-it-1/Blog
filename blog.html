@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مدونة تقنية - المقالات</title>
+    <!-- Enhanced favicon markup with multiple sizes -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Ensure the main content takes up full height and footer stays at bottom */
@@ -247,11 +253,11 @@
 
     <header>
         <nav class="container">
-            <div class="logo" data-ar="مدونة تقنية" data-en="Tech Blog">مدونة تقنية</div>
+            <a href="blog.html" style="text-decoration: none; color: inherit;"><div class="logo" data-ar="مدونة تقنية" data-en="Tech Blog">مدونة تقنية</div></a>
             
             <!-- Desktop Navigation -->
             <div class="nav-links desktop-nav">
-                <a href="home.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
                 <a href="blog.html" class="nav-link active" data-ar="المدونة" data-en="Blog">المدونة</a>
                 <a href="about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
             </div>
@@ -279,7 +285,7 @@
         <div class="mobile-nav-overlay" id="mobileNavOverlay">
             <div class="mobile-nav-content">
                 <div class="mobile-nav-links">
-                    <a href="home.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="index.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
                     <a href="blog.html" class="mobile-nav-link active" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
                     <a href="about.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
                 </div>
