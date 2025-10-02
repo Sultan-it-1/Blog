@@ -2,30 +2,47 @@
 .code-block {
     direction: ltr !important;
     text-align: left !important;
-    background: #1e1e1e;
-    color: #d4d4d4;
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin: 1rem 0;
-    position: relative;
-    overflow-x: auto;
-    border: 1px solid var(--border-color);
+    background: #1e1e1e !important;
+    color: #d4d4d4 !important;
+    border-radius: 10px !important;
+    padding: 1.5rem !important;
+    margin: 1rem 0 !important;
+    position: relative !important;
+    overflow-x: auto !important;
+    border: 1px solid var(--border-color) !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-style: solid !important;
+    text-decoration-color: transparent !important;
 }
 
 .code-block pre {
     direction: ltr !important;
     text-align: left !important;
-    margin: 0;
-    overflow-x: auto;
+    margin: 0 !important;
+    overflow-x: auto !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-style: solid !important;
+    text-decoration-color: transparent !important;
 }
 
 .code-block code {
     direction: ltr !important;
     text-align: left !important;
-    display: block;
-    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    display: block !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    color: #d4d4d4 !important;
+    background: transparent !important;
+    border: none !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-style: solid !important;
+    text-decoration-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .code-header {
@@ -91,12 +108,14 @@
     margin-bottom: 1.5rem;
     position: relative;
     padding-right: 2.5rem;
+    padding-left: 0;
 }
 
 .step::before {
     content: counter(step-counter);
     position: absolute;
     right: 0;
+    left: auto;
     top: 0;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
@@ -110,13 +129,31 @@
     font-weight: bold;
 }
 
+/* For LTR languages (English) */
+[dir="ltr"] .step {
+    padding-right: 0;
+    padding-left: 2.5rem;
+}
+
+[dir="ltr"] .step::before {
+    right: auto;
+    left: 0;
+}
+
 /* ===== تنسيقات الملاحظات ===== */
 .note {
     background: rgba(102, 126, 234, 0.1);
     border-right: 4px solid var(--primary-color);
+    border-left: none;
     padding: 1rem;
     margin: 1.5rem 0;
     border-radius: 0 8px 8px 0;
+}
+
+[dir="ltr"] .note {
+    border-right: none;
+    border-left: 4px solid var(--primary-color);
+    border-radius: 8px 0 0 8px;
 }
 
 .note-title {
@@ -188,6 +225,35 @@ p strong, li strong, span strong {
     font-weight: 700;
 }
 
+/* تنسيقات التعليقات في مربعات الكود */
+.code-block code {
+    color: #d4d4d4; /* Default text color */
+    text-decoration: none; /* Remove any underline */
+    border: none; /* Remove any border */
+    background: transparent; /* Ensure no background */
+}
+
+/* تعليقات Bash (تبدأ بـ #) */
+.code-block .comment {
+    color: #6a9955 !important; /* Green color for comments */
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-style: solid !important;
+    text-decoration-color: transparent !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* تعليقات Bash باستخدام pseudo-elements */
+.code-block code::before,
+.code-block code::after {
+    content: "";
+    display: block;
+    text-decoration: none !important;
+}
+
 /* ===== الاستجابة للشاشات الصغيرة ===== */
 @media (max-width: 768px) {
     .article-content {
@@ -205,11 +271,22 @@ p strong, li strong, span strong {
     
     .step {
         padding-right: 2rem;
+        padding-left: 0;
+    }
+    
+    [dir="ltr"] .step {
+        padding-right: 0;
+        padding-left: 2rem;
     }
     
     .step::before {
         width: 1.5rem;
         height: 1.5rem;
         font-size: 0.8rem;
+    }
+    
+    [dir="ltr"] .step::before {
+        right: auto;
+        left: 0;
     }
 }
