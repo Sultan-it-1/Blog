@@ -6,8 +6,32 @@
   <title data-ar="إعداد WireGuard VPN على سيرفر Ubuntu من الصفر" data-en="Setting up WireGuard VPN on Ubuntu Server from Scratch">
     إعداد WireGuard VPN على سيرفر Ubuntu من الصفر
   </title>
-  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="Articles.css">
+  
+  <style>
+      /* Fix for purple background in inline code elements */
+      p code, li code, span code, h1 code, h2 code, h3 code, strong code {
+          background: rgba(102, 126, 234, 0.05) !important;
+          color: var(--primary-color) !important;
+          border: 1px solid rgba(102, 126, 234, 0.1) !important;
+      }
+      
+      /* Ensure code blocks maintain their dark theme */
+      .code-block {
+          background: #1e1e1e !important;
+          color: #d4d4d4 !important;
+      }
+      
+      /* Fix for inline code within code blocks - remove purple background */
+      .code-block code {
+          background: transparent !important;
+          color: inherit !important;
+          border: none !important;
+          padding: 0 !important;
+      }
+  </style>
+  
   <!-- Open Graph / LinkedIn / Social Media Meta Tags -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="مدونة تقنية - Tech Blog">
@@ -63,9 +87,9 @@
             
             <!-- Desktop Navigation -->
             <div class="nav-links desktop-nav">
-                <a href="../index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                <a href="../index.html#blog" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
-                <a href="../index.html#about" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
+                <a href="../home.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="../blog.html" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
+                <a href="../about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
             </div>
             
             <div class="controls desktop-controls">
@@ -91,9 +115,9 @@
         <div class="mobile-nav-overlay" id="mobileNavOverlay">
             <div class="mobile-nav-content">
                 <div class="mobile-nav-links">
-                    <a href="../index.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                    <a href="../index.html#blog" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
-                    <a href="../index.html#about" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
+                    <a href="../home.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="../blog.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
+                    <a href="../about.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
                 </div>
                 <div class="mobile-controls">
                     <div class="mobile-language-selector">
@@ -107,7 +131,7 @@
     </header>
 
   <main class="container">
-    <a href="../index.html#blog" class="back-btn">
+    <a href="../blog.html" class="back-btn">
       <span data-ar="← العودة للمدونة" data-en="← Back to Blog">← العودة للمدونة</span>
     </a>
 
@@ -137,12 +161,12 @@
 
         <h2 data-ar="2️⃣ تحديث النظام وتثبيت WireGuard" data-en="2️⃣ System Update and WireGuard Installation">2️⃣ تحديث النظام وتثبيت WireGuard</h2>
 
-<div class="code-block"> 
+<div class="code-block" data-code-ar="# تحديث النظام وتثبيت WireGuard&#10;sudo apt update && sudo apt upgrade -y&#10;sudo apt install wireguard -y" data-code-en="# Update system and install WireGuard&#10;sudo apt update && sudo apt upgrade -y&#10;sudo apt install wireguard -y"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo apt update && sudo apt upgrade -y
+  <pre><code class="language-bash">sudo apt update && sudo apt upgrade -y
 sudo apt install wireguard -y</code></pre>
 </div>
 
@@ -155,12 +179,12 @@ sudo apt install wireguard -y</code></pre>
         <h2 data-ar="3️⃣ إنشاء مفاتيح WireGuard (Private & Public)" data-en="3️⃣ Creating WireGuard Keys (Private & Public)">3️⃣ إنشاء مفاتيح WireGuard (Private & Public)</h2>
 
 
-        <div class="code-block"> 
+        <div class="code-block" data-code-ar="# إنشاء مفاتيح WireGuard (Private & Public)&#10;sudo bash -c &quot;wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey&quot;" data-code-en="# Creating WireGuard Keys (Private & Public)&#10;sudo bash -c &quot;wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey&quot;"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo bash -c "wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey"</code></pre>
+  <pre><code class="language-bash">sudo bash -c "wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey"</code></pre>
 </div>
 
         <p data-ar="🔑 هذا الأمر ينشئ مفتاح خاص (privatekey) ومفتاح عام (publickey)." data-en="🔑 This command creates a private key (privatekey) and a public key (publickey).">
@@ -174,12 +198,12 @@ sudo apt install wireguard -y</code></pre>
         <h2 data-ar="4️⃣ ضبط صلاحيات المفاتيح" data-en="4️⃣ Setting Key Permissions">4️⃣ ضبط صلاحيات المفاتيح</h2>
         
         
-        <div class="code-block"> 
+        <div class="code-block" data-code-ar="# ضبط صلاحيات المفاتيح&#10;sudo chmod 600 /etc/wireguard/privatekey&#10;sudo ls -l /etc/wireguard" data-code-en="# Setting Key Permissions&#10;sudo chmod 600 /etc/wireguard/privatekey&#10;sudo ls -l /etc/wireguard"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo chmod 600 /etc/wireguard/privatekey
+  <pre><code class="language-bash">sudo chmod 600 /etc/wireguard/privatekey
 sudo ls -l /etc/wireguard</code></pre>
 </div>
 
@@ -189,23 +213,23 @@ sudo ls -l /etc/wireguard</code></pre>
 
         <h2 data-ar="5️⃣ معرفة واجهة الشبكة للسيرفر" data-en="5️⃣ Finding Server Network Interface">5️⃣ معرفة واجهة الشبكة للسيرفر</h2>
 
-   <div class="code-block"> 
+   <div class="code-block" data-code-ar="# معرفة واجهة الشبكة للسيرفر&#10;ip a" data-code-en="# Finding Server Network Interface&#10;ip a"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>ip a</code></pre>
+  <pre><code class="language-bash">ip a</code></pre>
 </div>
 
     
 
         <p data-ar="ابحث عن الواجهة الحقيقية (غير lo) اللي فيها عنوان IP مثل:" data-en="Look for the real interface (not lo) that has an IP address like:">ابحث عن الواجهة الحقيقية (غير <code>lo</code>) اللي فيها عنوان IP مثل:</p>
 
-        <div class="code-block"> 
+        <div class="code-block" data-code-ar="# مثال على واجهة الشبكة&#10;2: eth0: ...&#10;    inet 192.168.1.5/24 ..." data-code-en="# Example network interface&#10;2: eth0: ...&#10;    inet 192.168.1.5/24 ..."> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
   </div>
-  <pre><code class="language-bash"></code>2: eth0: ...
+  <pre><code class="language-bash">2: eth0: ...
     inet 192.168.1.5/24 ...</code></pre>
 </div>
 
@@ -215,30 +239,30 @@ sudo ls -l /etc/wireguard</code></pre>
         <h2 data-ar="6️⃣ إنشاء وتعديل ملف الإعداد" data-en="6️⃣ Creating and Editing Configuration File">6️⃣ إنشاء وتعديل ملف الإعداد</h2>
         
         
-   <div class="code-block"> 
+   <div class="code-block" data-code-ar="# إنشاء وتعديل ملف الإعداد&#10;sudo nano /etc/wireguard/wg0.conf" data-code-en="# Creating and Editing Configuration File&#10;sudo nano /etc/wireguard/wg0.conf"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo nano /etc/wireguard/wg0.conf</code></pre>
+  <pre><code class="language-bash">sudo nano /etc/wireguard/wg0.conf</code></pre>
 </div>
         
        
 
         <h2 data-ar="7️⃣ محتوى wg0.conf (مع الشرح)" data-en="7️⃣ Content of wg0.conf (with explanation)">7️⃣ محتوى <code>wg0.conf</code> (مع الشرح)</h2>
 
-          <div class="code-block"> 
+          <div class="code-block" data-code-ar="# محتوى wg0.conf&#10;[Interface]&#10;Address = 10.0.0.1/24&#10;SaveConfig = true&#10;PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE&#10;PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE&#10;ListenPort = 51820&#10;PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]" data-code-en="# Content of wg0.conf&#10;[Interface]&#10;Address = 10.0.0.1/24&#10;SaveConfig = true&#10;PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE&#10;PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE&#10;ListenPort = 51820&#10;PrivateKey = [Paste the private key here without spaces]"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code> [Interface]
+  <pre><code class="language-bash">[Interface]
 Address = 10.0.0.1/24
 SaveConfig = true
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 ListenPort = 51820
-PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]</code></pre>
+PrivateKey = [Paste the private key here without spaces]</code></pre>
 </div>
         
        
@@ -247,12 +271,12 @@ PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]</
           <li data-ar="للحصول على المفتاح الخاص: اخرج من المحرر Ctrl + X ثم نفذ الأمر التالي ونسخ المفتاح:" data-en="To get the private key: exit the editor with Ctrl + X then run the following command and copy the key:">للحصول على المفتاح الخاص: اخرج من المحرر <code>Ctrl + X</code> ثم نفذ الأمر التالي ونسخ المفتاح:</li>
         </ul>
 
-   <div class="code-block"> 
+   <div class="code-block" data-code-ar="# الحصول على المفتاح الخاص&#10;sudo cat /etc/wireguard/privatekey" data-code-en="# Getting the private key&#10;sudo cat /etc/wireguard/privatekey"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo cat /etc/wireguard/privatekey</code></pre>
+  <pre><code class="language-bash">sudo cat /etc/wireguard/privatekey</code></pre>
 </div>
         
 
@@ -293,12 +317,12 @@ PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]</
 
         </ul>
 
-        <div class="code-block"> 
+        <div class="code-block" data-code-ar="# الحصول على المفتاح العام&#10;sudo cat /etc/wireguard/publickey" data-code-en="# Getting the public key&#10;sudo cat /etc/wireguard/publickey"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo cat /etc/wireguard/publickey</code></pre>
+  <pre><code class="language-bash">sudo cat /etc/wireguard/publickey</code></pre>
 </div>
 
 
@@ -306,22 +330,22 @@ PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]</
           <li data-ar="Endpoint: عنوان السيرفر مع البورت، مثل:" data-en="Endpoint: Server address with port, like:"><strong>Endpoint:</strong> عنوان السيرفر مع البورت، مثل:</li>
         </ul>
         
-        <div class="code-block"> 
+        <div class="code-block" data-code-ar="# مثال على Endpoint&#10;54.67.153.151:51820" data-code-en="# Example Endpoint&#10;54.67.153.151:51820"> 
   <div class="code-header">
   </div>
-  <pre><code class="language-bash"></code>54.67.153.151:51820</code></pre>
+  <pre><code class="language-bash">54.67.153.151:51820</code></pre>
 </div>
 
         
 
         <h2 data-ar="1️⃣1️⃣ إضافة العميل على السيرفر" data-en="1️⃣1️⃣ Adding Client to Server">1️⃣1️⃣ إضافة العميل على السيرفر</h2>
 
-           <div class="code-block"> 
+           <div class="code-block" data-code-ar="# إضافة العميل على السيرفر&#10;sudo wg set wg0 peer [public_key_client] allowed-ips 10.0.0.2/32&#10;sudo wg-quick save wg0" data-code-en="# Adding Client to Server&#10;sudo wg set wg0 peer [public_key_client] allowed-ips 10.0.0.2/32&#10;sudo wg-quick save wg0"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo wg set wg0 peer [public_key_client] allowed-ips 10.0.0.2/32
+  <pre><code class="language-bash">sudo wg set wg0 peer [public_key_client] allowed-ips 10.0.0.2/32
 sudo wg-quick save wg0</code></pre>
 </div>
         
@@ -333,24 +357,24 @@ sudo wg-quick save wg0</code></pre>
         <h2 data-ar="1️⃣2️⃣ تشغيل WireGuard تلقائيًا عند الإقلاع" data-en="1️⃣2️⃣ Running WireGuard Automatically on Boot">1️⃣2️⃣ تشغيل WireGuard تلقائيًا عند الإقلاع</h2>
 
 
-                  <div class="code-block"> 
+                  <div class="code-block" data-code-ar="# تشغيل WireGuard تلقائيًا عند الإقلاع&#10;sudo systemctl start wg-quick@wg0&#10;sudo systemctl enable wg-quick@wg0" data-code-en="# Running WireGuard Automatically on Boot&#10;sudo systemctl start wg-quick@wg0&#10;sudo systemctl enable wg-quick@wg0"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo systemctl start wg-quick@wg0
+  <pre><code class="language-bash">sudo systemctl start wg-quick@wg0
 sudo systemctl enable wg-quick@wg0</code></pre>
 </div>
        
 
         <h2 data-ar="1️⃣3️⃣ التحقق من الاتصال" data-en="1️⃣3️⃣ Verifying Connection">1️⃣3️⃣ التحقق من الاتصال</h2>
 
-                        <div class="code-block"> 
+                        <div class="code-block" data-code-ar="# التحقق من الاتصال&#10;sudo wg show" data-code-en="# Verifying Connection&#10;sudo wg show"> 
   <div class="code-header">
     <span class="code-lang">Bash</span>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
-  <pre><code class="language-bash"></code>sudo wg show</code></pre>
+  <pre><code class="language-bash">sudo wg show</code></pre>
 </div>
 
 
@@ -358,7 +382,7 @@ sudo systemctl enable wg-quick@wg0</code></pre>
       </div>
     </article>
        <div style="text-align: center; margin: 3rem 0;">
-            <a href="../index.html#blog" class="btn" data-ar="العودة إلى المدونة" data-en="Back to Blog">العودة إلى المدونة</a>
+            <a href="../blog.html" class="btn" data-ar="العودة إلى المدونة" data-en="Back to Blog">العودة إلى المدونة</a>
         </div>
   </main>
 
