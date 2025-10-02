@@ -92,6 +92,25 @@ function applyTheme() {
 // تعديل المتغير currentLanguage ليكون الافتراضي عربي
 let currentLanguage = localStorage.getItem('language') || 'ar';
 
+// دالة جديدة لتلوين التعليقات في مربعات الكود
+function highlightComments(codeElement) {
+    try {
+        // Check if highlighting is already applied
+        if (codeElement.querySelector('.comment')) {
+            // If already highlighted, get the text content and reapply
+            const textContent = codeElement.textContent;
+            codeElement.innerHTML = textContent;
+        }
+        
+        const codeText = codeElement.textContent;
+        // تلوين التعليقات التي تبدأ بـ # في bash
+        const highlightedCode = codeText.replace(/(#.*$)/gm, '<span class="comment">$1</span>');
+        codeElement.innerHTML = highlightedCode;
+    } catch (error) {
+        console.error('Error highlighting comments:', error);
+    }
+}
+
 // تعديل دالة changeLanguage لتطبيق RTL/LTR تلقائياً
 function changeLanguage(lang) {
     currentLanguage = lang;
@@ -105,6 +124,23 @@ function changeLanguage(lang) {
             element.placeholder = newText;
         } else {
             element.textContent = newText;
+        }
+    });
+
+    // ترجمة محتوى مربعات الكود
+    const codeBlocks = document.querySelectorAll('.code-block pre code');
+    codeBlocks.forEach(codeBlock => {
+        const parent = codeBlock.closest('[data-code-ar][data-code-en]');
+        if (parent) {
+            const codeContent = parent.getAttribute('data-code-' + lang);
+            if (codeContent) {
+                codeBlock.textContent = codeContent;
+                // تلوين التعليقات في الكود بعد تعيين المحتوى
+                highlightComments(codeBlock);
+            }
+        } else {
+            // For code blocks without data attributes, just highlight comments
+            highlightComments(codeBlock);
         }
     });
 
@@ -130,6 +166,17 @@ function updateLanguage(lang) {
             element.textContent = value;
         }
     });
+    
+    // تحديث تلوين التعليقات عند تغيير اللغة
+    const codeBlocks = document.querySelectorAll('.code-block pre code');
+    codeBlocks.forEach(codeBlock => {
+        // Remove existing comment highlighting
+        if (codeBlock.querySelector('.comment')) {
+            codeBlock.innerHTML = codeBlock.textContent;
+        }
+        // Apply new comment highlighting
+        highlightComments(codeBlock);
+    });
 }
 
 
@@ -152,21 +199,119 @@ function showPage(pageId) {
 
 // نسخ الكود
 function copyCode(button) {
-    const codeBlock = button.closest('.code-block');
-    const code = codeBlock.querySelector('code').textContent;
-    
-    navigator.clipboard.writeText(code).then(() => {
-        const originalText = button.textContent;
-        button.textContent = 'Copied!';
-        button.classList.add('copied');
+    try {
+        const codeBlock = button.closest('.code-block');
+        if (!codeBlock) {
+            throw new Error('Code block not found');
+        }
         
+        const codeElement = codeBlock.querySelector('code');
+        if (!codeElement) {
+            throw new Error('Code element not found');
+        }
+        
+        // Get the plain text content without HTML tags
+        let code = '';
+        
+        // Check if there are data attributes with the original code
+        const parentBlock = codeBlock;
+        if (parentBlock && parentBlock.hasAttribute('data-code-ar') && parentBlock.hasAttribute('data-code-en')) {
+            // Use the original code from data attributes if available
+            const lang = document.documentElement.getAttribute('lang') || 'ar';
+            code = parentBlock.getAttribute('data-code-' + lang) || '';
+            
+            // Debug information
+            console.log('Copying from data attributes for language:', lang);
+            console.log('Raw data attribute content:', code);
+            
+            // Properly decode HTML entities
+            const textArea = document.createElement('textarea');
+            textArea.innerHTML = code;
+            code = textArea.value;
+            
+            console.log('Decoded content:', code);
+        } else {
+            // For code blocks without data attributes, get text content
+            // But first remove any comment highlighting to get original text
+            if (codeElement.querySelector('.comment')) {
+                // Get plain text by removing HTML tags
+                code = codeElement.textContent;
+                console.log('Copying from highlighted code element:', code);
+            } else {
+                code = codeElement.textContent;
+                console.log('Copying from plain code element:', code);
+            }
+        }
+        
+        const originalText = button.textContent;
+        
+        // Check if Clipboard API is supported
+        if (navigator.clipboard && window.isSecureContext) {
+            // Use Clipboard API
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Clipboard API failed: ', err);
+                // Fallback to legacy method
+                fallbackCopyTextToClipboard(code, button, originalText);
+            });
+        } else {
+            // Fallback to legacy method for older browsers or insecure contexts
+            fallbackCopyTextToClipboard(code, button, originalText);
+        }
+    } catch (error) {
+        console.error('فشل في نسخ الكود: ', error);
+        const originalText = button.textContent;
+        button.textContent = 'Error!';
         setTimeout(() => {
-            button.textContent = originalText;
-            button.classList.remove('copied');
+            button.textContent = originalText || 'Copy';
         }, 2000);
-    }).catch(err => {
-        console.error('فشل في نسخ الكود: ', err);
-    });
+    }
+}
+
+// Fallback function for older browsers or insecure contexts
+function fallbackCopyTextToClipboard(text, button, originalText) {
+    try {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        
+        // Avoid scrolling to bottom
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        if (successful) {
+            button.textContent = 'Copied!';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        } else {
+            throw new Error('Failed to copy text using execCommand');
+        }
+    } catch (err) {
+        console.error('Fallback copy method failed: ', err);
+        button.textContent = 'Error!';
+        setTimeout(() => {
+            button.textContent = originalText || 'Copy';
+        }, 2000);
+    }
 }
 
 // إغلاق القائمة المنسدلة عند النقر خارجها
@@ -237,19 +382,39 @@ function enhanceUserExperience() {
 
         const searchInput = searchContainer.querySelector('.search-input');
        searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    const articles = document.querySelectorAll('#articlesList .article');
-
-    articles.forEach(article => {
-        const span = article.querySelector('span');
-        const titleText = (span?.getAttribute('data-' + currentLanguage) || '').toLowerCase();
-
-        if (titleText.includes(searchTerm)) {
-            article.style.display = 'block';
-        } else {
-            article.style.display = searchTerm ? 'none' : 'block';
+    try {
+        const searchTerm = e.target.value.toLowerCase();
+        const articles = document.querySelectorAll('#articlesList .article');
+        
+        if (articles.length === 0) {
+            console.warn('No articles found for search');
+            return;
         }
-    });
+
+        articles.forEach(article => {
+            try {
+                const span = article.querySelector('span');
+                if (!span) {
+                    console.warn('Span element not found in article');
+                    article.style.display = searchTerm ? 'none' : 'block';
+                    return;
+                }
+                
+                const titleText = (span.getAttribute('data-' + currentLanguage) || span.textContent || '').toLowerCase();
+
+                if (titleText.includes(searchTerm)) {
+                    article.style.display = 'block';
+                } else {
+                    article.style.display = searchTerm ? 'none' : 'block';
+                }
+            } catch (articleError) {
+                console.error('Error processing article in search:', articleError);
+                article.style.display = searchTerm ? 'none' : 'block';
+            }
+        });
+    } catch (error) {
+        console.error('Error in search functionality:', error);
+    }
 });
 
     }
@@ -292,20 +457,32 @@ function createParticles() {
 async function loadArticles() {
     try {
         const response = await fetch('articles.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const articles = await response.json();
         const list = document.getElementById('articlesList');
+        if (!list) {
+            throw new Error('Element with ID "articlesList" not found');
+        }
         list.innerHTML = '';
 
         articles.forEach(article => {
             const li = document.createElement('li');
             li.className = 'article';
+            li.setAttribute('data-href', `Articles/${article.file}`);
             li.innerHTML = `
-                <a href="Articles/${article.file}" target="_blank" >
-                    <span data-ar="${article.title_ar}" data-en="${article.title_en}">
-                        ${article.title_ar}
-                    </span>
-                </a>
+                <span data-ar="${article.title_ar}" data-en="${article.title_en}">
+                    ${article.title_ar}
+                </span>
             `;
+            
+            // Make the entire card clickable
+            li.style.cursor = 'pointer';
+            li.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-href');
+            });
+            
             list.appendChild(li);
         });
 
@@ -313,6 +490,11 @@ async function loadArticles() {
         updateLanguage(currentLanguage);
     } catch (error) {
         console.error('خطأ في تحميل المقالات:', error);
+        // Display error message to user
+        const list = document.getElementById('articlesList');
+        if (list) {
+            list.innerHTML = '<li class="article" style="text-align: center; padding: 2rem;">حدث خطأ أثناء تحميل المقالات. يرجى المحاولة لاحقاً.</li>';
+        }
     }
 }
 
