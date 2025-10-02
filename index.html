@@ -1,152 +1,15 @@
 <!DOCTYPE html>
-<!-- تأكد من أن السمة dir و lang مضبوطة بشكل صحيح -->
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مدونة تقنية</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta http-equiv="refresh" content="0; url=home.html">
 </head>
-
-
 <body>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-
-    <header>
-        
-        <nav class="container">
-            <div class="logo" data-ar="مدونة تقنية" data-en="Tech Blog">مدونة تقنية</div>
-            
-            <!-- Desktop Navigation -->
-            <div class="nav-links desktop-nav">
-                <a href="#" class="nav-link" onclick="showPage('home')" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                <a href="#" class="nav-link" onclick="showPage('blog')" data-ar="المدونة" data-en="Blog">المدونة</a>
-                <a href="#" class="nav-link" onclick="showPage('about')" data-ar="من نحن" data-en="About Us">من نحن</a>
-            </div>
-            
-            <div class="controls desktop-controls">
-                <div class="language-selector">
-                    <button class="btn-icon" onclick="toggleLanguageDropdown()">🌐</button>
-                    <div class="dropdown" id="languageDropdown">
-                        <div class="dropdown-item" onclick="changeLanguage('ar')">العربية</div>
-                        <div class="dropdown-item" onclick="changeLanguage('en')">English</div>
-                    </div>
-                </div>
-                <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">🌙</button>
-            </div>
-            
-            <!-- Mobile Hamburger Menu Button -->
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-        </nav>
-        
-        <!-- Mobile Navigation Overlay -->
-        <div class="mobile-nav-overlay" id="mobileNavOverlay">
-            <div class="mobile-nav-content">
-                <div class="mobile-nav-links">
-                    <a href="#" class="mobile-nav-link" onclick="showPage('home'); closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                    <a href="#" class="mobile-nav-link" onclick="showPage('blog'); closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
-                    <a href="#" class="mobile-nav-link" onclick="showPage('about'); closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
-                </div>
-                <div class="mobile-controls">
-                    <div class="mobile-language-selector">
-                        <button class="btn-icon" onclick="changeLanguage('ar')">عربي</button>
-                        <button class="btn-icon" onclick="changeLanguage('en')">EN</button>
-                    </div>
-                    <button class="btn-icon" onclick="toggleTheme()" id="mobileThemeBtn">🌙</button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <!-- الصفحة الرئيسية -->
-        <div id="home" class="page active">
-  <section class="hero">
-    <div class="container">
-      <h1 id="animated-text" data-ar="مرحبا بكم في مدونتنا التقنية" data-en="Welcome to Our Tech Blog"></h1>
-      <p data-ar="اكتشف أحدث التقنيات والابتكارات في عالم البرمجة والتكنولوجيا" data-en="Discover the latest technologies and innovations in programming and technology">
-        اكتشف أحدث التقنيات والابتكارات في عالم البرمجة والتكنولوجيا
-      </p>
-      <button class="btn hero-btn" onclick="showPage('blog')" data-ar="استكشف المقالات" data-en="Explore Articles">
-        استكشف المقالات
-      </button>
-    </div>
-            </section>
-
-            <section class="features">
-                <div class="container">
-                    <div class="feature-card">
-                        <div class="feature-icon">💻</div>
-                        <h3 data-ar="برمجة حديثة" data-en="Modern Programming">برمجة حديثة</h3>
-                        <p data-ar="تعلم أحدث تقنيات البرمجة والتطوير" data-en="Learn the latest programming and development techniques">تعلم أحدث تقنيات البرمجة والتطوير</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🚀</div>
-                        <h3 data-ar="تقنيات متطورة" data-en="Advanced Technologies">تقنيات متطورة</h3>
-                        <p data-ar="استكشف التقنيات الناشئة والمستقبلية" data-en="Explore emerging and future technologies">استكشف التقنيات الناشئة والمستقبلية</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🎯</div>
-                        <h3 data-ar="محتوى مفيد" data-en="Useful Content">محتوى مفيد</h3>
-                        <p data-ar="مقالات عملية وتطبيقية للمطورين" data-en="Practical and applicable articles for developers">مقالات عملية وتطبيقية للمطورين</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-<!-- صفحة من نحن -->
-<div id="about" class="page">
-    <div class="container">
-        <h1 data-ar="من نحن" data-en="About Us" style="text-align: center; color: var(--primary-color); margin-bottom: 3rem; margin-top: 4rem;">من نحن</h1>
-        
-        <div class="about-content">
-            <h2 data-ar="مرحباً بكم في مدونتي التقنية" data-en="Welcome to My Tech Blog">مرحباً بكم في مدونتي التقنية</h2>
-            
-            <p class="intro-text" data-ar="أنا سلطان عايض، مطور ومهتم بعالم التقنية والبرمجة." data-en="I'm Sultan Ayidh, a developer passionate about technology and programming.">
-                أنا <strong>سلطان عايض</strong>، مطور ومهتم بعالم التقنية والبرمجة.
-            </p>
-            
-            <p data-ar="أشارككم في هذه المدونة خبراتي ومعرفتي في مجال التكنولوجيا، من خلال مقالات تطبيقية ونصائح عملية تساعدكم في رحلتكم التقنية." data-en="Through this blog, I share my experience and knowledge in the tech field with practical articles and tips to help you on your technical journey.">
-                أشارككم في هذه المدونة خبراتي ومعرفتي في مجال التكنولوجيا، من خلال مقالات تطبيقية ونصائح عملية تساعدكم في رحلتكم التقنية.
-            </p>
-            
-            <p data-ar="هذه المدونة جزء من موقعي الشخصي، حيث يمكنكم الاطلاع على أعمالي وخدماتي المختلفة في مجال التطوير والتقنية." data-en="This blog is part of my personal website, where you can explore my various works and services in development and technology.">
-                هذه المدونة جزء من موقعي الشخصي، حيث يمكنكم الاطلاع على أعمالي وخدماتي المختلفة في مجال التطوير والتقنية.
-            </p>
-            
-            <div class="about-cta">
-                <a href="https://sultanayidh.site/" target="_blank" class="btn hero-btn" data-ar="زيارة موقعي الشخصي" data-en="Visit My Website">زيارة موقعي الشخصي</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-        <!-- صفحة المدونة -->
-        <div id="blog" class="page">
-            <div class="container">
- <div class="blog-content">
-      <h1 data-ar="مقالات المدونة" data-en="Blog Articles" style="text-align: center; margin-bottom: 3rem; color: var(--primary-color);">مقالات المدونة</h1>
-      <ul id="articlesList" class="articles-list"></ul>
-    </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p data-ar="© 2024 مدونة تقنية. جميع الحقوق محفوظة." data-en="© 2024 Tech Blog. All rights reserved.">© 2024 مدونة تقنية. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
-      <script type="module" src="fingerprint.js"></script>
-
+    <p>إذا لم يتم تحويلك تلقائيًا، يرجى <a href="home.html">النقر هنا</a> للانتقال إلى الصفحة الرئيسية.</p>
+    <script>
+        window.location.href = "home.html";
+    </script>
 </body>
 </html>
