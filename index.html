@@ -236,6 +236,25 @@
             margin-right: auto;
         }
         
+        /* Enhanced button styles for content section */
+        .content-section .content-btn {
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        
+        .content-section .content-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
         @keyframes pulse {
             0%, 100% {
                 transform: scale(1);
@@ -310,8 +329,8 @@
             
             <!-- Desktop Navigation -->
             <div class="nav-links desktop-nav">
-                <a href="index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                <a href="blog.html" class="nav-link active" data-ar="المدونة" data-en="Blog">المدونة</a>
+                <a href="index.html" class="nav-link active" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="blog.html" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
                 <a href="about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
             </div>
             
@@ -338,8 +357,8 @@
         <div class="mobile-nav-overlay" id="mobileNavOverlay">
             <div class="mobile-nav-content">
                 <div class="mobile-nav-links">
-                    <a href="index.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                    <a href="blog.html" class="mobile-nav-link active" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
+                    <a href="index.html" class="mobile-nav-link active" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="blog.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
                     <a href="about.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
                 </div>
                 <div class="mobile-controls">
@@ -395,14 +414,14 @@
                 <p data-ar="اكتشف أحدث المقالات المنشورة في مدونتنا والتي تغطي مجموعة واسعة من المواضيع التقنية بما في ذلك البرمجة، وأمن الشبكات، والخوادم، وتقنيات VPN. من تعلم كيفية إنشاء سيرفر على AWS لتشغيل WireGuard VPN إلى إعداد خادم لينكس آمن من الصفر، مقالاتنا تقدم لك كل ما تحتاج لمعرفته." data-en="Discover the latest articles published in our blog that cover a wide range of technical topics including programming, network security, servers, and VPN technologies. From learning how to create a server on AWS to run WireGuard VPN to setting up a secure Linux server from scratch, our articles provide you with everything you need to know.">اكتشف أحدث المقالات المنشورة في مدونتنا والتي تغطي مجموعة واسعة من المواضيع التقنية بما في ذلك البرمجة، وأمن الشبكات، والخوادم، وتقنيات VPN. من تعلم كيفية إنشاء سيرفر على AWS لتشغيل WireGuard VPN إلى إعداد خادم لينكس آمن من الصفر، مقالاتنا تقدم لك كل ما تحتاج لمعرفته.</p>
                 
                 <div style="text-align: center; margin: 2rem 0;">
-                    <a href="blog.html" class="btn" data-ar="عرض جميع المقالات" data-en="View All Articles">عرض جميع المقالات</a>
+                    <a href="blog.html" class="btn content-btn" data-ar="عرض جميع المقالات" data-en="View All Articles">عرض جميع المقالات</a>
                 </div>
                 
                 <!-- Added more internal links -->
                 <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem;">
-                    <a href="about.html" class="btn" data-ar="تعرف علينا أكثر" data-en="Learn More About Us">تعرف علينا أكثر</a>
-                    <a href="Articles/aws.html" class="btn" data-ar="مقال AWS" data-en="AWS Article">مقال AWS</a>
-                    <a href="Articles/wireguard.html" class="btn" data-ar="مقال WireGuard" data-en="WireGuard Article">مقال WireGuard</a>
+                    <a href="about.html" class="btn content-btn" data-ar="تعرف علينا أكثر" data-en="Learn More About Us">تعرف علينا أكثر</a>
+                    <a href="Articles/aws.html" class="btn content-btn" data-ar="مقال AWS" data-en="AWS Article">مقال AWS</a>
+                    <a href="Articles/wireguard.html" class="btn content-btn" data-ar="مقال WireGuard" data-en="WireGuard Article">مقال WireGuard</a>
                 </div>
             </div>
         </section>
@@ -421,7 +440,7 @@
             applyTheme();
             // Set active class for navigation
             document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('href') === 'home.html') {
+                if (link.getAttribute('href') === 'index.html') {
                     link.classList.add('active');
                 }
             });
