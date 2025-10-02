@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدونة تقنية - المقالات</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ensure the main content takes up full height and footer stays at bottom */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex: 1 0 auto;
+            padding: 2rem 0;
+        }
+        
+        footer {
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+        
+        /* Additional styling for blog page */
+        .blog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            position: relative;
+        }
+        
+        .blog-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .blog-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        .blog-content {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+        
+        .articles-list {
+            flex: 1;
+        }
+        
+        /* Enhanced search container */
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 25px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            color: var(--text-color);
+            box-shadow: var(--shadow);
+        }
+        
+        .search-input::placeholder {
+            color: rgba(var(--text-color), 0.6);
+            opacity: 1;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), var(--shadow);
+            transform: translateY(-2px);
+        }
+        
+        /* Articles list styling */
+        .articles-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+        
+        .article {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .article::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .article:hover::before {
+            transform: translateX(0);
+        }
+        
+        .article:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-color);
+        }
+        
+        .article span {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+            display: block;
+        }
+        
+        .article:hover span {
+            color: var(--primary-color);
+        }
+        
+        .article::after {
+            content: '→';
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .article:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        @media (max-width: 768px) {
+            .blog-header h1 {
+                font-size: 2rem;
+            }
+            
+            .blog-header p {
+                font-size: 1.1rem;
+            }
+            
+            .articles-list {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 1.5rem;
+            }
+            
+            .article {
+                padding: 1.5rem;
+            }
+            
+            .article span {
+                font-size: 1.2rem;
+            }
+            
+            .search-container {
+                max-width: 100%;
+                margin: 1.5rem auto;
+                padding: 0 5px;
+            }
+            
+            .search-input {
+                padding: 12px 16px;
+                font-size: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .blog-header {
+                padding: 1.5rem 0;
+                margin-bottom: 2rem;
+            }
+            
+            .blog-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .blog-header p {
+                font-size: 1rem;
+            }
+            
+            .article {
+                padding: 1.2rem;
+            }
+            
+            .article span {
+                font-size: 1.1rem;
+            }
+            
+            .article::after {
+                bottom: 1rem;
+                right: 1rem;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo" data-ar="مدونة تقنية" data-en="Tech Blog">مدونة تقنية</div>
+            
+            <!-- Desktop Navigation -->
+            <div class="nav-links desktop-nav">
+                <a href="home.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="blog.html" class="nav-link active" data-ar="المدونة" data-en="Blog">المدونة</a>
+                <a href="about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
+            </div>
+            
+            <div class="controls desktop-controls">
+                <div class="language-selector">
+                    <button class="btn-icon" onclick="toggleLanguageDropdown()">🌐</button>
+                    <div class="dropdown" id="languageDropdown">
+                        <div class="dropdown-item" onclick="changeLanguage('ar')">العربية</div>
+                        <div class="dropdown-item" onclick="changeLanguage('en')">English</div>
+                    </div>
+                </div>
+                <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+            
+            <!-- Mobile Hamburger Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </nav>
+        
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-content">
+                <div class="mobile-nav-links">
+                    <a href="home.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="blog.html" class="mobile-nav-link active" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
+                    <a href="about.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
+                </div>
+                <div class="mobile-controls">
+                    <div class="mobile-language-selector">
+                        <button class="btn-icon" onclick="changeLanguage('ar')">عربي</button>
+                        <button class="btn-icon" onclick="changeLanguage('en')">EN</button>
+                    </div>
+                    <button class="btn-icon" onclick="toggleTheme()" id="mobileThemeBtn">🌙</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="blog-header">
+                <h1 data-ar="مقالات المدونة" data-en="Blog Articles">مقالات المدونة</h1>
+                <p data-ar="استكشف مقالاتنا التقنية المتنوعة وابقَ على اطلاع بأحدث الابتكارات في عالم التكنولوجيا" data-en="Explore our diverse technical articles and stay updated with the latest innovations in the world of technology">استكشف مقالاتنا التقنية المتنوعة وابقَ على اطلاع بأحدث الابتكارات في عالم التكنولوجيا</p>
+            </div>
+            
+            <div class="blog-content">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="ابحث في المقالات..." data-ar="ابحث في المقالات..." data-en="Search articles...">
+                </div>
+                <ul id="articlesList" class="articles-list"></ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-ar="© 2024 مدونة تقنية. جميع الحقوق محفوظة." data-en="© 2024 Tech Blog. All rights reserved.">© 2024 مدونة تقنية. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Apply theme and load articles on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTheme();
+            // Set active class for navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === 'blog.html') {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load articles
+            loadArticles();
+            
+            // Set up search functionality
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    try {
+                        const searchTerm = e.target.value.toLowerCase();
+                        const articles = document.querySelectorAll('#articlesList .article');
+                        
+                        if (articles.length === 0) {
+                            console.warn('No articles found for search');
+                            return;
+                        }
+
+                        articles.forEach(article => {
+                            try {
+                                const span = article.querySelector('span');
+                                if (!span) {
+                                    console.warn('Span element not found in article');
+                                    article.style.display = searchTerm ? 'none' : 'block';
+                                    return;
+                                }
+                                
+                                const titleText = (span.getAttribute('data-' + currentLanguage) || span.textContent || '').toLowerCase();
+
+                                if (titleText.includes(searchTerm)) {
+                                    article.style.display = 'block';
+                                } else {
+                                    article.style.display = searchTerm ? 'none' : 'block';
+                                }
+                            } catch (articleError) {
+                                console.error('Error processing article in search:', articleError);
+                                article.style.display = searchTerm ? 'none' : 'block';
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error in search functionality:', error);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
