@@ -21,6 +21,29 @@
         }
       })();
     </script>
+    
+    <style>
+        /* Fix for purple background in inline code elements */
+        p code, li code, span code, h1 code, h2 code, h3 code, strong code {
+            background: rgba(102, 126, 234, 0.05) !important;
+            color: var(--primary-color) !important;
+            border: 1px solid rgba(102, 126, 234, 0.1) !important;
+        }
+        
+        /* Ensure code blocks maintain their dark theme */
+        .code-block {
+            background: #1e1e1e !important;
+            color: #d4d4d4 !important;
+        }
+        
+        /* Fix for inline code within code blocks - remove purple background */
+        .code-block code {
+            background: transparent !important;
+            color: inherit !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+    </style>
 
 </head>
 <body>
@@ -36,9 +59,9 @@
             
             <!-- Desktop Navigation -->
             <div class="nav-links desktop-nav">
-                <a href="../index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                <a href="../index.html#blog" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
-                <a href="../index.html#about" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
+                <a href="../home.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                <a href="../blog.html" class="nav-link" data-ar="المدونة" data-en="Blog">المدونة</a>
+                <a href="../about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a>
             </div>
             
             <div class="controls desktop-controls">
@@ -64,9 +87,9 @@
         <div class="mobile-nav-overlay" id="mobileNavOverlay">
             <div class="mobile-nav-content">
                 <div class="mobile-nav-links">
-                    <a href="../index.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-                    <a href="../index.html#blog" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
-                    <a href="../index.html#about" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
+                    <a href="../home.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="../blog.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="المدونة" data-en="Blog">المدونة</a>
+                    <a href="../about.html" class="mobile-nav-link" onclick="closeMobileMenu()" data-ar="من نحن" data-en="About Us">من نحن</a>
                 </div>
                 <div class="mobile-controls">
                     <div class="mobile-language-selector">
@@ -80,7 +103,7 @@
     </header>
 
     <main class="container">
-        <a href="../index.html#blog" class="back-btn">
+        <a href="../blog.html" class="back-btn">
             <span data-ar="← العودة للمدونة" data-en="← Back to Blog">← العودة للمدونة</span>
         </a>
         
@@ -284,7 +307,7 @@
                               data-en="In the terminal (text interface), type the following command (adjusting the path, key file name and address)">
                             في التيرمينال (الواجهة النصية)، اكتب الأمر التالي (مع تعديل المسار واسم ملف المفتاح والعنوان)
                         </span>
-                        <div class="code-block">
+                        <div class="code-block" data-code-ar="# الدخول على السيرفر باستخدام SSH&#10;ssh -i مسار_الملف ubuntu@عنوان_IPv4" data-code-en="# Access server using SSH&#10;ssh -i path_to_file ubuntu@IP_address">
                             <div class="code-header">
                                 <span class="code-lang">Bash</span>
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -297,7 +320,7 @@
                               data-en="Example:">
                             مثال:
                         </span>
-                        <div class="code-block">
+                        <div class="code-block" data-code-ar="# مثال على الدخول عبر SSH&#10;ssh -i ~/Downloads/aws-key.pem ubuntu@54.67.153.151" data-code-en="# Example SSH access&#10;ssh -i ~/Downloads/aws-key.pem ubuntu@54.67.153.151">
                             <div class="code-header">
                                 <span class="code-lang">Bash</span>
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -324,7 +347,7 @@
         </article>
         
         <div style="text-align: center; margin: 3rem 0;">
-            <a href="../index.html#blog" class="btn" data-ar="العودة إلى المدونة" data-en="Back to Blog">العودة إلى المدونة</a>
+            <a href="../blog.html" class="btn" data-ar="العودة إلى المدونة" data-en="Back to Blog">العودة إلى المدونة</a>
         </div>
     </main>
 
