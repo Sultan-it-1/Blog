@@ -1,0 +1,7 @@
+[
+  { "from": "/blog.html", "to": "/blog/" },
+  { "from": "/about.html", "to": "/about/" },
+  { "from": "/Articles/aws.html", "to": "/posts/aws/" },
+  { "from": "/Articles/wireguard.html", "to": "/posts/wireguard/" },
+  { "from": "/Articles/linux-server.html", "to": "/posts/linux-server/" }
+]

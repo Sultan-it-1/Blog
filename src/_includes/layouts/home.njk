@@ -1,0 +1,48 @@
+---
+layout: layouts/base.njk
+---
+{%- set t = i18n[lang] -%}
+{%- set prefix = site.languages[lang].prefix -%}
+{%- set latest = collections.posts | where("data.lang", lang) | limit(3) -%}
+
+<section class="hero">
+  <div class="container">
+    <h1>{{ t.home.heroTitle }}</h1>
+    <p>{{ t.home.heroText }}</p>
+    <a href="{{ prefix }}/blog/" class="btn btn-lg">{{ t.home.cta }}</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container features-grid">
+    {%- for feature in t.home.features %}
+    <article class="card feature-card">
+      <div class="feature-icon" aria-hidden="true">{{ feature.icon }}</div>
+      <h2>{{ feature.title }}</h2>
+      <p>{{ feature.text }}</p>
+    </article>
+    {%- endfor %}
+  </div>
+</section>
+
+{%- if latest.length %}
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">{{ t.home.latestTitle }}</h2>
+    <ul class="post-grid">
+      {%- for post in latest %}
+      {% include "partials/post-card.njk" %}
+      {%- endfor %}
+    </ul>
+    <p class="center"><a href="{{ prefix }}/blog/" class="btn btn-lg">{{ t.home.allPosts }}</a></p>
+  </div>
+</section>
+{%- endif %}
+
+<section class="section section-band">
+  <div class="container narrow center">
+    <h2 class="section-title">{{ t.home.whyTitle }}</h2>
+    <p class="lead">{{ t.home.whyText }}</p>
+    <a href="{{ prefix }}/about/" class="btn btn-lg">{{ t.home.aboutCta }}</a>
+  </div>
+</section>

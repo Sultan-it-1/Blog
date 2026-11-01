@@ -1,0 +1,15 @@
+---
+layout: layouts/base.njk
+---
+<div class="container narrow">
+  <header class="page-header">
+    <h1>{{ title }}</h1>
+    {%- if description %}
+    <p>{{ description }}</p>
+    {%- endif %}
+  </header>
+
+  <div class="card page-body prose {{ contentClass }}">
+    {{ content | safe }}
+  </div>
+</div>

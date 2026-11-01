@@ -1,0 +1,59 @@
+---
+layout: layouts/base.njk
+---
+{%- set t = i18n[lang] -%}
+{%- set prefix = site.languages[lang].prefix -%}
+{%- set langPosts = collections.posts | where("data.lang", lang) -%}
+{%- set newer = langPosts | getPreviousCollectionItem(page) -%}
+{%- set older = langPosts | getNextCollectionItem(page) -%}
+
+<div class="container narrow">
+  <a href="{{ prefix }}/blog/" class="back-link">{{ t.post.back }}</a>
+
+  <article class="card post">
+    <header class="post-header">
+      <h1>{{ title }}</h1>
+      <p class="post-meta">
+        <time datetime="{{ page.date | isoDate }}">{{ page.date | readableDate(lang) }}</time>
+        {%- if updated %}
+        <span aria-hidden="true">·</span>
+        {{ t.post.updated }} <time datetime="{{ updated | isoDate }}">{{ updated | readableDate(lang) }}</time>
+        {%- endif %}
+        <span aria-hidden="true">·</span>
+        {{ t.readingTime(content | readingMinutes) }}
+        <span aria-hidden="true">·</span>
+        {{ t.post.by }} {{ site.author.name[lang] }}
+      </p>
+      {%- if tags and tags.length %}
+      <ul class="tag-list">
+        {%- for tag in tags %}
+        <li><a class="tag" href="{{ tag | tagUrl(lang) }}">#{{ tag }}</a></li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+    </header>
+
+    <div class="prose post-content">
+      {{ content | safe }}
+    </div>
+  </article>
+
+  {%- if newer or older %}
+  <nav class="post-nav">
+    {%- if newer %}
+    <a class="card post-nav-link" href="{{ newer.url }}">
+      <span class="post-nav-label">{{ t.post.newer }}</span>
+      <span class="post-nav-title">{{ newer.data.title }}</span>
+    </a>
+    {%- endif %}
+    {%- if older %}
+    <a class="card post-nav-link post-nav-older" href="{{ older.url }}">
+      <span class="post-nav-label">{{ t.post.older }}</span>
+      <span class="post-nav-title">{{ older.data.title }}</span>
+    </a>
+    {%- endif %}
+  </nav>
+  {%- endif %}
+
+  <p class="center"><a href="{{ prefix }}/blog/" class="btn">{{ t.post.backToBlog }}</a></p>
+</div>

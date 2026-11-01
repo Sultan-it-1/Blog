@@ -1,0 +1,28 @@
+---
+# One page per language + tag: /tags/<tag>/ and /en/tags/<tag>/
+layout: layouts/base.njk
+pagination:
+  data: collections.tagPages
+  size: 1
+  alias: tagPage
+  addAllPagesToCollections: true
+permalink: "{{ site.languages[tagPage.lang].prefix }}/tags/{{ tagPage.tag | slugify }}/"
+navKey: blog
+eleventyComputed:
+  lang: "{{ tagPage.lang }}"
+  title: "#{{ tagPage.tag }}"
+  translationKey: "tag:{{ tagPage.tag }}"
+---
+{%- set t = i18n[lang] -%}
+<div class="container">
+  <header class="page-header">
+    <h1>{{ t.tag.title }} #{{ tagPage.tag }}</h1>
+    <p>{{ t.tag.count }} {{ tagPage.posts.length }}</p>
+  </header>
+
+  <ul class="post-grid">
+    {%- for post in tagPage.posts %}
+    {% include "partials/post-card.njk" %}
+    {%- endfor %}
+  </ul>
+</div>

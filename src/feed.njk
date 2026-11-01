@@ -1,0 +1,40 @@
+---
+# Atom feed per language: /feed.xml and /en/feed.xml
+pagination:
+  data: site.languages
+  size: 1
+  alias: feedLang
+permalink: "{{ site.languages[feedLang].prefix }}/feed.xml"
+eleventyExcludeFromCollections: true
+---
+{%- set t = i18n[feedLang] -%}
+{%- set posts = collections.posts | where("data.lang", feedLang) -%}
+{%- set home = (site.languages[feedLang].prefix + "/") | absoluteUrl(site.url) -%}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ feedLang }}" xml:base="{{ site.url }}/">
+  <title>{{ t.siteName | escape }}</title>
+  <subtitle>{{ t.siteDescription | escape }}</subtitle>
+  <link href="{{ page.url | absoluteUrl(site.url) }}" rel="self"/>
+  <link href="{{ home }}"/>
+  {%- if posts.length %}
+  <updated>{{ posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+  {%- endif %}
+  <id>{{ home }}</id>
+  <author>
+    <name>{{ site.author.name[feedLang] }}</name>
+  </author>
+  {%- for post in posts | limit(20) %}
+  {%- set postUrl = post.url | absoluteUrl(site.url) %}
+  <entry>
+    <title>{{ post.data.title | escape }}</title>
+    <link href="{{ postUrl }}"/>
+    <updated>{{ (post.data.updated or post.date) | dateToRfc3339 }}</updated>
+    <published>{{ post.date | dateToRfc3339 }}</published>
+    <id>{{ postUrl }}</id>
+    {%- if post.data.description %}
+    <summary>{{ post.data.description | escape }}</summary>
+    {%- endif %}
+    <content type="html">{{ post.content | escape }}</content>
+  </entry>
+  {%- endfor %}
+</feed>

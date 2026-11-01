@@ -1,0 +1,66 @@
+{#- Shell for every page: <head>, header, footer. Pages set `lang`, `title`, `description`, `translationKey`. -#}
+{%- set t = i18n[lang] -%}
+{%- set langInfo = site.languages[lang] -%}
+{%- set otherLang = "en" if lang == "ar" else "ar" -%}
+{%- set altUrl = collections.all | translationUrl(translationKey, otherLang) -%}
+{%- set activeKey = navKey or translationKey -%}
+{%- set canonical = page.url | absoluteUrl(site.url) -%}
+{%- set pageTitle = (title + " | " + t.siteName) if title else t.siteName -%}
+{%- set pageDescription = description or t.siteDescription -%}
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ langInfo.dir }}" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDescription }}">
+  <meta name="author" content="{{ site.author.name[lang] }}">
+  <link rel="canonical" href="{{ canonical }}">
+  {%- if altUrl %}
+  <link rel="alternate" hreflang="{{ lang }}" href="{{ canonical }}">
+  <link rel="alternate" hreflang="{{ otherLang }}" href="{{ altUrl | absoluteUrl(site.url) }}">
+  {%- endif %}
+  <link rel="alternate" type="application/atom+xml" title="{{ t.siteName }}" href="{{ langInfo.prefix }}/feed.xml">
+
+  <meta property="og:type" content="{{ ogType or 'website' }}">
+  <meta property="og:site_name" content="{{ t.siteName }}">
+  <meta property="og:title" content="{{ title or t.siteName }}">
+  <meta property="og:description" content="{{ pageDescription }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ (image or site.defaultImage) | absoluteUrl(site.url) }}">
+  <meta property="og:locale" content="{{ langInfo.ogLocale }}">
+  {%- if ogType == "article" %}
+  <meta property="article:published_time" content="{{ page.date | isoDate }}">
+  {%- endif %}
+  <meta name="twitter:card" content="{{ 'summary_large_image' if image else 'summary' }}">
+  <meta name="twitter:site" content="{{ site.author.twitter }}">
+
+  <meta name="theme-color" content="{{ site.themeColor }}">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  {#- Dark is the default; apply a saved "light" choice before the first paint. #}
+  <script>try { if (localStorage.getItem("theme") === "light") document.documentElement.removeAttribute("data-theme"); } catch (e) {}</script>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js" defer></script>
+</head>
+<body data-copy="{{ t.code.copy }}" data-copied="{{ t.code.copied }}" data-copy-failed="{{ t.code.failed }}" data-back-to-top="{{ t.backToTop }}">
+  <a class="skip-link" href="#main">{{ t.skip }}</a>
+  <div class="floating-shapes" aria-hidden="true">
+    <span class="shape"></span>
+    <span class="shape"></span>
+    <span class="shape"></span>
+  </div>
+
+  {% include "partials/header.njk" %}
+
+  <main id="main" class="site-main">
+    {{ content | safe }}
+  </main>
+
+  {% include "partials/footer.njk" %}
+</body>
+</html>

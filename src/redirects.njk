@@ -1,0 +1,23 @@
+---
+# Old addresses (from before the move to Eleventy) forward to the new ones.
+# Add a line to _data/redirects.json whenever a page moves, so shared links keep working.
+pagination:
+  data: redirects
+  size: 1
+  alias: redirect
+permalink: "{{ redirect.from }}"
+eleventyExcludeFromCollections: true
+---
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ redirect.to }}</title>
+  <link rel="canonical" href="{{ redirect.to | absoluteUrl(site.url) }}">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url={{ redirect.to }}">
+</head>
+<body>
+  <a href="{{ redirect.to }}">{{ redirect.to | absoluteUrl(site.url) }}</a>
+</body>
+</html>
