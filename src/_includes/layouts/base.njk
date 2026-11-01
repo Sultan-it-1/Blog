@@ -5,16 +5,19 @@
 {%- set altUrl = collections.all | translationUrl(translationKey, otherLang) -%}
 {%- set activeKey = navKey or translationKey -%}
 {%- set canonical = page.url | absoluteUrl(site.url) -%}
-{%- set pageTitle = (title + " | " + t.siteName) if title else t.siteName -%}
+{%- set pageTitle = (title + " — " + t.siteName) if title else (t.siteName + " — " + t.tagline) -%}
 {%- set pageDescription = description or t.siteDescription -%}
 <!DOCTYPE html>
-<html lang="{{ lang }}" dir="{{ langInfo.dir }}" data-theme="dark">
+<html lang="{{ lang }}" dir="{{ langInfo.dir }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ pageTitle }}</title>
   <meta name="description" content="{{ pageDescription }}">
   <meta name="author" content="{{ site.author.name[lang] }}">
+  {%- if noindex %}
+  <meta name="robots" content="noindex">
+  {%- endif %}
   <link rel="canonical" href="{{ canonical }}">
   {%- if altUrl %}
   <link rel="alternate" hreflang="{{ lang }}" href="{{ canonical }}">
@@ -32,28 +35,27 @@
   {%- if ogType == "article" %}
   <meta property="article:published_time" content="{{ page.date | isoDate }}">
   {%- endif %}
-  <meta name="twitter:card" content="{{ 'summary_large_image' if image else 'summary' }}">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="{{ site.author.twitter }}">
 
-  <meta name="theme-color" content="{{ site.themeColor }}">
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="{{ brand.colors.light.bg }}" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="{{ brand.colors.dark.bg }}" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 
-  {#- Dark is the default; apply a saved "light" choice before the first paint. #}
-  <script>try { if (localStorage.getItem("theme") === "light") document.documentElement.removeAttribute("data-theme"); } catch (e) {}</script>
+  {#- Apply a theme the reader picked before the first paint; otherwise the system setting applies. #}
+  <script>try { var theme = localStorage.getItem("theme"); if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="{{ brand.fonts.googleFontsUrl }}">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/main.css">
   <script src="/assets/js/main.js" defer></script>
 </head>
-<body data-copy="{{ t.code.copy }}" data-copied="{{ t.code.copied }}" data-copy-failed="{{ t.code.failed }}" data-back-to-top="{{ t.backToTop }}">
+<body class="{{ bodyClass }}" data-copied="{{ t.code.copied }}" data-copy-failed="{{ t.code.failed }}">
   <a class="skip-link" href="#main">{{ t.skip }}</a>
-  <div class="floating-shapes" aria-hidden="true">
-    <span class="shape"></span>
-    <span class="shape"></span>
-    <span class="shape"></span>
-  </div>
 
   {% include "partials/header.njk" %}
 

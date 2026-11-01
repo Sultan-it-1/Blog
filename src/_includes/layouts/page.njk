@@ -1,15 +1,18 @@
 ---
 layout: layouts/base.njk
 ---
-<div class="container narrow">
-  <header class="page-header">
-    <h1>{{ title }}</h1>
+<div class="container">
+  <header class="page-head">
+    {%- if eyebrow %}
+    <p class="eyebrow">{{ eyebrow }}</p>
+    {%- endif %}
+    <h1 class="page-title">{{ title }}</h1>
     {%- if description %}
-    <p>{{ description }}</p>
+    <p class="page-lead">{{ description }}</p>
     {%- endif %}
   </header>
 
-  <div class="card page-body prose {{ contentClass }}">
+  <div class="prose page-prose">
     {{ content | safe }}
   </div>
 </div>

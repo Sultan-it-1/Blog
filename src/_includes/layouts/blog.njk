@@ -6,32 +6,43 @@ layout: layouts/base.njk
 {%- set langTags = collections.tagPages | where("lang", lang) -%}
 
 <div class="container">
-  <header class="page-header">
-    <h1>{{ title }}</h1>
+  <header class="page-head">
+    <p class="eyebrow">{{ t.postCount(posts.length) }}</p>
+    <h1 class="page-title">{{ title }}</h1>
     {%- if description %}
-    <p>{{ description }}</p>
+    <p class="page-lead">{{ description }}</p>
     {%- endif %}
   </header>
 
-  <div class="search">
-    <label for="postSearch" class="visually-hidden">{{ t.blog.searchLabel }}</label>
-    <input type="search" id="postSearch" class="search-input" placeholder="{{ t.blog.searchPlaceholder }}" autocomplete="off" data-search-input>
+  <div class="blog-tools">
+    <div class="search-field" id="search">
+      {% icon "search" %}
+      <label for="postSearch" class="visually-hidden">{{ t.blog.searchLabel }}</label>
+      <input type="search" id="postSearch" class="search-input" placeholder="{{ t.blog.searchPlaceholder }}" autocomplete="off" data-search-input>
+    </div>
+
+    {%- if langTags.length %}
+    <nav class="chips" aria-label="{{ t.blog.topicsLabel }}">
+      <ul>
+        {%- for topic in langTags %}
+        <li><a class="chip" href="{{ topic.tag | tagUrl(lang) }}">{% tagIcon topic.tag %}{{ topic.tag | topicName(lang) }}<span class="chip-count">{{ topic.posts.length }}</span></a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    {%- endif %}
   </div>
 
-  {%- if langTags.length %}
-  <nav class="tag-cloud" aria-label="{{ t.blog.tagsTitle }}">
-    <ul class="tag-list">
-      {%- for tagPage in langTags %}
-      <li><a class="tag" href="{{ tagPage.tag | tagUrl(lang) }}">#{{ tagPage.tag }} <span class="tag-count">{{ tagPage.posts.length }}</span></a></li>
-      {%- endfor %}
-    </ul>
-  </nav>
-  {%- endif %}
-
-  <ul class="post-grid" data-search-list>
-    {%- for post in posts %}
-    {% include "partials/post-card.njk" %}
+  <div data-search-list>
+    {%- for group in posts | groupByYear %}
+    <section class="year-group" data-year-group>
+      <h2 class="year-label">{{ group.year }}</h2>
+      <ol class="post-list">
+        {%- for post in group.items %}
+        {% include "partials/post-row.njk" %}
+        {%- endfor %}
+      </ol>
+    </section>
     {%- endfor %}
-  </ul>
+  </div>
   <p class="empty-state" data-search-empty hidden>{{ t.blog.noResults }}</p>
 </div>

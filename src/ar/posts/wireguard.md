@@ -3,12 +3,13 @@ title: إعداد WireGuard VPN على سيرفر Ubuntu من الصفر
 description: دليل شامل لإعداد سيرفر VPN خاص باستخدام WireGuard على Ubuntu. تعلم كيفية حماية اتصالك وإنشاء شبكة آمنة مع دليل خطوة بخطوة.
 date: 2025-09-08
 image: /assets/images/vpn-banner.png
+numbered: true
 tags: [vpn, wireguard, linux]
 ---
 
 في هذا الشرح بنغطي خطوة بخطوة طريقة إعداد شبكة VPN باستخدام WireGuard على خادم Ubuntu. مناسب لأي شخص حاب يحمي اتصاله أو يربط عدة أجهزة بشبكة خاصة وآمنة.
 
-## 1️⃣ تجهيز الخادم (Cloud Server)
+## تجهيز الخادم (Cloud Server)
 
 أول شيء نحتاج خادم سحابي. إذا ما عندك واحد، تقدر تتبع هذا الدليل لإنشاء سيرفر على AWS:
 
@@ -18,7 +19,7 @@ tags: [vpn, wireguard, linux]
 
 بعد ما تدخل على الخادم عن طريق SSH، نبدأ بالتجهيزات.
 
-## 2️⃣ تحديث النظام وتثبيت WireGuard
+## تحديث النظام وتثبيت WireGuard
 
 ```bash
 # تحديث النظام وتثبيت WireGuard
@@ -29,7 +30,7 @@ sudo apt install wireguard -y
 - يحدث النظام.
 - يثبت برنامج WireGuard.
 
-## 3️⃣ إنشاء مفاتيح WireGuard (Private & Public)
+## إنشاء مفاتيح WireGuard (Private & Public)
 
 ```bash
 # إنشاء مفاتيح WireGuard (Private & Public)
@@ -38,11 +39,11 @@ sudo bash -c "wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireg
 
 🔑 هذا الأمر ينشئ مفتاح خاص (`privatekey`) ومفتاح عام (`publickey`).
 
-::: note 💡 ليش استخدمنا `bash -c`؟
+::: tip ليش استخدمنا `bash -c`؟
 عشان نقدر ننفذ أمر فيه بايب `|` بصلاحيات `sudo`.
 :::
 
-## 4️⃣ ضبط صلاحيات المفاتيح
+## ضبط صلاحيات المفاتيح
 
 ```bash
 # ضبط صلاحيات المفاتيح
@@ -52,7 +53,7 @@ sudo ls -l /etc/wireguard
 
 🔒 نحمي المفتاح الخاص من الوصول غير المصرح به.
 
-## 5️⃣ معرفة واجهة الشبكة للسيرفر
+## معرفة واجهة الشبكة للسيرفر
 
 ```bash
 # معرفة واجهة الشبكة للسيرفر
@@ -68,14 +69,14 @@ ip a
 
 📌 في هذا المثال، اسم الواجهة هو `eth0`.
 
-## 6️⃣ إنشاء وتعديل ملف الإعداد
+## إنشاء وتعديل ملف الإعداد
 
 ```bash
 # إنشاء وتعديل ملف الإعداد
 sudo nano /etc/wireguard/wg0.conf
 ```
 
-## 7️⃣ محتوى `wg0.conf` (مع الشرح)
+## محتوى `wg0.conf` (مع الشرح)
 
 ```ini
 # محتوى wg0.conf
@@ -96,19 +97,17 @@ PrivateKey = [الصق هنا المفتاح الخاص بدون مسافات]
 sudo cat /etc/wireguard/privatekey
 ```
 
-## 8️⃣ حفظ الملف والخروج من Nano
+## حفظ الملف والخروج من Nano
 
 - للحفظ: `Ctrl + O` ثم Enter
 - للخروج: `Ctrl + X`
 
-## 📱 إعداد العميل (Client)
-
-## 9️⃣ تثبيت تطبيق WireGuard
+## إعداد العميل (Client): تثبيت تطبيق WireGuard
 
 - **Android:** [🔗 WireGuard من Google Play](https://play.google.com/store/apps/details?id=com.wireguard.android)
 - **iOS:** [🔗 WireGuard من App Store](https://apps.apple.com/us/app/wireguard/id1451685025)
 
-## 🔟 إعداد ملف العميل
+## إعداد ملف العميل
 
 داخل التطبيق:
 
@@ -135,7 +134,7 @@ sudo cat /etc/wireguard/publickey
 54.67.153.151:51820
 ```
 
-## 1️⃣1️⃣ إضافة العميل على السيرفر
+## إضافة العميل على السيرفر
 
 ```bash
 # إضافة العميل على السيرفر
@@ -145,7 +144,7 @@ sudo wg-quick save wg0
 
 استبدل `[public_key_client]` بالمفتاح العام للعميل (المفتاح اللذي انشائته في تطبيق الجوال).
 
-## 1️⃣2️⃣ تشغيل WireGuard تلقائيًا عند الإقلاع
+## تشغيل WireGuard تلقائيًا عند الإقلاع
 
 ```bash
 # تشغيل WireGuard تلقائيًا عند الإقلاع
@@ -153,7 +152,7 @@ sudo systemctl start wg-quick@wg0
 sudo systemctl enable wg-quick@wg0
 ```
 
-## 1️⃣3️⃣ التحقق من الاتصال
+## التحقق من الاتصال
 
 ```bash
 # التحقق من الاتصال

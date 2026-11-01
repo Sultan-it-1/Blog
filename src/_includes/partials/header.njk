@@ -1,28 +1,34 @@
-<header class="site-header" id="siteHeader">
-  <div class="container nav-bar">
-    <a href="{{ langInfo.prefix }}/" class="logo">{{ t.siteName }}</a>
+<header class="site-header" data-header>
+  <div class="container header-bar">
+    <a href="{{ langInfo.prefix }}/" class="brand" aria-label="{{ t.siteName }} — {{ t.tagline }}">
+      {% include "partials/logo-mark.njk" %}
+      <span class="brand-word">{{ t.siteName }}</span>
+    </a>
 
-    <nav class="site-nav" id="siteNav" aria-label="{{ t.mainNav }}">
-      <ul class="nav-links">
+    <nav class="site-nav" id="siteNav" aria-label="{{ t.mainNav }}" data-nav>
+      <ul class="nav-links" data-nav-links>
         {%- for item in t.nav %}
         <li>
-          <a href="{{ langInfo.prefix }}{{ item.path }}" class="nav-link{% if item.key == activeKey %} active{% endif %}"{% if item.key == activeKey %} aria-current="page"{% endif %}>{{ item.label }}</a>
+          <a href="{{ langInfo.prefix }}{{ item.path }}" class="nav-link"{% if item.key == activeKey %} aria-current="page"{% endif %}>{{ item.label }}</a>
         </li>
         {%- endfor %}
+        <li class="nav-indicator" aria-hidden="true" data-nav-indicator></li>
       </ul>
-      <div class="nav-controls">
-        <a class="btn-icon lang-switch" href="{{ altUrl or (site.languages[otherLang].prefix + '/') }}" hreflang="{{ otherLang }}" lang="{{ otherLang }}" title="{{ t.switchLanguage }}">{{ site.languages[otherLang].short }}</a>
-        <button type="button" class="btn-icon theme-toggle" data-theme-toggle aria-label="{{ t.toggleTheme }}" title="{{ t.toggleTheme }}">
-          <span class="icon-sun" aria-hidden="true">☀️</span>
-          <span class="icon-moon" aria-hidden="true">🌙</span>
-        </button>
-      </div>
     </nav>
 
-    <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="siteNav" aria-label="{{ t.menu }}">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
+    <div class="header-actions">
+      <a class="icon-btn" href="{{ langInfo.prefix }}/blog/#search" aria-label="{{ t.search }}" title="{{ t.search }}">{% icon "search" %}</a>
+      <a class="icon-btn lang-btn" href="{{ altUrl or (site.languages[otherLang].prefix + '/') }}" hreflang="{{ otherLang }}" lang="{{ otherLang }}" title="{{ t.switchLanguage }}">
+        <span class="lang-code">{{ "ع" if otherLang == "ar" else "EN" }}</span>
+        <span class="visually-hidden">{{ t.switchLanguage }}</span>
+      </a>
+      <button type="button" class="icon-btn theme-btn" data-theme-toggle aria-label="{{ t.toggleTheme }}" title="{{ t.toggleTheme }}">
+        {% icon "sun" %}{% icon "moon" %}
+      </button>
+      <button type="button" class="icon-btn menu-btn" aria-expanded="false" aria-controls="siteNav" data-menu-toggle data-label-open="{{ t.menu }}" data-label-close="{{ t.closeMenu }}" aria-label="{{ t.menu }}">
+        {% icon "menu" %}{% icon "close" %}
+      </button>
+    </div>
   </div>
 </header>
+<div class="reading-progress" aria-hidden="true" data-progress></div>

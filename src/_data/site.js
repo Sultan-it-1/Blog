@@ -1,8 +1,7 @@
 // Site-wide settings. Change the domain, author or languages here — nowhere else.
 export default {
   url: "https://blog.sultanops.com",
-  themeColor: "#667eea",
-  defaultImage: "/android-chrome-512x512.png",
+  defaultImage: "/assets/images/og-default.png",
   year: new Date().getFullYear(),
 
   author: {

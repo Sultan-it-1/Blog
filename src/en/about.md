@@ -2,17 +2,23 @@
 layout: layouts/page.njk
 permalink: /en/about/
 translationKey: about
-title: About Us
-description: Get to know our team and the story behind creating this tech blog
-contentClass: center
+eyebrow: About the blog
+title: I write up what I actually run
+description: A tech blog on cloud, networking and server security, with guides you can follow step by step.
 ---
 
-## Welcome to My Tech Blog
+I'm **Sultan Ayidh**, a developer passionate about technology and programming, especially infrastructure and security.
 
-<p class="lead">I'm <strong>Sultan Ayidh</strong>, a developer passionate about technology and programming.</p>
+Through this blog, I share my experience and knowledge in the tech field with practical articles and tips to help you on your technical journey. Every guide here is something I ran on a real server before writing it up.
 
-Through this blog, I share my experience and knowledge in the tech field with practical articles and tips to help you on your technical journey.
+## What you'll find here
+
+- **Cloud:** launching and managing servers on AWS.
+- **Networking:** running your own VPN with WireGuard and connecting your devices to it.
+- **Security:** hardening Linux servers from scratch: firewall, SSH and permissions.
+
+## Personal website
 
 This blog is part of my personal website, where you can explore my various works and services in development and technology.
 
-<p><a href="https://sultanops.com/" class="btn btn-lg" target="_blank" rel="noopener">Visit My Website</a></p>
+<p><a href="https://sultanops.com/" class="btn btn-primary" target="_blank" rel="noopener">Visit My Website</a></p>

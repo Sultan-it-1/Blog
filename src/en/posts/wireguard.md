@@ -3,12 +3,13 @@ title: Setting up WireGuard VPN on Ubuntu Server from Scratch
 description: A complete guide to setting up your own VPN server with WireGuard on Ubuntu. Learn how to protect your connection and build a secure private network, step by step.
 date: 2025-09-08
 image: /assets/images/vpn-banner.png
+numbered: true
 tags: [vpn, wireguard, linux]
 ---
 
 In this guide, we'll cover step-by-step how to set up a VPN network using WireGuard on an Ubuntu server. Perfect for anyone who wants to secure their connection or connect multiple devices to a private and secure network.
 
-## 1️⃣ Server Setup (Cloud Server)
+## Server Setup (Cloud Server)
 
 First, we need a cloud server. If you don't have one, you can follow this guide to create a server on AWS:
 
@@ -18,7 +19,7 @@ It's very important to enable step 7. Setting up Inbound Rules in the previous g
 
 After logging into the server via SSH, we start with the preparations.
 
-## 2️⃣ System Update and WireGuard Installation
+## System Update and WireGuard Installation
 
 ```bash
 # Update system and install WireGuard
@@ -29,7 +30,7 @@ sudo apt install wireguard -y
 - Updates the system.
 - Installs WireGuard software.
 
-## 3️⃣ Creating WireGuard Keys (Private & Public)
+## Creating WireGuard Keys (Private & Public)
 
 ```bash
 # Creating WireGuard Keys (Private & Public)
@@ -38,11 +39,11 @@ sudo bash -c "wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireg
 
 🔑 This command creates a private key (`privatekey`) and a public key (`publickey`).
 
-::: note 💡 Why did we use `bash -c`?
+::: tip Why did we use `bash -c`?
 So we can execute a command with pipes `|` with `sudo` privileges.
 :::
 
-## 4️⃣ Setting Key Permissions
+## Setting Key Permissions
 
 ```bash
 # Setting Key Permissions
@@ -52,7 +53,7 @@ sudo ls -l /etc/wireguard
 
 🔒 We protect the private key from unauthorized access.
 
-## 5️⃣ Finding Server Network Interface
+## Finding Server Network Interface
 
 ```bash
 # Finding Server Network Interface
@@ -68,14 +69,14 @@ Look for the real interface (not `lo`) that has an IP address like:
 
 📌 In this example, the interface name is `eth0`.
 
-## 6️⃣ Creating and Editing Configuration File
+## Creating and Editing Configuration File
 
 ```bash
 # Creating and Editing Configuration File
 sudo nano /etc/wireguard/wg0.conf
 ```
 
-## 7️⃣ Content of `wg0.conf` (with explanation)
+## Content of `wg0.conf` (with explanation)
 
 ```ini
 # Content of wg0.conf
@@ -96,19 +97,17 @@ PrivateKey = [Paste the private key here without spaces]
 sudo cat /etc/wireguard/privatekey
 ```
 
-## 8️⃣ Saving File and Exiting Nano
+## Saving File and Exiting Nano
 
 - To save: `Ctrl + O` then Enter
 - To exit: `Ctrl + X`
 
-## 📱 Client Setup
-
-## 9️⃣ Installing WireGuard App
+## Client Setup: Installing the WireGuard App
 
 - **Android:** [🔗 WireGuard from Google Play](https://play.google.com/store/apps/details?id=com.wireguard.android)
 - **iOS:** [🔗 WireGuard from App Store](https://apps.apple.com/us/app/wireguard/id1451685025)
 
-## 🔟 Client Configuration Setup
+## Client Configuration Setup
 
 Inside the app:
 
@@ -135,7 +134,7 @@ sudo cat /etc/wireguard/publickey
 54.67.153.151:51820
 ```
 
-## 1️⃣1️⃣ Adding Client to Server
+## Adding Client to Server
 
 ```bash
 # Adding Client to Server
@@ -145,7 +144,7 @@ sudo wg-quick save wg0
 
 Replace `[public_key_client]` with the client's public key (the key you created in the mobile app).
 
-## 1️⃣2️⃣ Running WireGuard Automatically on Boot
+## Running WireGuard Automatically on Boot
 
 ```bash
 # Running WireGuard Automatically on Boot
@@ -153,7 +152,7 @@ sudo systemctl start wg-quick@wg0
 sudo systemctl enable wg-quick@wg0
 ```
 
-## 1️⃣3️⃣ Verifying Connection
+## Verifying Connection
 
 ```bash
 # Verifying Connection

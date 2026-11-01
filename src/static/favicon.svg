@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>.tile{fill:#0B7A5B}.ink{fill:#FFFFFF;stroke:#FFFFFF}
+  @media (prefers-color-scheme: dark){.tile{fill:#46D19F}.ink{fill:#07150F;stroke:#07150F}}</style>
+  <rect class="tile" width="32" height="32" rx="8"/>
+  <path class="ink" d="M9.5 11l5 5-5 5" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="fill:none"/>
+  <rect class="ink" x="17" y="19.4" width="6.5" height="2.6" rx="1.3" style="stroke:none"/>
+</svg>

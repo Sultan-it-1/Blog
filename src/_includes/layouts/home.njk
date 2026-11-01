@@ -1,48 +1,75 @@
 ---
 layout: layouts/base.njk
+bodyClass: page-home
 ---
 {%- set t = i18n[lang] -%}
 {%- set prefix = site.languages[lang].prefix -%}
-{%- set latest = collections.posts | where("data.lang", lang) | limit(3) -%}
+{%- set latest = collections.posts | where("data.lang", lang) | limit(5) -%}
+{%- set langTopics = collections.tagPages | where("lang", lang) -%}
 
 <section class="hero">
-  <div class="container">
-    <h1>{{ t.home.heroTitle }}</h1>
-    <p>{{ t.home.heroText }}</p>
-    <a href="{{ prefix }}/blog/" class="btn btn-lg">{{ t.home.cta }}</a>
-  </div>
-</section>
-
-<section class="features">
-  <div class="container features-grid">
-    {%- for feature in t.home.features %}
-    <article class="card feature-card">
-      <div class="feature-icon" aria-hidden="true">{{ feature.icon }}</div>
-      <h2>{{ feature.title }}</h2>
-      <p>{{ feature.text }}</p>
-    </article>
-    {%- endfor %}
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" lang="en" dir="ltr">{{ t.home.eyebrow }}</p>
+      <h1 class="hero-title">{{ t.home.heroTitle }}</h1>
+      <p class="hero-text">{{ t.home.heroText }}</p>
+      <div class="hero-actions">
+        <a href="{{ prefix }}/blog/" class="btn btn-primary">{{ t.home.ctaPrimary }}{% icon "arrow", "flip-rtl" %}</a>
+        <a href="{{ prefix }}/about/" class="btn btn-ghost">{{ t.home.ctaSecondary }}</a>
+      </div>
+    </div>
+    {% include "partials/terminal.njk" %}
   </div>
 </section>
 
 {%- if latest.length %}
 <section class="section">
   <div class="container">
-    <h2 class="section-title">{{ t.home.latestTitle }}</h2>
-    <ul class="post-grid">
+    <header class="section-head">
+      <h2 class="section-title">{{ t.home.latestTitle }}</h2>
+      <a class="text-link" href="{{ prefix }}/blog/">{{ t.home.allPosts }}{% icon "arrow", "flip-rtl" %}</a>
+    </header>
+    <ol class="post-list">
       {%- for post in latest %}
-      {% include "partials/post-card.njk" %}
+      {% include "partials/post-row.njk" %}
       {%- endfor %}
-    </ul>
-    <p class="center"><a href="{{ prefix }}/blog/" class="btn btn-lg">{{ t.home.allPosts }}</a></p>
+    </ol>
   </div>
 </section>
 {%- endif %}
 
-<section class="section section-band">
-  <div class="container narrow center">
-    <h2 class="section-title">{{ t.home.whyTitle }}</h2>
-    <p class="lead">{{ t.home.whyText }}</p>
-    <a href="{{ prefix }}/about/" class="btn btn-lg">{{ t.home.aboutCta }}</a>
+{%- if langTopics.length %}
+<section class="section">
+  <div class="container">
+    <header class="section-head">
+      <div>
+        <h2 class="section-title">{{ t.home.topicsTitle }}</h2>
+        <p class="section-text">{{ t.home.topicsText }}</p>
+      </div>
+    </header>
+    <ul class="topic-grid">
+      {%- for topic in langTopics %}
+      <li class="topic-card">
+        <span class="topic-icon">{% tagIcon topic.tag %}</span>
+        <h3 class="topic-name"><a href="{{ topic.tag | tagUrl(lang) }}">{{ topic.tag | topicName(lang) }}</a></h3>
+        <p class="topic-text">{{ topic.tag | topicDescription(lang) }}</p>
+        <span class="topic-count">{{ t.postCount(topic.posts.length) }}</span>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+{%- endif %}
+
+<section class="section">
+  <div class="container">
+    <div class="author-card">
+      <span class="author-avatar" aria-hidden="true">{{ "س" if lang == "ar" else "S" }}</span>
+      <div class="author-body">
+        <h2 class="eyebrow">{{ t.home.authorTitle }}</h2>
+        <p class="author-text">{{ t.home.authorText }}</p>
+        <a class="text-link" href="{{ site.author.website }}" target="_blank" rel="noopener">{{ t.home.authorCta }}{% icon "external" %}</a>
+      </div>
+    </div>
   </div>
 </section>

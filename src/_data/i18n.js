@@ -1,162 +1,199 @@
 // Interface text for each language. Article text lives in the Markdown files, not here.
 
 function arabicMinutes(n) {
-  if (n === 1) return "دقيقة واحدة للقراءة";
-  if (n === 2) return "دقيقتان للقراءة";
-  if (n <= 10) return `${n} دقائق للقراءة`;
-  return `${n} دقيقة للقراءة`;
+  if (n === 1) return "دقيقة قراءة";
+  if (n === 2) return "دقيقتان قراءة";
+  if (n <= 10) return `${n} دقائق قراءة`;
+  return `${n} دقيقة قراءة`;
+}
+
+function arabicPosts(n) {
+  if (n === 1) return "مقال واحد";
+  if (n === 2) return "مقالان";
+  if (n <= 10) return `${n} مقالات`;
+  return `${n} مقالًا`;
 }
 
 export default {
   ar: {
-    siteName: "مدونة تقنية",
+    siteName: "sultanops",
+    tagline: "مدونة تقنية عن السحابة والشبكات وأمن الخوادم",
     siteDescription:
-      "مرحباً بكم في مدونتنا التقنية! اكتشف أحدث التقنيات والابتكارات في عالم البرمجة والتكنولوجيا. مقالات تعليمية مفيدة حول AWS وVPN وLinux والبرمجة.",
+      "شروحات عملية خطوة بخطوة بالعربي: إنشاء الخوادم على AWS، تشغيل VPN خاص بك عبر WireGuard، وتأمين خوادم Linux.",
     nav: [
       { key: "home", path: "/", label: "الرئيسية" },
-      { key: "blog", path: "/blog/", label: "المدونة" },
-      { key: "about", path: "/about/", label: "من نحن" },
+      { key: "blog", path: "/blog/", label: "المقالات" },
+      { key: "about", path: "/about/", label: "عن المدونة" },
     ],
     mainNav: "القائمة الرئيسية",
     menu: "القائمة",
+    closeMenu: "إغلاق القائمة",
     skip: "تخطَّ إلى المحتوى",
-    toggleTheme: "تبديل الوضع الليلي والنهاري",
+    toggleTheme: "تبديل المظهر الفاتح والداكن",
     switchLanguage: "Read in English",
+    search: "ابحث في المقالات",
     backToTop: "العودة للأعلى",
     rights: "جميع الحقوق محفوظة.",
     readingTime: arabicMinutes,
+    postCount: arabicPosts,
 
     home: {
-      heroTitle: "مرحباً بكم في مدونتنا التقنية",
+      eyebrow: "DevOps · Cloud · Security",
+      heroTitle: "دروس عملية في السحابة والشبكات وأمن الخوادم",
       heroText:
-        "استكشف أحدث التقنيات والابتكارات في عالم البرمجة والتكنولوجيا. نقدم لك مقالات تعليمية مفيدة وتقنيات متطورة تساعدك في تطوير مهاراتك التقنية. تعلم كيفية إنشاء سيرفرات على AWS وتشغيل VPN مثل WireGuard وتأمين خوادم Linux. مقالاتنا مكتوبة بلغة بسيطة ومفهومة تناسب المبتدئين والمحترفين على حد سواء.",
-      cta: "استكشف المقالات",
-      features: [
-        {
-          icon: "📚",
-          title: "مقالات تعليمية",
-          text: "تعلم أحدث التقنيات والأساليب من خلال مقالات مبسطة وسهلة الفهم",
-        },
-        {
-          icon: "🚀",
-          title: "تقنيات متطورة",
-          text: "استكشف التقنيات الناشئة والمستقبلية التي تشكل مستقبل التكنولوجيا",
-        },
-        {
-          icon: "🎯",
-          title: "محتوى مفيد",
-          text: "مقالات عملية وتطبيقية تساعدك في تطوير مهاراتك التقنية",
-        },
-      ],
+        "شروحات خطوة بخطوة، بلغة بسيطة، من إعدادات حقيقية: من إنشاء سيرفر على AWS، إلى تشغيل VPN خاص بك، إلى تأمين خادم Linux.",
+      ctaPrimary: "ابدأ القراءة",
+      ctaSecondary: "عن المدونة",
       latestTitle: "أحدث المقالات",
-      allPosts: "عرض جميع المقالات",
-      whyTitle: "لماذا تختار مدونتنا التقنية؟",
-      whyText:
-        "مدونتنا التقنية هي مصدرك المفضل للمعلومات التقنية المحدثة. نقدم محتوى عالي الجودة ومحدث بانتظام لضمان حصولك على أحدث المعلومات والاتجاهات في عالم التكنولوجيا. سواء كنت مطورًا مبتدئًا أو محترفًا، ستجد مقالات تلبي احتياجاتك وتساعدك على التقدم في مسيرتك التقنية.",
-      aboutCta: "تعرف علينا أكثر",
+      allPosts: "كل المقالات",
+      topicsTitle: "المواضيع",
+      topicsText: "كل مقال مصنّف حسب موضوعه، عشان توصل للي تحتاجه بسرعة.",
+      authorTitle: "عن الكاتب",
+      authorText:
+        "أنا سلطان عايض، مطور ومهتم بالبنية التحتية والأمن. أكتب هنا ما أتعلمه وأطبقه فعلياً، بشكل يقدر أي أحد يتبعه.",
+      authorCta: "زيارة موقعي الشخصي",
     },
 
     blog: {
       searchLabel: "ابحث في المقالات",
-      searchPlaceholder: "ابحث في المقالات...",
+      searchPlaceholder: "ابحث بالعنوان أو الموضوع…",
       noResults: "ما لقينا مقالات تطابق بحثك.",
-      tagsTitle: "التصنيفات",
+      topicsLabel: "تصفّح حسب الموضوع",
     },
 
     post: {
-      back: "← العودة للمدونة",
-      backToBlog: "العودة إلى المدونة",
-      by: "بواسطة",
+      blog: "المقالات",
       updated: "آخر تحديث",
-      newer: "مقال أحدث",
-      older: "مقال أقدم",
+      by: "بقلم",
+      toc: "في هذا المقال",
+      newer: "المقال الأحدث",
+      older: "المقال الأقدم",
+      topics: "مواضيع المقال",
     },
 
     tag: {
-      title: "مقالات عن",
-      count: "عدد المقالات:",
+      eyebrow: "موضوع",
+      allTopics: "كل المواضيع",
+    },
+
+    notes: {
+      note: "ملاحظة",
+      tip: "نصيحة",
+      warning: "تنبيه",
+      security: "أمان",
     },
 
     code: {
       copy: "نسخ",
-      copied: "تم النسخ!",
+      copied: "تم النسخ",
       failed: "تعذّر النسخ",
+    },
+
+    footer: {
+      explore: "تصفّح",
+      topics: "المواضيع",
+      follow: "تابع",
+      rss: "خلاصة RSS",
+      website: "الموقع الشخصي",
+      builtWith: "مبنية بـ Eleventy ومنشورة على GitHub Pages",
+    },
+
+    notFound: {
+      title: "الصفحة غير موجودة",
+      text: "الرابط اللي فتحته ما يوصل لأي صفحة. ممكن انحذفت أو تغيّر رابطها.",
+      home: "الصفحة الرئيسية",
+      blog: "كل المقالات",
     },
   },
 
   en: {
-    siteName: "Tech Blog",
+    siteName: "sultanops",
+    tagline: "A tech blog on cloud, networking and server security",
     siteDescription:
-      "Welcome to our tech blog! Discover the latest technologies and innovations in programming and technology. Practical tutorials on AWS, VPN, Linux and programming.",
+      "Hands-on, step-by-step guides: launching servers on AWS, running your own WireGuard VPN, and hardening Linux servers.",
     nav: [
       { key: "home", path: "/", label: "Home" },
-      { key: "blog", path: "/blog/", label: "Blog" },
-      { key: "about", path: "/about/", label: "About Us" },
+      { key: "blog", path: "/blog/", label: "Articles" },
+      { key: "about", path: "/about/", label: "About" },
     ],
     mainNav: "Main navigation",
     menu: "Menu",
+    closeMenu: "Close menu",
     skip: "Skip to content",
-    toggleTheme: "Toggle dark and light mode",
+    toggleTheme: "Switch between light and dark",
     switchLanguage: "اقرأ بالعربية",
+    search: "Search articles",
     backToTop: "Back to top",
     rights: "All rights reserved.",
     readingTime: (n) => `${n} min read`,
+    postCount: (n) => (n === 1 ? "1 article" : `${n} articles`),
 
     home: {
-      heroTitle: "Welcome to Our Tech Blog",
+      eyebrow: "DevOps · Cloud · Security",
+      heroTitle: "Hands-on guides to cloud, networking and server security",
       heroText:
-        "Explore the latest technologies and innovations in the world of programming and technology. We provide useful educational articles and advanced techniques to help you develop your technical skills. Learn how to create servers on AWS, run VPNs like WireGuard, and secure Linux servers. Our articles are written in simple language suitable for both beginners and professionals.",
-      cta: "Explore Articles",
-      features: [
-        {
-          icon: "📚",
-          title: "Educational Articles",
-          text: "Learn the latest technologies and techniques through simplified and easy-to-understand articles",
-        },
-        {
-          icon: "🚀",
-          title: "Advanced Techniques",
-          text: "Explore emerging and future technologies that shape the future of technology",
-        },
-        {
-          icon: "🎯",
-          title: "Useful Content",
-          text: "Practical and applied articles to help you develop your technical skills",
-        },
-      ],
-      latestTitle: "Latest Articles",
-      allPosts: "View All Articles",
-      whyTitle: "Why Choose Our Tech Blog?",
-      whyText:
-        "Our tech blog is your favorite source for updated technical information. We provide high-quality content that is regularly updated to ensure you get the latest information and trends in the world of technology. Whether you're a beginner or professional developer, you'll find articles that meet your needs and help you advance in your technical career.",
-      aboutCta: "Learn More About Us",
+        "Step-by-step tutorials in plain language, from real setups: launching a server on AWS, running your own VPN, hardening a Linux server.",
+      ctaPrimary: "Start reading",
+      ctaSecondary: "About the blog",
+      latestTitle: "Latest articles",
+      allPosts: "All articles",
+      topicsTitle: "Topics",
+      topicsText: "Every article is filed under its topics, so you can get to what you need quickly.",
+      authorTitle: "About the author",
+      authorText:
+        "I'm Sultan Ayidh, a developer focused on infrastructure and security. I write up what I actually learn and run, in a way anyone can follow.",
+      authorCta: "Visit my website",
     },
 
     blog: {
       searchLabel: "Search articles",
-      searchPlaceholder: "Search articles...",
+      searchPlaceholder: "Search by title or topic…",
       noResults: "No articles match your search.",
-      tagsTitle: "Topics",
+      topicsLabel: "Browse by topic",
     },
 
     post: {
-      back: "← Back to Blog",
-      backToBlog: "Back to Blog",
-      by: "By",
+      blog: "Articles",
       updated: "Updated",
+      by: "By",
+      toc: "In this article",
       newer: "Newer article",
       older: "Older article",
+      topics: "Article topics",
     },
 
     tag: {
-      title: "Articles about",
-      count: "Articles:",
+      eyebrow: "Topic",
+      allTopics: "All topics",
+    },
+
+    notes: {
+      note: "Note",
+      tip: "Tip",
+      warning: "Warning",
+      security: "Security",
     },
 
     code: {
       copy: "Copy",
-      copied: "Copied!",
+      copied: "Copied",
       failed: "Copy failed",
+    },
+
+    footer: {
+      explore: "Explore",
+      topics: "Topics",
+      follow: "Follow",
+      rss: "RSS feed",
+      website: "Personal website",
+      builtWith: "Built with Eleventy, hosted on GitHub Pages",
+    },
+
+    notFound: {
+      title: "Page not found",
+      text: "The link you followed doesn't lead to a page. It may have been removed or moved.",
+      home: "Home page",
+      blog: "All articles",
     },
   },
 };

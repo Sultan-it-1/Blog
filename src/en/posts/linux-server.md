@@ -2,12 +2,13 @@
 title: Setting Up a Secure Linux Server from Scratch
 description: A comprehensive step-by-step guide to setting up a secure Linux server, from basic installation to securing the server against breaches.
 date: 2024-06-02
+numbered: true
 tags: [linux, security]
 ---
 
 In this comprehensive guide, we'll learn how to set up a secure Linux server step by step, from basic installation to securing the server against breaches.
 
-::: note 📌 Important Note
+::: note Important Note
 This guide is for Ubuntu Server 20.04 LTS, but most commands work on any Linux distribution.
 :::
 
@@ -17,7 +18,7 @@ This guide is for Ubuntu Server 20.04 LTS, but most commands work on any Linux d
 2. Stable internet connection
 3. Basic knowledge of Linux commands
 
-## 1. Installation and Initial Setup
+## Installation and Initial Setup
 
 ### System Update
 
@@ -61,9 +62,9 @@ sudo apt install -y ufw fail2ban git curl wget
    sudo chmod 600 /home/yourusername/.ssh/authorized_keys
    ```
 
-## 2. Server Security
+## Server Security
 
-::: note 🔒 Security Tips
+::: security Security Tips
 These steps are essential to protect your server from common attacks.
 :::
 
@@ -96,7 +97,7 @@ These steps are essential to protect your server from common attacks.
    sudo systemctl restart sshd
    ```
 
-## 3. Monitoring and Maintenance
+## Monitoring and Maintenance
 
 ```bash
 # Install monitoring tools
@@ -109,6 +110,6 @@ htop
 nmon
 ```
 
-::: note 💡 Final Tip
+::: tip Final Tip
 Update your system regularly and make sure to perform periodic backups.
 :::

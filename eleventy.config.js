@@ -1,38 +1,101 @@
 import markdownIt from "markdown-it";
+import markdownItAnchor from "markdown-it-anchor";
 import markdownItContainer from "markdown-it-container";
 import pluginRss from "@11ty/eleventy-plugin-rss";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 
+import i18n from "./src/_data/i18n.js";
 import site from "./src/_data/site.js";
+import topics from "./src/_data/topics.js";
+import { renderIcon } from "./src/_includes/icons.js";
 
 const POSTS_GLOB = "src/*/posts/*.md";
 
 const byDateDesc = (a, b) => b.date - a.date;
 const getPath = (obj, path) => path.split(".").reduce((value, key) => value?.[key], obj);
+const escapeAttr = (value) => String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+
+// Heading ids keep Arabic letters readable instead of percent-encoding them.
+const slugifyHeading = (text) =>
+  text
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .replace(/\s+/g, "-");
+
+const CODE_LANGUAGES = {
+  bash: "Bash",
+  sh: "Shell",
+  shell: "Shell",
+  powershell: "PowerShell",
+  ini: "INI",
+  yaml: "YAML",
+  json: "JSON",
+  js: "JavaScript",
+  javascript: "JavaScript",
+  ts: "TypeScript",
+  python: "Python",
+  html: "HTML",
+  css: "CSS",
+  sql: "SQL",
+  docker: "Dockerfile",
+  nginx: "Nginx",
+  text: "Output",
+};
+
+// Callout boxes in Markdown: `::: note`, `::: tip`, `::: warning`, `::: security`, each with an optional title.
+const CALLOUTS = { note: "info", tip: "bulb", warning: "alert", security: "shield" };
 
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(syntaxHighlight);
 
-  // Markdown: raw HTML allowed, and `::: note Title` blocks for callouts.
   const md = markdownIt({ html: true, linkify: true });
-  md.use(markdownItContainer, "note", {
-    render(tokens, idx) {
-      if (tokens[idx].nesting !== 1) return "</aside>\n";
-      const title = tokens[idx].info.trim().slice("note".length).trim();
-      return `<aside class="note">${title ? `<p class="note-title">${md.renderInline(title)}</p>` : ""}\n`;
-    },
+
+  md.use(markdownItAnchor, {
+    level: [2, 3],
+    slugify: slugifyHeading,
+    permalink: markdownItAnchor.permalink.linkInsideHeader({
+      symbol: "#",
+      placement: "after",
+      class: "heading-anchor",
+      ariaHidden: true,
+    }),
   });
+
+  for (const [kind, icon] of Object.entries(CALLOUTS)) {
+    md.use(markdownItContainer, kind, {
+      render(tokens, idx, _options, env) {
+        if (tokens[idx].nesting !== 1) return "</aside>\n";
+        const lang = env?.lang || "ar";
+        const title = tokens[idx].info.trim().slice(kind.length).trim() || i18n[lang].notes[kind];
+        return `<aside class="callout callout-${kind}"><p class="callout-title">${renderIcon(icon)}<span>${md.renderInline(title)}</span></p>\n`;
+      },
+    });
+  }
+
+  // Wrap every fenced code block in a labelled frame with a copy button (enabled by main.js).
+  const renderFence = md.renderer.rules.fence;
+  md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+    const lang = tokens[idx].info.trim().split(/\s+/)[0] || "text";
+    const label = CODE_LANGUAGES[lang] || lang;
+    const copy = i18n[env?.lang || "ar"].code.copy;
+    return `<figure class="code-block" dir="ltr">
+<figcaption class="code-bar"><span class="code-lang">${escapeAttr(label)}</span><button type="button" class="copy-btn" data-copy hidden>${renderIcon("copy")}${renderIcon("check")}<span class="copy-label">${copy}</span></button></figcaption>
+${renderFence(tokens, idx, options, env, self)}</figure>\n`;
+  };
+
   eleventyConfig.setLibrary("md", md);
 
   // Files served as-is: src/static/* goes to the site root, src/assets/* to /assets/.
   eleventyConfig.addPassthroughCopy({ "src/static": "/" });
   eleventyConfig.addPassthroughCopy("src/assets");
 
+  eleventyConfig.addShortcode("icon", (name, className) => renderIcon(name, className));
+  eleventyConfig.addShortcode("tagIcon", (tag) => renderIcon(topics[tag]?.icon || "hash"));
+
   // ---- Collections ----
-  eleventyConfig.addCollection("posts", (api) =>
-    api.getFilteredByGlob(POSTS_GLOB).sort(byDateDesc)
-  );
+  eleventyConfig.addCollection("posts", (api) => api.getFilteredByGlob(POSTS_GLOB).sort(byDateDesc));
 
   // One entry per language + tag, used to build /tags/<tag>/ pages.
   eleventyConfig.addCollection("tagPages", (api) => {
@@ -46,7 +109,7 @@ export default function (eleventyConfig) {
     }
     return [...pages.values()]
       .map((tagPage) => ({ ...tagPage, posts: tagPage.posts.sort(byDateDesc) }))
-      .sort((a, b) => a.tag.localeCompare(b.tag));
+      .sort((a, b) => b.posts.length - a.posts.length || a.tag.localeCompare(b.tag));
   });
 
   // ---- Filters ----
@@ -55,6 +118,16 @@ export default function (eleventyConfig) {
   );
   eleventyConfig.addFilter("limit", (items = [], count) => items.slice(0, count));
 
+  eleventyConfig.addFilter("groupByYear", (items = []) => {
+    const groups = [];
+    for (const item of items) {
+      const year = new Date(item.date).getUTCFullYear();
+      if (groups.at(-1)?.year !== year) groups.push({ year, items: [] });
+      groups.at(-1).items.push(item);
+    }
+    return groups;
+  });
+
   // URL of the page with the same translationKey in another language, or null.
   eleventyConfig.addFilter("translationUrl", (items = [], key, lang) => {
     if (!key) return null;
@@ -62,22 +135,34 @@ export default function (eleventyConfig) {
     return match ? match.url : null;
   });
 
-  eleventyConfig.addFilter("tagUrl", function (tag, lang) {
+  eleventyConfig.addFilter("tagUrl", (tag, lang) => {
     const slugify = eleventyConfig.getFilter("slugify");
     return `${site.languages[lang].prefix}/tags/${slugify(tag)}/`;
   });
+  eleventyConfig.addFilter("topicName", (tag, lang) => topics[tag]?.[lang]?.name || tag);
+  eleventyConfig.addFilter("topicDescription", (tag, lang) => topics[tag]?.[lang]?.description || "");
+  eleventyConfig.addFilter("topicIcon", (tag) => topics[tag]?.icon || "hash");
 
   eleventyConfig.addFilter("isoDate", (date) => new Date(date).toISOString().slice(0, 10));
-  eleventyConfig.addFilter("readableDate", (date, lang) =>
-    new Intl.DateTimeFormat(site.languages[lang].locale, { dateStyle: "long", timeZone: "UTC" }).format(
-      new Date(date)
-    )
+  eleventyConfig.addFilter("readableDate", (date, lang, style = "long") =>
+    new Intl.DateTimeFormat(site.languages[lang].locale, { dateStyle: style, timeZone: "UTC" }).format(new Date(date))
   );
 
   eleventyConfig.addFilter("readingMinutes", (html = "") => {
     const words = String(html).replace(/<[^>]*>/g, " ").split(/\s+/).filter(Boolean).length;
     return Math.max(1, Math.round(words / 200));
   });
+
+  // Table of contents: the h2 headings of a rendered post.
+  eleventyConfig.addFilter("toc", (html = "") =>
+    [...String(html).matchAll(/<h2 id="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g)].map(([, id, inner]) => ({
+      id,
+      text: inner
+        .replace(/<a class="heading-anchor"[\s\S]*?<\/a>/g, "")
+        .replace(/<[^>]*>/g, "")
+        .trim(),
+    }))
+  );
 
   return {
     dir: {

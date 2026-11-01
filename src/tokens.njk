@@ -1,0 +1,79 @@
+---
+# Generated from src/_data/brand.js — edit the data, not this output.
+permalink: /assets/css/tokens.css
+eleventyExcludeFromCollections: true
+---
+{%- macro palette(colors) -%}
+    --color-bg: {{ colors.bg }};
+    --color-surface: {{ colors.surface }};
+    --color-sunken: {{ colors.sunken }};
+    --color-ink: {{ colors.ink }};
+    --color-muted: {{ colors.muted }};
+    --color-faint: {{ colors.faint }};
+    --color-line: {{ colors.line }};
+    --color-line-strong: {{ colors.lineStrong }};
+    --color-accent: {{ colors.accent }};
+    --color-accent-ink: {{ colors.accentInk }};
+    --color-accent-soft: {{ colors.accentSoft }};
+    --color-warn: {{ colors.warn }};
+    --color-warn-soft: {{ colors.warnSoft }};
+    --color-danger: {{ colors.danger }};
+    --color-danger-soft: {{ colors.dangerSoft }};
+{%- endmacro -%}
+/* {{ brand.name }} design tokens — generated from src/_data/brand.js */
+:root {
+    color-scheme: light;
+{{ palette(brand.colors.light) }}
+
+    --code-bg: {{ brand.code.bg }};
+    --code-bar: {{ brand.code.bar }};
+    --code-line: {{ brand.code.line }};
+    --code-ink: {{ brand.code.ink }};
+    --code-muted: {{ brand.code.muted }};
+    --code-accent: {{ brand.code.accent }};
+    --code-danger: {{ brand.code.danger }};
+    --code-comment: {{ brand.code.comment }};
+    --code-keyword: {{ brand.code.keyword }};
+    --code-string: {{ brand.code.string }};
+    --code-number: {{ brand.code.number }};
+    --code-function: {{ brand.code.function }};
+    --code-variable: {{ brand.code.variable }};
+    --code-operator: {{ brand.code.operator }};
+
+    --font-sans: {{ brand.fonts.sans | safe }};
+    --font-mono: {{ brand.fonts.mono | safe }};
+
+    --radius-sm: {{ brand.radius.sm }};
+    --radius-md: {{ brand.radius.md }};
+    --radius-lg: {{ brand.radius.lg }};
+
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-snappy: var(--ease-out);
+    --ease-soft: var(--ease-out);
+    --ease-gentle: var(--ease-out);
+    --dur-snappy: {{ brand.motion.snappy.duration }}ms;
+    --dur-soft: {{ brand.motion.soft.duration }}ms;
+    --dur-gentle: {{ brand.motion.gentle.duration }}ms;
+}
+
+/* Spring easings, sampled from closed-form spring responses. */
+@supports (transition-timing-function: linear(0, 1)) {
+    :root {
+        --ease-snappy: {{ brand.motion.snappy.easing }};
+        --ease-soft: {{ brand.motion.soft.easing }};
+        --ease-gentle: {{ brand.motion.gentle.easing }};
+    }
+}
+
+/* Dark: follows the system unless the reader picked a theme with the toggle. */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        color-scheme: dark;
+{{ palette(brand.colors.dark) }}
+    }
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+{{ palette(brand.colors.dark) }}
+}

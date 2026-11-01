@@ -1,0 +1,17 @@
+{#- One article in a list. Expects `post`, `lang` and `t` in scope. -#}
+<li class="post-row" data-search="{{ (post.data.title + ' ' + (post.data.description or '') + ' ' + (post.data.tags or []) | join(' ')) | lower }}">
+  <time class="post-row-date" datetime="{{ post.date | isoDate }}">{{ post.date | readableDate(lang, "long" if lang == "ar" else "medium") }}</time>
+  <div class="post-row-body">
+    <h3 class="post-row-title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+    {%- if post.data.description %}
+    <p class="post-row-text">{{ post.data.description }}</p>
+    {%- endif %}
+    <p class="post-row-meta">
+      {%- for tag in post.data.tags or [] %}
+      <span class="topic-label">{{ tag | topicName(lang) }}</span>
+      {%- endfor %}
+      <span class="post-row-time">{% icon "clock" %}{{ t.readingTime(post.content | readingMinutes) }}</span>
+    </p>
+  </div>
+  <span class="post-row-arrow" aria-hidden="true">{% icon "arrow" %}</span>
+</li>

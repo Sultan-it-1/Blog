@@ -1,10 +1,45 @@
+{%- set footerTopics = collections.tagPages | where("lang", lang) | limit(6) -%}
 <footer class="site-footer">
-  <div class="container">
-    <p>© {{ site.year }} {{ t.siteName }}. {{ t.rights }}</p>
-    <p class="footer-links">
-      <a href="{{ langInfo.prefix }}/feed.xml">RSS</a>
-      <span aria-hidden="true">·</span>
-      <a href="{{ site.author.website }}" target="_blank" rel="noopener">sultanops.com</a>
-    </p>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="{{ langInfo.prefix }}/" class="brand">
+        {% include "partials/logo-mark.njk" %}
+        <span class="brand-word">{{ t.siteName }}</span>
+      </a>
+      <p>{{ t.tagline }}</p>
+    </div>
+
+    <nav class="footer-col" aria-label="{{ t.footer.explore }}">
+      <h2>{{ t.footer.explore }}</h2>
+      <ul>
+        {%- for item in t.nav %}
+        <li><a href="{{ langInfo.prefix }}{{ item.path }}">{{ item.label }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+
+    {%- if footerTopics.length %}
+    <nav class="footer-col" aria-label="{{ t.footer.topics }}">
+      <h2>{{ t.footer.topics }}</h2>
+      <ul>
+        {%- for topic in footerTopics %}
+        <li><a href="{{ topic.tag | tagUrl(lang) }}">{{ topic.tag | topicName(lang) }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    {%- endif %}
+
+    <div class="footer-col">
+      <h2>{{ t.footer.follow }}</h2>
+      <ul>
+        <li><a href="{{ langInfo.prefix }}/feed.xml">{% icon "rss" %}{{ t.footer.rss }}</a></li>
+        <li><a href="{{ site.author.website }}" target="_blank" rel="noopener">{% icon "external" %}{{ t.footer.website }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {{ site.year }} {{ site.author.name[lang] }}. {{ t.rights }}</p>
+    <p>{{ t.footer.builtWith }}</p>
   </div>
 </footer>

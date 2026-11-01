@@ -5,7 +5,8 @@
   "description": "مدونة تقنية — blog.sultanops.com",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "brand-assets": "node scripts/brand-assets.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -14,7 +15,9 @@
     "@11ty/eleventy": "^3.1.7",
     "@11ty/eleventy-plugin-rss": "^3.1.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "@resvg/resvg-js": "^2.6.2",
     "markdown-it": "^15.0.3",
+    "markdown-it-anchor": "^10.0.0",
     "markdown-it-container": "^4.0.0"
   }
 }

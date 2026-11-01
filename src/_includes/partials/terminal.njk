@@ -1,0 +1,13 @@
+{#- Decorative terminal on the home page. The markup is the finished session; main.js replays it. -#}
+<figure class="terminal" dir="ltr" aria-hidden="true" data-terminal>
+  <div class="terminal-bar">
+    <span class="terminal-dots"><i></i><i></i><i></i></span>
+    <span class="terminal-title">{{ terminal.title }}</span>
+  </div>
+  <pre class="terminal-body" data-terminal-body>
+    {%- for line in terminal.lines -%}
+      {%- if line.cmd -%}<span class="t-prompt">$</span> {{ line.cmd }}{%- else -%}<span class="t-out{% if line.tone %} t-{{ line.tone }}{% endif %}">{{ line.out }}</span>{%- endif %}
+{% endfor -%}
+<span class="t-prompt">$</span> <span class="t-caret"></span></pre>
+  <script type="application/json" data-terminal-script>{{ terminal.lines | dump | safe }}</script>
+</figure>

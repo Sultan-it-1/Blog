@@ -1,59 +1,98 @@
 ---
 layout: layouts/base.njk
+bodyClass: page-post
 ---
 {%- set t = i18n[lang] -%}
 {%- set prefix = site.languages[lang].prefix -%}
 {%- set langPosts = collections.posts | where("data.lang", lang) -%}
 {%- set newer = langPosts | getPreviousCollectionItem(page) -%}
 {%- set older = langPosts | getNextCollectionItem(page) -%}
+{%- set toc = content | toc -%}
+{%- set hasToc = toc.length > 2 -%}
 
-<div class="container narrow">
-  <a href="{{ prefix }}/blog/" class="back-link">{{ t.post.back }}</a>
+{%- macro tocList(items) -%}
+<ol class="toc-list{% if numbered %} is-numbered{% endif %}">
+  {%- for item in items %}
+  <li><a href="#{{ item.id }}">{{ item.text }}</a></li>
+  {%- endfor %}
+</ol>
+{%- endmacro -%}
 
-  <article class="card post">
-    <header class="post-header">
-      <h1>{{ title }}</h1>
-      <p class="post-meta">
-        <time datetime="{{ page.date | isoDate }}">{{ page.date | readableDate(lang) }}</time>
-        {%- if updated %}
-        <span aria-hidden="true">·</span>
-        {{ t.post.updated }} <time datetime="{{ updated | isoDate }}">{{ updated | readableDate(lang) }}</time>
-        {%- endif %}
-        <span aria-hidden="true">·</span>
-        {{ t.readingTime(content | readingMinutes) }}
-        <span aria-hidden="true">·</span>
-        {{ t.post.by }} {{ site.author.name[lang] }}
-      </p>
+<article class="post">
+  <header class="container post-head">
+    <nav class="breadcrumb" aria-label="{{ t.post.blog }}">
+      <a href="{{ prefix }}/blog/">{{ t.post.blog }}</a>
       {%- if tags and tags.length %}
-      <ul class="tag-list">
-        {%- for tag in tags %}
-        <li><a class="tag" href="{{ tag | tagUrl(lang) }}">#{{ tag }}</a></li>
-        {%- endfor %}
-      </ul>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="{{ tags[0] | tagUrl(lang) }}">{{ tags[0] | topicName(lang) }}</a>
       {%- endif %}
-    </header>
+    </nav>
+    <h1 class="post-title">{{ title }}</h1>
+    {%- if description %}
+    <p class="post-lead">{{ description }}</p>
+    {%- endif %}
+    <ul class="post-meta">
+      <li>{% icon "user" %}{{ site.author.name[lang] }}</li>
+      <li>{% icon "calendar" %}<time datetime="{{ page.date | isoDate }}">{{ page.date | readableDate(lang) }}</time></li>
+      {%- if updated %}
+      <li>{{ t.post.updated }} <time datetime="{{ updated | isoDate }}">{{ updated | readableDate(lang) }}</time></li>
+      {%- endif %}
+      <li>{% icon "clock" %}{{ t.readingTime(content | readingMinutes) }}</li>
+    </ul>
+  </header>
 
-    <div class="prose post-content">
-      {{ content | safe }}
+  <div class="container post-layout{% if hasToc %} has-toc{% endif %}">
+    {%- if hasToc %}
+    <aside class="post-aside">
+      <nav class="toc" aria-label="{{ t.post.toc }}" data-toc>
+        <p class="toc-title">{% icon "list" %}{{ t.post.toc }}</p>
+        {{ tocList(toc) }}
+      </nav>
+    </aside>
+    {%- endif %}
+
+    <div class="post-main">
+      {%- if hasToc %}
+      <details class="toc-inline">
+        <summary>{% icon "list" %}{{ t.post.toc }}</summary>
+        {{ tocList(toc) }}
+      </details>
+      {%- endif %}
+
+      <div class="prose{% if numbered %} is-numbered{% endif %}">
+        {{ content | safe }}
+      </div>
+
+      <footer class="post-foot">
+        {%- if tags and tags.length %}
+        <nav class="chips" aria-label="{{ t.post.topics }}">
+          <ul>
+            {%- for tag in tags %}
+            <li><a class="chip" href="{{ tag | tagUrl(lang) }}">{% tagIcon tag %}{{ tag | topicName(lang) }}</a></li>
+            {%- endfor %}
+          </ul>
+        </nav>
+        {%- endif %}
+
+        {%- if newer or older %}
+        <nav class="post-nav">
+          {%- if older %}
+          <a class="post-nav-link is-older" href="{{ older.url }}">
+            <span class="post-nav-label">{% icon "arrow", "flip-ltr" %}{{ t.post.older }}</span>
+            <span class="post-nav-title">{{ older.data.title }}</span>
+          </a>
+          {%- endif %}
+          {%- if newer %}
+          <a class="post-nav-link is-newer" href="{{ newer.url }}">
+            <span class="post-nav-label">{{ t.post.newer }}{% icon "arrow", "flip-rtl" %}</span>
+            <span class="post-nav-title">{{ newer.data.title }}</span>
+          </a>
+          {%- endif %}
+        </nav>
+        {%- endif %}
+      </footer>
     </div>
-  </article>
+  </div>
+</article>
 
-  {%- if newer or older %}
-  <nav class="post-nav">
-    {%- if newer %}
-    <a class="card post-nav-link" href="{{ newer.url }}">
-      <span class="post-nav-label">{{ t.post.newer }}</span>
-      <span class="post-nav-title">{{ newer.data.title }}</span>
-    </a>
-    {%- endif %}
-    {%- if older %}
-    <a class="card post-nav-link post-nav-older" href="{{ older.url }}">
-      <span class="post-nav-label">{{ t.post.older }}</span>
-      <span class="post-nav-title">{{ older.data.title }}</span>
-    </a>
-    {%- endif %}
-  </nav>
-  {%- endif %}
-
-  <p class="center"><a href="{{ prefix }}/blog/" class="btn">{{ t.post.backToBlog }}</a></p>
-</div>
+<button type="button" class="back-to-top icon-btn" aria-label="{{ t.backToTop }}" title="{{ t.backToTop }}" data-back-to-top hidden>{% icon "arrow-up" %}</button>
