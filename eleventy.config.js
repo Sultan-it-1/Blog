@@ -153,14 +153,24 @@ ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
     return Math.max(1, Math.round(words / 200));
   });
 
-  // Table of contents: the h2 headings of a rendered post.
+  // Table of contents: the h2 headings of a rendered post, as plain text
+  // (entities decoded, since Nunjucks escapes the output again).
+  const decodeEntities = (text) =>
+    text
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&amp;/g, "&");
   eleventyConfig.addFilter("toc", (html = "") =>
     [...String(html).matchAll(/<h2 id="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g)].map(([, id, inner]) => ({
       id,
-      text: inner
-        .replace(/<a class="heading-anchor"[\s\S]*?<\/a>/g, "")
-        .replace(/<[^>]*>/g, "")
-        .trim(),
+      text: decodeEntities(
+        inner
+          .replace(/<a class="heading-anchor"[\s\S]*?<\/a>/g, "")
+          .replace(/<[^>]*>/g, "")
+          .trim()
+      ),
     }))
   );
 
