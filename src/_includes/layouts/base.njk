@@ -12,6 +12,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- if altUrl %}
+  {#- Language: the reader's saved choice (set by the language button), otherwise the device language —
+      Arabic devices read Arabic, every other language reads English. Runs before anything renders and only
+      redirects when this page exists in that language. Crawlers and link previews are left on the URL they asked for. #}
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem("lang"); } catch (e) {}
+      var device = ((navigator.languages && navigator.languages[0]) || navigator.language || "").toLowerCase();
+      var wanted = saved === "ar" || saved === "en" ? saved : device ? (device.indexOf("ar") === 0 ? "ar" : "en") : "{{ lang }}";
+      var crawler = navigator.webdriver || /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|preview|lighthouse/i.test(navigator.userAgent);
+      if (wanted !== "{{ lang }}" && !crawler) location.replace("{{ altUrl }}" + location.search);
+    })();
+  </script>
+  {%- endif %}
   <title>{{ pageTitle }}</title>
   <meta name="description" content="{{ pageDescription }}">
   <meta name="author" content="{{ site.author.name[lang] }}">
@@ -22,6 +37,8 @@
   {%- if altUrl %}
   <link rel="alternate" hreflang="{{ lang }}" href="{{ canonical }}">
   <link rel="alternate" hreflang="{{ otherLang }}" href="{{ altUrl | absoluteUrl(site.url) }}">
+  {#- Readers whose language is neither Arabic nor English get the English version. #}
+  <link rel="alternate" hreflang="x-default" href="{{ canonical if lang == 'en' else (altUrl | absoluteUrl(site.url)) }}">
   {%- endif %}
   <link rel="alternate" type="application/atom+xml" title="{{ t.siteName }}" href="{{ langInfo.prefix }}/feed.xml">
 
