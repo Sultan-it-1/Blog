@@ -81,7 +81,7 @@ export default function (eleventyConfig) {
     const label = CODE_LANGUAGES[lang] || lang;
     const copy = i18n[env?.lang || "ar"].code.copy;
     return `<figure class="code-block" dir="ltr">
-<figcaption class="code-bar"><span class="code-lang">${escapeAttr(label)}</span><button type="button" class="copy-btn" data-copy hidden>${renderIcon("copy")}${renderIcon("check")}<span class="copy-label">${copy}</span></button></figcaption>
+<figcaption class="code-bar"><span class="code-lang" lang="en">${escapeAttr(label)}</span><button type="button" class="copy-btn" data-copy hidden>${renderIcon("copy")}${renderIcon("check")}<span class="copy-label">${copy}</span></button></figcaption>
 ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
   };
 

@@ -1807,7 +1807,7 @@
 /* ---------- Utilities ---------- */
 @layer utilities {
     /* Arabic labels: the mono face has no Arabic glyphs, and letter-spacing breaks Arabic joining. */
-    :lang(ar) :is(.eyebrow, .topic-count, .chips-title, .toc-title, .footer-col h2, .post-nav-label, .copy-btn, .post-row-date) {
+    :lang(ar) :is(.eyebrow, .topic-count, .chips-title, .toc-title, .footer-col h2, .post-nav-label, .copy-btn, .post-row-date, .code-lang) {
         font-family: var(--font-sans);
         letter-spacing: 0;
         text-transform: none;

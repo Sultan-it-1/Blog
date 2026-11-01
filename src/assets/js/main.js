@@ -171,8 +171,7 @@
     const copiedLabel = body.dataset.copied || 'Copied';
     const failedLabel = body.dataset.copyFailed || 'Copy failed';
 
-    function copyText(text) {
-        if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    function legacyCopy(text) {
         return new Promise((resolve, reject) => {
             const area = document.createElement('textarea');
             area.value = text;
@@ -184,6 +183,14 @@
             area.remove();
             ok ? resolve() : reject(new Error('execCommand copy failed'));
         });
+    }
+
+    // The Clipboard API can be denied (embedded browsers, permissions); fall back to the older method then.
+    function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+        }
+        return legacyCopy(text);
     }
 
     document.querySelectorAll('[data-copy]').forEach((button) => {

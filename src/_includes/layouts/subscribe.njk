@@ -1,0 +1,50 @@
+---
+layout: layouts/base.njk
+---
+{#- "Follow via RSS": explains the feed and gives its URL with a copy button. The feed itself stays at /feed.xml. -#}
+{%- set t = i18n[lang] -%}
+{%- set prefix = site.languages[lang].prefix -%}
+{%- set otherLang = "en" if lang == "ar" else "ar" -%}
+{%- set feedUrl = (prefix + "/feed.xml") | absoluteUrl(site.url) -%}
+{%- set otherFeedUrl = (site.languages[otherLang].prefix + "/feed.xml") | absoluteUrl(site.url) -%}
+{%- set latest = collections.posts | where("data.lang", lang) | limit(5) -%}
+
+<div class="container">
+  <header class="page-head topic-head">
+    <span class="topic-icon topic-icon-lg">{% icon "rss" %}</span>
+    <p class="eyebrow" lang="en" dir="ltr">RSS · Atom</p>
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-lead">{{ description }}</p>
+  </header>
+
+  <div class="prose page-prose">
+    <p>{{ t.subscribe.what }}</p>
+
+    <figure class="code-block" dir="ltr">
+      <figcaption class="code-bar"><span class="code-lang">{{ t.subscribe.feedLabel }}</span><button type="button" class="copy-btn" data-copy hidden>{% icon "copy" %}{% icon "check" %}<span class="copy-label">{{ t.code.copy }}</span></button></figcaption>
+      <pre><code>{{ feedUrl }}</code></pre>
+    </figure>
+
+    <h2>{{ t.subscribe.stepsTitle }}</h2>
+    <ol>
+      {%- for step in t.subscribe.steps %}
+      <li>{{ step }}</li>
+      {%- endfor %}
+    </ol>
+
+    <p>{{ t.subscribe.otherFeed }} <a href="{{ otherFeedUrl }}" dir="ltr">{{ otherFeedUrl | replace("https://", "") }}</a></p>
+  </div>
+
+  {%- if latest.length %}
+  <section class="section">
+    <header class="section-head">
+      <h2 class="section-title">{{ t.subscribe.latest }}</h2>
+    </header>
+    <ol class="post-list">
+      {%- for post in latest %}
+      {% include "partials/post-row.njk" %}
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endif %}
+</div>

@@ -89,11 +89,24 @@ export default {
       failed: "تعذّر النسخ",
     },
 
+    subscribe: {
+      what: "RSS طريقة بسيطة لمتابعة المواقع: بدل ما تزور المدونة كل مرة، يوصلك كل مقال جديد في تطبيق واحد تقرأ منه كل اللي تتابعه.",
+      feedLabel: "رابط الخلاصة",
+      stepsTitle: "كيف تشترك",
+      steps: [
+        "انسخ رابط الخلاصة من فوق.",
+        "افتح تطبيق قراءة الخلاصات اللي تستخدمه، مثل Feedly أو Inoreader أو NetNewsWire.",
+        "أضف الرابط كاشتراك جديد، وبيوصلك كل مقال جديد تلقائياً.",
+      ],
+      otherFeed: "تبي المقالات بالإنجليزي؟ هذي الخلاصة الإنجليزية:",
+      latest: "آخر ما نُشر",
+    },
+
     footer: {
       explore: "تصفّح",
       topics: "المواضيع",
       follow: "تابع",
-      rss: "خلاصة RSS",
+      rss: "تابع عبر RSS",
       website: "الموقع الشخصي",
       builtWith: "مبنية بـ Eleventy ومنشورة على GitHub Pages",
     },
@@ -180,11 +193,24 @@ export default {
       failed: "Copy failed",
     },
 
+    subscribe: {
+      what: "RSS is a simple way to follow sites: instead of checking the blog for updates, every new article arrives in one app where you read everything you follow.",
+      feedLabel: "Feed URL",
+      stepsTitle: "How to subscribe",
+      steps: [
+        "Copy the feed URL above.",
+        "Open your feed reader, such as Feedly, Inoreader or NetNewsWire.",
+        "Add the URL as a new subscription, and every new article will arrive automatically.",
+      ],
+      otherFeed: "Prefer Arabic? Here is the Arabic feed:",
+      latest: "Recently published",
+    },
+
     footer: {
       explore: "Explore",
       topics: "Topics",
       follow: "Follow",
-      rss: "RSS feed",
+      rss: "Follow via RSS",
       website: "Personal website",
       builtWith: "Built with Eleventy, hosted on GitHub Pages",
     },
