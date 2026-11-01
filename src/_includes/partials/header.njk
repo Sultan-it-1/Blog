@@ -18,7 +18,7 @@
 
     <div class="header-actions">
       <a class="icon-btn" href="{{ langInfo.prefix }}/blog/#search" aria-label="{{ t.search }}" title="{{ t.search }}">{% icon "search" %}</a>
-      <a class="icon-btn lang-btn" href="{{ altUrl or (site.languages[otherLang].prefix + '/') }}" hreflang="{{ otherLang }}" lang="{{ otherLang }}" title="{{ t.switchLanguage }}" data-lang-switch="{{ otherLang }}">
+      <a class="icon-btn lang-btn" href="{{ altUrl or (site.languages[otherLang].prefix + '/') }}?lang={{ otherLang }}" hreflang="{{ otherLang }}" lang="{{ otherLang }}" title="{{ t.switchLanguage }}" rel="nofollow">
         <span class="lang-code">{{ "ع" if otherLang == "ar" else "EN" }}</span>
         <span class="visually-hidden">{{ t.switchLanguage }}</span>
       </a>

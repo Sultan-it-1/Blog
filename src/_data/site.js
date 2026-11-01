@@ -3,6 +3,8 @@ export default {
   url: "https://blog.sultanops.com",
   defaultImage: "/assets/images/og-default.png",
   year: new Date().getFullYear(),
+  // Appended to CSS/JS URLs so every deploy reaches browsers that cached the previous files.
+  version: (process.env.GITHUB_SHA || Date.now().toString(36)).slice(0, 8),
 
   author: {
     name: { ar: "سلطان عايض", en: "Sultan Ayidh" },

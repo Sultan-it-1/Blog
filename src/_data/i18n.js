@@ -108,7 +108,6 @@ export default {
       follow: "تابع",
       rss: "تابع عبر RSS",
       website: "الموقع الشخصي",
-      builtWith: "مبنية بـ Eleventy ومنشورة على GitHub Pages",
     },
 
     notFound: {
@@ -212,7 +211,6 @@ export default {
       follow: "Follow",
       rss: "Follow via RSS",
       website: "Personal website",
-      builtWith: "Built with Eleventy, hosted on GitHub Pages",
     },
 
     notFound: {

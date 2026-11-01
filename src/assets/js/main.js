@@ -20,17 +20,6 @@
         });
     });
 
-    // ---- Language: an explicit choice overrides the device language from now on (see base.njk) ----
-    document.querySelectorAll('[data-lang-switch]').forEach((link) => {
-        link.addEventListener('click', () => {
-            try {
-                localStorage.setItem('lang', link.dataset.langSwitch);
-            } catch (e) {
-                // Storage blocked: the device language keeps applying.
-            }
-        });
-    });
-
     // ---- Navigation indicator ----
     // The pill's leading edge travels on a snappy spring and its trailing edge on a softer one,
     // so it stretches towards its target and settles (see .nav-indicator in main.css).

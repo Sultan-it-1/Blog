@@ -12,21 +12,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {%- if altUrl %}
-  {#- Language: the reader's saved choice (set by the language button), otherwise the device language —
-      Arabic devices read Arabic, every other language reads English. Runs before anything renders and only
-      redirects when this page exists in that language. Crawlers and link previews are left on the URL they asked for. #}
+  {#- Language: the reader's choice, otherwise the device language — Arabic devices read Arabic, every other
+      language reads English. The language button links with ?lang=xx; this page saves that choice itself and
+      tidies the URL, so it never depends on a separately cached script. Runs before anything renders, redirects
+      only when this page exists in the wanted language, and leaves crawlers and link previews where they are. #}
   <script>
     (function () {
-      var saved = null;
-      try { saved = localStorage.getItem("lang"); } catch (e) {}
+      var page = "{{ lang }}", alt = {{ (altUrl | dump | safe) if altUrl else "null" }}, saved = null;
+      var params = new URLSearchParams(location.search), chosen = params.get("lang");
+      if (chosen === "ar" || chosen === "en") {
+        saved = chosen;
+        try { localStorage.setItem("lang", saved); } catch (e) {}
+        params.delete("lang");
+        var query = params.toString();
+        history.replaceState(null, "", location.pathname + (query ? "?" + query : "") + location.hash);
+      } else {
+        try { saved = localStorage.getItem("lang"); } catch (e) {}
+      }
+      if (!alt) return;
       var device = ((navigator.languages && navigator.languages[0]) || navigator.language || "").toLowerCase();
-      var wanted = saved === "ar" || saved === "en" ? saved : device ? (device.indexOf("ar") === 0 ? "ar" : "en") : "{{ lang }}";
+      var wanted = saved === "ar" || saved === "en" ? saved : device ? (device.indexOf("ar") === 0 ? "ar" : "en") : page;
       var crawler = navigator.webdriver || /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|preview|lighthouse/i.test(navigator.userAgent);
-      if (wanted !== "{{ lang }}" && !crawler) location.replace("{{ altUrl }}" + location.search);
+      if (wanted !== page && !crawler) location.replace(alt + location.search);
     })();
   </script>
-  {%- endif %}
   <title>{{ pageTitle }}</title>
   <meta name="description" content="{{ pageDescription }}">
   <meta name="author" content="{{ site.author.name[lang] }}">
@@ -67,9 +76,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="{{ brand.fonts.googleFontsUrl }}">
-  <link rel="stylesheet" href="/assets/css/tokens.css">
-  <link rel="stylesheet" href="/assets/css/main.css">
-  <script src="/assets/js/main.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/tokens.css?v={{ site.version }}">
+  <link rel="stylesheet" href="/assets/css/main.css?v={{ site.version }}">
+  <script src="/assets/js/main.js?v={{ site.version }}" defer></script>
 </head>
 <body class="{{ bodyClass }}" data-copied="{{ t.code.copied }}" data-copy-failed="{{ t.code.failed }}">
   <a class="skip-link" href="#main">{{ t.skip }}</a>
