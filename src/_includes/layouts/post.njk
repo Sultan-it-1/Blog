@@ -19,7 +19,7 @@ bodyClass: page-post
 </ol>
 {%- endmacro -%}
 
-<article class="post">
+<article class="post" data-progress-slug="{{ page.fileSlug }}">
   <header class="container post-head">
     <nav class="breadcrumb" aria-label="{{ t.post.blog }}">
       <a href="{{ prefix }}/blog/">{{ t.post.blog }}</a>
@@ -66,7 +66,7 @@ bodyClass: page-post
     {%- if hasToc %}
     <aside class="post-aside">
       <nav class="toc" aria-label="{{ t.post.toc }}" data-toc>
-        <p class="toc-title">{% icon "list" %}{{ t.post.toc }}</p>
+        <p class="toc-title">{% icon "list" %}{{ t.post.toc }}<span class="toc-count" data-toc-count hidden></span></p>
         {{ tocList(toc) }}
       </nav>
     </aside>
@@ -75,7 +75,7 @@ bodyClass: page-post
     <div class="post-main">
       {%- if hasToc %}
       <details class="toc-inline">
-        <summary>{% icon "list" %}{{ t.post.toc }}</summary>
+        <summary>{% icon "list" %}{{ t.post.toc }}<span class="toc-count" data-toc-count hidden></span></summary>
         {{ tocList(toc) }}
       </details>
       {%- endif %}

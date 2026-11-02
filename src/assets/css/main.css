@@ -1266,6 +1266,15 @@
         height: 15px;
     }
 
+    .toc-count {
+        margin-inline-start: auto;
+        color: var(--color-accent);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0;
+    }
+
     .toc-list {
         list-style: none;
         border-inline-start: 1px solid var(--color-line);
@@ -1306,6 +1315,21 @@
         background: var(--color-accent);
         transform: scaleY(0);
         transition: transform var(--dur-snappy) var(--ease-snappy);
+    }
+
+    /* A tick takes the place of the number for what's been read. */
+    :root {
+        --mask-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+    }
+
+    .toc-list a.is-read::before {
+        content: '';
+        flex-shrink: 0;
+        width: 0.95rem;
+        height: 1.29rem;
+        background: var(--color-accent);
+        -webkit-mask: var(--mask-check) center / contain no-repeat;
+        mask: var(--mask-check) center / contain no-repeat;
     }
 
     .toc-list a:hover,
@@ -2285,6 +2309,63 @@
         background: var(--color-accent);
     }
 
+    /* Once a reader has started, the bar shows their own progress rather than what's published. */
+    .has-progress .series-progress span.is-done {
+        background: var(--color-line-strong);
+    }
+
+    .has-progress .series-progress span.is-started {
+        background: color-mix(in srgb, var(--color-accent) 45%, var(--color-line));
+    }
+
+    .has-progress .series-progress span.is-read {
+        background: var(--color-accent);
+    }
+
+    .series-status {
+        max-width: 22rem;
+        margin-top: 1.25rem;
+    }
+
+    .series-status .series-progress {
+        margin-top: 0;
+    }
+
+    .series-status-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0 1rem;
+    }
+
+    .series-status-text {
+        margin-top: 0.5rem;
+        color: var(--color-muted);
+        font-size: 0.85rem;
+    }
+
+    .series-status-row .series-status-text {
+        margin-top: 0;
+    }
+
+    .series-status-count {
+        color: var(--color-accent);
+        font-family: var(--font-mono);
+        font-weight: 600;
+    }
+
+    .series-status-reset {
+        min-height: 44px;
+        color: var(--color-faint);
+        font-size: 0.82rem;
+        cursor: pointer;
+    }
+
+    .series-status-reset:hover {
+        color: var(--color-ink);
+    }
+
     .series-label {
         color: var(--color-accent);
         font-weight: 600;
@@ -2454,6 +2535,15 @@
     .series-mini li.is-current .series-mini-num {
         color: var(--color-accent);
     }
+
+    .series-mini li.is-read .series-mini-num {
+        align-self: center;
+        height: 1rem;
+        background: var(--color-accent);
+        color: transparent;
+        -webkit-mask: var(--mask-check) center / contain no-repeat;
+        mask: var(--mask-check) center / contain no-repeat;
+    }
 }
 
 @layer pages {
@@ -2543,6 +2633,11 @@
         white-space: nowrap;
     }
 
+    .series-index-count.is-read {
+        color: var(--color-accent);
+        font-weight: 600;
+    }
+
     .series-section {
         margin-top: 3rem;
         scroll-margin-top: 88px;
@@ -2606,6 +2701,35 @@
         color: var(--color-accent-ink);
         font-family: var(--font-mono);
         font-size: 1rem;
+        font-weight: 600;
+    }
+
+    /* Once a reader has started: solid with a tick when finished, soft with the number until then. */
+    .has-progress .series-item:not(.is-read, .is-upcoming) .series-num {
+        background: var(--color-accent-soft);
+        color: var(--color-accent);
+    }
+
+    .series-item.is-read .series-num {
+        position: relative;
+        color: transparent;
+    }
+
+    .series-item.is-read .series-num::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: var(--color-accent-ink);
+        -webkit-mask: var(--mask-check) center / contain no-repeat;
+        mask: var(--mask-check) center / contain no-repeat;
+    }
+
+    .series-item-status {
+        margin-inline-start: 0.5rem;
+        color: var(--color-accent);
         font-weight: 600;
     }
 

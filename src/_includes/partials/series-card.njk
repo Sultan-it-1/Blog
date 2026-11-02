@@ -1,15 +1,16 @@
 {#- A series teaser for the home and articles pages. Expects `seriesPage`, `lang` and `t` in scope. -#}
 {%- set info = seriesInfo[seriesPage.key][lang] -%}
 {%- set total = seriesPage.total -%}
-<article class="series-card">
+<article class="series-card" data-progress-series>
   <span class="topic-icon">{% icon seriesInfo[seriesPage.key].icon %}</span>
   <div class="series-card-body">
     <p class="eyebrow">{{ t.series.eyebrow }} · {{ t.series.published(seriesPage.parts.length, total) }}</p>
     <h3 class="series-card-title"><a href="{{ seriesPage.key | seriesUrl(lang) }}">{{ info.title }}</a></h3>
     <p class="series-card-text">{{ info.description }}</p>
     <div class="series-progress" aria-hidden="true">
-      {%- for i in range(0, total) %}<span{% if i < seriesPage.parts.length %} class="is-done"{% endif %}></span>{% endfor -%}
+      {%- for i in range(0, total) %}<span{% if i < seriesPage.parts.length %} class="is-done" data-progress-part="{{ seriesPage.parts[i].fileSlug }}"{% endif %}></span>{% endfor -%}
     </div>
+    <p class="series-status-text" data-progress-status hidden>{{ t.progress.finished }} <span class="series-status-count" data-progress-count></span></p>
   </div>
   <span class="post-row-arrow" aria-hidden="true">{% icon "arrow" %}</span>
 </article>

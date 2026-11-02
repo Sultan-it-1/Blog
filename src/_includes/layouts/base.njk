@@ -80,7 +80,7 @@
   <link rel="stylesheet" href="/assets/css/main.css?v={{ site.version }}">
   <script src="/assets/js/main.js?v={{ site.version }}" defer></script>
 </head>
-<body class="{{ bodyClass }}" data-copied="{{ t.code.copied }}" data-copy-failed="{{ t.code.failed }}">
+<body class="{{ bodyClass }}" data-copied="{{ t.code.copied }}" data-copy-failed="{{ t.code.failed }}" data-progress-done="{{ t.progress.done }}" data-progress-read="{{ t.progress.read }}">
   <a class="skip-link" href="#main">{{ t.skip }}</a>
 
   {% include "partials/header.njk" %}

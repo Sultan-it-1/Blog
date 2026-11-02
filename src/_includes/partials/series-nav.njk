@@ -29,9 +29,9 @@
     <ol class="series-mini">
       {%- for item in currentSection.items %}
       {%- if item.post and item.post.url == page.url %}
-      <li class="is-current"><span class="series-mini-num">{{ item.n }}</span><span aria-current="page">{{ item.title }}</span></li>
+      <li class="is-current" data-progress-part="{{ item.post.fileSlug }}"><span class="series-mini-num">{{ item.n }}</span><span aria-current="page">{{ item.title }}</span><span class="visually-hidden" data-progress-label hidden></span></li>
       {%- elif item.post %}
-      <li><span class="series-mini-num">{{ item.n }}</span><a href="{{ item.post.url }}">{{ item.title }}</a></li>
+      <li data-progress-part="{{ item.post.fileSlug }}"><span class="series-mini-num">{{ item.n }}</span><a href="{{ item.post.url }}">{{ item.title }}</a><span class="visually-hidden" data-progress-label hidden></span></li>
       {%- else %}
       <li class="is-upcoming"><span class="series-mini-num">{{ item.n }}</span><span>{{ item.title }}</span></li>
       {%- endif %}

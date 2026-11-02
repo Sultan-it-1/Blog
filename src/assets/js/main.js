@@ -156,6 +156,147 @@
         headings.forEach((heading) => observer.observe(heading));
     }
 
+    // ---- Reading progress: ticks for the sections and series parts this reader has finished ----
+    // Kept in this browser by post file name, so both languages of a post share it.
+    const progressKey = 'reading-progress';
+    const loadProgress = () => {
+        try {
+            return JSON.parse(localStorage.getItem(progressKey)) || {};
+        } catch (e) {
+            return {}; // Storage blocked or damaged: start with none.
+        }
+    };
+    const saveProgress = (progress) => {
+        try {
+            localStorage.setItem(progressKey, JSON.stringify(progress));
+        } catch (e) {
+            // Storage blocked: the ticks last for this page only.
+        }
+    };
+    const isFinished = (entry) => entry.read.length >= entry.total;
+
+    const resumeLink = document.querySelector('[data-progress-resume]');
+    const resumeStart = resumeLink && { href: resumeLink.href, text: resumeLink.firstChild.textContent };
+
+    const showParts = () => {
+        const { parts = {}, last } = loadProgress();
+        document.querySelectorAll('[data-progress-part]').forEach((element) => {
+            const entry = parts[element.dataset.progressPart];
+            element.classList.toggle('is-read', Boolean(entry) && isFinished(entry));
+            element.classList.toggle('is-started', Boolean(entry) && !isFinished(entry));
+            const label = element.querySelector('[data-progress-label]');
+            if (label) {
+                label.hidden = !entry;
+                if (entry) label.textContent = isFinished(entry) ? body.dataset.progressDone : `${body.dataset.progressRead} ${entry.read.length}/${entry.total}`;
+            }
+        });
+
+        // A series card, or the series page itself.
+        document.querySelectorAll('[data-progress-series]').forEach((series) => {
+            const bar = [...series.querySelectorAll('.series-progress [data-progress-part]')];
+            const started = bar.some((part) => part.matches('.is-read, .is-started'));
+            series.classList.toggle('has-progress', started);
+            series.querySelector('[data-progress-status]').hidden = !started;
+            series.querySelector('[data-progress-count]').textContent = `${bar.filter((part) => part.matches('.is-read')).length}/${bar.length}`;
+        });
+
+        document.querySelectorAll('.series-section').forEach((section) => {
+            const rows = section.querySelectorAll('[data-progress-part]');
+            const finished = section.querySelectorAll('[data-progress-part].is-read').length;
+            const count = document.querySelector(`a[href="#${section.id}"] .series-index-count`);
+            if (!count) return;
+            count.textContent = `${finished}/${rows.length}`;
+            count.classList.toggle('is-read', rows.length > 0 && finished === rows.length);
+        });
+
+        // Carry on from the part read last, or the first one after it that isn't finished.
+        if (resumeLink) {
+            const rows = [...document.querySelectorAll('.series-item[data-progress-part]')];
+            const from = Math.max(rows.findIndex((row) => row.dataset.progressPart === last), 0);
+            const next = [...rows.slice(from), ...rows].find((row) => !row.matches('.is-read'));
+            const started = rows.some((row) => row.matches('.is-read, .is-started'));
+            resumeLink.href = started && next ? next.querySelector('a').href : resumeStart.href;
+            resumeLink.firstChild.textContent = started && next ? resumeLink.dataset.resumeLabel.replace('{n}', next.dataset.partN) : resumeStart.text;
+        }
+    };
+
+    document.querySelector('[data-progress-reset]')?.addEventListener('click', (event) => {
+        if (!window.confirm(event.currentTarget.dataset.confirm)) return;
+        const progress = loadProgress();
+        document.querySelectorAll('.series-item[data-progress-part]').forEach((row) => {
+            if (progress.parts) delete progress.parts[row.dataset.progressPart];
+        });
+        saveProgress(progress);
+        showParts();
+    });
+
+    // Coming back to a page from the browser's cache skips the script, so refresh the ticks.
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) showParts();
+    });
+
+    const progressPost = document.querySelector('[data-progress-slug]');
+    if (progressPost) {
+        // A section counts once it has held the middle of the screen a moment and its end has been
+        // on screen, so scrolling straight past it or jumping from the contents list doesn't tick it.
+        const secondsToRead = 2;
+        const tickSeconds = 0.5;
+        const slug = progressPost.dataset.progressSlug;
+        const prose = progressPost.querySelector('[data-highlightable]');
+        const sections = [...prose.querySelectorAll('h2[id]')];
+        const read = new Set((loadProgress().parts?.[slug]?.read || []).filter((index) => index < sections.length));
+        const seconds = sections.map(() => 0);
+
+        const showSections = () => {
+            progressPost.querySelectorAll('.toc-list').forEach((list) => {
+                list.querySelectorAll('a').forEach((link, index) => {
+                    if (!read.has(index) || link.classList.contains('is-read')) return;
+                    link.classList.add('is-read');
+                    const label = document.createElement('span');
+                    label.className = 'visually-hidden';
+                    label.textContent = body.dataset.progressDone;
+                    link.append(label);
+                });
+            });
+            progressPost.querySelectorAll('[data-toc-count]').forEach((count) => {
+                count.hidden = !read.size;
+                count.textContent = `${read.size}/${sections.length}`;
+            });
+        };
+
+        const timer = setInterval(() => {
+            if (read.size === sections.length) {
+                clearInterval(timer);
+                return;
+            }
+            if (document.hidden) return;
+            const height = window.innerHeight;
+            const proseEnd = prose.getBoundingClientRect().bottom;
+            let changed = false;
+            sections.forEach((heading, index) => {
+                const start = heading.getBoundingClientRect().top;
+                const end = index + 1 < sections.length ? sections[index + 1].getBoundingClientRect().top : proseEnd;
+                if (start < height * 0.7 && end > height * 0.15) seconds[index] += tickSeconds;
+                if (!read.has(index) && seconds[index] >= secondsToRead && end >= 0 && end <= height) {
+                    read.add(index);
+                    changed = true;
+                }
+            });
+            if (!changed) return;
+
+            const progress = loadProgress();
+            progress.parts = { ...progress.parts, [slug]: { read: [...read].sort((a, b) => a - b), total: sections.length } };
+            progress.last = slug;
+            saveProgress(progress);
+            showSections();
+            showParts();
+        }, tickSeconds * 1000);
+
+        showSections();
+    }
+
+    showParts();
+
     // ---- Code blocks: copy button (the markup is rendered at build time) ----
     const copiedLabel = body.dataset.copied || 'Copied';
     const failedLabel = body.dataset.copyFailed || 'Copy failed';

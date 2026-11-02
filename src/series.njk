@@ -17,14 +17,23 @@ eleventyComputed:
 {%- set t = i18n[lang] -%}
 {%- set parts = seriesPage.parts -%}
 
-<div class="container">
+<div class="container" data-progress-series>
   <header class="page-head topic-head">
     <span class="topic-icon topic-icon-lg">{% icon seriesInfo[seriesPage.key].icon %}</span>
     <p class="eyebrow">{{ t.series.eyebrow }} · {{ t.series.published(parts.length, seriesPage.total) }}</p>
     <h1 class="page-title">{{ title }}</h1>
     <p class="page-lead">{{ description }}</p>
+    <div class="series-status" data-progress-status hidden>
+      <div class="series-progress" aria-hidden="true">
+        {%- for part in parts %}<span class="is-done" data-progress-part="{{ part.fileSlug }}"></span>{% endfor -%}
+      </div>
+      <div class="series-status-row">
+        <p class="series-status-text">{{ t.progress.finished }} <span class="series-status-count" data-progress-count></span></p>
+        <button type="button" class="series-status-reset" data-progress-reset data-confirm="{{ t.progress.resetConfirm }}">{{ t.progress.reset }}</button>
+      </div>
+    </div>
     <div class="hero-actions">
-      <a href="{{ parts[0].url }}" class="btn btn-primary">{{ t.series.start }}{% icon "arrow", "flip-rtl" %}</a>
+      <a href="{{ parts[0].url }}" class="btn btn-primary" data-progress-resume data-resume-label="{{ t.progress.resume }}">{{ t.series.start }}{% icon "arrow", "flip-rtl" %}</a>
       {%- if seriesPage.hasQuiz %}
       <a href="{{ seriesPage.key | seriesUrl(lang) }}quiz/" class="btn">{{ t.quiz.exam.title }}</a>
       {%- endif %}
@@ -55,14 +64,14 @@ eleventyComputed:
     <ol class="series-list">
       {%- for item in section.items %}
       {%- if item.post %}
-      <li class="series-item">
+      <li class="series-item" data-progress-part="{{ item.post.fileSlug }}" data-part-n="{{ item.n }}">
         <span class="series-num">{{ item.n | pad }}</span>
         <div class="series-item-body">
           <h3 class="series-item-title"><a href="{{ item.post.url }}">{{ item.title }}</a></h3>
           {%- if item.post.data.description %}
           <p class="series-item-text">{{ item.post.data.description }}</p>
           {%- endif %}
-          <p class="series-item-meta">{% icon "clock" %}{{ t.readingTime(item.post.content | readingMinutes) }}</p>
+          <p class="series-item-meta">{% icon "clock" %}{{ t.readingTime(item.post.content | readingMinutes) }}<span class="series-item-status" data-progress-label hidden></span></p>
         </div>
         <span class="post-row-arrow" aria-hidden="true">{% icon "arrow" %}</span>
       </li>

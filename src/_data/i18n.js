@@ -108,6 +108,15 @@ export default {
       remove: "إزالة التلوين",
     },
 
+    progress: {
+      done: "مكتمل",
+      read: "المقروء",
+      finished: "الأجزاء المكتملة",
+      resume: "كمل من الجزء {n}",
+      reset: "مسح التقدم",
+      resetConfirm: "مسح تقدم القراءة في هذي السلسلة؟",
+    },
+
     quiz: {
       intro: "قبل ما تكمل، جرّب هذي الأسئلة عشان تتأكد إنك فهمت الجزء. كل سؤال موقف عملي، وبعد ما تجاوب يطلع لك الشرح.",
       number: (n, total) => `السؤال ${n} من ${total}`,
@@ -271,6 +280,15 @@ export default {
       blue: "Highlight in blue",
       pink: "Highlight in pink",
       remove: "Remove highlight",
+    },
+
+    progress: {
+      done: "Finished",
+      read: "Read",
+      finished: "Parts finished",
+      resume: "Continue with part {n}",
+      reset: "Clear progress",
+      resetConfirm: "Clear reading progress for this series?",
     },
 
     quiz: {
