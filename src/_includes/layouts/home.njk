@@ -6,6 +6,7 @@ bodyClass: page-home
 {%- set prefix = site.languages[lang].prefix -%}
 {%- set latest = collections.posts | where("data.lang", lang) | limit(5) -%}
 {%- set langTopics = collections.tagPages | where("lang", lang) -%}
+{%- set langSeries = collections.seriesPages | where("lang", lang) -%}
 
 <section class="hero">
   <div class="container hero-grid">
@@ -21,6 +22,24 @@ bodyClass: page-home
     {% include "partials/terminal.njk" %}
   </div>
 </section>
+
+{%- if langSeries.length %}
+<section class="section">
+  <div class="container">
+    <header class="section-head">
+      <div>
+        <h2 class="section-title">{{ t.series.sectionTitle }}</h2>
+        <p class="section-text">{{ t.series.sectionText }}</p>
+      </div>
+    </header>
+    <div class="series-cards">
+      {%- for seriesPage in langSeries %}
+      {% include "partials/series-card.njk" %}
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
 
 {%- if latest.length %}
 <section class="section">

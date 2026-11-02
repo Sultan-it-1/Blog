@@ -7,6 +7,9 @@
     <p class="post-row-text">{{ post.data.description }}</p>
     {%- endif %}
     <p class="post-row-meta">
+      {%- if post.data.series %}
+      <span class="series-label">{{ t.series.part(post.data.part) }} · {{ seriesInfo[post.data.series][lang].title }}</span>
+      {%- endif %}
       {%- for tag in post.data.tags or [] %}
       <span class="topic-label">{{ tag | topicName(lang) }}</span>
       {%- endfor %}

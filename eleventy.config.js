@@ -5,6 +5,7 @@ import pluginRss from "@11ty/eleventy-plugin-rss";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 
 import i18n from "./src/_data/i18n.js";
+import seriesInfo from "./src/_data/seriesInfo.js";
 import site from "./src/_data/site.js";
 import topics from "./src/_data/topics.js";
 import { renderIcon } from "./src/_includes/icons.js";
@@ -112,6 +113,22 @@ ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
       .sort((a, b) => b.posts.length - a.posts.length || a.tag.localeCompare(b.tag));
   });
 
+  // One entry per series + language that has at least one published part: /series/<key>/ pages.
+  eleventyConfig.addCollection("seriesPages", (api) => {
+    const posts = api.getFilteredByGlob(POSTS_GLOB);
+    return Object.keys(seriesInfo).flatMap((key) =>
+      Object.keys(site.languages)
+        .map((lang) => ({
+          key,
+          lang,
+          parts: posts
+            .filter((post) => post.data.series === key && post.data.lang === lang)
+            .sort((a, b) => a.data.part - b.data.part),
+        }))
+        .filter((seriesPage) => seriesPage.parts.length)
+    );
+  });
+
   // ---- Filters ----
   eleventyConfig.addFilter("where", (items = [], path, value) =>
     items.filter((item) => getPath(item, path) === value)
@@ -142,6 +159,12 @@ ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
   eleventyConfig.addFilter("topicName", (tag, lang) => topics[tag]?.[lang]?.name || tag);
   eleventyConfig.addFilter("topicDescription", (tag, lang) => topics[tag]?.[lang]?.description || "");
   eleventyConfig.addFilter("topicIcon", (tag) => topics[tag]?.icon || "hash");
+
+  eleventyConfig.addFilter("seriesUrl", (key, lang) => `${site.languages[lang].prefix}/series/${key}/`);
+  // The series page entry for a series + language, or undefined.
+  eleventyConfig.addFilter("seriesPage", (seriesPages = [], key, lang) =>
+    seriesPages.find((seriesPage) => seriesPage.key === key && seriesPage.lang === lang)
+  );
 
   eleventyConfig.addFilter("isoDate", (date) => new Date(date).toISOString().slice(0, 10));
   eleventyConfig.addFilter("readableDate", (date, lang, style = "long") =>

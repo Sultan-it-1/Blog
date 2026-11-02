@@ -6,6 +6,11 @@ export default {
     ar: { name: "AWS", description: "خدمات أمازون السحابية: الخوادم والشبكات والصلاحيات." },
     en: { name: "AWS", description: "Amazon Web Services: servers, networking and access." },
   },
+  cloud: {
+    icon: "globe",
+    ar: { name: "الحوسبة السحابية", description: "مفاهيم السحابة الأساسية: المناطق والتوفر والمسؤولية المشتركة." },
+    en: { name: "Cloud computing", description: "Core cloud concepts: regions, availability and shared responsibility." },
+  },
   ec2: {
     icon: "cpu",
     ar: { name: "EC2", description: "إنشاء الخوادم الافتراضية وإدارتها على AWS." },

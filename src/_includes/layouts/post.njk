@@ -22,11 +22,17 @@ bodyClass: page-post
   <header class="container post-head">
     <nav class="breadcrumb" aria-label="{{ t.post.blog }}">
       <a href="{{ prefix }}/blog/">{{ t.post.blog }}</a>
-      {%- if tags and tags.length %}
+      {%- if series %}
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="{{ series | seriesUrl(lang) }}">{{ seriesInfo[series][lang].title }}</a>
+      {%- elif tags and tags.length %}
       <span class="breadcrumb-sep" aria-hidden="true">/</span>
       <a href="{{ tags[0] | tagUrl(lang) }}">{{ tags[0] | topicName(lang) }}</a>
       {%- endif %}
     </nav>
+    {%- if series %}
+    <a class="series-badge" href="{{ series | seriesUrl(lang) }}">{% icon seriesInfo[series].icon %}<span>{{ t.series.partOf(part) }} <strong>{{ seriesInfo[series][lang].title }}</strong></span></a>
+    {%- endif %}
     <h1 class="post-title">{{ title }}</h1>
     {%- if description %}
     <p class="post-lead">{{ description }}</p>
@@ -64,6 +70,10 @@ bodyClass: page-post
       </div>
 
       <footer class="post-foot">
+        {%- if series %}
+        {% include "partials/series-nav.njk" %}
+        {%- endif %}
+
         {%- if tags and tags.length %}
         <nav class="chips" aria-label="{{ t.post.topics }}">
           <ul>

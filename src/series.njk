@@ -1,0 +1,59 @@
+---
+# One page per series + language: /series/<key>/ and /en/series/<key>/
+layout: layouts/base.njk
+pagination:
+  data: collections.seriesPages
+  size: 1
+  alias: seriesPage
+  addAllPagesToCollections: true
+permalink: "{{ seriesPage.key | seriesUrl(seriesPage.lang) }}"
+navKey: blog
+eleventyComputed:
+  lang: "{{ seriesPage.lang }}"
+  title: "{{ seriesInfo[seriesPage.key][seriesPage.lang].title }}"
+  description: "{{ seriesInfo[seriesPage.key][seriesPage.lang].description }}"
+  translationKey: "series:{{ seriesPage.key }}"
+---
+{%- set t = i18n[lang] -%}
+{%- set info = seriesInfo[seriesPage.key][lang] -%}
+{%- set parts = seriesPage.parts -%}
+{%- set total = parts.length + info.upcoming.length -%}
+
+<div class="container">
+  <header class="page-head topic-head">
+    <span class="topic-icon topic-icon-lg">{% icon seriesInfo[seriesPage.key].icon %}</span>
+    <p class="eyebrow">{{ t.series.eyebrow }} · {{ t.series.published(parts.length, total) }}</p>
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-lead">{{ description }}</p>
+    <div class="hero-actions">
+      <a href="{{ parts[0].url }}" class="btn btn-primary">{{ t.series.start }}{% icon "arrow", "flip-rtl" %}</a>
+    </div>
+  </header>
+
+  <h2 class="visually-hidden">{{ t.series.parts }}</h2>
+  <ol class="series-list">
+    {%- for post in parts %}
+    <li class="series-item">
+      <span class="series-num">{{ "0" + post.data.part if post.data.part < 10 else post.data.part }}</span>
+      <div class="series-item-body">
+        <h3 class="series-item-title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+        {%- if post.data.description %}
+        <p class="series-item-text">{{ post.data.description }}</p>
+        {%- endif %}
+        <p class="series-item-meta">{% icon "clock" %}{{ t.readingTime(post.content | readingMinutes) }}</p>
+      </div>
+      <span class="post-row-arrow" aria-hidden="true">{% icon "arrow" %}</span>
+    </li>
+    {%- endfor %}
+    {%- for upcoming in info.upcoming %}
+    {%- set n = parts.length + loop.index %}
+    <li class="series-item is-upcoming">
+      <span class="series-num">{{ "0" + n if n < 10 else n }}</span>
+      <div class="series-item-body">
+        <h3 class="series-item-title">{{ upcoming }}</h3>
+        <p class="series-item-meta">{{ t.series.upcoming }}</p>
+      </div>
+    </li>
+    {%- endfor %}
+  </ol>
+</div>

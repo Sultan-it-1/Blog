@@ -4,6 +4,7 @@ layout: layouts/base.njk
 {%- set t = i18n[lang] -%}
 {%- set posts = collections.posts | where("data.lang", lang) -%}
 {%- set langTags = collections.tagPages | where("lang", lang) -%}
+{%- set langSeries = collections.seriesPages | where("lang", lang) -%}
 
 <div class="container">
   <header class="page-head">
@@ -31,6 +32,16 @@ layout: layouts/base.njk
     </nav>
     {%- endif %}
   </div>
+
+  {%- if langSeries.length %}
+  <section class="blog-series" aria-label="{{ t.series.sectionTitle }}">
+    <div class="series-cards">
+      {%- for seriesPage in langSeries %}
+      {% include "partials/series-card.njk" %}
+      {%- endfor %}
+    </div>
+  </section>
+  {%- endif %}
 
   <div data-search-list>
     {%- for group in posts | groupByYear %}

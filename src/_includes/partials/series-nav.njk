@@ -1,0 +1,43 @@
+{#- The series panel at the end of a series post: next part, then every part with the current one marked.
+    Expects `series` (the key), `part`, `page`, `lang` and `t` in scope. -#}
+{%- set seriesKey = series -%}
+{%- set seriesData = collections.seriesPages | seriesPage(seriesKey, lang) -%}
+{%- set info = seriesInfo[seriesKey][lang] -%}
+{%- if seriesData %}
+{%- set parts = seriesData.parts -%}
+{%- set nextPart = parts | where("data.part", part + 1) | first -%}
+<nav class="series-panel" id="series" aria-label="{{ t.series.parts }}">
+  <div class="series-panel-head">
+    <p class="eyebrow">{{ t.series.partOf(part) }}</p>
+    <a class="series-panel-title" href="{{ seriesKey | seriesUrl(lang) }}">{{ info.title }}</a>
+  </div>
+
+  {%- if nextPart %}
+  <a class="series-next" href="{{ nextPart.url }}">
+    <span class="series-next-label">{{ t.series.next }}{% icon "arrow", "flip-rtl" %}</span>
+    <span class="series-next-title">{{ nextPart.data.title }}</span>
+  </a>
+  {%- elif info.upcoming.length %}
+  <div class="series-next is-upcoming">
+    <span class="series-next-label">{{ t.series.nextSoon }}</span>
+    <span class="series-next-title">{{ info.upcoming[0] }}</span>
+  </div>
+  {%- endif %}
+
+  <ol class="series-mini">
+    {%- for post in parts %}
+    <li{% if post.url == page.url %} class="is-current"{% endif %}>
+      <span class="series-mini-num">{{ post.data.part }}</span>
+      {%- if post.url == page.url %}
+      <span aria-current="page">{{ post.data.title }}</span>
+      {%- else %}
+      <a href="{{ post.url }}">{{ post.data.title }}</a>
+      {%- endif %}
+    </li>
+    {%- endfor %}
+    {%- for upcoming in info.upcoming | limit(3) %}
+    <li class="is-upcoming"><span class="series-mini-num">{{ parts.length + loop.index }}</span><span>{{ upcoming }}</span></li>
+    {%- endfor %}
+  </ol>
+</nav>
+{%- endif %}

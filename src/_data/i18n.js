@@ -89,6 +89,22 @@ export default {
       failed: "تعذّر النسخ",
     },
 
+    series: {
+      eyebrow: "سلسلة",
+      sectionTitle: "السلاسل التعليمية",
+      sectionText: "مقالات مرتّبة تتعلّم منها موضوع كامل من البداية، جزء بعد جزء.",
+      part: (n) => `الجزء ${n}`,
+      partOf: (n) => `الجزء ${n} من سلسلة`,
+      published: (n, total) => `${n} من ${total} أجزاء منشورة`,
+      start: "ابدأ من الجزء الأول",
+      continue: "عرض السلسلة",
+      parts: "أجزاء السلسلة",
+      upcoming: "قريباً",
+      next: "الجزء التالي",
+      nextSoon: "الجزء التالي قريباً",
+      current: "أنت هنا",
+    },
+
     subscribe: {
       what: "RSS طريقة بسيطة لمتابعة المواقع: بدل ما تزور المدونة كل مرة، يوصلك كل مقال جديد في تطبيق واحد تقرأ منه كل اللي تتابعه.",
       feedLabel: "رابط الخلاصة",
@@ -190,6 +206,22 @@ export default {
       copy: "Copy",
       copied: "Copied",
       failed: "Copy failed",
+    },
+
+    series: {
+      eyebrow: "Series",
+      sectionTitle: "Learning series",
+      sectionText: "Ordered articles that teach a whole topic from the start, one part at a time.",
+      part: (n) => `Part ${n}`,
+      partOf: (n) => `Part ${n} of`,
+      published: (n, total) => `${n} of ${total} parts published`,
+      start: "Start with part 1",
+      continue: "View the series",
+      parts: "Parts in this series",
+      upcoming: "Coming soon",
+      next: "Next part",
+      nextSoon: "Next part coming soon",
+      current: "You are here",
     },
 
     subscribe: {
