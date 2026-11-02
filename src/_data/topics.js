@@ -31,6 +31,11 @@ export default {
     ar: { name: "الأمن", description: "تأمين الخوادم: جدار الحماية وSSH والصلاحيات." },
     en: { name: "Security", description: "Hardening servers: firewalls, SSH and permissions." },
   },
+  storage: {
+    icon: "server",
+    ar: { name: "التخزين", description: "الأقراص وأنظمة الملفات والنسخ الاحتياطية على AWS." },
+    en: { name: "Storage", description: "Disks, file systems and backups on AWS." },
+  },
   vpn: {
     icon: "lock",
     ar: { name: "VPN", description: "شبكات خاصة ومشفّرة تتحكم فيها بنفسك." },

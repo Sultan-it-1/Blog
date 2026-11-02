@@ -1,43 +1,45 @@
-{#- The series panel at the end of a series post: next part, then every part with the current one marked.
+{#- The series panel at the end of a series post: the next part, then the parts of the current section.
     Expects `series` (the key), `part`, `page`, `lang` and `t` in scope. -#}
-{%- set seriesKey = series -%}
-{%- set seriesData = collections.seriesPages | seriesPage(seriesKey, lang) -%}
-{%- set info = seriesInfo[seriesKey][lang] -%}
+{%- set seriesData = collections.seriesPages | seriesPage(series, lang) -%}
 {%- if seriesData %}
-{%- set parts = seriesData.parts -%}
-{%- set nextPart = parts | where("data.part", part + 1) | first -%}
+{%- set info = seriesInfo[series][lang] -%}
+{%- set currentSection = seriesData | sectionOfPart(part) -%}
+{%- set nextItem = seriesData.items | where("n", part + 1) | first -%}
 <nav class="series-panel" id="series" aria-label="{{ t.series.parts }}">
   <div class="series-panel-head">
     <p class="eyebrow">{{ t.series.partOf(part) }}</p>
-    <a class="series-panel-title" href="{{ seriesKey | seriesUrl(lang) }}">{{ info.title }}</a>
+    <a class="series-panel-title" href="{{ series | seriesUrl(lang) }}">{{ info.title }}</a>
   </div>
 
-  {%- if nextPart %}
-  <a class="series-next" href="{{ nextPart.url }}">
+  {%- if nextItem and nextItem.post %}
+  <a class="series-next" href="{{ nextItem.post.url }}">
     <span class="series-next-label">{{ t.series.next }}{% icon "arrow", "flip-rtl" %}</span>
-    <span class="series-next-title">{{ nextPart.data.title }}</span>
+    <span class="series-next-title">{{ nextItem.title }}</span>
   </a>
-  {%- elif info.upcoming.length %}
+  {%- elif nextItem %}
   <div class="series-next is-upcoming">
     <span class="series-next-label">{{ t.series.nextSoon }}</span>
-    <span class="series-next-title">{{ info.upcoming[0] }}</span>
+    <span class="series-next-title">{{ nextItem.title }}</span>
   </div>
   {%- endif %}
 
-  <ol class="series-mini">
-    {%- for post in parts %}
-    <li{% if post.url == page.url %} class="is-current"{% endif %}>
-      <span class="series-mini-num">{{ post.data.part }}</span>
-      {%- if post.url == page.url %}
-      <span aria-current="page">{{ post.data.title }}</span>
+  {%- if currentSection %}
+  <div>
+    <p class="series-mini-title">{{ t.series.section(currentSection.number, seriesData.sections.length) }}: {{ currentSection.title }}</p>
+    <ol class="series-mini">
+      {%- for item in currentSection.items %}
+      {%- if item.post and item.post.url == page.url %}
+      <li class="is-current"><span class="series-mini-num">{{ item.n }}</span><span aria-current="page">{{ item.title }}</span></li>
+      {%- elif item.post %}
+      <li><span class="series-mini-num">{{ item.n }}</span><a href="{{ item.post.url }}">{{ item.title }}</a></li>
       {%- else %}
-      <a href="{{ post.url }}">{{ post.data.title }}</a>
+      <li class="is-upcoming"><span class="series-mini-num">{{ item.n }}</span><span>{{ item.title }}</span></li>
       {%- endif %}
-    </li>
-    {%- endfor %}
-    {%- for upcoming in info.upcoming | limit(3) %}
-    <li class="is-upcoming"><span class="series-mini-num">{{ parts.length + loop.index }}</span><span>{{ upcoming }}</span></li>
-    {%- endfor %}
-  </ol>
+      {%- endfor %}
+    </ol>
+  </div>
+  {%- endif %}
+
+  <a class="text-link" href="{{ series | seriesUrl(lang) }}">{{ t.series.allParts }}{% icon "arrow", "flip-rtl" %}</a>
 </nav>
 {%- endif %}

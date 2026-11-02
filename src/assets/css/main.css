@@ -2003,6 +2003,13 @@
         line-height: 1.5;
     }
 
+    .series-mini-title {
+        margin-bottom: 0.5rem;
+        color: var(--color-muted);
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
     .series-mini {
         display: grid;
         gap: 0.15rem;
@@ -2096,7 +2103,67 @@
         margin-block: 1.5rem 0.5rem;
     }
 
-    /* Series page: the parts in order */
+    /* Series page: jump list of sections, then the parts section by section */
+    .series-index {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(270px, 100%), 1fr));
+        gap: 0.5rem;
+        list-style: none;
+    }
+
+    .series-index a {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6rem;
+        padding: 0.65rem 0.9rem;
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-md);
+        background: var(--color-surface);
+        font-size: 0.93rem;
+        font-weight: 500;
+        line-height: 1.5;
+        transition: border-color 150ms ease;
+    }
+
+    .series-index a:hover {
+        border-color: var(--color-accent);
+    }
+
+    .series-index-num {
+        color: var(--color-accent);
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .series-index-count {
+        margin-inline-start: auto;
+        color: var(--color-faint);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+
+    .series-section {
+        margin-top: 3rem;
+        scroll-margin-top: 88px;
+    }
+
+    .series-section-title {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+
+    .series-section-num {
+        color: var(--color-accent);
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
     .series-list {
         display: grid;
         gap: 0.75rem;
@@ -2195,7 +2262,7 @@
 /* ---------- Utilities ---------- */
 @layer utilities {
     /* Arabic labels: the mono face has no Arabic glyphs, and letter-spacing breaks Arabic joining. */
-    :lang(ar) :is(.eyebrow, .topic-count, .chips-title, .toc-title, .footer-col h2, .post-nav-label, .copy-btn, .post-row-date, .code-lang) {
+    :lang(ar) :is(.eyebrow, .topic-count, .chips-title, .toc-title, .footer-col h2, .post-nav-label, .copy-btn, .post-row-date, .code-lang, .series-section-num) {
         font-family: var(--font-sans);
         letter-spacing: 0;
         text-transform: none;

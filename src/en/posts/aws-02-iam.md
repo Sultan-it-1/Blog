@@ -1,6 +1,6 @@
 ---
 title: "IAM: Who Can Do What in Your AWS Account"
-description: Part two of Learn AWS from Scratch. How to manage identities and permissions with users, groups, policies and roles, stop using the root user, and apply least privilege.
+description: How to manage identities and permissions with users, groups, policies and roles, stop using the root user, and apply least privilege.
 date: 2026-11-02
 series: aws
 part: 2
@@ -226,4 +226,4 @@ Permissions pile up over time, so review them regularly. IAM gives you tools for
 - Apply **least privilege**: start narrow and widen when needed.
 - Access keys are secret; for services, use **roles** instead.
 
-In **part three** we'll launch our first real server on **EC2** and give it an IAM role instead of keys. If you want to jump ahead, there's a hands-on guide: [How to create a server on AWS](/en/posts/aws/).
+In [**part three**](/en/posts/aws-03-ec2-first-server/) we launch our first real server on **EC2** and give it an IAM role instead of keys. If you want to jump ahead, there's a hands-on guide: [How to create a server on AWS](/en/posts/aws/).

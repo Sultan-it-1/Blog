@@ -1,6 +1,6 @@
 {#- A series teaser for the home and articles pages. Expects `seriesPage`, `lang` and `t` in scope. -#}
 {%- set info = seriesInfo[seriesPage.key][lang] -%}
-{%- set total = seriesPage.parts.length + info.upcoming.length -%}
+{%- set total = seriesPage.total -%}
 <article class="series-card">
   <span class="topic-icon">{% icon seriesInfo[seriesPage.key].icon %}</span>
   <div class="series-card-body">

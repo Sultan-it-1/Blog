@@ -118,13 +118,23 @@ ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
     const posts = api.getFilteredByGlob(POSTS_GLOB);
     return Object.keys(seriesInfo).flatMap((key) =>
       Object.keys(site.languages)
-        .map((lang) => ({
-          key,
-          lang,
-          parts: posts
+        .map((lang) => {
+          const parts = posts
             .filter((post) => post.data.series === key && post.data.lang === lang)
-            .sort((a, b) => a.data.part - b.data.part),
-        }))
+            .sort((a, b) => a.data.part - b.data.part);
+          // Part numbers run through the roadmap in order; a published post replaces its planned title.
+          let n = 0;
+          const sections = seriesInfo[key][lang].sections.map((section, index) => ({
+            number: index + 1,
+            title: section.title,
+            items: section.parts.map((planned) => {
+              n += 1;
+              const post = parts.find((part) => part.data.part === n) || null;
+              return { n, title: post ? post.data.title : planned, post };
+            }),
+          }));
+          return { key, lang, parts, sections, items: sections.flatMap((section) => section.items), total: n };
+        })
         .filter((seriesPage) => seriesPage.parts.length)
     );
   });
@@ -161,6 +171,11 @@ ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
   eleventyConfig.addFilter("topicIcon", (tag) => topics[tag]?.icon || "hash");
 
   eleventyConfig.addFilter("seriesUrl", (key, lang) => `${site.languages[lang].prefix}/series/${key}/`);
+  // The roadmap section a part belongs to.
+  eleventyConfig.addFilter("sectionOfPart", (seriesPage, part) =>
+    seriesPage?.sections.find((section) => section.items.some((item) => item.n === part))
+  );
+  eleventyConfig.addFilter("pad", (number) => String(number).padStart(2, "0"));
   // The series page entry for a series + language, or undefined.
   eleventyConfig.addFilter("seriesPage", (seriesPages = [], key, lang) =>
     seriesPages.find((seriesPage) => seriesPage.key === key && seriesPage.lang === lang)

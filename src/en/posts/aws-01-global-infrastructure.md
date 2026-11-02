@@ -1,6 +1,6 @@
 ---
 title: "What is AWS? The Global Infrastructure, from Regions to Edge Locations"
-description: Part one of Learn AWS from Scratch. What cloud computing is, how AWS is spread across the world in Regions, Availability Zones and edge locations, how to pick a Region, and who is responsible for what.
+description: What cloud computing is, how AWS is spread across the world in Regions, Availability Zones and edge locations, how to pick a Region, and who is responsible for what.
 date: 2026-11-02
 series: aws
 part: 1

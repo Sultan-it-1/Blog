@@ -15,14 +15,12 @@ eleventyComputed:
   translationKey: "series:{{ seriesPage.key }}"
 ---
 {%- set t = i18n[lang] -%}
-{%- set info = seriesInfo[seriesPage.key][lang] -%}
 {%- set parts = seriesPage.parts -%}
-{%- set total = parts.length + info.upcoming.length -%}
 
 <div class="container">
   <header class="page-head topic-head">
     <span class="topic-icon topic-icon-lg">{% icon seriesInfo[seriesPage.key].icon %}</span>
-    <p class="eyebrow">{{ t.series.eyebrow }} · {{ t.series.published(parts.length, total) }}</p>
+    <p class="eyebrow">{{ t.series.eyebrow }} · {{ t.series.published(parts.length, seriesPage.total) }}</p>
     <h1 class="page-title">{{ title }}</h1>
     <p class="page-lead">{{ description }}</p>
     <div class="hero-actions">
@@ -30,30 +28,52 @@ eleventyComputed:
     </div>
   </header>
 
-  <h2 class="visually-hidden">{{ t.series.parts }}</h2>
-  <ol class="series-list">
-    {%- for post in parts %}
-    <li class="series-item">
-      <span class="series-num">{{ "0" + post.data.part if post.data.part < 10 else post.data.part }}</span>
-      <div class="series-item-body">
-        <h3 class="series-item-title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
-        {%- if post.data.description %}
-        <p class="series-item-text">{{ post.data.description }}</p>
-        {%- endif %}
-        <p class="series-item-meta">{% icon "clock" %}{{ t.readingTime(post.content | readingMinutes) }}</p>
-      </div>
-      <span class="post-row-arrow" aria-hidden="true">{% icon "arrow" %}</span>
-    </li>
-    {%- endfor %}
-    {%- for upcoming in info.upcoming %}
-    {%- set n = parts.length + loop.index %}
-    <li class="series-item is-upcoming">
-      <span class="series-num">{{ "0" + n if n < 10 else n }}</span>
-      <div class="series-item-body">
-        <h3 class="series-item-title">{{ upcoming }}</h3>
-        <p class="series-item-meta">{{ t.series.upcoming }}</p>
-      </div>
-    </li>
-    {%- endfor %}
-  </ol>
+  <nav aria-label="{{ t.series.sectionsTitle }}">
+    <ol class="series-index">
+      {%- for section in seriesPage.sections %}
+      {%- set publishedInSection = section.items | selectattr("post") | length %}
+      <li>
+        <a href="#section-{{ section.number }}">
+          <span class="series-index-num">{{ section.number }}</span>
+          <span>{{ section.title }}</span>
+          <span class="series-index-count">{{ publishedInSection }}/{{ section.items.length }}</span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ol>
+  </nav>
+
+  {%- for section in seriesPage.sections %}
+  <section class="series-section" id="section-{{ section.number }}">
+    <h2 class="series-section-title">
+      <span class="series-section-num">{{ t.series.section(section.number, seriesPage.sections.length) }}</span>
+      <span>{{ section.title }}</span>
+    </h2>
+    <ol class="series-list">
+      {%- for item in section.items %}
+      {%- if item.post %}
+      <li class="series-item">
+        <span class="series-num">{{ item.n | pad }}</span>
+        <div class="series-item-body">
+          <h3 class="series-item-title"><a href="{{ item.post.url }}">{{ item.title }}</a></h3>
+          {%- if item.post.data.description %}
+          <p class="series-item-text">{{ item.post.data.description }}</p>
+          {%- endif %}
+          <p class="series-item-meta">{% icon "clock" %}{{ t.readingTime(item.post.content | readingMinutes) }}</p>
+        </div>
+        <span class="post-row-arrow" aria-hidden="true">{% icon "arrow" %}</span>
+      </li>
+      {%- else %}
+      <li class="series-item is-upcoming">
+        <span class="series-num">{{ item.n | pad }}</span>
+        <div class="series-item-body">
+          <h3 class="series-item-title">{{ item.title }}</h3>
+          <p class="series-item-meta">{{ t.series.upcoming }}</p>
+        </div>
+      </li>
+      {%- endif %}
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endfor %}
 </div>
