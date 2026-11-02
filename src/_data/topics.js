@@ -31,6 +31,11 @@ export default {
     ar: { name: "لينكس", description: "أوامر وإعدادات خوادم Linux من الصفر." },
     en: { name: "Linux", description: "Commands and configuration for Linux servers." },
   },
+  networking: {
+    icon: "network",
+    ar: { name: "الشبكات", description: "DNS وتوصيل المحتوى والشبكات الخاصة وربطها ببعض." },
+    en: { name: "Networking", description: "DNS, content delivery, private networks and connecting them." },
+  },
   scaling: {
     icon: "network",
     ar: { name: "التوفر العالي", description: "توزيع الحمل والتوسّع التلقائي وبناء تطبيقات تتحمل الأعطال." },

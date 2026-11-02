@@ -183,4 +183,4 @@ What would you choose for each case? Think before reading the answers:
 - One application uses more than one type, with each kind of data going where it fits.
 - Add each service when you **measure a real problem**, not before.
 
-That completes the databases section. Your application now runs, scales and keeps its data safe, but how do visitors reach it by your site's name? That's the next section's subject, starting in **part eleven** with DNS and Route 53.
+That completes the databases section. Your application now runs, scales and keeps its data safe, but how do visitors reach it by your site's name? That's the next section's subject, starting in [**part eleven**](/en/posts/aws-11-dns-route53/) with DNS and Route 53.
