@@ -441,4 +441,92 @@ aws iam delete-role --role-name series-flow-role
 - Have large files go **directly to S3**, and put **caching** where it stops the most work.
 - **Microservices** have a price, so split only when you really need to.
 
+## Test yourself
+
+::: quiz
+An order goes through stock, payment and shipping. Failed steps must retry, a failed payment must trigger a refund, and large orders wait days for a manager's approval. The team also wants to see where each order is. What fits?
+
+- [ ] Step Functions, with an Express workflow
+- [ ] Lambda functions that call each other
+- [ ] An SNS topic with a subscriber for each step
+- [x] Step Functions, with a Standard workflow
+
+A Standard workflow can last up to a year, its definition holds the retries, failures and waiting, and the console shows you each execution's path as a drawing.
+
+- **A:** These run for at most five minutes, so they can't wait for days.
+- **B:** The retries and failure handling end up in your code, and nothing shows you where an order is.
+- **C:** This delivers to every subscriber at once, with no order between the steps.
+
+Review: [Step Functions: workflows](#step-functions-workflows) in this part, and [Choosing workflow type in Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/choosing-workflow-type.html) in the AWS docs.
+:::
+
+::: quiz
+Users sign in to a mobile app through a Cognito User Pool. They should upload photos directly to S3, and each must only reach their own folder. What gives the app access to S3?
+
+- [x] An Identity Pool, with temporary keys and a policy variable
+- [ ] The User Pool token, sent directly to S3
+- [ ] An IAM user for each person using the app
+- [ ] Access keys built into the app
+
+The Identity Pool swaps the token for temporary keys tied to an IAM role, and a policy variable limits them to that user's folder.
+
+- **B:** A User Pool token says who the user is, and it isn't a set of AWS keys.
+- **C:** IAM is for your team and services, not for huge numbers of app users.
+- **D:** Anyone could pull these keys out of the app, and they'd work for everyone's folders.
+
+Review: [Cognito: your users](#cognito-your-users) in this part, and [Amazon Cognito identity pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html) and [IAM roles](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) in the AWS docs.
+:::
+
+::: quiz
+A sign-up API sends a welcome email before it responds. When the email service is slow, sign-ups are slow too, and when it fails, sign-ups fail. New users are written to DynamoDB. What's the best design?
+
+- [ ] Raising the function's timeout
+- [x] DynamoDB Streams triggering a separate function that sends the email
+- [ ] Provisioned Concurrency on the API's function
+- [ ] Retrying the email inside the API's function
+
+The request finishes once the user is written, and the email happens through an event, so a failed email doesn't affect the sign-up.
+
+- **A:** Users would wait even longer, and failures would still reach them.
+- **C:** This removes cold starts, and the slowness comes from the email.
+- **D:** Retrying inside the request makes users wait even longer.
+
+Review: [Design two: a global website](#design-two-a-global-website) in this part, and [DynamoDB Streams and AWS Lambda triggers](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.Lambda.html) in the AWS docs.
+:::
+
+::: quiz
+An application on an Auto Scaling group distributes large update files. On release day the group grows sharply and the data transfer bill jumps. What gives the biggest improvement with the **least change**?
+
+- [ ] Moving the servers to larger instance types
+- [ ] Rewriting the downloads with Lambda and API Gateway
+- [x] Putting CloudFront in front of the application
+- [ ] Putting Global Accelerator in front of the application
+
+The files don't change, so they suit caching very well. Most requests stop at the edge, the group barely has to grow, and data going out through CloudFront costs less than going out directly.
+
+- **A:** The servers would still handle every download, and the same data would still go out.
+- **B:** This is a rewrite, and API Gateway's 10 MB limit is too small for large files.
+- **D:** This shortens the road but doesn't cache, so every download still reaches the servers.
+
+Review: [A cheap win: CloudFront in front of what you have](#a-cheap-win-cloudfront-in-front-of-what-you-have) in this part, and [What is Amazon CloudFront?](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html) in the AWS docs.
+:::
+
+::: quiz
+An SNS topic invokes a Lambda function asynchronously. Some customers were charged twice, and events that failed repeatedly vanished with no trace. Which **two** changes address these? (Choose two.)
+
+- [x] Make the charge safe to repeat, for example by checking the order number first
+- [ ] Give the function more memory
+- [ ] Turn on SnapStart
+- [ ] Use Provisioned Concurrency
+- [x] Send failed events to a dead-letter queue or a failure destination
+
+An event can be delivered more than once, so a duplicate has to be harmless. And a dead-letter queue keeps what failed so you can inspect it, rather than losing it silently.
+
+- **B:** This makes the function faster, and duplicates still arrive.
+- **C:** This eases cold starts, and has nothing to do with either problem.
+- **D:** This keeps environments ready, and has nothing to do with either problem.
+
+Review: [Design principles](#design-principles) in this part, and [How Lambda handles errors and retries with asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-error-handling.html) and [Capturing records of Lambda asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html) in the AWS docs.
+:::
+
 This completes the modern applications section. Your application now generates a lot of data, but what does it tell you? In [**part twenty-three**](/en/posts/aws-23-athena-redshift-glue/) we start the data and AI section, analyzing data with Athena, Redshift and Glue.

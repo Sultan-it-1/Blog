@@ -339,4 +339,92 @@ aws ec2 delete-security-group --group-id $SG
 - The **execution role** belongs to ECS, and the **task role** belongs to your code.
 - **EKS** is for those who need Kubernetes, and **ECS Express Mode** is the short way for a web application.
 
+## Test yourself
+
+::: quiz
+A Fargate task starts normally and serves traffic, but when its code writes to DynamoDB it gets `AccessDenied`. Where should the team add the permission?
+
+- [ ] The task execution role
+- [ ] The task's security group
+- [ ] An instance profile on the cluster's servers
+- [x] The task role
+
+The task role belongs to your code inside the container. The task's normal start shows the execution role is already doing its job.
+
+- **A:** ECS uses this one to prepare the task, such as pulling the image and sending logs.
+- **B:** A security group controls network traffic, and this error is about permissions.
+- **C:** Fargate has no servers for you to attach anything to, so instance profiles aren't available.
+
+Review: [Two IAM roles, and confusing them is a classic](#two-iam-roles-and-confusing-them-is-a-classic) in this part, and [Amazon ECS task IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the AWS docs.
+:::
+
+::: quiz
+A company runs its applications on Kubernetes in its own data center and on another cloud. Its team knows the Kubernetes tools well and wants to keep using them on AWS. What fits?
+
+- [ ] ECS on Fargate
+- [x] Amazon EKS
+- [ ] ECS Express Mode
+- [ ] Lambda, with container images
+
+EKS runs the Kubernetes control plane for you, and the team's tools keep working, here and elsewhere.
+
+- **A:** This is a fine start for most applications, but it's AWS's own system, not Kubernetes.
+- **C:** This builds an ECS web service from an image, and it isn't Kubernetes either.
+- **D:** This runs functions in response to events, and has no Kubernetes in it.
+
+Review: [ECS or EKS?](#ecs-or-eks) in this part, and [What is Amazon EKS?](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) in the AWS docs.
+:::
+
+::: quiz
+A batch job runs in a container every night for about two hours, and nothing needs to run for the rest of the day. What fits at the **lowest cost**?
+
+- [ ] An ECS service keeping one task running all day
+- [ ] A Lambda function that runs the job
+- [x] EventBridge Scheduler starting a Fargate task each night
+- [ ] An EC2 server kept running for the job
+
+The schedule starts a task that stops when it's done, and on Fargate you pay only while it runs.
+
+- **A:** You'd pay for a task 24 hours a day, for two hours of work.
+- **B:** A Lambda run ends at 15 minutes, far short of two hours.
+- **D:** You'd pay for the server around the clock, and have to manage it too.
+
+Review: [Not just web services](#not-just-web-services) in this part, and [Using Amazon EventBridge Scheduler to schedule Amazon ECS tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/tasks-scheduled-eventbridge-scheduler.html) in the AWS docs.
+:::
+
+::: quiz
+Several Fargate tasks in one service need to read and write the same uploaded files, and the files must survive when a task stops. What should the team mount?
+
+- [x] An EFS file system
+- [ ] Each task's own ephemeral storage
+- [ ] An Instance Store volume
+- [ ] An ECR repository
+
+EFS is a shared file system that tasks can mount on both Fargate and EC2, and the files live outside any one task.
+
+- **B:** A container's disk disappears with it, and isn't shared with other tasks.
+- **C:** This is a temporary disk on a server, and Fargate gives you no server to attach it to.
+- **D:** This stores container images, not application files.
+
+Review: [Storage](#storage) in this part, and [Use Amazon EFS volumes with Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html) in the AWS docs.
+:::
+
+::: quiz
+An ECS service runs on EC2 servers in an Auto Scaling group. At peak times the service needs more tasks, and those new tasks need servers to land on. Which **two** features handle this? (Choose two.)
+
+- [x] Service Auto Scaling
+- [ ] A task execution role
+- [ ] Image scanning in ECR
+- [ ] A Network Load Balancer
+- [x] A capacity provider linked to the group
+
+Service Auto Scaling changes the number of tasks, and a capacity provider adds servers when tasks need them. On EC2 you need both layers.
+
+- **B:** This lets ECS pull images and send logs, and has nothing to do with scaling.
+- **C:** This looks for vulnerabilities in images.
+- **D:** This spreads traffic across the tasks that exist, and doesn't add any.
+
+Review: [Scaling](#scaling) in this part, and [Automatically scale your Amazon ECS service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html) and [Amazon ECS capacity providers for EC2 workloads](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html) in the AWS docs.
+:::
+
 Containers still run and cost money while waiting. What if your code only ran when there was something to do, and you paid nothing otherwise? In [**part twenty-one**](/en/posts/aws-21-lambda-api-dynamodb/) we build an API with Lambda, API Gateway and DynamoDB.

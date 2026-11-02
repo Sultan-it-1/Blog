@@ -343,4 +343,92 @@ aws ec2 delete-security-group --group-id $SG
 - **Execution Role** لـ ECS، و**Task Role** لكودك.
 - **EKS** لمن يحتاج Kubernetes، و**ECS Express Mode** الطريق المختصر لتطبيق ويب.
 
+## اختبر نفسك
+
+::: quiz
+مهمة على Fargate تبدأ عادي وتخدم الزيارات، بس لما يكتب كودها في DynamoDB يطلع له `AccessDenied`. وين يضيف الفريق الصلاحية؟
+
+- [ ] Task Execution Role
+- [ ] Security Group حق المهمة
+- [ ] Instance Profile على سيرفرات المجموعة
+- [x] Task Role
+
+الـ Task Role لكودك داخل الحاوية. وبداية المهمة العادية تبين إن Execution Role شغال زي ما ينبغي.
+
+- **A:** هذا يستخدمه ECS عشان يجهز المهمة، مثل سحب الصورة وإرسال السجلات.
+- **B:** الـ Security Group يتحكم في زيارات الشبكة، وهذا الخطأ عن الصلاحيات.
+- **C:** Fargate ما فيه سيرفرات تربط فيها شي، فالـ Instance Profile مو متاح.
+
+للمراجعة: [دورين في IAM، والخلط بينهم كلاسيكي](#دورين-في-iam-والخلط-بينهم-كلاسيكي) في هذا الجزء، و[Amazon ECS task IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تشغّل تطبيقاتها على Kubernetes في مركز بياناتها وعلى سحابة ثانية. وفريقها يعرف أدوات Kubernetes كويس ويبي يكمل عليها في AWS. وش يناسب؟
+
+- [ ] ECS على Fargate
+- [x] Amazon EKS
+- [ ] ECS Express Mode
+- [ ] Lambda، بصور حاويات
+
+EKS يشغّل طبقة التحكم في Kubernetes لك، وأدوات الفريق تستمر تشتغل، هنا وفي غيرها.
+
+- **A:** هذي بداية ممتازة لأغلب التطبيقات، بس هو نظام AWS الخاص، مو Kubernetes.
+- **C:** هذا يبني خدمة ويب على ECS من صورة، وهو مو Kubernetes كمان.
+- **D:** هذا يشغّل دوال مع الأحداث، وما فيه Kubernetes.
+
+للمراجعة: [ECS أو EKS؟](#ecs-أو-eks) في هذا الجزء، و[What is Amazon EKS?](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) في وثائق AWS.
+:::
+
+::: quiz
+مهمة دفعية تشتغل في حاوية كل ليلة حوالي ساعتين، وما فيه شي يحتاج يشتغل باقي اليوم. وش يناسب **بأقل تكلفة**؟
+
+- [ ] ECS Service يبقي مهمة شغالة طول اليوم
+- [ ] دالة Lambda تشغّل الشغل
+- [x] EventBridge Scheduler يبدأ مهمة Fargate كل ليلة
+- [ ] سيرفر EC2 يبقى شغال عشان هذا الشغل
+
+الجدول يبدأ مهمة تتوقف لما تخلص، وعلى Fargate تدفع بس وقت تشغيلها.
+
+- **A:** بتدفع على مهمة 24 ساعة في اليوم، عشان ساعتين شغل.
+- **B:** تشغيل Lambda ينتهي عند 15 دقيقة، وهذا أقل بكثير من ساعتين.
+- **D:** بتدفع على السيرفر طول الوقت، ولازم تديره كمان.
+
+للمراجعة: [مو بس خدمات ويب](#مو-بس-خدمات-ويب) في هذا الجزء، و[Using Amazon EventBridge Scheduler to schedule Amazon ECS tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/tasks-scheduled-eventbridge-scheduler.html) في وثائق AWS.
+:::
+
+::: quiz
+عدة مهام Fargate في Service واحد تحتاج تقرأ وتكتب نفس الملفات المرفوعة، والملفات لازم تبقى لما تتوقف مهمة. وش يربط الفريق؟
+
+- [x] نظام ملفات EFS
+- [ ] التخزين المؤقت الخاص بكل مهمة
+- [ ] قرص Instance Store
+- [ ] مستودع ECR
+
+EFS نظام ملفات مشترك تقدر المهام تربطه على Fargate وEC2، والملفات تبقى خارج أي مهمة.
+
+- **B:** قرص الحاوية يختفي معها، وما ينشارك مع المهام الثانية.
+- **C:** هذا قرص مؤقت على سيرفر، وFargate ما يعطيك سيرفر تربطه فيه.
+- **D:** هذا يخزن صور الحاويات، مو ملفات التطبيق.
+
+للمراجعة: [التخزين](#التخزين) في هذا الجزء، و[Use Amazon EFS volumes with Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html) في وثائق AWS.
+:::
+
+::: quiz
+ECS Service يشتغل على سيرفرات EC2 في مجموعة Auto Scaling. ووقت الذروة يحتاج مهام أكثر، وهذي المهام تحتاج سيرفرات تنزل عليها. أي **ميزتين** يعالجون هذا؟ (اختر اثنين.)
+
+- [x] Service Auto Scaling
+- [ ] Task Execution Role
+- [ ] فحص الصور في ECR
+- [ ] Network Load Balancer
+- [x] Capacity Provider مربوط بالمجموعة
+
+Service Auto Scaling يغير عدد المهام، والـ Capacity Provider يضيف سيرفرات لما تحتاجها المهام. وعلى EC2 تحتاج الطبقتين.
+
+- **B:** هذا يخلي ECS يسحب الصور ويرسل السجلات، وما له علاقة بالتوسع.
+- **C:** هذا يدور ثغرات في الصور.
+- **D:** هذا يوزع الزيارات على المهام الموجودة، وما يضيف مهام.
+
+للمراجعة: [التوسع](#التوسع) في هذا الجزء، و[Automatically scale your Amazon ECS service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html) و[Amazon ECS capacity providers for EC2 workloads](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html) في وثائق AWS.
+:::
+
 الحاويات لسا تشتغل وتكلف وهي منتظرة. طيب لو كودك يشتغل بس لما يكون فيه شغل، وما تدفع شي غير كذا؟ في [**الجزء الحادي والعشرين**](/posts/aws-21-lambda-api-dynamodb/) نبني API بـ Lambda وAPI Gateway وDynamoDB.

@@ -386,4 +386,92 @@ aws iam delete-role --role-name series-visits-role
 - **DynamoDB** fetches items by key, so design the table around your queries.
 - **API Gateway** is the front door, handling authentication and throttling; start with an HTTP API.
 
+## Test yourself
+
+::: quiz
+A Lambda function is attached to a VPC so it can reach a private RDS database. That works, but now its calls to a payment provider on the internet time out. What fixes this?
+
+- [ ] Attaching the function to a public subnet
+- [ ] Raising the function's timeout
+- [x] Routing the function's private subnet through a NAT gateway
+- [ ] Putting RDS Proxy between the function and the database
+
+Once attached to a VPC, a function loses its internet access unless its subnet goes through a NAT gateway.
+
+- **A:** A public subnet gives the function neither internet access nor a public address.
+- **B:** There's no path to the internet, so more time won't help.
+- **D:** This handles database connections, and the problem is the path out.
+
+Review: [Lambda inside a VPC](#lambda-inside-a-vpc) in this part, and [Enable internet access for VPC-connected Lambda Event Functions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc-internet.html) in the AWS docs.
+:::
+
+::: quiz
+An orders table has `customer` as its partition key and `order_id` as its sort key. The team now needs all orders whose `status` is `new`, quickly and often. What should it do?
+
+- [ ] Scan the whole table for each request
+- [ ] Join the table with a `status` table
+- [ ] Put DAX in front of the table
+- [x] Add a global secondary index on `status`
+
+A global secondary index organizes the data by a different key, so you can query by `status` directly.
+
+- **A:** This reads every item each time, so it gets slower and costlier as the table grows.
+- **B:** DynamoDB has no joins.
+- **C:** This speeds up reads you can already do, and doesn't add a new way to query.
+
+Review: [Tables, items and keys](#tables-items-and-keys) in this part, and [Using Global Secondary Indexes in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) in the AWS docs.
+:::
+
+::: quiz
+A product page reads the same DynamoDB items millions of times a day. The team wants reads to take microseconds, with the **fewest code changes**. What fits?
+
+- [x] DynamoDB Accelerator (DAX)
+- [ ] ElastiCache, with the application managing the cache
+- [ ] DynamoDB Global Tables
+- [ ] DynamoDB Streams
+
+DAX is a cache in front of the table that works with DynamoDB's API, so it takes only minimal changes.
+
+- **B:** This can be fast too, but your application has to manage what goes in and out of the cache.
+- **C:** This places copies in several Regions, and doesn't bring reads down to microseconds.
+- **D:** This is a log of changes, and doesn't speed up reads.
+
+Review: [Additions worth knowing](#additions-worth-knowing) in this part, and [In-memory acceleration with DynamoDB Accelerator (DAX)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html) in the AWS docs.
+:::
+
+::: quiz
+A company is selling access to its API. It needs API keys for each customer, throttling per client, and cached responses. Which option fits?
+
+- [ ] HTTP API
+- [x] REST API
+- [ ] WebSocket API
+- [ ] A Lambda function URL
+
+REST APIs have all of these. HTTP APIs are simpler and cheaper because they leave such features out.
+
+- **A:** This has neither API keys nor caching.
+- **C:** This is for two-way connections, such as chat.
+- **D:** This is a direct link to a function, without any of these extras.
+
+Review: [API Gateway: the front door](#api-gateway-the-front-door) in this part, and [Choose between REST APIs and HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html) in the AWS docs.
+:::
+
+::: quiz
+A report function sometimes uses up the Region's whole concurrency limit, and the checkout function starts returning `429`. Checkout also has to answer with steady, very low latency. Which **two** settings fit the checkout function? (Choose two.)
+
+- [x] Reserved concurrency
+- [ ] SnapStart
+- [x] Provisioned Concurrency
+- [ ] More `/tmp` storage
+- [ ] Less memory
+
+Reserved concurrency sets aside a share for checkout that no other function can take, and Provisioned Concurrency keeps environments ready so they have no cold start.
+
+- **B:** This lowers startup time without guaranteeing to remove it, and can't be combined with Provisioned Concurrency.
+- **D:** This adds temporary disk space, and has nothing to do with either problem.
+- **E:** CPU rises with memory, so this would make responses slower.
+
+Review: [Concurrency](#concurrency) and [Cold starts](#cold-starts) in this part, and [Configuring reserved concurrency for an Event Function](https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html) and [Configuring provisioned concurrency for an Event Function](https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html) in the AWS docs.
+:::
+
 You now have the building blocks. How do you build a complete application from them, with users, long workflows and events flowing between the services? That's what we'll cover in [**part twenty-two**](/en/posts/aws-22-serverless-design/).

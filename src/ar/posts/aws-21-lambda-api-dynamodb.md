@@ -386,4 +386,92 @@ aws iam delete-role --role-name series-visits-role
 - **DynamoDB** تجيب العناصر بالمفتاح، فصمم الجدول على استعلاماتك.
 - **API Gateway** البوابة الأمامية، يتكفل بالدخول والتقييد، وابدأ بـ HTTP API.
 
+## اختبر نفسك
+
+::: quiz
+دالة Lambda مربوطة بـ VPC عشان توصل لقاعدة RDS خاصة. وهذا شغال، بس الحين اتصالاتها بمزود دفع على الإنترنت تنتهي مهلتها. وش يحل هذا؟
+
+- [ ] ربط الدالة بشبكة عامة
+- [ ] رفع مهلة الدالة
+- [x] توجيه شبكة الدالة الخاصة عبر NAT Gateway
+- [ ] وضع RDS Proxy بين الدالة والقاعدة
+
+لما تنربط الدالة بـ VPC تفقد الوصول للإنترنت، إلا لو كانت شبكتها تمر عبر NAT Gateway.
+
+- **A:** الشبكة العامة ما تعطي الدالة وصول للإنترنت ولا عنوان عام.
+- **B:** ما فيه طريق للإنترنت أصلاً، فالوقت الزيادة ما يفيد.
+- **D:** هذا يدير اتصالات القاعدة، والمشكلة في طريق الخروج.
+
+للمراجعة: [Lambda داخل VPC](#lambda-داخل-vpc) في هذا الجزء، و[Enable internet access for VPC-connected Lambda Event Functions](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc-internet.html) في وثائق AWS.
+:::
+
+::: quiz
+جدول طلبات مفتاح التقسيم فيه `customer` ومفتاح الترتيب `order_id`. والفريق يحتاج الحين كل الطلبات اللي `status` فيها `new`، بسرعة وبشكل متكرر. وش يسوي؟
+
+- [ ] قراءة الجدول كامل (Scan) مع كل طلب
+- [ ] ربط الجدول بجدول `status` عبر Join
+- [ ] وضع DAX قدام الجدول
+- [x] إضافة فهرس ثانوي عام (GSI) على `status`
+
+الفهرس الثانوي العام يرتب البيانات بمفتاح مختلف، فتقدر تستعلم بـ `status` مباشرة.
+
+- **A:** هذا يقرأ كل العناصر كل مرة، فيبطأ وتزيد تكلفته كل ما كبر الجدول.
+- **B:** DynamoDB ما فيها Joins.
+- **C:** هذا يسرّع القراءات اللي تقدر عليها أصلاً، وما يضيف طريقة استعلام جديدة.
+
+للمراجعة: [الجداول والعناصر والمفاتيح](#الجداول-والعناصر-والمفاتيح) في هذا الجزء، و[Using Global Secondary Indexes in DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) في وثائق AWS.
+:::
+
+::: quiz
+صفحة منتج تقرأ نفس عناصر DynamoDB ملايين المرات في اليوم. والفريق يبي القراءة تاخذ ميكرو ثانية، **بأقل تغيير في الكود**. وش يناسب؟
+
+- [x] DynamoDB Accelerator (DAX)
+- [ ] ElastiCache، والتطبيق يدير الكاش
+- [ ] DynamoDB Global Tables
+- [ ] DynamoDB Streams
+
+DAX كاش قدام الجدول يتوافق مع واجهة DynamoDB، فيحتاج تغييرات بسيطة فقط.
+
+- **B:** هذا ممكن يكون سريع كمان، بس تطبيقك لازم يدير اللي يدخل ويطلع من الكاش.
+- **C:** هذا يحط نسخ في عدة Regions، وما ينزل القراءة إلى الميكرو ثانية.
+- **D:** هذا سجل بالتغييرات، وما يسرّع القراءة.
+
+للمراجعة: [إضافات تستاهل تعرفها](#إضافات-تستاهل-تعرفها) في هذا الجزء، و[In-memory acceleration with DynamoDB Accelerator (DAX)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تبيع الوصول لواجهة API حقها. وتحتاج مفاتيح API لكل عميل، وتحديد سرعة لكل عميل، وكاش للردود. أي خيار يناسب؟
+
+- [ ] HTTP API
+- [x] REST API
+- [ ] WebSocket API
+- [ ] Lambda Function URL
+
+REST API فيه كل هذا. وHTTP API أبسط وأرخص لأنه يترك هذي الميزات.
+
+- **A:** هذا ما فيه مفاتيح API ولا كاش.
+- **C:** هذا للاتصالات باتجاهين، مثل المحادثة.
+- **D:** هذا رابط مباشر للدالة، بدون أي من هذي الإضافات.
+
+للمراجعة: [API Gateway: البوابة الأمامية](#api-gateway-البوابة-الأمامية) في هذا الجزء، و[Choose between REST APIs and HTTP APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html) في وثائق AWS.
+:::
+
+::: quiz
+دالة تقارير أحياناً تاكل حد التزامن كله في الـ Region، فتبدأ دالة الدفع ترجّع `429`. ودالة الدفع لازم كمان ترد باستجابة ثابتة وسريعة جداً. أي **إعدادين** يناسبون دالة الدفع؟ (اختر اثنين.)
+
+- [x] Reserved Concurrency
+- [ ] SnapStart
+- [x] Provisioned Concurrency
+- [ ] مساحة `/tmp` أكبر
+- [ ] ذاكرة أقل
+
+Reserved Concurrency يحجز لدالة الدفع حصة ما تاخذها أي دالة ثانية، وProvisioned Concurrency يبقي البيئات جاهزة فما فيه بداية باردة لها.
+
+- **B:** هذا يقلل وقت البداية بدون ما يضمن إزالته، وما ينجمع مع Provisioned Concurrency.
+- **D:** هذا يزيد مساحة القرص المؤقت، وما له علاقة بأي مشكلة منهم.
+- **E:** المعالج يزيد مع الذاكرة، فهذا يبطئ الردود.
+
+للمراجعة: [التزامن (Concurrency)](#التزامن-concurrency) و[البداية الباردة (Cold Start)](#البداية-الباردة-cold-start) في هذا الجزء، و[Configuring reserved concurrency for an Event Function](https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html) و[Configuring provisioned concurrency for an Event Function](https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html) في وثائق AWS.
+:::
+
 عندك الحين قطع البناء. كيف تبني منها تطبيق كامل، فيه مستخدمين وسير عمل طويل وأحداث تمشي بين الخدمات؟ هذا اللي بنغطيه في [**الجزء الثاني والعشرين**](/posts/aws-22-serverless-design/).

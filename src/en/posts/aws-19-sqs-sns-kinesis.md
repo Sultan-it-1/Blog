@@ -442,4 +442,92 @@ aws sqs delete-queue --queue-url $BILL_URL
 - **SNS** delivers one message to many, and **fan-out** with SQS guarantees none of them miss it.
 - **Kinesis Data Streams** keeps data for several readers to replay, and **Firehose** delivers it to storage without code.
 
+## Test yourself
+
+::: quiz
+A ticket site's order page writes straight to RDS. When a big concert goes on sale, the database overloads and orders fail. Customers can accept seeing "we received your order", with the confirmation following a minute later. What absorbs the peak?
+
+- [ ] A read replica for the database
+- [x] An SQS queue, with workers writing at a pace the database can handle
+- [ ] An SNS topic that pushes each order to the database
+- [ ] Multi-AZ on the database
+
+The queue holds the orders, and workers write them at a pace the database can handle. It suits this case because the customer doesn't need the final answer immediately.
+
+- **A:** Replicas serve reads, and the overload here comes from writes.
+- **C:** SNS delivers right away and doesn't store messages, so the peak would still arrive all at once.
+- **D:** The standby takes no load, so the overload stays.
+
+Review: [Scaling with the queue](#scaling-with-the-queue) in this part, and [What is Amazon Simple Queue Service?](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html) in the AWS docs.
+:::
+
+::: quiz
+A worker takes about two minutes to produce each invoice, and the queue's visibility timeout is still at its default. Customers are receiving the same invoice several times. What should the team change?
+
+- [x] Raise the visibility timeout above the processing time
+- [ ] Turn on long polling
+- [ ] Attach a dead-letter queue
+- [ ] Add more workers
+
+After 30 seconds the message reappears while the first worker is still on it, so another worker takes it too. The timeout has to be longer than the work.
+
+- **B:** This cuts empty responses, and doesn't change when a message reappears.
+- **C:** This catches messages that keep failing, and these ones are succeeding, repeatedly.
+- **D:** More workers would only pick up the reappearing messages faster.
+
+Review: [Visibility timeout](#visibility-timeout) in this part, and [Amazon SQS visibility timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the AWS docs.
+:::
+
+::: quiz
+When an order is placed, the shipping, billing and analytics services all need to know. Any of them may be down for hours, and adding a new service shouldn't mean changing the publisher. What fits?
+
+- [ ] One SQS queue that all three services read from
+- [ ] The publisher sending directly to a queue for each service
+- [ ] An SNS topic with an HTTP subscriber for each service
+- [x] An SNS topic, with an SQS queue for each service subscribed to it
+
+SNS delivers one message to every subscriber, and each service's queue holds it until that service is ready. A new service simply subscribes a new queue.
+
+- **A:** Each message goes to only one consumer, so the other services would miss it.
+- **B:** The publisher would need changing with every new service.
+- **C:** SNS only retries for a while and doesn't store messages, so a long outage could lose them.
+
+Review: [Fan-out: SNS with SQS](#fan-out-sns-with-sqs) in this part, and [What is Amazon SNS?](https://docs.aws.amazon.com/sns/latest/dg/welcome.html) in the AWS docs.
+:::
+
+::: quiz
+A wind farm's sensors send readings every second. Three separate applications read the same data in real time, and after fixing a bug, one of them must re-read the last three days. Which option fits?
+
+- [ ] An SQS standard queue
+- [ ] An SNS standard topic
+- [x] Kinesis Data Streams, with its retention raised to at least three days
+- [ ] Data Firehose, delivering to S3
+
+Records stay in the stream for the retention period whether they've been read or not, and each consumer reads from its own position, so one can go back without disturbing the others. The default retention is only 24 hours.
+
+- **A:** A message goes to one consumer, and it's gone once deleted.
+- **B:** SNS doesn't store messages, so there's nothing to re-read.
+- **D:** This buffers data and delivers it to storage, so it offers neither instant reads nor replay.
+
+Review: [Kinesis Data Streams: a stream that stays](#kinesis-data-streams-a-stream-that-stays) in this part, and [Change the data retention period](https://docs.aws.amazon.com/streams/latest/dev/kinesis-extended-retention.html) in the AWS docs.
+:::
+
+::: quiz
+A bank processes transactions through a queue. Within each account they must run in order with duplicates removed, while different accounts should be processed in parallel. Which **two** choices fit? (Choose two.)
+
+- [ ] A standard queue
+- [x] A FIFO queue
+- [ ] One message group for all accounts
+- [x] A message group for each account
+- [ ] A longer visibility timeout
+
+A FIFO queue keeps order within a message group and removes duplicates within a 5-minute window, and a group for each account lets different accounts run in parallel.
+
+- **A:** This doesn't guarantee order, and a message can arrive twice.
+- **C:** This forces every transaction into one line, so nothing runs in parallel.
+- **E:** This gives workers more time, and has no effect on order.
+
+Review: [FIFO queues](#fifo-queues) in this part, and [FIFO queue delivery logic in Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-understanding-logic.html) in the AWS docs.
+:::
+
 The services are now separated, but where does the code itself run? So far our answer has been an EC2 server, with all the setup that entails. In [**part twenty**](/en/posts/aws-20-ecs-fargate-eks/) we package applications in containers and run them with ECS, Fargate and EKS.
