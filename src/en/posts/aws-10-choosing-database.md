@@ -58,7 +58,7 @@ Most applications suit a relational database, especially if you don't know all y
 
 ### Services you'll come across
 
-- **DynamoDB:** serverless key-value with steady performance at any size. We cover it in the [modern applications section](/en/series/aws/#section-7).
+- **DynamoDB:** serverless key-value with steady performance at any size. We cover it in [part twenty-one](/en/posts/aws-21-lambda-api-dynamodb/).
 - **DocumentDB:** documents compatible with MongoDB, which suits you if you're moving an existing MongoDB application.
 - **MemoryDB:** fast memory like Valkey but with durable data, so you can use it as a primary database and not just a cache.
 - **Keyspaces:** compatible with Apache Cassandra, with no servers to manage.

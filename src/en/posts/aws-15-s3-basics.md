@@ -128,7 +128,7 @@ That website link only works over HTTP, though. The better choice in production 
 
 ## Reacting to events
 
-S3 can send a notification when something happens, such as a photo being uploaded. It sends it to SQS, SNS or Lambda directly, or to **EventBridge** if you want advanced filtering and more destinations. The classic example: for every photo uploaded, a Lambda function makes a thumbnail. We'll apply this in the [modern applications section](/en/series/aws/#section-7).
+S3 can send a notification when something happens, such as a photo being uploaded. It sends it to SQS, SNS or Lambda directly, or to **EventBridge** if you want advanced filtering and more destinations. The classic example: for every photo uploaded, a Lambda function makes a thumbnail. We'll apply this in [part twenty-two](/en/posts/aws-22-serverless-design/).
 
 ## Performance
 

@@ -11,6 +11,11 @@ export default {
     ar: { name: "الحوسبة السحابية", description: "مفاهيم السحابة الأساسية: المناطق والتوفر والمسؤولية المشتركة." },
     en: { name: "Cloud computing", description: "Core cloud concepts: regions, availability and shared responsibility." },
   },
+  containers: {
+    icon: "box",
+    ar: { name: "الحاويات", description: "تغليف التطبيقات في حاويات وتشغيلها بـ ECS وFargate وEKS." },
+    en: { name: "Containers", description: "Packaging applications in containers and running them with ECS, Fargate and EKS." },
+  },
   databases: {
     icon: "database",
     ar: { name: "قواعد البيانات", description: "قواعد البيانات المُدارة والكاش وكيف تختار المناسب لبياناتك." },
@@ -31,6 +36,11 @@ export default {
     ar: { name: "لينكس", description: "أوامر وإعدادات خوادم Linux من الصفر." },
     en: { name: "Linux", description: "Commands and configuration for Linux servers." },
   },
+  messaging: {
+    icon: "message",
+    ar: { name: "ربط الخدمات", description: "الطوابير والإشعارات والتيارات اللي تفصل الخدمات عن بعض." },
+    en: { name: "Messaging", description: "Queues, notifications and streams that keep services apart." },
+  },
   networking: {
     icon: "network",
     ar: { name: "الشبكات", description: "DNS وتوصيل المحتوى والشبكات الخاصة وربطها ببعض." },
@@ -50,6 +60,11 @@ export default {
     icon: "shield",
     ar: { name: "الأمن", description: "تأمين الخوادم: جدار الحماية وSSH والصلاحيات." },
     en: { name: "Security", description: "Hardening servers: firewalls, SSH and permissions." },
+  },
+  serverless: {
+    icon: "bolt",
+    ar: { name: "بدون خوادم", description: "تشغيل الكود والبيانات بدون إدارة سيرفرات، وتدفع على الاستخدام." },
+    en: { name: "Serverless", description: "Running code and data without managing servers, paying for use." },
   },
   storage: {
     icon: "server",

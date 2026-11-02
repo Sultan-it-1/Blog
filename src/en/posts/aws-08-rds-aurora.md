@@ -132,7 +132,7 @@ It's the same pattern we saw in [part six](/en/posts/aws-06-load-balancers/): th
 
 ### RDS Proxy
 
-If you have many short-lived connections, such as the Lambda functions in the [modern applications section](/en/series/aws/#section-7), they can exhaust the database's connection limit. **RDS Proxy** sits in between and reuses connections, and your application connects to it as if it were the database.
+If you have many short-lived connections, such as the Lambda functions in [part twenty-one](/en/posts/aws-21-lambda-api-dynamodb/), they can exhaust the database's connection limit. **RDS Proxy** sits in between and reuses connections, and your application connects to it as if it were the database.
 
 It also shortens failover, because it keeps your application's connections open and routes them to the new database. It's reachable only from inside your private network.
 

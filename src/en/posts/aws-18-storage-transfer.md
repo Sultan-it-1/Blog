@@ -187,4 +187,4 @@ aws s3 rb s3://$DST --force
 - **DataSync** is for scheduled sync, and **Transfer Family** for receiving over SFTP.
 - Work out the transfer time before deciding, and note that Snowball is closed to new customers.
 
-That completes the storage section. You now have a strong application with a database, a network and storage, but its pieces are all wired directly together. In **part nineteen** we start the modern applications section, separating them with SQS, SNS and Kinesis.
+That completes the storage section. You now have a strong application with a database, a network and storage, but its pieces are all wired directly together. In [**part nineteen**](/en/posts/aws-19-sqs-sns-kinesis/) we start the modern applications section, separating them with SQS, SNS and Kinesis.

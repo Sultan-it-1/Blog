@@ -167,7 +167,7 @@ Assembling all this by hand is work. **Elastic Beanstalk** does it for you: uplo
 - **Two kinds of tier:** Web Server for direct requests, Worker for processing jobs from a queue.
 - **Ordinary, visible resources:** you can see them in your account and change them; it isn't a closed box.
 
-It suits you if you want to focus on the code of a conventional application. If you have special requirements or many systems, you'll usually build it yourself or move to the containers covered in the [modern applications section](/en/series/aws/#section-7).
+It suits you if you want to focus on the code of a conventional application. If you have special requirements or many systems, you'll usually build it yourself or move to the containers covered in [part twenty](/en/posts/aws-20-ecs-fargate-eks/).
 
 ## Summary
 
