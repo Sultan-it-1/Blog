@@ -89,6 +89,16 @@ export default {
       failed: "تعذّر النسخ",
     },
 
+    highlight: {
+      label: "تلوين النص",
+      hint: "تحديد أي نص يفتح ألوان التلوين",
+      yellow: "تلوين بالأصفر",
+      green: "تلوين بالأخضر",
+      blue: "تلوين بالأزرق",
+      pink: "تلوين بالوردي",
+      remove: "إزالة التلوين",
+    },
+
     quiz: {
       intro: "قبل ما تكمل، جرّب هذي الأسئلة عشان تتأكد إنك فهمت الجزء. كل سؤال موقف عملي، وبعد ما تجاوب يطلع لك الشرح.",
       number: (n, total) => `السؤال ${n} من ${total}`,
@@ -233,6 +243,16 @@ export default {
       copy: "Copy",
       copied: "Copied",
       failed: "Copy failed",
+    },
+
+    highlight: {
+      label: "Highlight text",
+      hint: "Selecting any text opens the highlighter",
+      yellow: "Highlight in yellow",
+      green: "Highlight in green",
+      blue: "Highlight in blue",
+      pink: "Highlight in pink",
+      remove: "Remove highlight",
     },
 
     quiz: {

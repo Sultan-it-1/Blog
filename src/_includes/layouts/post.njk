@@ -44,6 +44,7 @@ bodyClass: page-post
       <li>{{ t.post.updated }} <time datetime="{{ updated | isoDate }}">{{ updated | readableDate(lang) }}</time></li>
       {%- endif %}
       <li>{% icon "clock" %}{{ t.readingTime(content | readingMinutes) }}</li>
+      <li data-highlight-hint hidden>{% icon "highlighter" %}{{ t.highlight.hint }}</li>
     </ul>
   </header>
 
@@ -65,7 +66,7 @@ bodyClass: page-post
       </details>
       {%- endif %}
 
-      <div class="prose{% if numbered %} is-numbered{% endif %}">
+      <div class="prose{% if numbered %} is-numbered{% endif %}" data-highlightable>
         {{ content | safe }}
       </div>
 
@@ -106,3 +107,10 @@ bodyClass: page-post
 </article>
 
 <button type="button" class="back-to-top icon-btn" aria-label="{{ t.backToTop }}" title="{{ t.backToTop }}" data-back-to-top hidden>{% icon "arrow-up" %}</button>
+
+<div class="hl-bar" role="toolbar" aria-label="{{ t.highlight.label }}" data-highlight-bar hidden>
+  {%- for color in ["yellow", "green", "blue", "pink"] %}
+  <button type="button" class="hl-swatch" aria-label="{{ t.highlight[color] }}" title="{{ t.highlight[color] }}" aria-pressed="false" data-highlight-color="{{ color }}"><span class="hl-{{ color }}"></span></button>
+  {%- endfor %}
+  <button type="button" class="hl-remove" aria-label="{{ t.highlight.remove }}" title="{{ t.highlight.remove }}" data-highlight-remove hidden>{% icon "close" %}</button>
+</div>

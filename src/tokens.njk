@@ -19,6 +19,10 @@ eleventyExcludeFromCollections: true
     --color-warn-soft: {{ colors.warnSoft }};
     --color-danger: {{ colors.danger }};
     --color-danger-soft: {{ colors.dangerSoft }};
+    --hl-yellow: {{ colors.hlYellow }};
+    --hl-green: {{ colors.hlGreen }};
+    --hl-blue: {{ colors.hlBlue }};
+    --hl-pink: {{ colors.hlPink }};
 {%- endmacro -%}
 /* {{ brand.name }} design tokens — generated from src/_data/brand.js */
 :root {
@@ -39,6 +43,10 @@ eleventyExcludeFromCollections: true
     --code-function: {{ brand.code.function }};
     --code-variable: {{ brand.code.variable }};
     --code-operator: {{ brand.code.operator }};
+    --code-hl-yellow: {{ brand.colors.dark.hlYellow }};
+    --code-hl-green: {{ brand.colors.dark.hlGreen }};
+    --code-hl-blue: {{ brand.colors.dark.hlBlue }};
+    --code-hl-pink: {{ brand.colors.dark.hlPink }};
 
     --font-sans: {{ brand.fonts.sans | safe }};
     --font-mono: {{ brand.fonts.mono | safe }};

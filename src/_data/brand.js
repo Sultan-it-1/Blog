@@ -49,6 +49,10 @@ export default {
       warnSoft: "#FAEFDC",
       danger: "#B4362B",
       dangerSoft: "#FBE7E4",
+      hlYellow: "#FFE98F",
+      hlGreen: "#BDEBC8",
+      hlBlue: "#BFE0FF",
+      hlPink: "#FFCFE0",
     },
     dark: {
       bg: "#0D0F12",
@@ -66,6 +70,10 @@ export default {
       warnSoft: "#2A2113",
       danger: "#F07A6E",
       dangerSoft: "#2C1513",
+      hlYellow: "#5A4A12",
+      hlGreen: "#17472F",
+      hlBlue: "#173F66",
+      hlPink: "#5E2540",
     },
   },
 
