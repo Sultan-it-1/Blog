@@ -26,6 +26,11 @@ export default {
     ar: { name: "لينكس", description: "أوامر وإعدادات خوادم Linux من الصفر." },
     en: { name: "Linux", description: "Commands and configuration for Linux servers." },
   },
+  scaling: {
+    icon: "network",
+    ar: { name: "التوفر العالي", description: "توزيع الحمل والتوسّع التلقائي وبناء تطبيقات تتحمل الأعطال." },
+    en: { name: "High availability", description: "Load balancing, auto scaling and building fault-tolerant applications." },
+  },
   security: {
     icon: "shield",
     ar: { name: "الأمن", description: "تأمين الخوادم: جدار الحماية وSSH والصلاحيات." },

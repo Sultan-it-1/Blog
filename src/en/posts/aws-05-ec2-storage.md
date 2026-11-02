@@ -179,4 +179,4 @@ Disks and snapshots keep costing money even after the server is gone. Delete the
 - **Instance store** is the fastest, but its data is lost when you stop the server.
 - **EFS** is for files shared between many servers, on Linux.
 
-That completes the servers section. In **part six** we start the high availability section: how to spread visitors across several servers with a load balancer, so your site stays up if one of them fails.
+That completes the servers section. In [**part six**](/en/posts/aws-06-load-balancers/) we start the high availability section: how to spread visitors across several servers with a load balancer, so your site stays up if one of them fails.
