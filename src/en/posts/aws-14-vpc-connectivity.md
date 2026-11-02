@@ -286,4 +286,92 @@ aws ec2 delete-vpc-peering-connection --vpc-peering-connection-id $PEER
 - **VPN** is quick to set up over the internet; **Direct Connect** is a private line that takes time.
 - **Data transfer** is among the biggest surprises on a bill, so plan for it from the start.
 
+## Test yourself
+
+::: quiz
+An order-processing application in a private subnet writes heavily to DynamoDB, and the team finds most of its NAT Gateway bill comes from this traffic. What cuts this cost with the **least effort**?
+
+- [ ] Moving the servers to a public subnet
+- [ ] A peering connection to DynamoDB's VPC
+- [x] A gateway endpoint for DynamoDB
+- [ ] A Direct Connect line to the Region
+
+A gateway endpoint adds a route to DynamoDB that skips NAT, with no extra charge and no code changes.
+
+- **A:** This exposes servers that should stay private, and public addresses cost money too.
+- **B:** DynamoDB isn't a VPC you can peer with.
+- **D:** This links your own site to AWS, and has nothing to do with traffic inside the VPC.
+
+Review: [VPC endpoints: AWS services without the internet](#vpc-endpoints-aws-services-without-the-internet) in this part, and [Gateway endpoints for Amazon DynamoDB](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html) in the AWS docs.
+:::
+
+::: quiz
+A payments team runs an internal API behind a Network Load Balancer. Forty other VPCs need to call it, some of their ranges overlap with its own, and they mustn't reach anything else on its network. What fits?
+
+- [ ] VPC peering with each of the forty
+- [x] PrivateLink, with an interface endpoint in each VPC
+- [ ] A gateway endpoint in each VPC
+- [ ] A public address on the load balancer, with firewall rules
+
+With PrivateLink, each consumer gets a private interface in its own subnet that leads only to that service, so overlapping ranges cause no conflict.
+
+- **A:** Peering doesn't work with overlapping ranges, and it connects whole networks.
+- **C:** Gateway endpoints are only for S3 and DynamoDB.
+- **D:** This puts an internal API on the internet.
+
+Review: [VPC endpoints: AWS services without the internet](#vpc-endpoints-aws-services-without-the-internet) in this part, and [AWS PrivateLink](https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/aws-privatelink.html) in the AWS docs.
+:::
+
+::: quiz
+A small company must connect its office network to a VPC by next week. Traffic is light, the budget is tight, and the data has to be encrypted. Which option fits?
+
+- [x] Site-to-Site VPN
+- [ ] Direct Connect, with a dedicated port
+- [ ] Client VPN
+- [ ] VPC peering
+
+Site-to-Site VPN crosses the internet through an encrypted tunnel, and can be set up quickly at low cost.
+
+- **B:** Setting it up takes weeks or months, and it costs more at first.
+- **C:** This is for individual employees' devices, rather than a whole office network.
+- **D:** This connects VPCs to each other, and can't reach an office.
+
+Review: [Connecting your office: Site-to-Site VPN](#connecting-your-office-site-to-site-vpn) in this part, and [What is AWS Site-to-Site VPN?](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the AWS docs.
+:::
+
+::: quiz
+A company is growing to 30 VPCs across several accounts, plus three offices connected by VPN. It wants every network to connect in one place, with production kept apart from development. What fits with the **least operational overhead**?
+
+- [ ] VPC peering between every pair of VPCs
+- [ ] VPN CloudHub
+- [ ] One shared VPC peered with all the others
+- [x] Transit Gateway, with separate route tables
+
+Transit Gateway is a central hub for VPCs and VPNs, its route tables decide who talks to whom, and it can be shared across accounts through RAM.
+
+- **A:** Thirty networks would need 435 connections, each with its own routes.
+- **B:** This connects offices to each other through one gateway, not a set of VPCs.
+- **C:** Peering isn't transitive, so the others couldn't reach each other through it.
+
+Review: [Transit Gateway: one hub](#transit-gateway-one-hub) in this part, and [What is AWS Transit Gateway for Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html) in the AWS docs.
+:::
+
+::: quiz
+A bank reaches AWS over a single 10 Gbps Direct Connect line. An audit finds two problems: the line is a single point of failure, and its traffic isn't encrypted. Which **two** actions address these? (Choose two.)
+
+- [x] Add a second connection at a second Direct Connect location
+- [ ] Upgrade the line to 100 Gbps
+- [x] Turn on MACsec on the line, or run a VPN over it
+- [ ] Add a gateway endpoint to the VPC
+- [ ] Move to a hosted connection through a partner
+
+A second line in a second location keeps the bank connected if a line or a whole location fails. MACsec or a VPN on top adds the encryption the line doesn't have by default.
+
+- **B:** A faster line is still one line, and still unencrypted.
+- **D:** This reaches S3 and DynamoDB from inside a VPC, and has nothing to do with the line.
+- **E:** This is still one line, and a partner doesn't encrypt it for you.
+
+Review: [Direct Connect: a private line](#direct-connect-a-private-line) in this part, and [Encryption in AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/encryption-in-transit.html) and [AWS Direct Connect Resiliency Toolkit](https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency_toolkit.html) in the AWS docs.
+:::
+
 That completes the networking section. You now know the visitor's path from your site's name to its data, and what's left is a place to store anything at any size. That's the next section's subject, starting in [**part fifteen**](/en/posts/aws-15-s3-basics/) with the basics of S3.

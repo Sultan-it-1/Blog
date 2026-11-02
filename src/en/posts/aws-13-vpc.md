@@ -257,4 +257,92 @@ Delete the NAT Gateway from its page in VPC, and once it's gone release the Elas
 - **Security groups** remember connections and only allow; **NACLs** don't remember and can deny.
 - **Flow Logs** tell you where a connection was rejected.
 
+## Test yourself
+
+::: quiz
+A new server has a public address, and its security group allows HTTPS from anywhere, yet nobody can reach it from the internet. The VPC has an internet gateway attached, and the subnet's route table has only the `local` route. What's missing?
+
+- [x] A `0.0.0.0/0` route to the internet gateway in the subnet's route table
+- [ ] A NAT Gateway in the same subnet
+- [ ] An outbound rule in the security group for the replies
+- [ ] A peering connection to the default VPC
+
+A subnet becomes public when its route table points to an internet gateway. Without that route, packets have no way out, even with a public address.
+
+- **B:** NAT lets private servers go out, and accepts no connection started from outside.
+- **C:** A security group remembers the connection, so the reply goes out automatically.
+- **D:** Peering connects two VPCs, and gives no path to the internet.
+
+Review: [Route tables and the internet gateway](#route-tables-and-the-internet-gateway) in this part, and [Enable internet access for a VPC using an internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html) in the AWS docs.
+:::
+
+::: quiz
+A team is planning a subnet that must hold 30 servers. Address space is tight, so it wants the smallest block that fits. Which one should it pick?
+
+- [ ] `/29`
+- [ ] `/28`
+- [ ] `/27`
+- [x] `/26`
+
+AWS reserves 5 addresses in every subnet. A `/27` has 32, which leaves 27, so it falls short. A `/26` has 64, which leaves 59.
+
+- **A:** The smallest subnet AWS allows is `/28`, so this can't even be created.
+- **B:** This leaves only 11 usable addresses.
+- **C:** This leaves 27 usable addresses, three short of what's needed.
+
+Review: [Subnets](#subnets) in this part, and [Subnet CIDR blocks](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html) in the AWS docs.
+:::
+
+::: quiz
+An application runs in private subnets across two Availability Zones, sharing one zonal NAT Gateway in the first zone. In an outage of that zone, the servers in the second zone stayed healthy but lost internet access. What fixes this?
+
+- [ ] An extra internet gateway for the second zone
+- [x] A NAT Gateway in the second zone, with each private subnet routing to the one in its own zone
+- [ ] A second Elastic IP on the existing NAT Gateway
+- [ ] Moving the NAT Gateway to a private subnet
+
+A zonal NAT Gateway lives in one zone, so that zone's failure cuts off everyone relying on it. With one in each zone, a failure stays in its own zone. A Regional NAT Gateway gets you the same result automatically.
+
+- **A:** A VPC has one internet gateway, and private subnets don't route to it.
+- **C:** More addresses don't move it out of the failed zone.
+- **D:** A NAT Gateway sits in a public subnet, and this would cut it off from the internet.
+
+Review: [NAT Gateway: out without in](#nat-gateway-out-without-in) in this part, and [NAT gateway basics](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html) in the AWS docs.
+:::
+
+::: quiz
+To block an abusive address range, a team creates a new NACL with a deny rule for that range and an inbound allow rule for port 443. Now no visitor can load the site. Flow Logs show the requests as `ACCEPT` and the replies as `REJECT`. What should the team do?
+
+- [ ] Add a deny rule for the range to the security group
+- [ ] Add an outbound rule for the replies to the security group
+- [x] Add an outbound NACL rule allowing the ephemeral ports
+- [ ] Delete the inbound allow rule from the NACL
+
+A NACL doesn't remember connections, and a new one denies everything you haven't allowed, so the replies need their own rule. Inbound accepted with outbound rejected points straight at the NACL.
+
+- **A:** A security group can only allow, so it can't hold a deny rule.
+- **B:** A security group remembers the connection, so it was already letting the reply out.
+- **D:** This would block the requests as well.
+
+Review: [Two firewalls: security groups and NACLs](#two-firewalls-security-groups-and-nacls) and [Flow Logs](#flow-logs) in this part, and [Custom network ACLs for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/custom-network-acl.html) in the AWS docs.
+:::
+
+::: quiz
+Engineers need a terminal on servers in a private subnet. The servers must keep having no public addresses, and the team doesn't want another server to patch and secure. Which **two** options fit? (Choose two.)
+
+- [ ] A bastion host in a public subnet
+- [ ] A NAT Gateway, with an SSH rule
+- [x] Session Manager, with an IAM role on the servers
+- [ ] An Elastic IP on each server
+- [x] An EC2 Instance Connect Endpoint in the VPC
+
+Both reach the server with no public address and no extra server to run. Session Manager also needs no port 22, and it logs sessions.
+
+- **A:** This is the extra server the team wants to avoid.
+- **B:** A NAT Gateway only lets traffic out, and accepts no connection started from outside.
+- **D:** This gives the servers public addresses, which is what must be avoided.
+
+Review: [How do you reach a private server?](#how-do-you-reach-a-private-server) in this part, and [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) and [EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-with-ec2-instance-connect-endpoint.html) in the AWS docs.
+:::
+
 Your network is now ready, but isolated. In [**part fourteen**](/en/posts/aws-14-vpc-connectivity/) we connect it to other networks, to AWS services and to your office.

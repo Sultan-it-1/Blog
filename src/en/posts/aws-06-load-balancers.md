@@ -238,7 +238,7 @@ Each server only knows its own sessions. Stickiness keeps a visitor on the same 
 - **C:** This concerns requests in progress on a server being removed.
 - **E:** This only delays spotting failed servers.
 
-Review: [Settings worth knowing](#settings-worth-knowing) in this part, and [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-target-group-attributes.html) in the AWS docs.
+Review: [Settings worth knowing](#settings-worth-knowing) in this part, and [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-target-group-attributes.html) and [Make services stateless](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_stateless.html) in the AWS docs.
 :::
 
 But our number of servers is still fixed, and you're the one launching them by hand. In [**part seven**](/en/posts/aws-07-auto-scaling/) we'll have AWS add and remove them on its own, and bring everything we've learned together into a full application.

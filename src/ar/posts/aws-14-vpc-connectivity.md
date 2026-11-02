@@ -286,4 +286,92 @@ aws ec2 delete-vpc-peering-connection --vpc-peering-connection-id $PEER
 - **VPN** سريع التجهيز عبر الإنترنت، و**Direct Connect** خط خاص ياخذ وقت.
 - **نقل البيانات** من أكبر المفاجآت في الفاتورة، فخطط له من البداية.
 
+## اختبر نفسك
+
+::: quiz
+تطبيق لمعالجة الطلبات في شبكة خاصة يكتب كثير على DynamoDB، والفريق لقى إن أغلب فاتورة NAT Gateway جاية من هذي الزيارات. وش يقلل هذي التكلفة **بأقل جهد**؟
+
+- [ ] نقل السيرفرات إلى شبكة عامة
+- [ ] اتصال Peering مع VPC حق DynamoDB
+- [x] Gateway Endpoint لـ DynamoDB
+- [ ] خط Direct Connect إلى الـ Region
+
+الـ Gateway Endpoint يضيف مسار إلى DynamoDB يتخطى NAT، بدون رسوم إضافية وبدون تغيير في الكود.
+
+- **A:** هذا يكشف سيرفرات لازم تبقى خاصة، والعناوين العامة مدفوعة كمان.
+- **B:** DynamoDB مو VPC تقدر تربطها بـ Peering.
+- **D:** هذا يربط موقعك أنت بـ AWS، وما له علاقة بالزيارات داخل الـ VPC.
+
+للمراجعة: [VPC Endpoints: خدمات AWS بدون إنترنت](#vpc-endpoints-خدمات-aws-بدون-إنترنت) في هذا الجزء، و[Gateway endpoints for Amazon DynamoDB](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html) في وثائق AWS.
+:::
+
+::: quiz
+فريق مدفوعات يشغّل واجهة API داخلية خلف Network Load Balancer. وأربعين VPC ثانية تحتاج تتصل فيها، وبعض نطاقاتهم تتداخل مع نطاقها، وما لازم يوصلون لأي شي ثاني في شبكتها. وش يناسب؟
+
+- [ ] VPC Peering مع كل وحدة من الأربعين
+- [x] PrivateLink، مع Interface Endpoint في كل VPC
+- [ ] Gateway Endpoint في كل VPC
+- [ ] عنوان عام للموزّع، مع قواعد جدار حماية
+
+مع PrivateLink، كل طرف ياخذ واجهة خاصة في شبكته الفرعية توصل لهذي الخدمة فقط، فما يسبب تداخل النطاقات أي تعارض.
+
+- **A:** Peering ما يشتغل مع النطاقات المتداخلة، ويربط الشبكات بالكامل.
+- **C:** الـ Gateway Endpoint لـ S3 وDynamoDB فقط.
+- **D:** هذا يحط API داخلية على الإنترنت.
+
+للمراجعة: [VPC Endpoints: خدمات AWS بدون إنترنت](#vpc-endpoints-خدمات-aws-بدون-إنترنت) في هذا الجزء، و[AWS PrivateLink](https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/aws-privatelink.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة صغيرة لازم تربط شبكة مكتبها بـ VPC قبل الأسبوع الجاي. والزيارات قليلة، والميزانية محدودة، والبيانات لازم تكون مشفرة. أي خيار يناسب؟
+
+- [x] Site-to-Site VPN
+- [ ] Direct Connect، بمنفذ Dedicated
+- [ ] Client VPN
+- [ ] VPC Peering
+
+Site-to-Site VPN يمر عبر الإنترنت في نفق مشفر، وتقدر تجهزه بسرعة وبتكلفة قليلة.
+
+- **B:** تجهيزه ياخذ أسابيع أو أشهر، وتكلفته أعلى في البداية.
+- **C:** هذا لأجهزة الموظفين، مو لشبكة مكتب كاملة.
+- **D:** هذا يربط شبكات VPC ببعض، وما يوصل لمكتب.
+
+للمراجعة: [ربط مكتبك: Site-to-Site VPN](#ربط-مكتبك-site-to-site-vpn) في هذا الجزء، و[What is AWS Site-to-Site VPN?](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تكبر إلى 30 VPC على عدة حسابات، مع ثلاث مكاتب متصلة بـ VPN. وتبي كل الشبكات تتصل في مكان واحد، مع فصل الإنتاج عن التطوير. وش يناسب **بأقل عبء تشغيلي**؟
+
+- [ ] VPC Peering بين كل زوج من الشبكات
+- [ ] VPN CloudHub
+- [ ] VPC مشتركة وحدة مربوطة بالباقي بـ Peering
+- [x] Transit Gateway، بجداول توجيه منفصلة
+
+Transit Gateway محور مركزي لشبكات VPC والـ VPN، وجداول توجيهه تحدد مين يتكلم مع مين، وينشارك بين الحسابات عبر RAM.
+
+- **A:** ثلاثين شبكة تحتاج 435 اتصال، كل واحد بمساراته.
+- **B:** هذا يربط المكاتب ببعض عبر بوابة وحدة، مو مجموعة شبكات VPC.
+- **C:** Peering ما ينتقل، فالباقي ما يوصلون لبعض من خلالها.
+
+للمراجعة: [Transit Gateway: محور واحد](#transit-gateway-محور-واحد) في هذا الجزء، و[What is AWS Transit Gateway for Amazon VPC?](https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html) في وثائق AWS.
+:::
+
+::: quiz
+بنك يوصل لـ AWS عبر خط Direct Connect واحد بسرعة 10 جيجابت. والتدقيق لقى مشكلتين: الخط نقطة فشل واحدة، وبياناته مو مشفرة. أي **إجراءين** يعالجون هذا؟ (اختر اثنين.)
+
+- [x] إضافة اتصال ثاني في موقع Direct Connect ثاني
+- [ ] ترقية الخط إلى 100 جيجابت
+- [x] تفعيل MACsec على الخط، أو تشغيل VPN فوقه
+- [ ] إضافة Gateway Endpoint إلى الـ VPC
+- [ ] الانتقال إلى اتصال Hosted عن طريق شريك
+
+الخط الثاني في موقع ثاني يبقي البنك متصل لو تعطل خط أو موقع كامل. وMACsec أو VPN فوقه يضيف التشفير اللي ما يجي مع الخط افتراضياً.
+
+- **B:** الخط الأسرع لسا خط واحد، ولسا مو مشفر.
+- **D:** هذا يوصل لـ S3 وDynamoDB من داخل VPC، وما له علاقة بالخط.
+- **E:** هذا لسا خط واحد، والشريك ما يشفره لك.
+
+للمراجعة: [Direct Connect: خط خاص](#direct-connect-خط-خاص) في هذا الجزء، و[Encryption in AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/encryption-in-transit.html) و[AWS Direct Connect Resiliency Toolkit](https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency_toolkit.html) في وثائق AWS.
+:::
+
 بهذا نكمل قسم الشبكات. الآن تعرف طريق الزائر من اسم موقعك لين بياناته، وبقي لنا مكان يتخزن فيه أي شي بأي حجم. هذا موضوع القسم الجاي، ونبدأه في [**الجزء الخامس عشر**](/posts/aws-15-s3-basics/) مع أساسيات S3.

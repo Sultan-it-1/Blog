@@ -219,4 +219,92 @@ aws route53 delete-hosted-zone --id "$ZONE_ID"
 - **Routing policies** only choose the answer; traffic doesn't pass through them.
 - **Health checks** are what make Failover work.
 
+## Test yourself
+
+::: quiz
+A bakery's site runs behind an Application Load Balancer, and the owner wants anyone typing the bare domain `example.com` to reach it. The load balancer's addresses can change at any time. Which record fits?
+
+- [ ] A CNAME record on `example.com`, pointing to the load balancer's name
+- [ ] An A record holding the load balancer's current addresses
+- [ ] A TXT record holding the load balancer's name
+- [x] An A record of the Alias kind, pointing to the load balancer
+
+An Alias works on the root domain and follows the load balancer's changing addresses for you, and queries to AWS resources like this one are free.
+
+- **A:** A CNAME isn't allowed on the root domain.
+- **B:** Once the addresses change, the record points to the wrong place.
+- **C:** A TXT record holds free text, and browsers don't use it to find a server.
+
+Review: [CNAME or Alias?](#cname-or-alias) in this part, and [Choosing between alias and non-alias records](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html) in the AWS docs.
+:::
+
+::: quiz
+A streaming service runs in two Regions, Frankfurt and Bahrain. Its license requires visitors from Saudi Arabia to always get the Bahrain copy, even when Frankfurt would answer them faster. Which routing policy fits?
+
+- [x] Geolocation
+- [ ] Latency
+- [ ] Weighted
+- [ ] Multivalue
+
+Geolocation chooses by where the visitor is rather than by speed, which is what a licensing rule needs.
+
+- **B:** This sends the visitor to the fastest Region, which could be Frankfurt.
+- **C:** This splits traffic by percentages, whatever the visitor's country.
+- **D:** This returns several healthy records, with no regard for country.
+
+Review: [Routing policies](#routing-policies) in this part, and [Geolocation routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geo.html) in the AWS docs.
+:::
+
+::: quiz
+An internal application uses a Failover record in a private hosted zone. Its primary servers have only private addresses, and must stay that way. How should Route 53 learn whether the primary is healthy?
+
+- [ ] An endpoint health check on the servers' private addresses
+- [ ] Public addresses on the servers, for the checkers to reach
+- [x] A health check based on a CloudWatch alarm watching the primary
+- [ ] A calculated health check combining endpoint checks on the servers
+
+Route 53's checkers come from the internet, so they can't reach a private address. A CloudWatch alarm can watch a metric from the servers, and the health check follows the alarm.
+
+- **A:** The checkers are outside the network, and can't reach a private address.
+- **B:** This breaks the requirement that the servers stay private.
+- **D:** This only combines other checks, and those still can't reach the servers.
+
+Review: [Health checks](#health-checks) in this part, and [Configuring failover in a private hosted zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html) in the AWS docs.
+:::
+
+::: quiz
+A startup bought its domain from another company and wants to keep the registration there, while Route 53 answers for the domain's records. What does it need to do?
+
+- [ ] Transfer the domain's registration to Route 53 first
+- [x] Create a public hosted zone, and put its name servers in the domain's settings at the registrar
+- [ ] Create a private hosted zone, and associate the VPC with it
+- [ ] Create an inbound Resolver endpoint in the VPC
+
+Buying a name and answering for it are separate things. Once the registrar lists Route 53's name servers, Route 53 is the one answering.
+
+- **A:** A transfer is optional, and isn't needed to manage the records.
+- **C:** A private zone only answers inside the VPCs you choose, not for the public.
+- **D:** This lets an office network ask about private names, and has nothing to do with public answers.
+
+Review: [A domain bought elsewhere](#a-domain-bought-elsewhere) in this part, and [Making Route 53 the DNS service for a domain that's in use](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-in-use.html) in the AWS docs.
+:::
+
+::: quiz
+A team wants to send 10% of visitors to a new version of its application, and to pull that traffic back within minutes if anything goes wrong. Which **two** steps fit? (Choose two.)
+
+- [x] Create two Weighted records with the same name, weighted 90 and 10
+- [ ] Create Geolocation records for one country
+- [ ] Raise the records' TTL to a full day before starting
+- [ ] Put both versions' addresses in one Simple record
+- [x] Use a short TTL on those records, such as 60 seconds
+
+Weighted records split the answers by the shares you set, and a short TTL means a change reaches visitors quickly, since resolvers only remember an answer for that long.
+
+- **B:** This chooses by place, not by a share of visitors.
+- **C:** Resolvers would keep the old answer for up to a day, so going back would be slow.
+- **D:** A Simple record gives you no way to set a share.
+
+Review: [Routing policies](#routing-policies) and [Choosing a TTL](#choosing-a-ttl) in this part, and [Weighted routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-weighted.html) in the AWS docs.
+:::
+
 Your site now has a name, but its server is still in one place and the distant visitor is still waiting. In [**part twelve**](/en/posts/aws-12-cloudfront-global-accelerator/) we bring it closer with CloudFront and Global Accelerator.

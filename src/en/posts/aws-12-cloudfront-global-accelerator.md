@@ -233,4 +233,92 @@ A distribution can't be deleted straight away. On its page in the console choose
 - **Global Accelerator** doesn't cache, but carries any TCP or UDP over AWS's network with two static addresses.
 - If your application is HTTP, start with CloudFront.
 
+## Test yourself
+
+::: quiz
+A multiplayer game sends its traffic over UDP to servers in two Regions. Players complain of unsteady delays, and some partners can only allow fixed addresses through their firewalls. Which service fits?
+
+- [ ] Amazon CloudFront, using all edge locations
+- [x] AWS Global Accelerator
+- [ ] Route 53, with Latency records
+- [ ] S3 Cross-Region Replication
+
+Global Accelerator carries any TCP or UDP over AWS's network from the nearest edge location, and gives you two static addresses that can go in a firewall.
+
+- **A:** CloudFront serves HTTP and HTTPS, not a game's UDP traffic.
+- **C:** This only picks a Region, so the traffic still crosses the public internet, and the addresses aren't static.
+- **D:** This copies S3 objects, and has nothing to do with live game traffic.
+
+Review: [Global Accelerator: a faster road](#global-accelerator-a-faster-road) in this part, and [AWS Global Accelerator FAQs](https://aws.amazon.com/global-accelerator/faqs/) on the AWS site.
+:::
+
+::: quiz
+An online academy keeps its course files in S3 and serves them through CloudFront. Visitors can still open the files directly from the bucket's URL, skipping CloudFront altogether. What closes this gap?
+
+- [ ] Geo restriction on the distribution
+- [ ] Signed URLs on the distribution
+- [x] OAC, with a bucket policy that only allows CloudFront
+- [ ] An invalidation of `/*` on the distribution
+
+With OAC, CloudFront signs its requests to S3 and the bucket policy accepts only those, so the bucket stays closed to everyone else.
+
+- **A:** This limits countries inside CloudFront, and the bucket's URL stays open.
+- **B:** This controls who gets through CloudFront, and the bucket's URL stays open.
+- **D:** This clears copies from the cache, and changes nothing about who can reach the bucket.
+
+Review: [Origins](#origins) in this part, and [Restrict access to an Amazon S3 origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) in the AWS docs.
+:::
+
+::: quiz
+One domain serves product images under `/images/*` and a live API under `/api/*`. The images should stay cached for a month, while API responses must never be cached. What's the simplest way to do this with CloudFront?
+
+- [ ] Two distributions, each with its own domain
+- [ ] An invalidation of `/api/*` after every request
+- [ ] Global Accelerator in front of the API
+- [x] One distribution, with a behavior for each path
+
+A behavior applies its own rules to a path pattern, so one distribution on one domain can keep images for a long time and pass the API straight through.
+
+- **A:** This splits the site across two domains for no need.
+- **B:** Invalidations take time and aren't made for every request, and the paths stop being free after the monthly allowance.
+- **C:** This doesn't cache anything, so it does nothing for the images.
+
+Review: [What gets cached, and for how long?](#what-gets-cached-and-for-how-long) in this part, and [Cache behavior settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesCacheBehavior.html) in the AWS docs.
+:::
+
+::: quiz
+A team changes `main.css` several times a day. Visitors sometimes see old styles, and the team is tired of invalidating the cache after each release. What's the better long-term solution?
+
+- [x] Put a version in the file's URL, and change it with each release
+- [ ] Give the file a one-year lifetime, with no version
+- [ ] Remove CloudFront, and serve the file from the origin
+- [ ] Replicate the file to a bucket in each Region
+
+A new version means a new URL, so visitors get the new copy at once, with no waiting for the old one to expire and no invalidations to run.
+
+- **B:** Visitors would keep the old copy for even longer.
+- **C:** This gives up the speed, and puts the load back on the origin.
+- **D:** This adds more copies to keep in sync, and the old one stays in the cache.
+
+Review: [Clearing the cache](#clearing-the-cache) in this part, and [Use file versioning to update or remove content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/UpdatingExistingObjects.html) in the AWS docs.
+:::
+
+::: quiz
+A news site finds that most CloudFront requests still reach its origin, even for articles that rarely change. The cache key includes all cookies and headers, and the origin sends `Cache-Control: max-age=60`. Which **two** changes raise the share of requests answered from the edge? (Choose two.)
+
+- [ ] Invalidate `/*` every hour
+- [x] Remove the cookies and headers the pages don't depend on from the cache key
+- [ ] Put Global Accelerator in front of the origin
+- [x] Have the origin send a longer `max-age` for articles
+- [ ] Add a second distribution for the same content
+
+Every extra value in the key splits one page into many copies, and a short lifetime sends requests back to the origin soon after. With both fixed, more visitors find a ready copy.
+
+- **A:** This empties the cache, so the problem gets worse.
+- **C:** This doesn't cache, so requests would still reach the origin.
+- **E:** It would have the same key and lifetime, so the same problem would repeat.
+
+Review: [What gets cached, and for how long?](#what-gets-cached-and-for-how-long) in this part, and [Increase the proportion of requests that are served directly from the CloudFront caches](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cache-hit-ratio.html) in the AWS docs.
+:::
+
 All this brings the visitor to your network's door, but how is the network itself built? In [**part thirteen**](/en/posts/aws-13-vpc/) we open up the VPC and build one from scratch.

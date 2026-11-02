@@ -238,7 +238,7 @@ NLB يدعم UDP ويعطي عنوان IP ثابت في كل منطقة توفر
 - **C:** هذا يخص الطلبات الجارية على سيرفر ينشال.
 - **E:** هذا يأخر اكتشاف السيرفرات الفاشلة فقط.
 
-للمراجعة: [إعدادات تحتاج تعرفها](#إعدادات-تحتاج-تعرفها) في هذا الجزء، و[Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-target-group-attributes.html) في وثائق AWS.
+للمراجعة: [إعدادات تحتاج تعرفها](#إعدادات-تحتاج-تعرفها) في هذا الجزء، و[Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-target-group-attributes.html) و[Make services stateless](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_stateless.html) في وثائق AWS.
 :::
 
 بس عدد السيرفرات عندنا الحين ثابت، وأنت اللي تشغّلها بيدك. في [**الجزء السابع**](/posts/aws-07-auto-scaling/) نخلي AWS تزيدها وتنقصها لحالها، ونجمع كل اللي تعلمناه في تطبيق كامل.
