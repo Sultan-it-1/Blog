@@ -173,7 +173,8 @@
             // Storage blocked: the ticks last for this page only.
         }
     };
-    const isFinished = (entry) => entry.read.length >= entry.total;
+    // Entries saved before the test section had to be answered have no `tested`, so they aren't finished yet.
+    const isFinished = (entry) => entry.read.length >= entry.total && 'tested' in entry;
 
     const resumeLink = document.querySelector('[data-progress-resume]');
     const resumeStart = resumeLink && { href: resumeLink.href, text: resumeLink.firstChild.textContent };
@@ -185,14 +186,17 @@
     const showParts = () => {
         const { parts = {}, last } = loadProgress();
         document.querySelectorAll('[data-progress-part]').forEach((element) => {
-            const entry = parts[element.dataset.progressPart];
+            const saved = parts[element.dataset.progressPart];
+            const entry = saved?.read.length ? saved : null;
             element.classList.toggle('is-read', Boolean(entry) && isFinished(entry));
             element.classList.toggle('is-started', Boolean(entry) && !isFinished(entry));
             const label = element.querySelector('[data-progress-label]');
             if (label) {
                 label.hidden = !entry;
-                if (entry) label.textContent = isFinished(entry) ? body.dataset.progressDone : `${body.dataset.progressRead} ${entry.read.length}/${entry.total}`;
+                if (entry) label.textContent = isFinished(entry) ? body.dataset.progressDone : `${body.dataset.progressRead} ${Math.min(entry.read.length, entry.total - 1)}/${entry.total}`;
             }
+            const clear = element.querySelector('[data-progress-clear]');
+            if (clear) clear.hidden = !entry;
         });
 
         // A series card, or the series page itself.
@@ -251,6 +255,35 @@
         showParts();
     });
 
+    // Removing one part's progress from the series page, after a yes in the row itself.
+    document.querySelectorAll('.series-item [data-progress-clear]').forEach((clear) => {
+        const ask = clear.querySelector('[data-clear-ask]');
+        const confirmation = clear.querySelector('[data-clear-confirm]');
+        const no = clear.querySelector('[data-clear-no]');
+        const setAsking = (asking) => {
+            ask.hidden = asking;
+            confirmation.hidden = !asking;
+        };
+        ask.addEventListener('click', () => {
+            setAsking(true);
+            no.focus({ preventScroll: true });
+        });
+        no.addEventListener('click', () => {
+            setAsking(false);
+            ask.focus({ preventScroll: true });
+        });
+        clear.querySelector('[data-clear-yes]').addEventListener('click', () => {
+            const row = clear.closest('[data-progress-part]');
+            const progress = loadProgress();
+            delete progress.parts?.[row.dataset.progressPart];
+            if (progress.last === row.dataset.progressPart) delete progress.last;
+            saveProgress(progress);
+            setAsking(false);
+            showParts();
+            row.querySelector('a').focus({ preventScroll: true });
+        });
+    });
+
     // Coming back to a page from the browser's cache skips the script, so refresh the ticks.
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) showParts();
@@ -265,8 +298,22 @@
         const slug = progressPost.dataset.progressSlug;
         const prose = progressPost.querySelector('[data-highlightable]');
         const sections = [...prose.querySelectorAll('h2[id]')];
-        const read = new Set((loadProgress().parts?.[slug]?.read || []).filter((index) => index < sections.length));
+        // The section holding the questions counts only once they've all been answered, however long it's on screen.
+        const deck = prose.querySelector('[data-quiz-deck]');
+        const testSection = deck ? sections.findLastIndex((heading) => heading.compareDocumentPosition(deck) & Node.DOCUMENT_POSITION_FOLLOWING) : -1;
+        const saved = loadProgress().parts?.[slug];
+        let tested = testSection < 0 || saved?.tested === true;
+        const read = new Set((saved?.read || []).filter((index) => index < sections.length && (index !== testSection || tested)));
         const seconds = sections.map(() => 0);
+
+        const saveRead = () => {
+            const progress = loadProgress();
+            progress.parts = { ...progress.parts, [slug]: { read: [...read].sort((a, b) => a - b), total: sections.length, tested } };
+            progress.last = slug;
+            saveProgress(progress);
+            showSections();
+            showParts();
+        };
 
         const showSections = () => {
             progressPost.querySelectorAll('.toc-list').forEach((list) => {
@@ -298,22 +345,23 @@
                 const start = heading.getBoundingClientRect().top;
                 const end = index + 1 < sections.length ? sections[index + 1].getBoundingClientRect().top : proseEnd;
                 if (start < height * 0.7 && end > height * 0.15) seconds[index] += tickSeconds;
-                if (!read.has(index) && seconds[index] >= secondsToRead && end >= 0 && end <= height) {
+                if (index !== testSection && !read.has(index) && seconds[index] >= secondsToRead && end >= 0 && end <= height) {
                     read.add(index);
                     changed = true;
                 }
             });
-            if (!changed) return;
-
-            const progress = loadProgress();
-            progress.parts = { ...progress.parts, [slug]: { read: [...read].sort((a, b) => a - b), total: sections.length } };
-            progress.last = slug;
-            saveProgress(progress);
-            showSections();
-            showParts();
+            if (changed) saveRead();
         }, tickSeconds * 1000);
 
+        prose.addEventListener('quiz-answered', () => {
+            tested = true;
+            read.add(testSection);
+            saveRead();
+        });
+
         showSections();
+        // Bring an entry saved under the older rule up to date.
+        if (saved && !('tested' in saved)) saveRead();
     }
 
     showParts();
@@ -430,6 +478,7 @@
             quiz.querySelector('.quiz-answer').open = true;
             answered.set(quiz, right);
             next.disabled = false;
+            if (answered.size === quizzes.length) deck.dispatchEvent(new CustomEvent('quiz-answered', { bubbles: true }));
         };
 
         pool.forEach((quiz) => {

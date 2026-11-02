@@ -2743,6 +2743,43 @@
         font-weight: 600;
     }
 
+    /* Above the row's stretched link, so these don't open the part. */
+    .series-item-clear,
+    .series-item-confirm {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .series-item-clear {
+        position: relative;
+        z-index: 1;
+        margin-block: -0.6rem;
+        color: var(--color-muted);
+    }
+
+    .series-item-answers {
+        display: inline-flex;
+    }
+
+    .series-item-clear button {
+        min-width: 44px;
+        min-height: 44px;
+        padding-inline: 0.5rem;
+        color: var(--color-muted);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
+    .series-item-clear button:hover {
+        color: var(--color-ink);
+    }
+
+    .series-item-clear button.is-yes {
+        color: var(--color-accent);
+        font-weight: 600;
+    }
+
     .series-item.is-upcoming {
         border-style: dashed;
         background: transparent;
@@ -2779,6 +2816,7 @@
 
     .series-item-meta {
         display: inline-flex;
+        flex-wrap: wrap;
         align-items: center;
         gap: 0.35rem;
         margin-top: 0.5rem;

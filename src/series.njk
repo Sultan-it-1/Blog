@@ -71,7 +71,7 @@ eleventyComputed:
           {%- if item.post.data.description %}
           <p class="series-item-text">{{ item.post.data.description }}</p>
           {%- endif %}
-          <p class="series-item-meta">{% icon "clock" %}{{ t.readingTime(item.post.content | readingMinutes) }}<span class="series-item-status" data-progress-label hidden></span></p>
+          <p class="series-item-meta">{% icon "clock" %}{{ t.readingTime(item.post.content | readingMinutes) }}<span class="series-item-status" data-progress-label hidden></span><span class="series-item-clear" data-progress-clear hidden><button type="button" aria-label="{{ t.progress.remove }}: {{ item.title }}" data-clear-ask>{{ t.progress.remove }}</button><span class="series-item-confirm" data-clear-confirm hidden>{{ t.progress.removeConfirm }}<span class="series-item-answers"><button type="button" class="is-yes" data-clear-yes>{{ t.progress.yes }}</button><button type="button" data-clear-no>{{ t.progress.no }}</button></span></span></span></p>
         </div>
         <span class="post-row-arrow" aria-hidden="true">{% icon "arrow" %}</span>
       </li>

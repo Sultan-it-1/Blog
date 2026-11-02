@@ -114,6 +114,10 @@ export default {
       finished: "الأجزاء المكتملة",
       resume: "كمل من الجزء {n}",
       reset: "مسح التقدم",
+      remove: "إزالة",
+      removeConfirm: "إزالة تقدم هذا الجزء؟",
+      yes: "نعم",
+      no: "لا",
     },
 
     quiz: {
@@ -287,6 +291,10 @@ export default {
       finished: "Parts finished",
       resume: "Continue with part {n}",
       reset: "Clear progress",
+      remove: "Remove",
+      removeConfirm: "Remove this part's progress?",
+      yes: "Yes",
+      no: "No",
     },
 
     quiz: {
