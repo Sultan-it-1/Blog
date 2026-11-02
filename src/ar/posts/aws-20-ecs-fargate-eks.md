@@ -220,6 +220,17 @@ docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/shop
 
 لو ما فيه شي يدفعك لـ Kubernetes، ابدأ بـ **ECS على Fargate**.
 
+### حاويات على سيرفراتك
+
+تحتاج نفس الأدوات خارج AWS، مثل مركز بياناتك؟
+
+| الخيار | وش يسوي |
+| --- | --- |
+| **ECS Anywhere** | يسجل سيرفراتك أو أجهزتك الافتراضية في مجموعة ECS |
+| **EKS Hybrid Nodes** | يضيف سيرفراتك كعقد في مجموعة EKS |
+| **EKS Anywhere** | يشغّل مجموعات Kubernetes على بنيتك، للبيئات المعزولة |
+| **EKS Distro** | مكونات Kubernetes اللي يقوم عليها EKS، تشغلها وتدعمها بنفسك |
+
 ## عملي: Service يعوض مهمة وقفت
 
 بنشغل صورة Nginx عامة على Fargate، بدون بناء شي. من CloudShell، أنشئ الـ Cluster واكتب الوصفة. والصورة من مستودع عام بدون سجلات ما تحتاج Execution Role:

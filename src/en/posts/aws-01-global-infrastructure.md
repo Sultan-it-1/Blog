@@ -105,6 +105,16 @@ Edge locations are AWS sites in many cities around the world, far more numerous 
 
 For example: your site is hosted in Frankfurt and a visitor is in Riyadh. Instead of every image travelling the full distance, CloudFront keeps a copy at the edge location nearest the visitor and serves it from there.
 
+### Closer still: Local Zones, Wavelength and Outposts
+
+Some applications need to run closer to users than any Region. AWS has three ways of doing that:
+
+| Option | Where it runs | Good for |
+| --- | --- | --- |
+| **Local Zones** | AWS sites in large cities, attached to a Region | Very low latency for users in that city |
+| **Wavelength Zones** | Inside telecom carriers' 5G networks | Ultra-low latency to phones and 5G devices |
+| **AWS Outposts** | AWS hardware in your own data center | Data or systems that must stay on your site |
+
 ## Global and regional services
 
 Since most services are regional, you need to know which ones are tied to a Region and which aren't:

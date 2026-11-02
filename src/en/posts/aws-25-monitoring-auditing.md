@@ -178,6 +178,18 @@ CloudTrail tells you who called what. **Config** tells you what a resource looks
 - **Notifications:** through EventBridge or SNS.
 - **Scope and cost:** it works per Region, and you pay per recorded item and per rule evaluation.
 
+## X-Ray: following one request
+
+A request in a modern application can pass through an API, three functions and a database. Metrics tell you something is slow, and **AWS X-Ray** tells you where. It collects **traces** of each request as it passes through your services, including its calls to databases and other APIs, and shows you which step is slow or failing.
+
+## Other views
+
+| Tool | What it shows |
+| --- | --- |
+| **AWS Health Dashboard** | Whether AWS itself has a problem affecting your services and resources, with no setup and at no cost |
+| **Managed Grafana** | Dashboards for metrics, logs and traces from several sources, using the popular Grafana tool |
+| **Managed Service for Prometheus** | Container metrics through the open-source Prometheus tools, with no servers to run |
+
 ## Which one, when?
 
 Let's take one load balancer:

@@ -148,6 +148,8 @@ To let a user in account A reach something in account B, you have two ways:
 | **Suits** | Working entirely inside the other account | Reading from a table in A and writing to a bucket in B at once |
 | **Available on** | All services | Only those supporting it, such as S3, SNS, SQS and Lambda |
 
+Behind every assumed role is **AWS STS** (Security Token Service). It hands out the temporary credentials, which expire by themselves. This is how cross-account access works without sharing long-term keys: a user or service calls `AssumeRole`, STS checks the role's trust policy, and returns keys that work for a limited time.
+
 ## Permissions boundaries
 
 You want team leads to create roles for their services, without being able to give anyone more than they should have. A **permissions boundary** sets the maximum for a particular user or role, and like an SCP, it grants nothing.
@@ -207,6 +209,16 @@ Instead of a user in every account, **IAM Identity Center** gives each employee 
 | **Applications** | Single sign-on to SAML applications too |
 
 For the CLI, `aws configure sso` signs you in through your browser and gives you temporary credentials. This is the recommended way for people to work with AWS these days, in place of IAM users with long-term keys.
+
+### Federation: identities from outside
+
+**Federation** means people or systems sign in with an identity that lives outside AWS and receive temporary credentials, with no IAM user to create. Your choice depends on who's signing in:
+
+| Who | Use |
+| --- | --- |
+| **Employees across many accounts** | Identity Center, as above, which is what AWS recommends |
+| **One standalone account, or systems such as GitHub Actions** | An identity provider in IAM using SAML 2.0 or OIDC, with a role to assume |
+| **Your application's users** | [Cognito identity pools](/en/posts/aws-22-serverless-design/) |
 
 ### Active Directory on AWS
 

@@ -118,6 +118,7 @@ These are for recovering in another Region, ordered from the cheapest to the mos
 - **Automate.** Build the environment from templates, because in a disaster nobody remembers the steps.
 - **Protect your backups from yourself.** Put them in another account and another Region, because an attacker who gets into your account will go for them first.
 - **Think of Elastic Disaster Recovery.** **AWS DRS** continuously replicates your servers to cheap storage, and launches them only when needed, with an RPO of seconds and an RTO of minutes.
+- **Check the quotas in the standby Region.** Quotas are per Region, so a small standby can hit its limit just when it has to grow. Raise them there in advance, from the **Service Quotas** console.
 
 ## AWS Backup: everything in one place
 

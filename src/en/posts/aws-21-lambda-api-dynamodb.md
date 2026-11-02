@@ -161,6 +161,8 @@ This is the big difference from [relational databases](/en/posts/aws-10-choosing
 | **On-demand** | Scales by itself, and you pay per request | Unknown or changing load; start here |
 | **Provisioned** | You set reads and writes per second, optionally with auto scaling | Steady, predictable load, which comes out cheaper |
 
+Provisioned capacity is counted in units. One **read capacity unit (RCU)** is one strongly consistent read per second of an item up to 4 KB, or two eventually consistent ones. One **write capacity unit (WCU)** is one write per second of an item up to 1 KB. So reading 80 items of 3 KB per second with strong consistency needs 80 RCUs, and writing 100 items of 512 bytes per second needs 100 WCUs.
+
 ### Additions worth knowing
 
 | Feature | What it does |
@@ -226,6 +228,10 @@ Behind it you can put a Lambda function, any HTTP address, or an AWS service dir
 ::: warning Watch the time and size limits
 A REST API waits 29 seconds for a response by default, and you can raise this on Regional and Private APIs, though that may lower your request quota. Both types have a 10 MB payload limit, so have large files go directly to S3 with [signed links](/en/posts/aws-17-s3-security/).
 :::
+
+### Throttling
+
+API Gateway protects what's behind it by limiting requests, and it applies its limits from the most specific down: per client, per method, then for the whole account in the Region. Past the limit, the client gets a `429` and can retry. On a REST API, **usage plans** with API keys give each client its own rate and quota, which suits an API you sell.
 
 ## Hands-on: a working API
 

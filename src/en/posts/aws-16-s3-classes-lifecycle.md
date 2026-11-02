@@ -130,6 +130,8 @@ If you have millions of files and want to do something to all of them at once, s
 
 On the other side, if you share huge data with another party, **Requester Pays** has them pay the request and download costs instead of you.
 
+And if you upload millions of small files you won't read one by one, such as logs, bundle them into one archive first. Every `PUT` is a paid request, so one large upload can cost far less than a million small ones.
+
 ## Hands-on: classes and a lifecycle rule
 
 We'll carry on with the bucket from the previous part. If your CloudShell session ended, set its name in `BUCKET` again. Upload a file to a specific class, and check the class:

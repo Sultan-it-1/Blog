@@ -289,6 +289,8 @@ Imagine a million sensors sending readings every second, and three parties who w
 
 The ceiling for on-demand depends on the Region: up to 10 GB per second of writes in the largest Regions, and 200 MB per second in others.
 
+Video has its own service: **Kinesis Video Streams** takes live video from devices such as cameras, stores it, and lets you watch it or process it, live or later.
+
 ## Data Firehose: to storage with no code
 
 Very often all you want is for the stream to land somewhere. **Amazon Data Firehose** (formerly Kinesis Data Firehose) takes data, collects it, and delivers it with no code or servers:

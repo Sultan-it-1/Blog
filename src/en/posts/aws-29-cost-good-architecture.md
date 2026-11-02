@@ -87,8 +87,9 @@ Each layer saves work for the ones behind it, so the further forward the better,
 | **Cost Anomaly Detection** | Uses machine learning to spot unusual spending, at no charge |
 | **Cost Optimization Hub** | Gathers recommendations for savings in one place: resizing, idle resources and more |
 | **Compute Optimizer** | Recommends suitable sizes based on your actual use |
+| **Cost and Usage Report** | The most detailed data on your costs and usage, delivered as files to S3 for you to analyze. **AWS Data Exports** creates similar exports with the columns you choose |
 
-And the first step is **tags**: without an `env` or `team` tag, you won't know who's spending what.
+And the first step is **tags**: without an `env` or `team` tag, you won't know who's spending what. And tags only reach your cost reports once you **activate them as cost allocation tags** in the billing console.
 
 ### Quick savings
 
@@ -143,6 +144,18 @@ So far we've created everything by hand or by command. What if you could describ
 | **Maintenance Windows** | Sets when these things are allowed to happen |
 | **Automation** | Ready documents for common tasks, like [Config](/en/posts/aws-25-monitoring-auditing/) remediation |
 
+## Applications you can't change
+
+Not every application can be rewritten, and you can often make an old one more reliable from the outside, without touching its code:
+
+| Problem | Solution |
+| --- | --- |
+| **One server that can fail** | An [Auto Scaling group](/en/posts/aws-07-auto-scaling/) of one with a health check, or [automatic recovery](/en/posts/aws-25-monitoring-auditing/), which brings it back on new hardware with the same addresses |
+| **Load that overwhelms it** | [CloudFront](/en/posts/aws-12-cloudfront-global-accelerator/) in front of it, for whatever can be cached |
+| **Too many database connections** | [RDS Proxy](/en/posts/aws-08-rds-aurora/), which only needs a new endpoint |
+| **A database that can go down** | [Multi-AZ](/en/posts/aws-08-rds-aurora/), which keeps the same endpoint |
+| **Clients allowing fixed addresses through their firewalls** | The two static addresses of [Global Accelerator](/en/posts/aws-12-cloudfront-global-accelerator/) |
+
 ## Services worth knowing
 
 A last group that deserves a line each:
@@ -154,8 +167,11 @@ A last group that deserves a line each:
 | **AWS Outposts** | AWS servers in your own data center, for when the data must stay with you |
 | **Amazon AppFlow** | Moving data from SaaS applications such as Salesforce into S3 or Redshift, with no code |
 | **AWS Amplify** | Quickly building and hosting web and mobile applications |
+| **Service Catalog** | A catalog of approved services, so teams deploy only what's allowed |
+| **License Manager** | Tracks software licenses, such as Oracle and SAP, across accounts |
+| **Device Farm** | Testing apps on real phones and tablets hosted by AWS |
 
-If you read older articles, **Amazon Pinpoint** reached its end of support on October 30, 2026. AWS points to **SES** for email, and to **AWS End User Messaging** for SMS and push notifications.
+If you read older articles, **Amazon Pinpoint** reached its end of support on October 30, 2026. AWS points to **SES** for email, and to **AWS End User Messaging** for SMS and push notifications. **AWS Proton** also reached its end of support, on October 7, 2026, though the exam guide still lists it.
 
 ### High performance computing
 
@@ -382,7 +398,7 @@ Twenty-nine parts in nine sections. Look at what you can do now:
 - **Build something real.** A small project of your own teaches you more than any article, even a little site with an API.
 - **Try the [comprehensive test](/en/series/aws/quiz/).** It picks random questions from every part, so you can see what's stuck and what to review.
 - **Read the FAQs.** Each service's FAQ page is a short, rich and accurate summary.
-- **Consider a certification.** **Solutions Architect Associate** covers most of what's in this series, and the exam tests how you choose between services. Read each question for its deciding phrase, such as "lowest cost" or "least operational effort", and eliminate the wrong answers first.
+- **Consider a certification.** **Solutions Architect Associate** covers most of what's in this series, and the exam tests how you choose between services. Read each question for its deciding phrase, such as "lowest cost" or "least operational effort", and eliminate the wrong answers first. Its official [exam guide](https://docs.aws.amazon.com/aws-certification/latest/solutions-architect-associate-03/solutions-architect-associate-03.html) lists every domain and service.
 - **Follow the changes.** AWS changes quickly, and several things in this series changed even as it was being written. Check the docs before any decision.
 
 Thanks for coming along to the end, and good luck with what you build.

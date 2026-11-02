@@ -241,6 +241,8 @@ Put **CloudFront** in front of it, and change nothing else. The files don't chan
 | **Calculate the cost** | With heavy, constant load, containers can come out cheaper |
 | **Observe everything** | Requests pass through many services, and we cover the tools in [part twenty-five](/en/posts/aws-25-monitoring-auditing/) |
 
+You also don't have to start from nothing. The **AWS Serverless Application Repository** lets you find ready-made serverless applications, set a few values, and deploy them in a few clicks.
+
 ## Hands-on: a file triggers a function
 
 In [part fifteen](/en/posts/aws-15-s3-basics/) we promised to apply S3 events. We'll make the thumbnail flow, with one simplification: instead of an image library, the function converts a text file to capitals. The flow is exactly the same. From CloudShell:

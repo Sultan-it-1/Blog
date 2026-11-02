@@ -47,6 +47,8 @@ The metric you choose matters. CPU is a good start, but for websites **requests 
 
 To give new servers time to affect the numbers, target tracking and step policies wait out an **instance warmup** period. If you haven't set one, they use the default cooldown of 300 seconds.
 
+An Auto Scaling group scales servers. If your application also has ECS services, DynamoDB tables or Aurora replicas, the **AWS Auto Scaling** service can manage a scaling plan for all of them in one place.
+
 ::: tip Save money with Spot
 You can mix pricing in one group: the minimum at the regular price or under a Savings Plan, and the extras on [Spot](/en/posts/aws-04-ec2-pricing-networking/). A web application tolerates this because the load balancer drops any server that disappears.
 :::
@@ -152,6 +154,8 @@ In this design, any server can vanish at any moment: scaled in by the group, rep
 | **Images and static files** | Extra load on the servers | S3 with CloudFront |
 
 We haven't reached some of these services yet; the coming sections cover them. What matters now is the idea: whenever you design something, ask "what happens if this server disappears right now?" If the answer is "nothing", you're on the right track.
+
+The same thinking leads to **immutable infrastructure**: you don't update a running server. You build a new image, put it in a new launch template, and let **instance refresh** replace the group's servers gradually. Every server then matches what you tested, and going back means returning to the previous image.
 
 ### Cost in this design
 

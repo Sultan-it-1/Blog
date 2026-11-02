@@ -168,6 +168,8 @@ Analysis assumes the data is clean and organized, which is rarely the case. **Gl
 
 A common pattern: a file lands in S3, an event starts a Glue job, and it converts the file to Parquet in another folder. Note that **Glue Ray jobs** closed to new customers on April 30, 2026, while Spark jobs carry on as usual.
 
+You may also read about **AWS Data Pipeline**, an older service for moving and processing data on a schedule. It's closed to new customers and in maintenance mode, so use Glue or Step Functions for new work.
+
 ## Lake Formation: permissions for the lake
 
 S3 with Parquet files and a catalog is what's called a **data lake**. As it grows, managing access through [bucket policies](/en/posts/aws-15-s3-basics/) gets hard, because S3 knows about files, not columns.
@@ -217,6 +219,21 @@ Do you have existing **Spark** or **Hadoop** jobs? **EMR** runs them, and you ca
 | **APIs** | AWS's own | Standard Kafka |
 | **Record size** | 1 MiB by default, up to 10 MiB | 1 MB by default, and configurable |
 | **Choose it if** | You want the simplest option on AWS | You have Kafka applications and tools |
+
+## How does the data arrive?
+
+Choosing a way in starts with how often the data arrives, and how large it is:
+
+| The data | Use |
+| --- | --- |
+| **Files from a server or NAS, on a schedule** | [DataSync](/en/posts/aws-18-storage-transfer/) |
+| **Files from partners over SFTP** | [Transfer Family](/en/posts/aws-18-storage-transfer/) |
+| **Small records, continuously, with several readers** | [Kinesis Data Streams](/en/posts/aws-19-sqs-sns-kinesis/) or MSK |
+| **Small records, continuously, landing in storage** | [Data Firehose](/en/posts/aws-19-sqs-sns-kinesis/) |
+| **Rows changing in a database** | Zero-ETL or [DMS](/en/posts/aws-28-disaster-recovery-migration/) |
+| **Data sets from other companies** | **AWS Data Exchange**, where you subscribe to them |
+
+Secure each way in the same manner: least-privilege IAM roles, encryption in transit and at rest, and private paths such as [VPC endpoints](/en/posts/aws-14-vpc-connectivity/) instead of the public internet where you can.
 
 ## The complete picture
 

@@ -104,7 +104,7 @@ The private subnet's table has `0.0.0.0/0` pointing to `nat-...` instead of the 
 | --- | --- |
 | **Zonal NAT Gateway** | You need one in each Availability Zone, otherwise private subnets elsewhere lose access if its zone fails |
 | **Regional NAT Gateway** | Newer. It expands automatically to the zones holding your servers, and is billed for each active zone |
-| **NAT instance** | An EC2 server you manage yourself. An old approach, not for anything new |
+| **NAT instance** | An EC2 server you manage yourself: you pay for the server instead of per gigabyte, its bandwidth depends on its size, it has no automatic failover, and you must turn off its source/destination check. It can be cheaper for very small workloads, but AWS recommends NAT gateways |
 
 ::: warning The bill's surprise
 A NAT Gateway is billed by the hour and for every gigabyte passing through it. Many people discover it late on their bill. In the next part we'll see how to reduce this cost.

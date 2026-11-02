@@ -110,7 +110,7 @@ You have these options for large amounts:
 - **Data Transfer Terminal:** physical sites you visit with your own storage devices, connecting them to AWS's network at high speed.
 
 ::: note What about Snowball?
-You may read about **AWS Snowball Edge**, devices AWS ships to you to fill and send back. But the service has been closed to new customers since November 2025, and [AWS has announced](https://aws.amazon.com/snowball/) the end of support in its commercial Regions on December 31, 2026. For computing at remote sites, AWS points to **Outposts**.
+You may read about **AWS Snowball Edge**, devices AWS ships to you to fill and send back. But the service has been closed to new customers since November 2025, and [AWS has announced](https://aws.amazon.com/snowball/) the end of support in its commercial Regions on December 31, 2026. For computing at remote sites, AWS points to **Outposts**. If you're studying for the Solutions Architect exam, its guide still lists the Snow Family, so remember the idea: move the data on a device when the line would take too long.
 :::
 
 ## Comparing storage services

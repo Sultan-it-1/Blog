@@ -216,6 +216,17 @@ For storage, EKS uses **CSI drivers** to mount EBS, EFS or FSx.
 
 If nothing is pushing you toward Kubernetes, start with **ECS on Fargate**.
 
+### Containers on your own servers
+
+Need the same tools outside AWS, such as in your data center?
+
+| Option | What it does |
+| --- | --- |
+| **ECS Anywhere** | Registers your own servers or virtual machines in an ECS cluster |
+| **EKS Hybrid Nodes** | Adds your own servers as nodes in an EKS cluster |
+| **EKS Anywhere** | Runs Kubernetes clusters on your own infrastructure, for isolated environments |
+| **EKS Distro** | The Kubernetes components behind EKS, for you to run and support yourself |
+
 ## Hands-on: a service replaces a stopped task
 
 We'll run a public Nginx image on Fargate, with no build needed. From CloudShell, create the cluster and write the recipe. An image from a public registry with no logs doesn't need an execution role:

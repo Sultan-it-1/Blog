@@ -47,6 +47,8 @@ The main families:
 
 Always start small, and grow when the numbers say you need to. The `t` family uses a CPU "credit" system: it runs at a baseline and can burst above it for short periods, which is great for small projects and wrong for heavy, sustained load.
 
+Most current types run on the **AWS Nitro System**, a lightweight hypervisor backed by dedicated hardware, which gives a virtual server performance close to the physical machine. If you need the machine itself, such as for software that can't run virtualized, look for `.metal` sizes.
+
 ## Security groups: the server's firewall
 
 A **security group** is a virtual firewall around the server. The key points:

@@ -84,6 +84,10 @@ This matters when copying encrypted data:
 
 **Multi-Region keys** share the same key material and ID across Regions, so something encrypted in one Region can be decrypted in another without re-encrypting. They're not for everything, as AWS recommends single-Region keys by default. They suit cases such as client-side encryption of a field in [Global Tables](/en/posts/aws-21-lambda-api-dynamodb/) or Aurora Global.
 
+### CloudHSM: your own hardware
+
+With KMS, AWS manages the hardware holding your keys. If a regulation requires a hardware security module dedicated to you, **AWS CloudHSM** gives you a single-tenant cluster of FIPS-validated HSMs. AWS handles provisioning and backups, while you control the keys and users yourself. Choose it only when you must, because you take on more responsibility than with KMS.
+
 ## Where do you keep passwords?
 
 Not in code, and not in Git. You have two services:
@@ -191,8 +195,13 @@ Prevention isn't everything. You also need something to tell you when something'
 | **Inspector** | Does what I run have known vulnerabilities? | EC2 servers, ECR images and Lambda functions |
 | **Macie** | Is there sensitive data somewhere it shouldn't be? | S3 |
 | **Security Hub** | How's my security overall? | Gathers and prioritizes the findings of the others |
+| **Detective** | Why did this finding happen? | Collects logs by itself and links them together, to find the root cause |
 
 GuardDuty catches things like crypto mining, or credentials used from a strange place. Send its findings through EventBridge to SNS or Lambda so you act on them. It's one click to enable, so turn it on from the start in any serious account, as it has a free trial period.
+
+### Compliance documents: AWS Artifact
+
+An auditor asks for proof that AWS itself meets ISO or PCI standards? **AWS Artifact** gives you those reports on demand and free of charge, and it's also where you review and accept agreements with AWS. It covers AWS's side of the [shared responsibility model](/en/posts/aws-01-global-infrastructure/), and proving your side is still up to you.
 
 ## Hands-on: a key, a parameter and a secret
 
