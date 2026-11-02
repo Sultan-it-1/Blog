@@ -196,8 +196,6 @@ AWS gives new accounts limited free usage, but the terms change over time. Check
 
 ## Test yourself
 
-Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
-
 ::: quiz
 A clinic runs its booking application on one EC2 server in `me-central-1a`. A power failure in that data center took the application down for hours. The clinic wants the application to survive the loss of one data center, and doesn't need protection from losing a whole Region. Which design meets this at the **lowest cost**?
 

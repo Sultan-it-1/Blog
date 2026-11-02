@@ -181,8 +181,6 @@ Disks and snapshots keep costing money even after the server is gone. Delete the
 
 ## Test yourself
 
-Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
-
 ::: quiz
 A server in `eu-central-1a` keeps its data on an EBS volume. The team is launching a replacement server in `eu-central-1b`, and it needs the same data there. What should it do?
 

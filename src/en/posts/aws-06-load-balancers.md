@@ -153,4 +153,92 @@ A load balancer is charged by the hour even if no request passes through it. Del
 - Let servers accept traffic only from the **load balancer's security group**.
 - Certificates from **ACM** are free and renew themselves.
 
+## Test yourself
+
+::: quiz
+A company runs its `/api` and `/images` paths as two separate services, and wants them behind one domain over HTTPS. Which solution meets this with the **least operational overhead**?
+
+- [ ] A Network Load Balancer with one listener for each service
+- [x] An Application Load Balancer with listener rules that route by path
+- [ ] A Gateway Load Balancer in front of both services
+- [ ] Two Classic Load Balancers, each with its own domain
+
+An ALB understands the content of HTTP requests, so one listener can send each path to its own target group.
+
+- **A:** An NLB works with connections, and doesn't read the path of a request.
+- **C:** This one is for passing traffic through security appliances.
+- **D:** This uses an old type, and it splits the service across two domains.
+
+Review: [How an ALB routes requests](#how-an-alb-routes-requests) in this part, and [Comparing load balancer types](https://aws.amazon.com/compare/the-difference-between-the-difference-between-application-network-and-gateway-load-balancing/) on the AWS site.
+:::
+
+::: quiz
+A multiplayer game server communicates over UDP with very low latency. Some players' networks allow outbound traffic only to fixed IP addresses that are listed in advance. Which load balancer fits?
+
+- [ ] Application Load Balancer
+- [ ] Gateway Load Balancer
+- [ ] Classic Load Balancer
+- [x] Network Load Balancer
+
+An NLB supports UDP and provides a static IP address in each Availability Zone, and you can assign your own Elastic IP addresses to it.
+
+- **A:** An ALB is for HTTP and HTTPS, and its addresses aren't fixed.
+- **B:** This one sends traffic through security appliances, and doesn't serve an application directly.
+- **C:** This is an old type, and shouldn't be used for anything new.
+
+Review: [Types of load balancer](#types-of-load-balancer) in this part, and [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS site.
+:::
+
+::: quiz
+Servers sit behind an Application Load Balancer, but an audit finds that anyone who knows a server's public IP address can open the site directly. How should this be closed?
+
+- [x] Allow port 80 on the servers only from the load balancer's security group
+- [ ] Shorten the interval of the load balancer's health checks
+- [ ] Turn on sticky sessions on the target group
+- [ ] Add a rule to the servers' security group that denies public traffic
+
+When the source of the servers' rule is the load balancer's security group, requests that come any other way don't get through, even if the address is known.
+
+- **B:** Health checks watch the servers, and don't control who reaches them.
+- **C:** This keeps a visitor on one server, and has nothing to do with direct access.
+- **D:** Security group rules can only allow, so there's no deny rule to add.
+
+Review: [The right security groups](#the-right-security-groups) in this part, and [Security groups for your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-update-security-groups.html) in the AWS docs.
+:::
+
+::: quiz
+After an application moved behind an Application Load Balancer, its logs show only a few private addresses for all visitors. The security team needs each visitor's real IP address, with the **smallest change**. What should the team do?
+
+- [ ] Move the servers to public subnets
+- [ ] Turn off cross-zone load balancing
+- [x] Have the application log the `X-Forwarded-For` header
+- [ ] Replace the load balancer with an Elastic IP on one server
+
+The server sees the load balancer's address, because the connection comes from it. The ALB passes the visitor's real address in this header.
+
+- **A:** The requests would still arrive through the load balancer.
+- **B:** This changes how requests are spread, not the address the server sees.
+- **D:** This would remove the load balancer and its protection against failures.
+
+Review: [How an ALB routes requests](#how-an-alb-routes-requests) in this part, and [X-Forwarded headers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/x-forwarded-headers.html) in the AWS docs.
+:::
+
+::: quiz
+An application keeps user sessions in each server's memory. After it moved to several servers behind an Application Load Balancer, users started getting signed out at random. Which **two** changes solve this? (Choose two.)
+
+- [ ] Turn on cross-zone load balancing
+- [x] Turn on sticky sessions on the target group
+- [ ] Reduce the deregistration delay
+- [x] Store sessions in a shared cache such as ElastiCache
+- [ ] Make the health check interval longer
+
+Each server only knows its own sessions. Stickiness keeps a visitor on the same server, and a shared cache makes the session available to every server. The cache is the better design, because sessions survive when a server disappears.
+
+- **A:** This spreads requests more evenly, and could still send a visitor to a different server.
+- **C:** This concerns requests in progress on a server being removed.
+- **E:** This only delays spotting failed servers.
+
+Review: [Settings worth knowing](#settings-worth-knowing) in this part, and [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-target-group-attributes.html) in the AWS docs.
+:::
+
 But our number of servers is still fixed, and you're the one launching them by hand. In [**part seven**](/en/posts/aws-07-auto-scaling/) we'll have AWS add and remove them on its own, and bring everything we've learned together into a full application.

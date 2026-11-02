@@ -145,8 +145,6 @@ The conditions: the system disk must be **encrypted** EBS with enough room for t
 
 ## Test yourself
 
-Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
-
 ::: quiz
 A store runs 10 servers around the clock, and expects that to continue for years. During sales it needs up to 10 more for a few hours. At night, a reporting job runs that can restart if it's interrupted. Which mix costs the **least**?
 

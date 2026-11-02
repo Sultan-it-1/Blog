@@ -205,24 +205,51 @@
         });
     });
 
-    // ---- Self-test questions: the questions and explanations are rendered at build time ----
-    const quizzes = [...document.querySelectorAll('[data-quiz]')];
-    if (quizzes.length) {
+    // ---- Self-test questions: one box, one question at a time (the markup is rendered at build time) ----
+    document.querySelectorAll('[data-quiz-deck]').forEach((deck) => {
+        const quizzes = [...deck.querySelectorAll('[data-quiz]')];
         const answered = new Map();
+        let current = 0;
+
         const allOptions = (quiz) => [...quiz.querySelectorAll('.quiz-option')];
         const isCorrect = (option) => 'correct' in option.dataset;
 
-        const score = document.createElement('div');
-        const scoreText = document.createElement('p');
+        const nav = document.createElement('div');
+        const previous = document.createElement('button');
+        const next = document.createElement('button');
+        const summary = document.createElement('div');
+        const summaryText = document.createElement('p');
         const retry = document.createElement('button');
-        score.className = 'quiz-score';
-        score.hidden = true;
-        scoreText.setAttribute('role', 'status');
-        retry.type = 'button';
-        retry.className = 'btn';
-        retry.textContent = quizzes[0].dataset.retry;
-        score.append(scoreText, retry);
-        quizzes.at(-1).after(score);
+        nav.className = 'quiz-nav';
+        previous.type = next.type = retry.type = 'button';
+        previous.className = retry.className = 'btn';
+        next.className = 'btn btn-primary';
+        previous.textContent = deck.dataset.previous;
+        retry.textContent = deck.dataset.retry;
+        summary.className = 'quiz-summary';
+        summary.hidden = true;
+        summaryText.setAttribute('role', 'status');
+        nav.append(previous, next);
+        summary.append(summaryText, retry);
+        deck.append(nav, summary);
+
+        const bringIntoView = () => {
+            if (deck.getBoundingClientRect().top < 0) {
+                deck.scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start' });
+            }
+        };
+
+        const show = (index) => {
+            current = index;
+            quizzes.forEach((quiz, i) => {
+                quiz.hidden = i !== index;
+            });
+            previous.hidden = index === 0;
+            next.textContent = index === quizzes.length - 1 ? deck.dataset.finish : deck.dataset.next;
+            next.disabled = !answered.has(quizzes[index]);
+            nav.hidden = false;
+            summary.hidden = true;
+        };
 
         const reveal = (quiz, chosen) => {
             const right = chosen.every(isCorrect);
@@ -232,17 +259,12 @@
                 option.classList.toggle('is-wrong', chosen.includes(option) && !isCorrect(option));
             });
             const result = quiz.querySelector('.quiz-result');
-            result.textContent = right ? quiz.dataset.right : quiz.dataset.wrong;
+            result.textContent = right ? deck.dataset.right : deck.dataset.wrong;
             result.classList.toggle('is-right', right);
             result.classList.toggle('is-wrong', !right);
             quiz.querySelector('.quiz-answer').open = true;
             answered.set(quiz, right);
-
-            if (answered.size === quizzes.length) {
-                const total = [...answered.values()].filter(Boolean).length;
-                scoreText.textContent = quiz.dataset.score.replace('{score}', total).replace('{total}', quizzes.length);
-                score.hidden = false;
-            }
+            next.disabled = false;
         };
 
         quizzes.forEach((quiz) => {
@@ -261,9 +283,29 @@
             });
         });
 
+        previous.addEventListener('click', () => {
+            show(current - 1);
+            quizzes[current].focus({ preventScroll: true });
+            bringIntoView();
+        });
+
+        next.addEventListener('click', () => {
+            if (current < quizzes.length - 1) {
+                show(current + 1);
+                quizzes[current].focus({ preventScroll: true });
+            } else {
+                const total = [...answered.values()].filter(Boolean).length;
+                summaryText.textContent = deck.dataset.score.replace('{score}', total).replace('{total}', quizzes.length);
+                quizzes[current].hidden = true;
+                nav.hidden = true;
+                summary.hidden = false;
+                retry.focus({ preventScroll: true });
+            }
+            bringIntoView();
+        });
+
         retry.addEventListener('click', () => {
             answered.clear();
-            score.hidden = true;
             quizzes.forEach((quiz) => {
                 allOptions(quiz).forEach((option) => {
                     option.setAttribute('aria-pressed', 'false');
@@ -275,10 +317,14 @@
                 result.classList.remove('is-right', 'is-wrong');
                 quiz.querySelector('.quiz-answer').open = false;
             });
-            quizzes[0].scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'center' });
-            allOptions(quizzes[0])[0].focus({ preventScroll: true });
+            show(0);
+            quizzes[0].focus({ preventScroll: true });
+            bringIntoView();
         });
-    }
+
+        deck.classList.add('is-stepped');
+        show(0);
+    });
 
     // ---- Blog search: filters the rows already on the page ----
     const searchInput = document.querySelector('[data-search-input]');

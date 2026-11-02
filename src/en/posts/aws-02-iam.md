@@ -228,8 +228,6 @@ Permissions pile up over time, so review them regularly. IAM gives you tools for
 
 ## Test yourself
 
-Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
-
 ::: quiz
 An application on an EC2 server reads reports from an S3 bucket, and a developer has stored access keys in a configuration file on the server. The security team wants the long-term keys gone, without creating ongoing work for the developers. Which solution meets this?
 

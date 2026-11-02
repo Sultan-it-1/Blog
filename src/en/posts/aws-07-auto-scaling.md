@@ -45,7 +45,7 @@ By default, the group checks only the server itself. If the server is running bu
 
 The metric you choose matters. CPU is a good start, but for websites **requests per server** (`RequestCountPerTarget`) is often more honest, because it reflects visitors directly.
 
-After each change, the group waits through a cooldown (300 seconds by default) before deciding again, giving new servers time to affect the numbers.
+To give new servers time to affect the numbers, target tracking and step policies wait out an **instance warmup** period. If you haven't set one, they use the default cooldown of 300 seconds.
 
 ::: tip Save money with Spot
 You can mix pricing in one group: the minimum at the regular price or under a Savings Plan, and the extras on [Spot](/en/posts/aws-04-ec2-pricing-networking/). A web application tolerates this because the load balancer drops any server that disappears.
@@ -176,5 +176,92 @@ It suits you if you want to focus on the code of a conventional application. If 
 - Turn on **ELB health checks** so a server is replaced when the application itself fails.
 - Start with a **target tracking** policy, and pick a metric that truly reflects load.
 - Keep servers **stateless**: anything important lives off them.
+
+## Test yourself
+
+::: quiz
+An application crashes on one server in an Auto Scaling group. The server keeps running, the load balancer marks it unhealthy, but the group doesn't replace it. What should change?
+
+- [x] Turn on ELB health checks for the Auto Scaling group
+- [ ] Raise the group's maximum capacity
+- [ ] Add a scheduled action to the group
+- [ ] Add more instance types to the launch template
+
+By default, the group looks only at the server's own status, and that's fine here. With ELB health checks on, it also treats a server the load balancer reports as failed as unhealthy, and replaces it.
+
+- **B:** This allows more servers, but it doesn't replace the failed one.
+- **C:** Scheduled actions change capacity at set times, and don't look at health.
+- **D:** The template decides how servers launch, and the group sees no reason to launch one.
+
+Review: [Health checks](#health-checks-dont-miss-this-option) in this part, and [Health checks for instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html) in the AWS docs.
+:::
+
+::: quiz
+A store runs a sale that starts every Friday at exactly 8 PM. Traffic jumps within minutes, and new servers need six minutes to be ready. How can the servers be ready **before** the rush?
+
+- [ ] Rely on a target tracking policy on average CPU
+- [ ] Raise the group's maximum capacity
+- [x] Add a scheduled action that raises capacity shortly before 8 PM
+- [ ] Add a step scaling policy on average CPU
+
+The time is known in advance, so raise the capacity ahead of it, and leave a tracking policy to handle anything beyond that.
+
+- **A:** This reacts after the load has arrived, so servers would be ready six minutes late.
+- **B:** The maximum is only a ceiling, and it doesn't launch any servers by itself.
+- **D:** This also reacts after the load has arrived, even with finer steps.
+
+Review: [When to grow and when to shrink](#when-to-grow-and-when-to-shrink) in this part, and [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html) in the AWS docs.
+:::
+
+::: quiz
+A web application spends most of each request waiting on an external API, so CPU stays near 20% even when requests start to pile up. A target tracking policy on CPU doesn't add servers in time. What should the policy track instead?
+
+- [ ] A lower CPU target of 5%
+- [ ] Average disk use on the servers
+- [ ] The total number of servers in the group
+- [x] `ALBRequestCountPerTarget`, the requests per server from the load balancer
+
+CPU doesn't reflect the load for this application. Requests per server measures the visitors directly, and it's available as a ready-made metric.
+
+- **A:** CPU still wouldn't track requests, and the group would run more servers than it needs when quiet.
+- **B:** The disk isn't what's limiting this application.
+- **C:** This is the result of scaling, not a measure of load.
+
+Review: [When to grow and when to shrink](#when-to-grow-and-when-to-shrink) in this part, and [Target tracking policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html) in the AWS docs.
+:::
+
+::: quiz
+An application saves users' uploads on each server's local disk. When the Auto Scaling group removes a server, those files disappear for good. What should the team do?
+
+- [ ] Raise the group's minimum so that it never scales in
+- [x] Store uploads in Amazon S3 instead of on the servers
+- [ ] Take a snapshot of each server's disk every hour
+- [ ] Turn on scale-in protection for all the servers
+
+Any server in a group can disappear at any moment, so nothing important should live on it. In S3, the file is available to every server, whatever happens to any of them.
+
+- **A:** The group loses the savings from scaling in, and a failed server still takes its files with it.
+- **C:** You'd have to manage snapshots, and could still lose up to an hour of uploads.
+- **D:** This also blocks scaling in, and doesn't protect the files from a failed server.
+
+Review: [The key rule: a server is replaceable](#the-key-rule-a-server-is-replaceable) in this part, and [Make services stateless](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_stateless.html) in the Well-Architected Framework.
+:::
+
+::: quiz
+A small team has a conventional Python web application. It wants to upload its code and have the load balancer, Auto Scaling group and monitoring set up for it, while still being able to see and change those resources. Which service fits best?
+
+- [ ] Amazon EKS
+- [ ] AWS Auto Scaling alone
+- [x] AWS Elastic Beanstalk
+- [ ] A single EC2 server with User Data
+
+Elastic Beanstalk creates these resources from your code, and they stay visible in your account. The service itself is free, and you pay for what it creates.
+
+- **A:** Kubernetes takes far more to learn and run than this team needs.
+- **B:** This scales servers, but you'd still build everything else yourself.
+- **D:** A single server has no load balancer, no scaling, and no protection from failures.
+
+Review: [Elastic Beanstalk](#elastic-beanstalk-the-shortcut) in this part, and [What is AWS Elastic Beanstalk?](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html) in the AWS docs.
+:::
 
 That completes the high availability section. The question left is where the data lives once it's off the server. That's the next section's subject, starting in [**part eight**](/en/posts/aws-08-rds-aurora/) with the managed databases RDS and Aurora.

@@ -90,7 +90,11 @@ export default {
     },
 
     quiz: {
+      intro: "قبل ما تكمل، جرّب هذي الأسئلة عشان تتأكد إنك فهمت الجزء. كل سؤال موقف عملي، وبعد ما تجاوب يطلع لك الشرح.",
       number: (n, total) => `السؤال ${n} من ${total}`,
+      next: "التالي",
+      previous: "السابق",
+      finish: "اعرض النتيجة",
       show: "اعرض الجواب",
       answer: "الجواب الصحيح",
       right: "إجابتك صحيحة",
@@ -222,7 +226,11 @@ export default {
     },
 
     quiz: {
+      intro: "Before you move on, try these questions to check you've got this part. Each one is a practical scenario, and the explanation appears once you answer.",
       number: (n, total) => `Question ${n} of ${total}`,
+      next: "Next",
+      previous: "Previous",
+      finish: "See your score",
       show: "Show the answer",
       answer: "Correct answer",
       right: "Correct",

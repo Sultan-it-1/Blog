@@ -1675,14 +1675,31 @@
         color: var(--color-danger);
     }
 
-    /* Self-test questions */
-    .quiz {
+    /* Self-test questions: one box. main.js shows one question at a time; without it they're all listed. */
+    .quiz-deck {
         padding: 1.1rem 1.15rem;
         border: 1px solid var(--color-line);
         border-radius: var(--radius-md);
         background: var(--color-surface);
         font-size: 1rem;
         line-height: 1.8;
+        scroll-margin-top: 88px;
+    }
+
+    .quiz + .quiz {
+        margin-top: 1.25rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--color-line);
+    }
+
+    .quiz-deck.is-stepped .quiz + .quiz {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 0;
+    }
+
+    .quiz:focus {
+        outline: none;
     }
 
     .quiz > * + * {
@@ -1807,8 +1824,8 @@
         cursor: pointer;
     }
 
-    /* Once answered, the explanation stays open, so its toggle has no job left. */
-    .quiz-result:not(:empty) + .quiz-answer > summary {
+    /* With the steps running, answering is what opens the explanation. */
+    .quiz-deck.is-stepped .quiz-answer > summary {
         display: none;
     }
 
@@ -1816,16 +1833,33 @@
         margin-top: 0.6em;
     }
 
-    .quiz-score {
+    .quiz-nav {
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
         justify-content: space-between;
-        gap: 0.75rem;
-        padding: 0.85rem 1.15rem;
-        border-radius: var(--radius-md);
-        background: var(--color-sunken);
+        gap: 0.6rem;
+        margin-top: 1.1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--color-line);
+    }
+
+    .quiz-nav .btn-primary {
+        margin-inline-start: auto;
+    }
+
+    .quiz-nav .btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
+    .quiz-summary {
+        display: grid;
+        justify-items: center;
+        gap: 1rem;
+        padding-block: 1.5rem;
+        font-size: 1.15rem;
         font-weight: 600;
+        text-align: center;
     }
 
     /* Code blocks — always dark, always left-to-right */

@@ -76,16 +76,13 @@ export default function (eleventyConfig) {
   }
 
   // Self-test questions in Markdown: `::: quiz`, then the question, a list of options marked
-  // `[x]` or `[ ]`, then the explanation. main.js adds the interaction; without JavaScript
-  // the answer still opens from its <details>.
+  // `[x]` or `[ ]`, then the explanation. A post's questions share one box. main.js shows them
+  // one at a time; without JavaScript they're all listed, and each answer opens from its <details>.
   md.use(markdownItContainer, "quiz", {
     render(tokens, idx) {
       if (tokens[idx].nesting !== 1) return "</section>\n";
       const { number, total, pick, text } = tokens[idx].meta;
-      const data = ["right", "wrong", "score", "retry"]
-        .map((key) => `data-${key}="${escapeAttr(text[key])}"`)
-        .join(" ");
-      return `<section class="quiz" data-quiz data-pick="${pick}" ${data}>\n<p class="quiz-number">${text.number(number, total)}</p>\n`;
+      return `<section class="quiz" data-quiz data-pick="${pick}" tabindex="-1">\n<p class="quiz-number">${text.number(number, total)}</p>\n`;
     },
   });
 
@@ -132,6 +129,19 @@ export default function (eleventyConfig) {
         )
       );
     });
+
+    if (questions.length) {
+      const data = ["next", "previous", "finish", "right", "wrong", "score", "retry"]
+        .map((key) => `data-${key}="${escapeAttr(text[key])}"`)
+        .join(" ");
+      const lastClose = tokens.findLastIndex((token) => token.type === "container_quiz_close");
+      tokens.splice(lastClose + 1, 0, html("</div>\n"));
+      tokens.splice(
+        tokens.indexOf(questions[0]),
+        0,
+        html(`<p class="quiz-intro">${text.intro}</p>\n<div class="quiz-deck" data-quiz-deck ${data}>\n`)
+      );
+    }
   });
 
   // Wrap every fenced code block in a labelled frame with a copy button (enabled by main.js).

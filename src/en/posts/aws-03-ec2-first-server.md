@@ -186,8 +186,6 @@ When you're done, select the server, then **Instance state**, **Terminate instan
 
 ## Test yourself
 
-Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
-
 ::: quiz
 A startup encodes videos on a `t3.large` server. The job keeps the CPU near 100% for hours while using little memory, and the monthly bill shows extra charges for CPU credits. Which change best fits this workload?
 
