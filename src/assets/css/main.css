@@ -1862,6 +1862,35 @@
         text-align: center;
     }
 
+    .quiz-deck.is-waiting > .quiz {
+        display: none;
+    }
+
+    .quiz-start {
+        display: grid;
+        justify-items: center;
+        gap: 1rem;
+        padding-block: 1.5rem;
+        text-align: center;
+    }
+
+    .quiz-start-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
+
+    .quiz-start-sizes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.6rem;
+    }
+
+    .quiz-start-note {
+        color: var(--color-muted);
+        font-size: 0.85rem;
+    }
+
     /* Code blocks — always dark, always left-to-right */
     .code-block {
         overflow: hidden;

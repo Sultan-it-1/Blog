@@ -25,6 +25,9 @@ eleventyComputed:
     <p class="page-lead">{{ description }}</p>
     <div class="hero-actions">
       <a href="{{ parts[0].url }}" class="btn btn-primary">{{ t.series.start }}{% icon "arrow", "flip-rtl" %}</a>
+      {%- if seriesPage.hasQuiz %}
+      <a href="{{ seriesPage.key | seriesUrl(lang) }}quiz/" class="btn">{{ t.quiz.exam.title }}</a>
+      {%- endif %}
     </div>
   </header>
 

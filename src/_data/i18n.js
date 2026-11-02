@@ -101,6 +101,16 @@ export default {
       wrong: "إجابتك غلط",
       score: "نتيجتك: {score} من {total}",
       retry: "أعد المحاولة",
+      inThisPart: "في هذا الجزء",
+      exam: {
+        title: "الاختبار الشامل",
+        description: "أسئلة عشوائية من كل أجزاء السلسلة في مكان واحد. اختر العدد، وجاوب سؤال سؤال، وبعد كل جواب يطلع لك الشرح والجزء اللي تراجعه.",
+        howMany: "كم سؤال تبي؟",
+        size: (n) => (n > 10 ? `${n} سؤال` : `${n} أسئلة`),
+        note: "65 سؤال هو عدد أسئلة اختبار Solutions Architect Associate.",
+        retry: "اختبار جديد",
+        inPart: (n) => `في الجزء ${n}`,
+      },
     },
 
     series: {
@@ -237,6 +247,16 @@ export default {
       wrong: "Not quite",
       score: "Your score: {score} of {total}",
       retry: "Try again",
+      inThisPart: "in this part",
+      exam: {
+        title: "Comprehensive test",
+        description: "Random questions from every part of the series, in one place. Pick how many, answer one at a time, and after each answer see the explanation and the part to review.",
+        howMany: "How many questions?",
+        size: (n) => `${n} questions`,
+        note: "65 questions is the length of the Solutions Architect Associate exam.",
+        retry: "New test",
+        inPart: (n) => `in part ${n}`,
+      },
     },
 
     series: {

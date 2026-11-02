@@ -207,8 +207,11 @@
 
     // ---- Self-test questions: one box, one question at a time (the markup is rendered at build time) ----
     document.querySelectorAll('[data-quiz-deck]').forEach((deck) => {
-        const quizzes = [...deck.querySelectorAll('[data-quiz]')];
+        // A comprehensive test holds every question in a series, and asks a random few of them.
+        const pool = [...deck.querySelectorAll('[data-quiz]')];
+        const start = deck.querySelector('[data-quiz-start]');
         const answered = new Map();
+        let quizzes = pool;
         let current = 0;
 
         const allOptions = (quiz) => [...quiz.querySelectorAll('.quiz-option')];
@@ -241,8 +244,8 @@
 
         const show = (index) => {
             current = index;
-            quizzes.forEach((quiz, i) => {
-                quiz.hidden = i !== index;
+            pool.forEach((quiz) => {
+                quiz.hidden = quiz !== quizzes[index];
             });
             previous.hidden = index === 0;
             next.textContent = index === quizzes.length - 1 ? deck.dataset.finish : deck.dataset.next;
@@ -267,7 +270,7 @@
             next.disabled = false;
         };
 
-        quizzes.forEach((quiz) => {
+        pool.forEach((quiz) => {
             const options = allOptions(quiz);
             const pick = Number(quiz.dataset.pick);
             options.forEach((option) => {
@@ -317,13 +320,51 @@
                 result.classList.remove('is-right', 'is-wrong');
                 quiz.querySelector('.quiz-answer').open = false;
             });
-            show(0);
-            quizzes[0].focus({ preventScroll: true });
+            if (start) {
+                openStart();
+            } else {
+                show(0);
+                quizzes[0].focus({ preventScroll: true });
+            }
             bringIntoView();
         });
 
+        const openStart = () => {
+            pool.forEach((quiz) => {
+                quiz.hidden = true;
+            });
+            nav.hidden = true;
+            summary.hidden = true;
+            start.hidden = false;
+        };
+
+        start?.querySelectorAll('[data-quiz-size]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const shuffled = [...pool];
+                for (let i = shuffled.length - 1; i > 0; i -= 1) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                quizzes = shuffled.slice(0, Number(button.dataset.quizSize));
+                quizzes.forEach((quiz, i) => {
+                    quiz.querySelector('.quiz-number').textContent = deck.dataset.number
+                        .replace('{n}', i + 1)
+                        .replace('{total}', quizzes.length);
+                });
+                start.hidden = true;
+                show(0);
+                quizzes[0].focus({ preventScroll: true });
+                bringIntoView();
+            });
+        });
+
         deck.classList.add('is-stepped');
-        show(0);
+        deck.classList.remove('is-waiting');
+        if (start) {
+            openStart();
+        } else {
+            show(0);
+        }
     });
 
     // ---- Blog search: filters the rows already on the page ----

@@ -380,6 +380,7 @@ Twenty-nine parts in nine sections. Look at what you can do now:
 ### Where to go from here
 
 - **Build something real.** A small project of your own teaches you more than any article, even a little site with an API.
+- **Try the [comprehensive test](/en/series/aws/quiz/).** It picks random questions from every part, so you can see what's stuck and what to review.
 - **Read the FAQs.** Each service's FAQ page is a short, rich and accurate summary.
 - **Consider a certification.** **Solutions Architect Associate** covers most of what's in this series, and the exam tests how you choose between services. Read each question for its deciding phrase, such as "lowest cost" or "least operational effort", and eliminate the wrong answers first.
 - **Follow the changes.** AWS changes quickly, and several things in this series changed even as it was being written. Check the docs before any decision.

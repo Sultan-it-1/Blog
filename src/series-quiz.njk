@@ -1,0 +1,43 @@
+---
+# The comprehensive test of a series with self-test questions: /series/<key>/quiz/ and /en/series/<key>/quiz/
+layout: layouts/base.njk
+pagination:
+  data: collections.quizSeries
+  size: 1
+  alias: seriesPage
+  addAllPagesToCollections: true
+permalink: "{{ seriesPage.key | seriesUrl(seriesPage.lang) }}quiz/"
+navKey: blog
+eleventyComputed:
+  lang: "{{ seriesPage.lang }}"
+  title: "{{ i18n[seriesPage.lang].quiz.exam.title }}: {{ seriesInfo[seriesPage.key][seriesPage.lang].title }}"
+  description: "{{ i18n[seriesPage.lang].quiz.exam.description }}"
+  translationKey: "series-quiz:{{ seriesPage.key }}"
+---
+{%- set text = i18n[lang].quiz -%}
+{%- set seriesName = seriesInfo[seriesPage.key][lang].title -%}
+
+<div class="container">
+  <header class="page-head">
+    <p class="eyebrow"><a href="{{ seriesPage.key | seriesUrl(lang) }}">{{ seriesName }}</a></p>
+    <h1 class="page-title">{{ text.exam.title }}</h1>
+    <p class="page-lead">{{ description }}</p>
+  </header>
+
+  <div class="prose page-prose">
+    <div class="quiz-deck" data-quiz-deck data-number="{{ text.number('{n}', '{total}') }}" data-next="{{ text.next }}" data-previous="{{ text.previous }}" data-finish="{{ text.finish }}" data-right="{{ text.right }}" data-wrong="{{ text.wrong }}" data-score="{{ text.score }}" data-retry="{{ text.exam.retry }}">
+      {#- With every question in the series on the page, keep them from showing before main.js takes over. -#}
+      <script>document.currentScript.parentElement.classList.add("is-waiting");</script>
+      <div class="quiz-start" data-quiz-start hidden>
+        <p class="quiz-start-title">{{ text.exam.howMany }}</p>
+        <div class="quiz-start-sizes">
+          {%- for size in [10, 30, 65] %}
+          <button type="button" class="btn" data-quiz-size="{{ size }}">{{ text.exam.size(size) }}</button>
+          {%- endfor %}
+        </div>
+        <p class="quiz-start-note">{{ text.exam.note }}</p>
+      </div>
+      {{ seriesPage | quizBank | safe }}
+    </div>
+  </div>
+</div>

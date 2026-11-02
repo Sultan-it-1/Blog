@@ -47,6 +47,36 @@ const CODE_LANGUAGES = {
 // Callout boxes in Markdown: `::: note`, `::: tip`, `::: warning`, `::: security`, each with an optional title.
 const CALLOUTS = { note: "info", tip: "bulb", warning: "alert", security: "shield" };
 
+// One rendered self-test question.
+const QUIZ_QUESTION = /<section class="quiz"[\s\S]*?<\/section>/g;
+
+// One entry per series + language that has at least one published part.
+const buildSeriesPages = (api) => {
+  const posts = api.getFilteredByGlob(POSTS_GLOB);
+  return Object.keys(seriesInfo).flatMap((key) =>
+    Object.keys(site.languages)
+      .map((lang) => {
+        const parts = posts
+          .filter((post) => post.data.series === key && post.data.lang === lang)
+          .sort((a, b) => a.data.part - b.data.part);
+        // Part numbers run through the roadmap in order; a published post replaces its planned title.
+        let n = 0;
+        const sections = seriesInfo[key][lang].sections.map((section, index) => ({
+          number: index + 1,
+          title: section.title,
+          items: section.parts.map((planned) => {
+            n += 1;
+            const post = parts.find((part) => part.data.part === n) || null;
+            return { n, title: post ? post.data.title : planned, post };
+          }),
+        }));
+        const hasQuiz = parts.some((part) => part.rawInput.includes("::: quiz"));
+        return { key, lang, parts, sections, items: sections.flatMap((section) => section.items), total: n, hasQuiz };
+      })
+      .filter((seriesPage) => seriesPage.parts.length)
+  );
+};
+
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(syntaxHighlight);
@@ -182,31 +212,10 @@ ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
       .sort((a, b) => b.posts.length - a.posts.length || a.tag.localeCompare(b.tag));
   });
 
-  // One entry per series + language that has at least one published part: /series/<key>/ pages.
-  eleventyConfig.addCollection("seriesPages", (api) => {
-    const posts = api.getFilteredByGlob(POSTS_GLOB);
-    return Object.keys(seriesInfo).flatMap((key) =>
-      Object.keys(site.languages)
-        .map((lang) => {
-          const parts = posts
-            .filter((post) => post.data.series === key && post.data.lang === lang)
-            .sort((a, b) => a.data.part - b.data.part);
-          // Part numbers run through the roadmap in order; a published post replaces its planned title.
-          let n = 0;
-          const sections = seriesInfo[key][lang].sections.map((section, index) => ({
-            number: index + 1,
-            title: section.title,
-            items: section.parts.map((planned) => {
-              n += 1;
-              const post = parts.find((part) => part.data.part === n) || null;
-              return { n, title: post ? post.data.title : planned, post };
-            }),
-          }));
-          return { key, lang, parts, sections, items: sections.flatMap((section) => section.items), total: n };
-        })
-        .filter((seriesPage) => seriesPage.parts.length)
-    );
-  });
+  // /series/<key>/ pages.
+  eleventyConfig.addCollection("seriesPages", buildSeriesPages);
+  // /series/<key>/quiz/ pages, for series with self-test questions.
+  eleventyConfig.addCollection("quizSeries", (api) => buildSeriesPages(api).filter((seriesPage) => seriesPage.hasQuiz));
 
   // ---- Filters ----
   eleventyConfig.addFilter("where", (items = [], path, value) =>
@@ -258,11 +267,29 @@ ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
   eleventyConfig.addFilter("readingMinutes", (html = "") => {
     // Self-test questions aren't reading, so they don't count towards the time.
     const words = String(html)
-      .replace(/<section class="quiz"[\s\S]*?<\/section>/g, " ")
+      .replace(QUIZ_QUESTION, " ")
       .replace(/<[^>]*>/g, " ")
       .split(/\s+/)
       .filter(Boolean).length;
     return Math.max(1, Math.round(words / 200));
+  });
+
+  // Every question in a series, for its comprehensive test. Review links that pointed
+  // inside a part now point to that part, and each question is numbered within the whole.
+  eleventyConfig.addFilter("quizBank", (seriesPage) => {
+    const text = i18n[seriesPage.lang].quiz;
+    const questions = seriesPage.items
+      .filter((item) => item.post)
+      .flatMap(({ n, post }) =>
+        (post.content.match(QUIZ_QUESTION) || []).map((html) =>
+          html.replaceAll('href="#', `href="${post.url}#`).replace(text.inThisPart, text.exam.inPart(n))
+        )
+      );
+    return questions
+      .map((html, index) =>
+        html.replace(/(<p class="quiz-number">).*?(<\/p>)/, `$1${text.number(index + 1, questions.length)}$2`)
+      )
+      .join("\n");
   });
 
   // Table of contents: the h2 headings of a rendered post, as plain text
