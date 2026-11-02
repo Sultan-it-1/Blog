@@ -226,4 +226,104 @@ Permissions pile up over time, so review them regularly. IAM gives you tools for
 - Apply **least privilege**: start narrow and widen when needed.
 - Access keys are secret; for services, use **roles** instead.
 
+## Test yourself
+
+Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
+
+::: quiz
+An application on an EC2 server reads reports from an S3 bucket, and a developer has stored access keys in a configuration file on the server. The security team wants the long-term keys gone, without creating ongoing work for the developers. Which solution meets this?
+
+- [ ] Move the keys from the file into environment variables on the server
+- [x] Attach an IAM role that can read the bucket to the server, and delete the keys
+- [ ] Keep the keys, and rotate them every 30 days with a scheduled script
+- [ ] Make the bucket public, so the application doesn't need credentials
+
+A role gives the application temporary credentials that update automatically, so there's nothing to store or rotate.
+
+- **A:** The same long-term keys are still on the server.
+- **C:** The keys stay, and there's now a script to maintain.
+- **D:** The reports would be open to anyone on the internet.
+
+Review: [Roles: permissions without keys](#roles-permissions-without-keys) in this part, and [IAM roles for applications on EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html) in the AWS docs.
+:::
+
+::: quiz
+The `Developers` group has a policy allowing `s3:*` on all buckets. The `Compliance` group has a policy denying `s3:DeleteObject` on the `finance-records` bucket. Reem belongs to both groups. What happens when Reem tries to delete an object from `finance-records`?
+
+- [ ] It succeeds, because `s3:*` is broader than the denied action
+- [ ] It succeeds, because policies attached to groups can't contain `Deny`
+- [ ] It depends on which of the two policies was attached last
+- [x] It fails, because an explicit deny overrides any allow
+
+AWS gathers all the policies that apply. If any one contains an explicit deny for the request, the request is refused.
+
+- **A:** How broad an allow is makes no difference against a deny.
+- **B:** Group policies can contain `Deny` like any other identity policy.
+- **C:** The order of policies has no effect on the result.
+
+Review: [How a permission is decided](#how-a-permission-is-decided) in this part, and [Policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) in the AWS docs.
+:::
+
+::: quiz
+A user with this policy can download `s3://reports/q1.pdf` by name, but `aws s3 ls s3://reports` returns `AccessDenied`:
+
+```json
+{
+  "Effect": "Allow",
+  "Action": ["s3:GetObject", "s3:ListBucket"],
+  "Resource": "arn:aws:s3:::reports/*"
+}
+```
+
+What should change?
+
+- [x] Add `arn:aws:s3:::reports` to the policy's resources
+- [ ] Add `s3:PutObject` to the policy's actions
+- [ ] Turn off Block Public Access on the bucket
+- [ ] Attach the same policy to a group instead of the user
+
+`s3:ListBucket` applies to the bucket itself, while `s3:GetObject` applies to the objects in it. The policy names only the objects, so listing has nothing to apply to.
+
+- **B:** This allows writing, and has nothing to do with listing.
+- **C:** This setting concerns public access, not a signed-in user's permissions.
+- **D:** The group would have the same wrong resource.
+
+Review: [How to read an IAM policy](#how-to-read-an-iam-policy) in this part, and [Identity-based policy examples for S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html) in the AWS docs.
+:::
+
+::: quiz
+An audit finds that a company's root user has access keys and no multi-factor authentication. Which **two** actions reduce the risk to the root user? (Choose two.)
+
+- [x] Delete the root user's access keys
+- [ ] Attach an IAM policy that restricts what the root user can do
+- [x] Turn on MFA for the root user
+- [ ] Share the root password only with team leads
+- [ ] Rename the root user to something hard to guess
+
+AWS recommends no access keys for the root user, and MFA on its sign-in.
+
+- **B:** IAM policies in the account can't restrict the root user.
+- **D:** The root password shouldn't be shared without a strict need, and people should use their own identities day to day.
+- **E:** The root user signs in with the account's email address, so there's no username to rename.
+
+Review: [The root user](#the-root-user) in this part, and [Root user best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html) in the AWS docs.
+:::
+
+::: quiz
+A role used by a reporting application has permissions for ten AWS services. The security team suspects it uses only three, and wants to remove the rest based on evidence, with the **least effort**. What should the team use?
+
+- [ ] The account's credential report
+- [ ] A line-by-line review of the application's source code
+- [x] The role's Last Accessed information in IAM
+- [ ] Removing permissions one at a time, and waiting for errors
+
+Last Accessed shows each service the role is allowed to use and when it last tried, which is exactly the evidence needed.
+
+- **A:** This lists users and the state of their passwords, keys and MFA, not the services a role uses.
+- **B:** This takes a lot of effort, and it can miss calls made by libraries.
+- **D:** This uses failures in production as the test.
+
+Review: [Review your permissions](#review-your-permissions) in this part, and [Last accessed information](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html) in the AWS docs.
+:::
+
 In [**part three**](/en/posts/aws-03-ec2-first-server/) we launch our first real server on **EC2** and give it an IAM role instead of keys. If you want to jump ahead, there's a hands-on guide: [How to create a server on AWS](/en/posts/aws/).

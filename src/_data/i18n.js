@@ -89,6 +89,16 @@ export default {
       failed: "تعذّر النسخ",
     },
 
+    quiz: {
+      number: (n, total) => `السؤال ${n} من ${total}`,
+      show: "اعرض الجواب",
+      answer: "الجواب الصحيح",
+      right: "إجابتك صحيحة",
+      wrong: "إجابتك غلط",
+      score: "نتيجتك: {score} من {total}",
+      retry: "أعد المحاولة",
+    },
+
     series: {
       eyebrow: "سلسلة",
       sectionTitle: "السلاسل التعليمية",
@@ -209,6 +219,16 @@ export default {
       copy: "Copy",
       copied: "Copied",
       failed: "Copy failed",
+    },
+
+    quiz: {
+      number: (n, total) => `Question ${n} of ${total}`,
+      show: "Show the answer",
+      answer: "Correct answer",
+      right: "Correct",
+      wrong: "Not quite",
+      score: "Your score: {score} of {total}",
+      retry: "Try again",
     },
 
     series: {

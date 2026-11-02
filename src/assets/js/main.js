@@ -205,6 +205,81 @@
         });
     });
 
+    // ---- Self-test questions: the questions and explanations are rendered at build time ----
+    const quizzes = [...document.querySelectorAll('[data-quiz]')];
+    if (quizzes.length) {
+        const answered = new Map();
+        const allOptions = (quiz) => [...quiz.querySelectorAll('.quiz-option')];
+        const isCorrect = (option) => 'correct' in option.dataset;
+
+        const score = document.createElement('div');
+        const scoreText = document.createElement('p');
+        const retry = document.createElement('button');
+        score.className = 'quiz-score';
+        score.hidden = true;
+        scoreText.setAttribute('role', 'status');
+        retry.type = 'button';
+        retry.className = 'btn';
+        retry.textContent = quizzes[0].dataset.retry;
+        score.append(scoreText, retry);
+        quizzes.at(-1).after(score);
+
+        const reveal = (quiz, chosen) => {
+            const right = chosen.every(isCorrect);
+            allOptions(quiz).forEach((option) => {
+                option.setAttribute('aria-disabled', 'true');
+                option.classList.toggle('is-correct', isCorrect(option));
+                option.classList.toggle('is-wrong', chosen.includes(option) && !isCorrect(option));
+            });
+            const result = quiz.querySelector('.quiz-result');
+            result.textContent = right ? quiz.dataset.right : quiz.dataset.wrong;
+            result.classList.toggle('is-right', right);
+            result.classList.toggle('is-wrong', !right);
+            quiz.querySelector('.quiz-answer').open = true;
+            answered.set(quiz, right);
+
+            if (answered.size === quizzes.length) {
+                const total = [...answered.values()].filter(Boolean).length;
+                scoreText.textContent = quiz.dataset.score.replace('{score}', total).replace('{total}', quizzes.length);
+                score.hidden = false;
+            }
+        };
+
+        quizzes.forEach((quiz) => {
+            const options = allOptions(quiz);
+            const pick = Number(quiz.dataset.pick);
+            options.forEach((option) => {
+                option.disabled = false;
+                option.setAttribute('aria-pressed', 'false');
+                option.addEventListener('click', () => {
+                    if (answered.has(quiz)) return;
+                    const pressed = option.getAttribute('aria-pressed') === 'true';
+                    option.setAttribute('aria-pressed', String(!pressed));
+                    const chosen = options.filter((item) => item.getAttribute('aria-pressed') === 'true');
+                    if (chosen.length === pick) reveal(quiz, chosen);
+                });
+            });
+        });
+
+        retry.addEventListener('click', () => {
+            answered.clear();
+            score.hidden = true;
+            quizzes.forEach((quiz) => {
+                allOptions(quiz).forEach((option) => {
+                    option.setAttribute('aria-pressed', 'false');
+                    option.removeAttribute('aria-disabled');
+                    option.classList.remove('is-correct', 'is-wrong');
+                });
+                const result = quiz.querySelector('.quiz-result');
+                result.textContent = '';
+                result.classList.remove('is-right', 'is-wrong');
+                quiz.querySelector('.quiz-answer').open = false;
+            });
+            quizzes[0].scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'center' });
+            allOptions(quizzes[0])[0].focus({ preventScroll: true });
+        });
+    }
+
     // ---- Blog search: filters the rows already on the page ----
     const searchInput = document.querySelector('[data-search-input]');
     if (searchInput) {

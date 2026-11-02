@@ -194,6 +194,96 @@ AWS gives new accounts limited free usage, but the terms change over time. Check
 - You choose a Region by regulation, proximity, service availability and cost.
 - AWS protects the cloud; you protect what's inside it.
 
+## Test yourself
+
+Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
+
+::: quiz
+A clinic runs its booking application on one EC2 server in `me-central-1a`. A power failure in that data center took the application down for hours. The clinic wants the application to survive the loss of one data center, and doesn't need protection from losing a whole Region. Which design meets this at the **lowest cost**?
+
+- [ ] Move the application to a larger server in the same Availability Zone
+- [ ] Run a full copy in another Region, and switch to it during a failure
+- [x] Run servers in two Availability Zones of the same Region, behind a load balancer
+- [ ] Put CloudFront in front of the server, so it keeps serving during a failure
+
+Availability Zones are isolated from each other, so a failure in one doesn't reach the other, and the [load balancer](/en/posts/aws-06-load-balancers/) sends visitors to the healthy server. This is the cheapest option that does the job.
+
+- **A:** A larger server stays in the same place, so the same failure stops it.
+- **B:** This protects against losing a whole Region, which is more than the clinic needs, and it costs more.
+- **D:** CloudFront caches content, but making a booking still needs the server.
+
+Review: [Availability Zones](#availability-zones) in this part, and [Regions and Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) in the AWS docs.
+:::
+
+::: quiz
+A German insurance company must keep its customers' data inside the European Union by law, and most of its customers are in Germany. A developer suggests `us-east-1`, because it's cheaper and has a new service the team wants to try. What should the company do?
+
+- [x] Choose a Region inside the EU, and check that the services it needs are available there
+- [ ] Choose `us-east-1`, and put CloudFront in front to bring the data closer to Europe
+- [ ] Choose `us-east-1` for production, and keep a backup copy in an EU Region
+- [ ] Choose the cheapest Region available, and encrypt the data before storing it
+
+When data is subject to local regulations, meeting them comes before latency, cost and available services. After that, you compare the Regions that remain.
+
+- **B:** CloudFront speeds up delivery, but the data itself stays in the US.
+- **C:** The production data is still outside the EU, and a backup doesn't change that.
+- **D:** Encryption protects the data, but it doesn't change where the data is.
+
+Review: [How to choose a Region](#how-to-choose-a-region) in this part, and [What to consider when selecting a Region](https://aws.amazon.com/blogs/architecture/what-to-consider-when-selecting-a-region-for-your-workloads/) on the AWS blog.
+:::
+
+::: quiz
+An online course site runs on a server in `eu-central-1`. Its images and videos load slowly for students in Riyadh and Jakarta, while monitoring shows the server's CPU and memory are far from their limits. Which solution improves delivery to these students with the **least operational overhead**?
+
+- [ ] Move to a larger server in the same Region
+- [ ] Add a second server in another Availability Zone of the same Region
+- [ ] Run copies of the site in Regions near the students, and keep them in sync yourself
+- [x] Serve the images and videos through CloudFront, with the current server as the origin
+
+The problem is distance, not the server's capacity. CloudFront caches files at the edge location nearest each student, with nothing new for you to run.
+
+- **A:** The server isn't under pressure, and the distance stays the same.
+- **B:** This improves availability, but the students are just as far away.
+- **C:** This would work, but it has the most to set up, sync and pay for.
+
+Review: [Edge locations](#edge-locations) in this part, and [What is Amazon CloudFront?](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html) in the AWS docs.
+:::
+
+::: quiz
+A company runs its application on EC2 servers, and its security team is listing what the company itself must handle under the shared responsibility model. Which **two** tasks belong to the company? (Choose two.)
+
+- [ ] Replacing failed disks in AWS data centers
+- [x] Applying security updates to the servers' operating system
+- [ ] Updating the virtualization layer under the servers
+- [ ] Controlling physical entry to the data centers
+- [x] Configuring the security groups that allow traffic to the servers
+
+On EC2, the operating system inside the server and the firewall rules around it are yours. Everything from the host and virtualization layer down to the building belongs to AWS.
+
+- **A:** Hardware belongs to AWS.
+- **C:** The virtualization layer belongs to AWS.
+- **D:** Physical security belongs to AWS.
+
+Review: [The shared responsibility model](#the-shared-responsibility-model) in this part, and the [AWS page on the model](https://aws.amazon.com/compliance/shared-responsibility-model/).
+:::
+
+::: quiz
+Two AWS accounts in one company each have a subnet in `us-east-1a`. A team wants to know whether the two subnets are in the same physical location, to keep heavy traffic between them inside one Availability Zone. What should the team compare?
+
+- [ ] The Availability Zone names in the two accounts
+- [x] The Availability Zone IDs in the two accounts
+- [ ] The Region codes of the two subnets
+- [ ] The nearest edge location to each subnet
+
+AWS maps Availability Zone names to physical locations differently for each account. An ID such as `use1-az1` means the same location in every account.
+
+- **A:** `us-east-1a` in one account may not be the same place as `us-east-1a` in another.
+- **C:** This only confirms the same Region, which they already know.
+- **D:** Edge locations serve content to users, and they don't identify where a subnet is.
+
+Review: [Availability Zones](#availability-zones) in this part, and [Availability Zone IDs](https://docs.aws.amazon.com/ram/latest/userguide/working-with-az-ids.html) in the AWS docs.
+:::
+
 If you want to see these ideas in practice, there's a hands-on guide: [How to create a server on AWS](/en/posts/aws/).
 
 In [**part two**](/en/posts/aws-02-iam/) we get into identity and permissions (IAM): users, groups and policies, and how to actually secure your account.

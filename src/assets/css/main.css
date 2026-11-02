@@ -1675,6 +1675,159 @@
         color: var(--color-danger);
     }
 
+    /* Self-test questions */
+    .quiz {
+        padding: 1.1rem 1.15rem;
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-md);
+        background: var(--color-surface);
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+
+    .quiz > * + * {
+        margin-top: 0.75em;
+    }
+
+    .quiz-number {
+        color: var(--color-muted);
+        font-size: 0.82rem;
+        font-weight: 600;
+    }
+
+    .prose .quiz-options {
+        display: grid;
+        gap: 0.5rem;
+        padding: 0;
+        list-style: none;
+    }
+
+    .prose .quiz-options > li {
+        margin: 0;
+    }
+
+    .quiz-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        width: 100%;
+        padding: 0.6rem 0.75rem;
+        border: 1px solid var(--color-line-strong);
+        border-radius: var(--radius-md);
+        color: inherit;
+        font: inherit;
+        line-height: 1.7;
+        text-align: start;
+        cursor: pointer;
+        transition: border-color var(--dur-snappy) var(--ease-snappy), background-color var(--dur-snappy) var(--ease-snappy);
+    }
+
+    .quiz-option:hover:not(:disabled, [aria-disabled="true"]) {
+        border-color: var(--color-accent);
+    }
+
+    .quiz-option:disabled,
+    .quiz-option[aria-disabled="true"] {
+        color: inherit;
+        cursor: default;
+    }
+
+    .quiz-option[aria-pressed="true"],
+    .quiz-option.is-correct {
+        border-color: var(--color-accent);
+        background: var(--color-accent-soft);
+    }
+
+    .quiz-option.is-wrong {
+        border-color: var(--color-danger);
+        background: var(--color-danger-soft);
+    }
+
+    /* A mark beside the colour, so the result doesn't rely on colour alone. */
+    .quiz-option.is-correct::after,
+    .quiz-option.is-wrong::after {
+        margin-inline-start: auto;
+        padding-inline-start: 0.5rem;
+        font-weight: 700;
+    }
+
+    .quiz-option.is-correct::after {
+        content: "\2713";
+        color: var(--color-accent);
+    }
+
+    .quiz-option.is-wrong::after {
+        content: "\2715";
+        color: var(--color-danger);
+    }
+
+    .quiz-letter {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 1.7rem;
+        height: 1.7rem;
+        border-radius: 50%;
+        background: var(--color-sunken);
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .quiz-option.is-correct .quiz-letter {
+        background: var(--color-accent);
+        color: var(--color-bg);
+    }
+
+    .quiz-option.is-wrong .quiz-letter {
+        background: var(--color-danger);
+        color: var(--color-bg);
+    }
+
+    .quiz > .quiz-result:empty {
+        margin: 0;
+    }
+
+    .quiz-result {
+        font-weight: 600;
+    }
+
+    .quiz-result.is-right {
+        color: var(--color-accent);
+    }
+
+    .quiz-result.is-wrong {
+        color: var(--color-danger);
+    }
+
+    .quiz-answer > summary {
+        color: var(--color-accent);
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    /* Once answered, the explanation stays open, so its toggle has no job left. */
+    .quiz-result:not(:empty) + .quiz-answer > summary {
+        display: none;
+    }
+
+    .quiz-answer > * + * {
+        margin-top: 0.6em;
+    }
+
+    .quiz-score {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.85rem 1.15rem;
+        border-radius: var(--radius-md);
+        background: var(--color-sunken);
+        font-weight: 600;
+    }
+
     /* Code blocks — always dark, always left-to-right */
     .code-block {
         overflow: hidden;

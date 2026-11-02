@@ -75,6 +75,65 @@ export default function (eleventyConfig) {
     });
   }
 
+  // Self-test questions in Markdown: `::: quiz`, then the question, a list of options marked
+  // `[x]` or `[ ]`, then the explanation. main.js adds the interaction; without JavaScript
+  // the answer still opens from its <details>.
+  md.use(markdownItContainer, "quiz", {
+    render(tokens, idx) {
+      if (tokens[idx].nesting !== 1) return "</section>\n";
+      const { number, total, pick, text } = tokens[idx].meta;
+      const data = ["right", "wrong", "score", "retry"]
+        .map((key) => `data-${key}="${escapeAttr(text[key])}"`)
+        .join(" ");
+      return `<section class="quiz" data-quiz data-pick="${pick}" ${data}>\n<p class="quiz-number">${text.number(number, total)}</p>\n`;
+    },
+  });
+
+  md.core.ruler.after("block", "quiz", (state) => {
+    const { tokens } = state;
+    const text = i18n[state.env?.lang || "ar"].quiz;
+    const html = (content) => Object.assign(new state.Token("html_block", "", 0), { content });
+    const questions = tokens.filter((token) => token.type === "container_quiz_open");
+
+    questions.forEach((open, index) => {
+      const start = tokens.indexOf(open);
+      const listOpen = tokens.findIndex((token, i) => i > start && token.type === "bullet_list_open");
+      const { level } = tokens[listOpen];
+      const listClose = tokens.findIndex(
+        (token, i) => i > listOpen && token.type === "bullet_list_close" && token.level === level
+      );
+      const close = tokens.findIndex((token, i) => i > listClose && token.type === "container_quiz_close");
+      const correct = [];
+      let count = 0;
+
+      tokens[listOpen].attrSet("class", "quiz-options");
+      for (let i = listOpen; i < listClose; i++) {
+        if (tokens[i].type !== "paragraph_open" || tokens[i].level !== level + 2) continue;
+        const inline = tokens[i + 1];
+        const mark = inline.content.match(/^\[(x| )\]\s+/);
+        if (!mark) throw new Error(`Quiz option without [x] or [ ]: ${inline.content}`);
+        const letter = String.fromCharCode(65 + count++);
+        if (mark[1] === "x") correct.push(letter);
+        inline.content = inline.content.slice(mark[0].length);
+        tokens[i] = html(
+          `<button type="button" class="quiz-option"${mark[1] === "x" ? " data-correct" : ""} disabled><span class="quiz-letter" lang="en">${letter}</span><span>`
+        );
+        tokens[i + 2] = html("</span></button>\n");
+      }
+      if (!correct.length) throw new Error(`Quiz question without a correct option: ${tokens[start + 2].content}`);
+
+      open.meta = { number: index + 1, total: questions.length, pick: correct.length, text };
+      tokens.splice(close, 0, html("</details>\n"));
+      tokens.splice(
+        listClose + 1,
+        0,
+        html(
+          `<p class="quiz-result" role="status"></p>\n<details class="quiz-answer"><summary>${text.show}</summary>\n<p class="quiz-correct">${text.answer}: <strong lang="en">${correct.join(" + ")}</strong></p>\n`
+        )
+      );
+    });
+  });
+
   // Wrap every fenced code block in a labelled frame with a copy button (enabled by main.js).
   const renderFence = md.renderer.rules.fence;
   md.renderer.rules.fence = (tokens, idx, options, env, self) => {
@@ -187,7 +246,12 @@ ${renderFence(tokens, idx, options, env, self)}</figure>\n`;
   );
 
   eleventyConfig.addFilter("readingMinutes", (html = "") => {
-    const words = String(html).replace(/<[^>]*>/g, " ").split(/\s+/).filter(Boolean).length;
+    // Self-test questions aren't reading, so they don't count towards the time.
+    const words = String(html)
+      .replace(/<section class="quiz"[\s\S]*?<\/section>/g, " ")
+      .replace(/<[^>]*>/g, " ")
+      .split(/\s+/)
+      .filter(Boolean).length;
     return Math.max(1, Math.round(words / 200));
   });
 
