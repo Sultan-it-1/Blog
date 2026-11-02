@@ -301,4 +301,92 @@ aws iam delete-role --role-name series-backup-role
 - **DMS** ينقل قواعد البيانات وهي شغالة، و**AWS Transform MGN** ينقل السيرفرات.
 - **اختبر تعافيك**، وإلا ما عندك تعافي.
 
+## اختبر نفسك
+
+::: quiz
+شركة تاخذ نسخة احتياطية من قاعدتها كل ست ساعات، والاسترجاع الكامل ياخذ ساعتين. في أسوأ حالة، كم الـ RPO والـ RTO عندها؟
+
+- [ ] RPO ساعتين، وRTO ست ساعات
+- [ ] RPO ثماني ساعات، وRTO ثماني ساعات
+- [ ] RPO صفر، وRTO ساعتين
+- [x] RPO ست ساعات، وRTO ساعتين
+
+الـ RPO هو البيانات اللي ممكن تخسرها، وهي حتى الست ساعات من آخر نسخة. والـ RTO هو وقت التوقف، وهو ساعتين الاسترجاع.
+
+- **A:** هذا يبدل الرقمين.
+- **B:** الرقمين يقيسون شيئين مختلفين، فما ينجمعون.
+- **C:** أي شي انكتب بعد آخر نسخة يضيع، فالـ RPO مو صفر.
+
+للمراجعة: [RPO وRTO](#rpo-وrto) في هذا الجزء، و[Business Continuity Plan (BCP)](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/business-continuity-plan-bcp.html) في وثائق AWS.
+:::
+
+::: quiz
+تطبيق لازم يرجع في Region ثانية خلال ساعة ويخسر دقايق من البيانات فقط، **بأقل تكلفة** تحقق هذا. أي استراتيجية تناسب؟
+
+- [ ] Backup and restore
+- [x] Pilot Light
+- [ ] Warm Standby
+- [ ] Multi-Site active-active
+
+Pilot Light يبقي البيانات تتنسخ باستمرار والسيرفرات جاهزة بس واقفة، وهذا يرجعك خلال عشرات الدقايق بتكلفة تشغيل قليلة.
+
+- **A:** الاسترجاع ممكن ياخذ حتى 24 ساعة، وبتخسر ساعات من البيانات.
+- **C:** هذا يحقق المطلوب كمان، بس بتدفع على نسخة كاملة شغالة طول الوقت.
+- **D:** هذا يحققه كمان، بأعلى تكلفة بفارق كبير.
+
+للمراجعة: [أربع استراتيجيات](#أربع-استراتيجيات) في هذا الجزء، و[Disaster recovery options in the cloud](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة خايفة من برامج الفدية: مهاجم معه بيانات مدير مسروقة ممكن يحذف نسخها الاحتياطية. أي خطوة تحميها أكثر؟
+
+- [x] AWS Backup Vault Lock بوضع Compliance
+- [ ] سياسة IAM تمنع حذف النسخ
+- [ ] تشفير النسخ بـ KMS
+- [ ] إنذار CloudWatch على حذف النسخ
+
+في وضع Compliance ما أحد يقدر يحذف نسخة قبل انتهائها، ولا حتى المستخدم الجذر.
+
+- **B:** المدير يقدر يغير السياسة ببساطة.
+- **C:** النسخ المشفرة لسا ممكن تنحذف.
+- **D:** بتعرف عن الحذف، بس النسخ بتكون راحت.
+
+للمراجعة: [AWS Backup: كل شي في مكان واحد](#aws-backup-كل-شي-في-مكان-واحد) في هذا الجزء، و[AWS Backup Vault Lock](https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تبي تنقل 200 سيرفر من مركز بياناتها إلى AWS زي ما هي، وتختبرها هناك كل ما تبي، وتنتقل خلال دقايق. وش يناسب؟
+
+- [ ] AWS DMS
+- [ ] AWS DataSync
+- [x] AWS Transform MGN
+- [ ] VM Import/Export
+
+Agent على كل سيرفر ينسخ أقراصه باستمرار إلى AWS، فتقدر تختبر براحتك، ثم تنتقل خلال دقايق.
+
+- **A:** هذا ينقل قواعد البيانات، مو السيرفرات كاملة.
+- **B:** هذا ينقل الملفات.
+- **D:** هذا يستورد صور أجهزة افتراضية، بدون نسخ مستمر.
+
+للمراجعة: [ترحيل السيرفرات ومراكز البيانات](#ترحيل-السيرفرات-ومراكز-البيانات) في هذا الجزء، و[What Is AWS Transform MGN?](https://docs.aws.amazon.com/mgn/latest/ug/what-is-application-migration-service.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تنقل قاعدة Oracle مشغولة إلى Aurora PostgreSQL، بتوقف قليل جداً. أي **أداتين** تحتاج؟ (اختر اثنين.)
+
+- [ ] AWS Transform MGN
+- [ ] AWS DataSync
+- [x] DMS Schema Conversion أو SCT
+- [ ] Aurora Read Replica من قاعدة Oracle
+- [x] AWS DMS، مع نسخ مستمر
+
+المحركين مختلفين، فتتحول الجداول والكود أول. ثم DMS ينسخ البيانات ويستمر يرسل التغييرات لين تكون جاهز للانتقال.
+
+- **A:** هذا ينقل السيرفرات زي ما هي، فتبقى القاعدة على Oracle.
+- **B:** هذا ينقل الملفات، وما يقدر يبقي قاعدة شغالة متزامنة.
+- **D:** نسخ قراءة Aurora تجي من RDS for MySQL أو PostgreSQL، مو من Oracle.
+
+للمراجعة: [ترحيل قواعد البيانات: DMS](#ترحيل-قواعد-البيانات-dms) في هذا الجزء، و[What is AWS Database Migration Service?](https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html) و[Converting database schemas using DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_SchemaConversion.html) في وثائق AWS.
+:::
+
 تطبيقك الحين مبني ومحمي وقابل للتعافي. يبقى سؤال أخير: كم يكلف، وهل هو مصمم صح؟ في [**الجزء التاسع والعشرين**](/posts/aws-29-cost-good-architecture/) نختم السلسلة بالتكلفة والتصميم الجيد.

@@ -260,4 +260,92 @@ aws sns delete-topic --topic-arn $TOPIC_ARN
 - **CloudTrail** يسجل مين سوى وش، و**Config** يسجل الإعدادات ويحكم عليها.
 - اختبر **مسار التنبيه** قبل ما تحتاجه.
 
+## اختبر نفسك
+
+::: quiz
+فريق يبي إنذار لما تتجاوز ذاكرة سيرفرات EC2 حقته 90%، بس ما يلقى مقياس للذاكرة في CloudWatch. وش يسوي؟
+
+- [ ] تفعيل Detailed Monitoring
+- [x] تثبيت CloudWatch Agent على السيرفرات
+- [ ] إنشاء CloudTrail Trail
+- [ ] تفعيل AWS Config
+
+المقاييس الافتراضية تجي من خارج السيرفر، فما فيها الذاكرة. والـ Agent يرسلها من داخله، وبعدها تقدر تحط عليها إنذار.
+
+- **A:** هذا يرسل نفس المقاييس بشكل أكثر، والذاكرة لسا مو منها.
+- **C:** هذا يسجل مين نادى وش، مو كيف أداء السيرفر.
+- **D:** هذا يسجل إعدادات الموارد، مو اللي يصير داخل السيرفر.
+
+للمراجعة: [مقاييس CloudWatch](#مقاييس-cloudwatch) في هذا الجزء، و[Metrics collected by the CloudWatch agent](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/metrics-collected-by-CloudWatch-agent.html) في وثائق AWS.
+:::
+
+::: quiz
+بدأ عطل بعد ما غيّر أحد مجموعة أمان البارحة بالليل. والفريق يبي يعرف مين سوى التغيير، ومن وين. وين يدور أول؟
+
+- [ ] مقاييس CloudWatch
+- [ ] VPC Flow Logs
+- [ ] CloudWatch Logs Insights
+- [x] CloudTrail Event history
+
+CloudTrail يسجل مين نادى وش، ومتى، ومن وين. والأحداث الإدارية مثل هذا تبقى هناك 90 يوم، بدون أي تجهيز.
+
+- **A:** هذي تعرض أرقام مع الوقت، مو مين سوى شي.
+- **B:** هذي تعرض الزيارات المقبولة والمرفوضة، مو مين غيّر قاعدة.
+- **C:** هذا يبحث في السجلات اللي ترسلها تطبيقاتك، مو الاستدعاءات إلى AWS.
+
+للمراجعة: [CloudTrail: مين سوى وش](#cloudtrail-مين-سوى-وش) في هذا الجزء، و[Working with CloudTrail event history](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تبي تنتبه لما تصير أي حاوية S3 عامة، وتصلحها تلقائياً. وش يناسب؟
+
+- [x] قاعدة Config، مع Remediation تلقائي
+- [ ] إنذار CloudWatch على حجم الحاوية
+- [ ] أحداث CloudTrail Insights
+- [ ] استعلام Logs Insights
+
+قاعدة Config تحكم على إعدادات كل حاوية وتعلّمها غير ملتزمة، والـ Remediation يقدر يشغّل مستند Systems Manager Automation يصلحها. والقاعدة لحالها ما تمنع شي.
+
+- **B:** الحجم ما يقول شي عن مين يقدر يوصل للحاوية.
+- **C:** هذا يكشف النشاط غير العادي، وما يحكم على الإعدادات ولا يصلحها.
+- **D:** هذا يبحث في السجلات لما تطلب، وما يصلح شي.
+
+للمراجعة: [AWS Config: إعداداتك مع الوقت](#aws-config-إعداداتك-مع-الوقت) في هذا الجزء، و[Remediating Noncompliant Resources with AWS Config](https://docs.aws.amazon.com/config/latest/developerguide/remediation.html) في وثائق AWS.
+:::
+
+::: quiz
+فريق الأمان يبي تنبيه فوري كل ما حذف أحد جدول DynamoDB أو دخل بالمستخدم الجذر. وش يناسب؟
+
+- [ ] استعلام Athena أسبوعي على سجلات CloudTrail
+- [ ] لوحة CloudWatch
+- [x] قاعدة EventBridge تطابق أحداث CloudTrail هذي، وهدفها SNS
+- [ ] قاعدة Config على كل جدول
+
+CloudTrail يسجل الاستدعاء، وEventBridge يطابقه، وSNS يخبرك على طول.
+
+- **A:** هذا يلقاها في النهاية، بس ممكن متأخر بأيام.
+- **B:** اللوحة اللي ما يطالعها أحد ما تنبه أحد.
+- **D:** هذا يحكم على الإعدادات، وما يتفاعل مع حذف جدول أو تسجيل دخول.
+
+للمراجعة: [CloudTrail: مين سوى وش](#cloudtrail-مين-سوى-وش) في هذا الجزء، و[AWS service events delivered via AWS CloudTrail](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event-cloudtrail.html) في وثائق AWS.
+:::
+
+::: quiz
+فاتورة CloudWatch Logs عند فريق تكبر لأن السجلات القديمة ما تنحذف أبداً، ونظام ثاني لازم يستلم سطور الأخطاء خلال ثواني. أي **تغييرين** يناسبون؟ (اختر اثنين.)
+
+- [x] تحديد مدة احتفاظ على الـ Log Groups
+- [ ] تصدير السجلات إلى S3 كل ليلة
+- [ ] تفعيل Detailed Monitoring
+- [x] إضافة Subscription Filter يرسل سطور الأخطاء إلى Lambda
+- [ ] تفعيل CloudTrail Data Events
+
+السجلات تبقى للأبد افتراضياً، فمدة الاحتفاظ تشيل القديمة. والـ Subscription Filter يوصّل السطور المطابقة شبه فوري.
+
+- **B:** هذا شغل دفعي مو فوري، والأصول تبقى وتستمر تكلف.
+- **C:** هذا يرسل مقاييس EC2 بشكل أكثر، وما له علاقة بالسجلات.
+- **E:** هذا يسجل العمليات داخل الموارد، وما له علاقة بفاتورة سجلاتك ولا سطور الأخطاء.
+
+للمراجعة: [سجلات CloudWatch](#سجلات-cloudwatch) في هذا الجزء، و[Working with log groups and log streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html) و[Real-time processing of log data with subscriptions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions.html) في وثائق AWS.
+:::
+
 الحين تعرف وش يصير في حساب واحد. بس الشركات عندها عشرات الحسابات ومئات الموظفين. في [**الجزء السادس والعشرين**](/posts/aws-26-organizations-identity-center/) نديرهم بـ Organizations وIdentity Center.

@@ -273,6 +273,94 @@ aws budgets describe-budgets --account-id $ACCOUNT \
 - **CloudFormation** يحول بنيتك إلى ملف تراجعه وتحذفه.
 - **Systems Manager** يدير سيرفراتك بدون SSH.
 
+## اختبر نفسك
+
+::: quiz
+سيرفرين EC2 في نفس منطقة التوفر يتبادلون تيرابايتات كل شهر عبر عناوين IP العامة لبعض، والنقل يطلع في الفاتورة. وش أبسط حل؟
+
+- [ ] نقل سيرفر إلى منطقة توفر ثانية
+- [x] استخدام عناوينهم الخاصة بدلها
+- [ ] وضع NAT Gateway بينهم
+- [ ] الانتقال لأنواع سيرفرات أكبر
+
+البيانات بين السيرفرات في منطقة توفر واحدة مجانية عبر العناوين الخاصة، والزيارات عبر العنوان العام مدفوعة.
+
+- **A:** عبور المناطق مدفوع في كل اتجاه.
+- **C:** الـ NAT Gateway يضيف رسم على كل جيجابايت.
+- **D:** حجم السيرفر ما يغير تكلفة النقل.
+
+للمراجعة: [وين تروح فلوس الشبكة؟](#وين-تروح-فلوس-الشبكة) في هذا الجزء، و[EC2 On-Demand Instance Pricing](https://aws.amazon.com/ec2/pricing/on-demand/) في موقع AWS.
+:::
+
+::: quiz
+فريق صغير يبي إيميل لما يتوقع إن صرف AWS هذا الشهر بيتجاوز حده، مو بعد ما توصل الفاتورة. وش يناسب؟
+
+- [x] AWS Budgets
+- [ ] Cost Explorer، يفتحونه كل صباح
+- [ ] Compute Optimizer
+- [ ] AWS Config
+
+الميزانية تقدر تنبه على الصرف المتوقع والصرف الفعلي، والمراقبة نفسها مجانية.
+
+- **B:** هذا يرسم صرفك ويتوقعه، بس لازم أحد يروح يشوفه.
+- **C:** هذا يقترح الأحجام المناسبة، وما يرسل تنبيهات صرف.
+- **D:** هذا يسجل الإعدادات، مو الصرف.
+
+للمراجعة: [أدوات تراقب فاتورتك](#أدوات-تراقب-فاتورتك) في هذا الجزء، و[Managing your costs with AWS Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) في وثائق AWS.
+:::
+
+::: quiz
+فريق يبي يراجع تصميم تطبيق واحد مقابل أفضل ممارسات AWS، بالإجابة على أسئلة عنه ورؤية المخاطر. وش يناسب؟
+
+- [ ] Amazon Inspector
+- [ ] AWS Trusted Advisor
+- [ ] AWS CloudTrail
+- [x] AWS Well-Architected Tool
+
+الأداة تسألك عن شغلك وتبين لك المخاطر، وهي مجانية في الكونسول.
+
+- **A:** هذا يفحص اللي تشغله عن الثغرات المعروفة، وما يراجع التصميم.
+- **B:** هذا يفحص موارد حسابك لحاله، وما يسأل عن تطبيق معين.
+- **C:** هذا يسجل مين نادى وش.
+
+للمراجعة: [إطار Well-Architected](#إطار-well-architected) في هذا الجزء، و[AWS Well-Architected Tool FAQs](https://aws.amazon.com/well-architected-tool/faqs/) في موقع AWS.
+:::
+
+::: quiz
+فريق يبي نفس البيئة في التطوير والإنتاج من ملف واحد في Git، ويشوف وش بيغيره التحديث قبل ما يصير، ويعرف لو عدّل أحد مورد يدوياً. وش يناسب؟
+
+- [ ] Systems Manager Run Command
+- [ ] صورة AMI جاهزة، تنسخ بين الحسابات
+- [x] CloudFormation، مع Change Sets وDrift Detection
+- [ ] AWS Config لحاله
+
+القالب يبني نفس الـ Stack كل مرة ويبقى في Git. وChange Sets تبين وش بيتغير، وDrift Detection يكشف التعديلات اليدوية.
+
+- **A:** هذا يشغّل أوامر على السيرفرات، وما يوصف البنية.
+- **B:** هذا يكرر محتوى السيرفر، مو الشبكة والموارد اللي حوله.
+- **D:** هذا يسجل الإعدادات ويحكم عليها، بس ما يبني شي.
+
+للمراجعة: [CloudFormation: بنيتك في ملف](#cloudformation-بنيتك-في-ملف) في هذا الجزء، و[Update CloudFormation stacks using change sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html) و[Detect unmanaged configuration changes to stacks and resources with drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة لازم تطبق تحديثات الأمان على 500 سيرفر EC2، في وقت محدد ليلة السبت فقط، وبدون وصول SSH. أي **أداتين** يناسبون؟ (اختر اثنين.)
+
+- [ ] Session Manager
+- [x] Patch Manager
+- [ ] Parameter Store
+- [ ] Compute Optimizer
+- [x] Maintenance Windows
+
+Patch Manager يطبق التحديثات، وMaintenance Windows يحدد متى يسمح لها تصير.
+
+- **A:** هذا يعطيك طرفية، جلسة وحدة كل مرة.
+- **C:** هذا يخزن الإعدادات والأسرار البسيطة.
+- **D:** هذا يقترح الأحجام المناسبة حسب استخدامك.
+
+للمراجعة: [Systems Manager: تشغيل سيرفراتك](#systems-manager-تشغيل-سيرفراتك) في هذا الجزء، و[AWS Systems Manager Patch Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager.html) و[AWS Systems Manager Maintenance Windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows.html) في وثائق AWS.
+:::
+
 ## اللي تعلمته
 
 تسعة وعشرين جزء في تسعة أقسام. شوف وش تقدر تسويه الحين:

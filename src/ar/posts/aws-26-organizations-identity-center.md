@@ -349,4 +349,92 @@ aws iam simulate-custom-policy --policy-input-list file://list.json \
 - **Permissions Boundary** يفوض بأمان، و**المنع الصريح يكسب دايماً**.
 - **Identity Center** يعطي دخول واحد ببيانات مؤقتة، و**Control Tower** يبني كل هذا بأفضل الممارسات.
 
+## اختبر نفسك
+
+::: quiz
+شركة تبي تتأكد إن ما أحد في حسابات التطوير يقدر يشغّل أي شي خارج Regionين، ولا حتى مدراء هذي الحسابات. وش يناسب؟
+
+- [ ] سياسة IAM على كل مستخدم
+- [ ] Permissions Boundary على كل دور
+- [x] SCP على وحدة التطوير (OU)
+- [ ] قاعدة Config تبلغ عن الـ Regions الثانية
+
+الـ SCP تحدد سقف لكل مستخدم ودور في الحسابات اللي تحتها، بما فيهم المستخدم الجذر. وهي ما تعطي شي، فالناس لسا يحتاجون صلاحيات IAM خاصة فيهم.
+
+- **A:** مدراء الحساب يقدرون يغيرونها ببساطة.
+- **B:** هذا يحد مستخدم أو دور واحد في كل مرة، والمدير يقدر يشيله.
+- **D:** هذا يعلّم الموارد غير ملتزمة، وما يوقف شي.
+
+للمراجعة: [Service Control Policies (SCP)](#service-control-policies-scp) في هذا الجزء، و[Service control policies (SCPs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تبي قادة الفرق ينشئون أدوار لخدماتهم، بدون ما يقدرون يعطون أكثر من وصول S3 وDynamoDB. وش يناسب؟
+
+- [x] Permissions Boundary على الأدوار اللي ينشئونها
+- [ ] SCP على حساب الفريق
+- [ ] صلاحية مدير، مع قاعدة مكتوبة
+- [ ] Permission Sets في Identity Center
+
+الـ Permissions Boundary يحدد الحد الأقصى لمستخدم أو دور وما يعطي شي بنفسه، فالدور ما يتجاوزه أبداً مهما كانت سياسته.
+
+- **B:** هذا يحد الحساب كامل، والشغل الثاني فيه ممكن يحتاج خدمات ثانية.
+- **C:** القاعدة المكتوبة ما توقف أحد.
+- **D:** هذي تعطي الناس وصول للحسابات، وما تحد الأدوار اللي ينشئونها.
+
+للمراجعة: [حدود الصلاحيات (Permissions Boundaries)](#حدود-الصلاحيات-permissions-boundaries) في هذا الجزء، و[Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة عندها 50 حساب و500 موظف، وتحفظ مستخدميها في Microsoft Entra ID. وتبي دخول واحد، بدون مفاتيح طويلة المدى، ووصول مختلف لكل حساب. وش يناسب؟
+
+- [ ] مستخدم IAM لكل موظف في كل حساب
+- [ ] مستخدم IAM مشترك لكل فريق
+- [ ] AWS Control Tower، مع Account Factory
+- [x] IAM Identity Center، مع Permission Sets
+
+الموظف يدخل مرة وحدة ويشوف الحسابات والأدوار المتاحة له، بصلاحيات مؤقتة. والـ Permission Set يصير دور في كل حساب تربطه فيه.
+
+- **A:** هذا يعني آلاف المستخدمين والمفاتيح طويلة المدى اللي لازم تديرها.
+- **B:** هذا يضيّع مين سوى وش، ويشارك مفاتيح طويلة المدى.
+- **C:** هذا يبني Landing Zone وينشئ الحسابات، وما يعطي الناس دخولهم لحاله.
+
+للمراجعة: [IAM Identity Center: دخول واحد](#iam-identity-center-دخول-واحد) في هذا الجزء، و[Manage AWS accounts with permission sets](https://docs.aws.amazon.com/singlesignon/latest/userguide/permissionsetsconcept.html) في وثائق AWS.
+:::
+
+::: quiz
+تطبيق في الحساب A لازم يقرأ من جدول DynamoDB في الحساب A ويكتب في حاوية S3 في الحساب B بنفس الوقت، بهوية وحدة. وش يناسب؟
+
+- [ ] افتراض دور في الحساب B
+- [x] سياسة حاوية في الحساب B تسمح لدور التطبيق
+- [ ] SCP تسمح بالإجراء
+- [ ] Permissions Boundary يسمح بالإجراء
+
+مع سياسة المورد يحتفظ التطبيق بصلاحياته، فيقدر يستخدم الجدول في A والحاوية في B مع بعض.
+
+- **A:** وهو في الدور يتخلى عن صلاحياته الأصلية، فيفقد الجدول في A.
+- **C:** الـ SCP ما تعطي شي.
+- **D:** الـ Boundary ما يعطي شي.
+
+للمراجعة: [دور أو سياسة مورد؟](#دور-أو-سياسة-مورد) في هذا الجزء، و[Cross account resource access in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html) في وثائق AWS.
+:::
+
+::: quiz
+دور لازم يعرض الكائنات في حاوية اسمها `reports` ويقرأها. أي **عبارتين** لازم يكونون في سياسته؟ (اختر اثنين.)
+
+- [ ] `s3:ListBucket` على `arn:aws:s3:::reports/*`
+- [x] `s3:ListBucket` على `arn:aws:s3:::reports`
+- [ ] `s3:GetObject` على `arn:aws:s3:::reports`
+- [x] `s3:GetObject` على `arn:aws:s3:::reports/*`
+- [ ] `s3:*` على `*`
+
+إجراءات S3 تشتغل على مستويين: العرض على الحاوية، والقراءة على الكائنات، فكل واحد يحتاج ARN خاص فيه.
+
+- **A:** العرض على الحاوية، فهذا الـ ARN يعطي `AccessDenied`.
+- **C:** القراءة على الكائنات، فهذا الـ ARN يعطي `AccessDenied`.
+- **E:** هذا يشتغل، بس يعطي أكثر بكثير من اللازم، وعلى كل الحاويات.
+
+للمراجعة: [غلطة S3 الكلاسيكية](#غلطة-s3-الكلاسيكية) في هذا الجزء، و[Grant read and write access to Amazon S3 bucket objects](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_s3_rw-bucket.html) في وثائق AWS.
+:::
+
 ضبطت مين يوصل لبياناتك. طيب لو وصل لها أحد بأي طريقة، أو هاجم موقعك من برا؟ في [**الجزء السابع والعشرين**](/posts/aws-27-encryption-secrets-protection/) نغطي التشفير والأسرار والحماية من الهجمات.

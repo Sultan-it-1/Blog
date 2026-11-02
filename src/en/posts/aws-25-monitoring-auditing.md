@@ -260,4 +260,92 @@ aws sns delete-topic --topic-arn $TOPIC_ARN
 - **CloudTrail** records who did what, and **Config** records the settings and judges them.
 - Test your **alert path** before you need it.
 
+## Test yourself
+
+::: quiz
+A team wants an alarm when memory on its EC2 servers passes 90%, but it can't find a memory metric in CloudWatch. What should it do?
+
+- [ ] Turn on detailed monitoring
+- [x] Install the CloudWatch agent on the servers
+- [ ] Create a CloudTrail trail
+- [ ] Turn on AWS Config
+
+The default metrics come from outside the server, so they don't include memory. The agent sends it from inside, and then you can put an alarm on it.
+
+- **A:** This sends the same metrics more often, and memory still isn't among them.
+- **C:** This records who called what, not how a server is performing.
+- **D:** This records resource settings, not what's happening inside a server.
+
+Review: [CloudWatch metrics](#cloudwatch-metrics) in this part, and [Metrics collected by the CloudWatch agent](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/metrics-collected-by-CloudWatch-agent.html) in the AWS docs.
+:::
+
+::: quiz
+An outage began right after someone changed a security group last night. The team wants to know who made the change, and from where. Where should it look first?
+
+- [ ] CloudWatch metrics
+- [ ] VPC Flow Logs
+- [ ] CloudWatch Logs Insights
+- [x] CloudTrail Event history
+
+CloudTrail records who called what, when and from where. Management events like this one stay there for 90 days, with nothing to set up.
+
+- **A:** These show numbers over time, not who did anything.
+- **B:** These show the traffic that was accepted or rejected, not who changed a rule.
+- **C:** This searches logs your applications send, not the calls made to AWS.
+
+Review: [CloudTrail: who did what](#cloudtrail-who-did-what) in this part, and [Working with CloudTrail event history](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html) in the AWS docs.
+:::
+
+::: quiz
+A company wants to notice when any S3 bucket becomes public, and to fix it automatically. What fits?
+
+- [x] A Config rule, with automatic remediation
+- [ ] A CloudWatch alarm on the bucket's size
+- [ ] CloudTrail Insights events
+- [ ] A Logs Insights query
+
+A Config rule judges each bucket's settings and marks it as non-compliant, and a remediation can run a Systems Manager Automation document to fix it. On its own, a rule prevents nothing.
+
+- **B:** Size says nothing about who can reach the bucket.
+- **C:** This spots unusual activity, and doesn't judge or fix settings.
+- **D:** This searches logs when you ask, and fixes nothing.
+
+Review: [AWS Config: your settings over time](#aws-config-your-settings-over-time) in this part, and [Remediating Noncompliant Resources with AWS Config](https://docs.aws.amazon.com/config/latest/developerguide/remediation.html) in the AWS docs.
+:::
+
+::: quiz
+The security team wants an immediate alert whenever someone deletes a DynamoDB table or signs in with the root user. What fits?
+
+- [ ] A weekly Athena query over the CloudTrail logs
+- [ ] A CloudWatch dashboard
+- [x] An EventBridge rule matching those CloudTrail events, with an SNS target
+- [ ] A Config rule on each table
+
+CloudTrail records the call, EventBridge matches it, and SNS tells you right away.
+
+- **A:** This finds them eventually, which could be days too late.
+- **B:** A dashboard nobody's looking at alerts nobody.
+- **D:** This judges settings, and doesn't react to a deleted table or a sign-in.
+
+Review: [CloudTrail: who did what](#cloudtrail-who-did-what) in this part, and [AWS service events delivered via AWS CloudTrail](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event-cloudtrail.html) in the AWS docs.
+:::
+
+::: quiz
+A team's CloudWatch Logs bill keeps growing because old logs are never removed, and another system must receive error lines within seconds. Which **two** changes fit? (Choose two.)
+
+- [x] Set a retention period on the log groups
+- [ ] Export the logs to S3 every night
+- [ ] Turn on detailed monitoring
+- [x] Add a subscription filter that sends error lines to Lambda
+- [ ] Turn on CloudTrail data events
+
+Logs are kept forever by default, so a retention period removes the old ones. A subscription filter delivers matching lines in near real time.
+
+- **B:** This is a batch job that isn't immediate, and the originals stay and keep costing money.
+- **C:** This sends EC2 metrics more often, and has nothing to do with logs.
+- **E:** This records operations inside resources, and has nothing to do with your log bill or error lines.
+
+Review: [CloudWatch Logs](#cloudwatch-logs) in this part, and [Working with log groups and log streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html) and [Real-time processing of log data with subscriptions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions.html) in the AWS docs.
+:::
+
 You now know what's happening in one account. But companies have dozens of accounts and hundreds of employees. In [**part twenty-six**](/en/posts/aws-26-organizations-identity-center/) we manage them with Organizations and Identity Center.

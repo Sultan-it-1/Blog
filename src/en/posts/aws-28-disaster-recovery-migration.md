@@ -301,4 +301,92 @@ aws iam delete-role --role-name series-backup-role
 - **DMS** moves databases while they run, and **AWS Transform MGN** moves servers.
 - **Test your recovery**, or you don't have any.
 
+## Test yourself
+
+::: quiz
+A company backs up its database every six hours, and a full restore takes two hours. In the worst case, what are its RPO and RTO?
+
+- [ ] RPO of 2 hours, RTO of 6 hours
+- [ ] RPO of 8 hours, RTO of 8 hours
+- [ ] RPO of zero, RTO of 2 hours
+- [x] RPO of 6 hours, RTO of 2 hours
+
+RPO is the data you can lose, which is up to the six hours since the last backup. RTO is the time you're down, which is the two hours of restoring.
+
+- **A:** This swaps the two numbers.
+- **B:** The numbers measure different things, so they don't add together.
+- **C:** Anything written since the last backup is lost, so the RPO isn't zero.
+
+Review: [RPO and RTO](#rpo-and-rto) in this part, and [Business Continuity Plan (BCP)](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/business-continuity-plan-bcp.html) in the AWS docs.
+:::
+
+::: quiz
+An application must recover in another Region within an hour and lose only minutes of data, at the **lowest cost** that meets this. Which strategy fits?
+
+- [ ] Backup and restore
+- [x] Pilot light
+- [ ] Warm standby
+- [ ] Multi-site active-active
+
+Pilot light keeps the data replicating with the servers ready but stopped, which gets you back in tens of minutes for little running cost.
+
+- **A:** Recovery can take up to 24 hours, and you'd lose hours of data.
+- **C:** This also meets the need, but you'd pay for a full copy running all the time.
+- **D:** This meets it too, at by far the highest cost.
+
+Review: [Four strategies](#four-strategies) in this part, and [Disaster recovery options in the cloud](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html) in the AWS docs.
+:::
+
+::: quiz
+A company fears ransomware: an attacker with stolen administrator credentials could delete its backups. Which step protects them best?
+
+- [x] AWS Backup Vault Lock in compliance mode
+- [ ] An IAM policy denying deletion of backups
+- [ ] Encrypting the backups with KMS
+- [ ] A CloudWatch alarm on backup deletions
+
+In compliance mode nobody can delete a backup before it expires, not even the root user.
+
+- **B:** An administrator can simply change the policy.
+- **C:** Encrypted backups can still be deleted.
+- **D:** You'd hear about the deletion, but the backups would already be gone.
+
+Review: [AWS Backup: everything in one place](#aws-backup-everything-in-one-place) in this part, and [AWS Backup Vault Lock](https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html) in the AWS docs.
+:::
+
+::: quiz
+A company wants to move 200 servers from its data center to AWS as they are, test them there as often as it likes, and cut over in minutes. What fits?
+
+- [ ] AWS DMS
+- [ ] AWS DataSync
+- [x] AWS Transform MGN
+- [ ] VM Import/Export
+
+An agent on each server replicates its disks continuously to AWS, so you can test at will, then switch over in minutes.
+
+- **A:** This moves databases, not whole servers.
+- **B:** This moves files.
+- **D:** This imports virtual machine images, with no continuous replication.
+
+Review: [Migrating servers and whole data centers](#migrating-servers-and-whole-data-centers) in this part, and [What Is AWS Transform MGN?](https://docs.aws.amazon.com/mgn/latest/ug/what-is-application-migration-service.html) in the AWS docs.
+:::
+
+::: quiz
+A company is moving a busy Oracle database to Aurora PostgreSQL, with very little downtime. Which **two** tools does it need? (Choose two.)
+
+- [ ] AWS Transform MGN
+- [ ] AWS DataSync
+- [x] DMS Schema Conversion or SCT
+- [ ] An Aurora read replica of the Oracle database
+- [x] AWS DMS, with ongoing replication
+
+The engines differ, so the tables and code are converted first. DMS then copies the data and keeps sending changes until you're ready to switch.
+
+- **A:** This moves servers as they are, so the database would stay on Oracle.
+- **B:** This moves files, and can't keep a live database in sync.
+- **D:** Aurora read replicas come from RDS for MySQL or PostgreSQL, not from Oracle.
+
+Review: [Migrating databases: DMS](#migrating-databases-dms) in this part, and [What is AWS Database Migration Service?](https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html) and [Converting database schemas using DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_SchemaConversion.html) in the AWS docs.
+:::
+
 Your application is now built, protected and recoverable. One last question remains: how much does it cost, and is it designed well? In [**part twenty-nine**](/en/posts/aws-29-cost-good-architecture/) we close the series with cost and good architecture.

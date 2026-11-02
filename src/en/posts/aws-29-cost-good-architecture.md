@@ -273,6 +273,94 @@ This budget is free, so leave it. And now that the series is over, take a look a
 - **CloudFormation** turns your infrastructure into a reviewable, deletable file.
 - **Systems Manager** manages your servers without SSH.
 
+## Test yourself
+
+::: quiz
+Two EC2 servers in the same Availability Zone exchange terabytes a month by calling each other's public IP addresses, and the transfer shows up on the bill. What's the simplest fix?
+
+- [ ] Moving one server to another Availability Zone
+- [x] Using their private IP addresses instead
+- [ ] Putting a NAT gateway between them
+- [ ] Moving to larger instance types
+
+Data between servers in one Availability Zone is free over private addresses, while traffic through a public address is charged.
+
+- **A:** Crossing zones is charged in each direction.
+- **C:** A NAT gateway adds a charge for every gigabyte.
+- **D:** The size of the server doesn't change what the transfer costs.
+
+Review: [Where does the network money go?](#where-does-the-network-money-go) in this part, and [EC2 On-Demand Instance Pricing](https://aws.amazon.com/ec2/pricing/on-demand/) on the AWS site.
+:::
+
+::: quiz
+A small team wants an email when this month's AWS spending is forecast to pass its limit, not after the bill arrives. What fits?
+
+- [x] AWS Budgets
+- [ ] Cost Explorer, checked each morning
+- [ ] Compute Optimizer
+- [ ] AWS Config
+
+A budget can alert on forecasted spending as well as actual spending, and the monitoring itself is free.
+
+- **B:** This charts your spending and forecasts it, but someone has to go and look.
+- **C:** This recommends suitable sizes, and sends no spending alerts.
+- **D:** This records settings, not spending.
+
+Review: [Tools that watch your bill](#tools-that-watch-your-bill) in this part, and [Managing your costs with AWS Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) in the AWS docs.
+:::
+
+::: quiz
+A team wants to review one workload's design against AWS's best practices, by answering questions about it and seeing the risks. What fits?
+
+- [ ] Amazon Inspector
+- [ ] AWS Trusted Advisor
+- [ ] AWS CloudTrail
+- [x] AWS Well-Architected Tool
+
+The tool asks you questions about your workload, and shows you the risks. It's free in the console.
+
+- **A:** This scans what you run for known vulnerabilities, and doesn't review a design.
+- **B:** This checks your account's resources by itself, and doesn't ask about a workload.
+- **C:** This records who called what.
+
+Review: [The Well-Architected Framework](#the-well-architected-framework) in this part, and [AWS Well-Architected Tool FAQs](https://aws.amazon.com/well-architected-tool/faqs/) on the AWS site.
+:::
+
+::: quiz
+A team wants the same environment in development and production from one file in Git, to see what an update will change before it happens, and to know if someone edits a resource by hand. What fits?
+
+- [ ] Systems Manager Run Command
+- [ ] A golden AMI, copied between accounts
+- [x] CloudFormation, with change sets and drift detection
+- [ ] AWS Config on its own
+
+A template builds the same stack every time and sits in Git. Change sets show what will change, and drift detection reveals manual edits.
+
+- **A:** This runs commands on servers, and doesn't describe infrastructure.
+- **B:** This repeats a server's contents, not the network and other resources around it.
+- **D:** This records settings and judges them, but doesn't build anything.
+
+Review: [CloudFormation: your infrastructure in a file](#cloudformation-your-infrastructure-in-a-file) in this part, and [Update CloudFormation stacks using change sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html) and [Detect unmanaged configuration changes to stacks and resources with drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html) in the AWS docs.
+:::
+
+::: quiz
+A company must apply security updates across 500 EC2 servers, only during a Saturday night slot, and with no SSH access. Which **two** tools fit? (Choose two.)
+
+- [ ] Session Manager
+- [x] Patch Manager
+- [ ] Parameter Store
+- [ ] Compute Optimizer
+- [x] Maintenance Windows
+
+Patch Manager applies the updates, and Maintenance Windows sets when they're allowed to happen.
+
+- **A:** This gives you a terminal, one session at a time.
+- **C:** This stores settings and simple secrets.
+- **D:** This recommends suitable sizes based on your use.
+
+Review: [Systems Manager: running your servers](#systems-manager-running-your-servers) in this part, and [AWS Systems Manager Patch Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager.html) and [AWS Systems Manager Maintenance Windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows.html) in the AWS docs.
+:::
+
 ## What you've learned
 
 Twenty-nine parts in nine sections. Look at what you can do now:

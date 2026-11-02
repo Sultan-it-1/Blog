@@ -282,4 +282,92 @@ aws kms schedule-key-deletion --key-id $KEY_ID --pending-window-in-days 7
 - شهادات **ACM** مجانية وتتجدد لحالها، وCloudFront يحتاجها في `us-east-1`.
 - **WAF** و**Shield** يصدون الهجمات، و**GuardDuty** و**Inspector** و**Macie** يكشفون اللي يعدي.
 
+## اختبر نفسك
+
+::: quiz
+كلمة مرور قاعدة بيانات تطبيق لازم تتغير كل 30 يوم، في القاعدة وفي المكان اللي يقرأ منه التطبيق، بدون إصدار كود كل مرة. وش يناسب؟
+
+- [x] Secrets Manager، مع تفعيل التدوير
+- [ ] Parameter Store، بنوع `SecureString`
+- [ ] تدوير مفاتيح KMS التلقائي
+- [ ] متغير بيئة على السيرفر
+
+Secrets Manager يغير كلمة المرور بجدول ويحدثها في القاعدة كمان. والتطبيق يطلب القيمة الحالية كل مرة، فما يحس.
+
+- **B:** هذا يخزن القيمة مشفرة، بس ما فيه تدوير مبني.
+- **C:** هذا يدوّر مفتاح تشفير، مو كلمة مرور قاعدة بيانات.
+- **D:** لازم أحد يغيرها يدوي على كل سيرفر.
+
+للمراجعة: [Secrets Manager](#secrets-manager) في هذا الجزء، و[Rotate AWS Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html) في وثائق AWS.
+:::
+
+::: quiz
+فريق يبي يشارك لقطة EBS مشفرة مع حساب ثاني، بس اللقطة مشفرة بمفتاح `aws/ebs`. وش يسوي؟
+
+- [ ] إضافة الحساب الثاني لسياسة مفتاح `aws/ebs`
+- [ ] مشاركة اللقطة للعامة
+- [x] نسخها بمفتاح Customer Managed، ثم مشاركتها والسماح للحساب في سياسة هذا المفتاح
+- [ ] إيقاف التشفير على اللقطة
+
+مفاتيح AWS Managed ما تنشارك، فلازم ينعاد تشفير اللقطة بمفتاحك أول. وبعدها الحساب الثاني يحتاج وصول للقطة وللمفتاح.
+
+- **A:** مفاتيح AWS Managed ما تنشارك مع حسابات ثانية.
+- **B:** اللقطات غير المشفرة بس هي اللي تنشارك للعامة، وهذا بيكشف البيانات لأي أحد.
+- **D:** اللقطة المشفرة ما تتحول ببساطة إلى غير مشفرة.
+
+للمراجعة: [سياسات المفاتيح](#سياسات-المفاتيح) في هذا الجزء، و[Share an Amazon EBS snapshot with other AWS accounts](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html) في وثائق AWS.
+:::
+
+::: quiz
+موقع يشتغل على ALB في فرانكفورت وقدامه CloudFront. والفريق طلب شهادة ACM في فرانكفورت، بس ما يقدر يختارها في CloudFront. وش يسوي؟
+
+- [ ] تصدير الشهادة، ورفعها إلى CloudFront
+- [ ] نقل الـ ALB إلى `us-east-1`
+- [ ] انتظار التجديد الجاي للشهادة
+- [x] طلب شهادة في `us-east-1` لـ CloudFront
+
+CloudFront يحتاج شهادته في `us-east-1`، وين ما كان تطبيقك. والـ ALB يستمر يستخدم اللي في منطقته.
+
+- **A:** شهادة ACM العادية ما تتصدر.
+- **B:** التطبيق يقدر يبقى مكانه، وشهادة CloudFront بس هي اللي لازم تكون هناك.
+- **C:** التجديد ما يغير منطقة الشهادة.
+
+للمراجعة: [ACM: شهادات بدون وجع راس](#acm-شهادات-بدون-وجع-راس) في هذا الجزء، و[Requirements for using SSL/TLS certificates with CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cnames-and-https-requirements.html) في وثائق AWS.
+:::
+
+::: quiz
+موقع خلف CloudFront، وعنوان واحد يغرقه بالطلبات. وين يحجب الفريق هذا العنوان؟
+
+- [ ] Network ACL على شبكة موزع الحمل
+- [x] قاعدة WAF على توزيعة CloudFront
+- [ ] قاعدة منع في مجموعة الأمان
+- [ ] إعدادات Shield Standard
+
+CloudFront أول من يشوف عنوان الزائر، فالحجب مكانه هناك. وIP Set أو قاعدة حسب المعدل في WAF تسوي المطلوب.
+
+- **A:** الطلبات توصل الشبكة من عناوين CloudFront، فعنوان المهاجم ما يظهر هناك أبداً.
+- **C:** مجموعة الأمان تسمح فقط، وما تقدر تمنع.
+- **D:** هذي حماية تلقائية من هجمات الشبكة الشائعة، بدون قوائم عناوين خاصة فيك.
+
+للمراجعة: [حجب عنوان واحد: وين؟](#حجب-عنوان-واحد-وين) في هذا الجزء، و[Using AWS WAF with Amazon CloudFront](https://docs.aws.amazon.com/waf/latest/developerguide/cloudfront-features.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تبي تلقى الثغرات البرمجية المعروفة في سيرفرات EC2 وصور ECR حقتها، وتلقى البيانات الشخصية الموجودة في حاويات S3. أي **خدمتين** يناسبون؟ (اختر اثنين.)
+
+- [x] Amazon Inspector
+- [ ] Amazon GuardDuty
+- [ ] AWS Shield
+- [ ] AWS WAF
+- [x] Amazon Macie
+
+Inspector يفحص اللي تشغله عن الثغرات المعروفة، وMacie يلقى البيانات الحساسة في S3.
+
+- **B:** هذا يكشف النشاط المشبوه في الحساب، مثل استخدام صلاحيات مسروقة.
+- **C:** هذا يحمي من هجمات DDoS.
+- **D:** هذا يفلتر طلبات الويب.
+
+للمراجعة: [كشف التهديدات](#كشف-التهديدات) في هذا الجزء، و[What is Amazon Inspector?](https://docs.aws.amazon.com/inspector/latest/user/what-is-inspector.html) و[What is Amazon Macie?](https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html) في وثائق AWS.
+:::
+
 حميت نفسك من الناس. طيب لو طاحت منطقة كاملة، أو لازم تنقل مركز بيانات إلى AWS؟ في [**الجزء الثامن والعشرين**](/posts/aws-28-disaster-recovery-migration/) نغطي التعافي من الكوارث والترحيل.

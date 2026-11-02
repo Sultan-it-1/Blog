@@ -282,4 +282,92 @@ aws kms schedule-key-deletion --key-id $KEY_ID --pending-window-in-days 7
 - **ACM** certificates are free and renew themselves, and CloudFront needs them in `us-east-1`.
 - **WAF** and **Shield** stop attacks, and **GuardDuty**, **Inspector** and **Macie** detect what gets through.
 
+## Test yourself
+
+::: quiz
+An application's database password must change every 30 days, both in the database and where the application reads it, with no code release each time. What fits?
+
+- [x] Secrets Manager, with rotation turned on
+- [ ] Parameter Store, with a `SecureString`
+- [ ] KMS automatic key rotation
+- [ ] An environment variable on the server
+
+Secrets Manager changes the password on a schedule and updates the database too. The application asks for the current value each time, so it doesn't notice.
+
+- **B:** This stores the value encrypted, but has no built-in rotation.
+- **C:** This rotates an encryption key, not a database password.
+- **D:** Someone would have to change it by hand on every server.
+
+Review: [Secrets Manager](#secrets-manager) in this part, and [Rotate AWS Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html) in the AWS docs.
+:::
+
+::: quiz
+A team wants to share an encrypted EBS snapshot with another account, but the snapshot is encrypted with the `aws/ebs` key. What should it do?
+
+- [ ] Add the other account to the `aws/ebs` key's policy
+- [ ] Share the snapshot publicly
+- [x] Copy it with a customer managed key, then share it and allow the account in that key's policy
+- [ ] Turn off encryption on the snapshot
+
+AWS managed keys can't be shared, so the snapshot has to be re-encrypted with your own key first. The other account then needs access to both the snapshot and the key.
+
+- **A:** AWS managed keys can't be shared with other accounts.
+- **B:** Only unencrypted snapshots can be shared publicly, and this would expose the data to anyone.
+- **D:** An encrypted snapshot can't simply be switched to unencrypted.
+
+Review: [Key policies](#key-policies) in this part, and [Share an Amazon EBS snapshot with other AWS accounts](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html) in the AWS docs.
+:::
+
+::: quiz
+A site runs on an ALB in Frankfurt with CloudFront in front of it. The team requested an ACM certificate in Frankfurt, but can't select it in CloudFront. What should it do?
+
+- [ ] Export the certificate, and upload it to CloudFront
+- [ ] Move the ALB to `us-east-1`
+- [ ] Wait for the certificate's next renewal
+- [x] Request a certificate in `us-east-1` for CloudFront
+
+CloudFront needs its certificate in `us-east-1`, wherever your application is. The ALB keeps using the one in its own Region.
+
+- **A:** A normal ACM certificate can't be exported.
+- **B:** The application can stay where it is, and only CloudFront's certificate has to be there.
+- **C:** A renewal doesn't change a certificate's Region.
+
+Review: [ACM: certificates without the hassle](#acm-certificates-without-the-hassle) in this part, and [Requirements for using SSL/TLS certificates with CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cnames-and-https-requirements.html) in the AWS docs.
+:::
+
+::: quiz
+A site sits behind CloudFront, and one address is flooding it with requests. Where should the team block that address?
+
+- [ ] A network ACL on the load balancer's subnet
+- [x] A WAF rule on the CloudFront distribution
+- [ ] A deny rule in the security group
+- [ ] Shield Standard's settings
+
+CloudFront is the first to see the visitor's address, so the block belongs there. An IP set or a rate-based rule in WAF does the job.
+
+- **A:** Requests reach the subnet from CloudFront's addresses, so the attacker's address never appears there.
+- **C:** A security group only allows, and can't deny.
+- **D:** This is automatic protection from common network attacks, with no address lists of your own.
+
+Review: [Blocking one address: where?](#blocking-one-address-where) in this part, and [Using AWS WAF with Amazon CloudFront](https://docs.aws.amazon.com/waf/latest/developerguide/cloudfront-features.html) in the AWS docs.
+:::
+
+::: quiz
+A company wants to find known software vulnerabilities in its EC2 servers and ECR images, and to find personal data sitting in its S3 buckets. Which **two** services fit? (Choose two.)
+
+- [x] Amazon Inspector
+- [ ] Amazon GuardDuty
+- [ ] AWS Shield
+- [ ] AWS WAF
+- [x] Amazon Macie
+
+Inspector scans what you run for known vulnerabilities, and Macie finds sensitive data in S3.
+
+- **B:** This detects suspicious activity in an account, such as stolen credentials being used.
+- **C:** This protects against DDoS attacks.
+- **D:** This filters web requests.
+
+Review: [Detecting threats](#detecting-threats) in this part, and [What is Amazon Inspector?](https://docs.aws.amazon.com/inspector/latest/user/what-is-inspector.html) and [What is Amazon Macie?](https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html) in the AWS docs.
+:::
+
 You've protected yourself from people. What about a whole Region going down, or having to bring a data center over to AWS? In [**part twenty-eight**](/en/posts/aws-28-disaster-recovery-migration/) we cover disaster recovery and migration.

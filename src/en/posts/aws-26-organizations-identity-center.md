@@ -349,4 +349,92 @@ The simulator creates nothing and costs nothing. You can test any policy this wa
 - A **permissions boundary** delegates safely, and an **explicit Deny always wins**.
 - **Identity Center** gives one sign-in with temporary credentials, and **Control Tower** builds it all from best practices.
 
+## Test yourself
+
+::: quiz
+A company wants to make sure nobody in its development accounts can launch anything outside two Regions, not even those accounts' administrators. What fits?
+
+- [ ] An IAM policy on each user
+- [ ] A permissions boundary on each role
+- [x] An SCP on the development OU
+- [ ] A Config rule that reports other Regions
+
+An SCP sets a ceiling for every user and role in the accounts beneath it, including the root user. It grants nothing, so people still need their own IAM permissions.
+
+- **A:** An account's administrators could simply change these.
+- **B:** This limits one user or role at a time, and an administrator could remove it.
+- **D:** This marks resources as non-compliant, and stops nothing.
+
+Review: [Service Control Policies (SCPs)](#service-control-policies-scps) in this part, and [Service control policies (SCPs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html) in the AWS docs.
+:::
+
+::: quiz
+A company wants team leads to create roles for their own services, without being able to hand out more than S3 and DynamoDB access. What fits?
+
+- [x] A permissions boundary on the roles they create
+- [ ] An SCP on the team's account
+- [ ] Administrator access, with a written rule
+- [ ] Identity Center permission sets
+
+A permissions boundary sets the maximum for a user or role and grants nothing itself, so a role can never go beyond it, whatever policy it's given.
+
+- **B:** This limits the whole account, while other work in it may need other services.
+- **C:** A written rule stops nobody.
+- **D:** These give people access to accounts, and don't limit the roles they create.
+
+Review: [Permissions boundaries](#permissions-boundaries) in this part, and [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the AWS docs.
+:::
+
+::: quiz
+A company with 50 accounts and 500 employees keeps its users in Microsoft Entra ID. It wants one sign-in, no long-term keys, and different access per account. What fits?
+
+- [ ] An IAM user per employee in each account
+- [ ] One shared IAM user per team
+- [ ] AWS Control Tower, with Account Factory
+- [x] IAM Identity Center, with permission sets
+
+Employees sign in once and see the accounts and roles available to them, with temporary credentials. A permission set becomes a role in each account you assign it to.
+
+- **A:** This means thousands of users and long-term keys to manage.
+- **B:** This loses track of who did what, and shares long-term keys.
+- **C:** This builds a landing zone and creates accounts, and doesn't give people their sign-in by itself.
+
+Review: [IAM Identity Center: one sign-in](#iam-identity-center-one-sign-in) in this part, and [Manage AWS accounts with permission sets](https://docs.aws.amazon.com/singlesignon/latest/userguide/permissionsetsconcept.html) in the AWS docs.
+:::
+
+::: quiz
+An application in account A must read from a DynamoDB table in account A and write to an S3 bucket in account B at the same time, using one identity. What fits?
+
+- [ ] Assuming a role in account B
+- [x] A bucket policy in account B that allows the application's role
+- [ ] An SCP that allows the action
+- [ ] A permissions boundary that allows the action
+
+With a resource policy the application keeps its own permissions, so it can use the table in A and the bucket in B at once.
+
+- **A:** While in that role it gives up its original permissions, so it loses the table in A.
+- **C:** An SCP grants nothing.
+- **D:** A boundary grants nothing.
+
+Review: [A role or a resource policy?](#a-role-or-a-resource-policy) in this part, and [Cross account resource access in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html) in the AWS docs.
+:::
+
+::: quiz
+A role must list the objects in a bucket named `reports` and read them. Which **two** statements belong in its policy? (Choose two.)
+
+- [ ] `s3:ListBucket` on `arn:aws:s3:::reports/*`
+- [x] `s3:ListBucket` on `arn:aws:s3:::reports`
+- [ ] `s3:GetObject` on `arn:aws:s3:::reports`
+- [x] `s3:GetObject` on `arn:aws:s3:::reports/*`
+- [ ] `s3:*` on `*`
+
+S3 actions work at two levels: listing applies to the bucket and reading applies to the objects, so each needs its own ARN.
+
+- **A:** Listing applies to the bucket, so this ARN gives `AccessDenied`.
+- **C:** Reading applies to objects, so this ARN gives `AccessDenied`.
+- **E:** This works, but it gives far more than needed, on every bucket.
+
+Review: [A classic S3 mistake](#a-classic-s3-mistake) in this part, and [Grant read and write access to Amazon S3 bucket objects](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_s3_rw-bucket.html) in the AWS docs.
+:::
+
 You've controlled who reaches your data. What if someone reaches it anyway, or attacks your site from outside? In [**part twenty-seven**](/en/posts/aws-27-encryption-secrets-protection/) we cover encryption, secrets and threat protection.
