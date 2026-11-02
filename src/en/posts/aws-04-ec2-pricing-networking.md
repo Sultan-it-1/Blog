@@ -143,4 +143,94 @@ The conditions: the system disk must be **encrypted** EBS with enough room for t
 - **Cluster** for speed, **Spread** for isolation, **Partition** for huge distributed systems.
 - An **ENI** is a network card that can move between servers, and **hibernation** keeps memory and speeds up startup.
 
+## Test yourself
+
+Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
+
+::: quiz
+A store runs 10 servers around the clock, and expects that to continue for years. During sales it needs up to 10 more for a few hours. At night, a reporting job runs that can restart if it's interrupted. Which mix costs the **least**?
+
+- [ ] On-Demand for everything, to keep full flexibility
+- [x] Savings Plans for the 10 servers, On-Demand for sales, and Spot for the reports
+- [ ] Spot for everything, because it's the cheapest option
+- [ ] Reserved Instances for all 20 servers and for the reporting job
+
+Each kind of load gets the option that fits it: a commitment for what always runs, no commitment for short peaks, and spare capacity for work that can be interrupted.
+
+- **A:** This is the most expensive way to run servers that never stop.
+- **C:** AWS can take Spot servers back, which could stop the store during a sale.
+- **D:** You'd pay all year for 10 servers needed for a few hours.
+
+Review: [How to choose](#how-to-choose) in this part, and [Choosing a purchasing option](https://docs.aws.amazon.com/decision-guides/latest/ec2-purchasing-options-aws-how-to-choose/ec2-purchasing-options-aws-how-to-choose.html) in the AWS docs.
+:::
+
+::: quiz
+A company is moving a database whose licence is tied to the number of physical sockets and cores, and it wants to keep using that licence. Which option fits?
+
+- [x] Dedicated Hosts
+- [ ] Dedicated Instances
+- [ ] Spot Instances
+- [ ] Capacity Reservations
+
+A Dedicated Host is a whole physical server for you, and it shows you its sockets and cores, which is what this kind of licence needs.
+
+- **B:** These run on isolated hardware, but they don't show you sockets or cores.
+- **C:** These can be interrupted, and they say nothing about licences.
+- **D:** These guarantee capacity in an Availability Zone, and don't give you a physical server of your own.
+
+Review: [Pricing options](#pricing-options) in this part, and [Amazon EC2 Dedicated Hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) in the AWS docs.
+:::
+
+::: quiz
+A partner's firewall accepts connections from one fixed address only. Your server connects to that partner, and it's stopped every night to save money. How do you keep its public address the same?
+
+- [ ] Turn on "auto-assign public IP" when launching the server
+- [ ] Give the partner the server's private IP address
+- [ ] Attach a second network interface (ENI) to the server
+- [x] Attach an Elastic IP address to the server
+
+An Elastic IP belongs to your account and stays the same through stops and starts. Remember that public IPv4 addresses have an hourly charge.
+
+- **A:** This address changes every time you stop and start the server.
+- **B:** A private address can't be reached from the internet.
+- **C:** An ENI keeps its private address, but doesn't provide a fixed public one by itself.
+
+Review: [Addresses](#addresses-private-public-and-elastic-ip) in this part, and [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) in the AWS docs.
+:::
+
+::: quiz
+A team runs a distributed database of 60 nodes in one Availability Zone. To limit failures, nodes in one group must not share racks with the other groups, and the database must be able to see which group each node is in. Which placement strategy fits?
+
+- [ ] Cluster
+- [ ] Spread
+- [x] Partition
+- [ ] No placement group, with larger instance types
+
+A partition placement group splits servers into groups on separate racks, and it lets your software see which partition each server is in.
+
+- **A:** This packs servers close together, so one hardware failure can reach many of them.
+- **B:** This allows at most seven running servers per Availability Zone, far short of 60.
+- **D:** Instance size gives you no control over which racks servers land on.
+
+Review: [Placement groups](#placement-groups) in this part, and [Placement strategies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html) in the AWS docs.
+:::
+
+::: quiz
+An application takes 15 minutes to warm up its in-memory cache, and its server is stopped every night. The team plans to use hibernation so it resumes where it left off. Which **two** conditions must they meet? (Choose two.)
+
+- [x] The root volume must be an encrypted EBS volume
+- [ ] The server must have an Elastic IP address
+- [ ] The root volume must be an instance store volume
+- [ ] The server must be a Dedicated Instance
+- [x] Hibernation must be enabled when the server is launched
+
+Hibernation saves memory to the root volume, so that volume must be EBS and encrypted. And it can't be turned on for an existing server, whether running or stopped.
+
+- **B:** The address type has nothing to do with hibernation.
+- **C:** This is the opposite of what's needed, because instance store can't hold data through a stop.
+- **D:** Hibernation doesn't need dedicated hardware.
+
+Review: [Hibernation](#hibernation) in this part, and [Prerequisites for hibernation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hibernating-prerequisites.html) in the AWS docs.
+:::
+
 In [**part five**](/en/posts/aws-05-ec2-storage/) we finish the servers section with storage: disks, system images and shared file systems.

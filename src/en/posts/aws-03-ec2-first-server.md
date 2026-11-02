@@ -184,4 +184,93 @@ When you're done, select the server, then **Instance state**, **Terminate instan
 - A **timeout** usually means the security group; **connection refused** means the application.
 - User Data sets the server up automatically, and a role gives it permissions without keys.
 
+## Test yourself
+
+Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
+
+::: quiz
+A startup encodes videos on a `t3.large` server. The job keeps the CPU near 100% for hours while using little memory, and the monthly bill shows extra charges for CPU credits. Which change best fits this workload?
+
+- [ ] Move to a larger `t3` size, which earns more CPU credits
+- [ ] Move to a memory optimized `r7i` server
+- [x] Move to a compute optimized `c7i` server
+- [ ] Move to a storage optimized `i4i` server
+
+The `t` family runs at a baseline and spends credits to go above it, which suits occasional peaks, not hours at full load. Encoding needs sustained CPU, and that's what the `c` family is for.
+
+- **A:** A larger `t3` still relies on credits, so the fit stays wrong.
+- **B:** The job uses little memory, so you'd pay for what it doesn't need.
+- **D:** This family is for fast local disks, and the bottleneck here is the CPU.
+
+Review: [Instance types](#instance-types) in this part, and [Key concepts for burstable instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html) in the AWS docs.
+:::
+
+::: quiz
+Application servers start and stop throughout the day, so their IP addresses keep changing. A database server must accept port 3306 from these servers only. Which setup needs the **least ongoing work**?
+
+- [ ] Allow port 3306 from `0.0.0.0/0`, and rely on the database password
+- [ ] Allow each server's IP address, and update the list with a script
+- [ ] Allow port 3306 from everywhere, and add a rule denying everyone else
+- [x] Allow port 3306 from the application servers' security group
+
+A rule can name a security group as its source, and it then covers every server in that group, whatever its address.
+
+- **A:** This opens the database to the whole internet.
+- **B:** This works, but it adds a script to maintain, and one that can fail.
+- **C:** Security group rules can only allow, so there's no deny rule to add.
+
+Review: [Security groups](#security-groups-the-servers-firewall) in this part, and [Security group rules](https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html) in the AWS docs.
+:::
+
+::: quiz
+You launch a web server, and `http://SERVER_ADDRESS` times out in your browser. Signed in over SSH, you confirm that Nginx is running and that `curl localhost` returns the page. What's the most likely cause?
+
+- [x] The security group doesn't allow inbound traffic on port 80
+- [ ] The server's IAM role has no permission to serve web traffic
+- [ ] The key pair doesn't match the server
+- [ ] The User Data script failed on first boot
+
+A timeout means the request never arrived, and the server itself serves the page fine. So the block is on the way in, and the security group is the first place to check.
+
+- **B:** IAM roles control calls to AWS services, not traffic coming in to the server.
+- **C:** The key pair only concerns SSH, and SSH is working.
+- **D:** Nginx is running and returning the page, so the setup worked.
+
+Review: [Security groups](#security-groups-the-servers-firewall) in this part, and [Troubleshoot connecting to your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html) in the AWS docs.
+:::
+
+::: quiz
+A developer stops a server, edits its User Data to install a new package, then starts it again. The package isn't installed, and there are no errors. Why?
+
+- [ ] Only the server's IAM role can change its User Data
+- [x] By default, User Data runs only on the server's first boot
+- [ ] Stopping a server deletes its User Data
+- [ ] User Data needs an Elastic IP address to run
+
+The script runs once, on first boot. After that, the developer can install the package directly, or launch a new server with the updated script.
+
+- **A:** The role controls what the server can call, and has nothing to do with this.
+- **C:** Stopping doesn't delete User Data, which is why the edit could be saved.
+- **D:** User Data doesn't depend on the type of address.
+
+Review: [User Data](#user-data-a-server-that-sets-itself-up) in this part, and [Run commands at launch with user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) in the AWS docs.
+:::
+
+::: quiz
+A development server is used only during working hours. The team wants to cut its cost at night, and to find its files and settings as they left them in the morning. What should it do each night?
+
+- [ ] Terminate the server, and launch a new one in the morning
+- [ ] Reboot the server
+- [x] Stop the server, and start it in the morning
+- [ ] Change it to a smaller instance type, and leave it running
+
+A stopped server isn't charged for compute, only for its disks, and its data stays. Its regular public IP address will change, though.
+
+- **A:** Terminating deletes the system disk by default, so the work is lost.
+- **B:** A reboot leaves the server running, and billed.
+- **D:** This lowers the cost, but you still pay all night for a server nobody's using.
+
+Review: [Stop or terminate?](#stop-or-terminate) in this part, and [Instance state changes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the AWS docs.
+:::
+
 In [**part four**](/en/posts/aws-04-ec2-pricing-networking/) we see how to pay far less for the same server, and how to handle IP addresses and networking.

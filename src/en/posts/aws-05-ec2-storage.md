@@ -179,4 +179,93 @@ Disks and snapshots keep costing money even after the server is gone. Delete the
 - **Instance store** is the fastest, but its data is lost when you stop the server.
 - **EFS** is for files shared between many servers, on Linux.
 
+## Test yourself
+
+Five questions in the style of the exam's scenarios, written for this series. They aren't from the real exam. Pick an answer to see the explanation.
+
+::: quiz
+A server in `eu-central-1a` keeps its data on an EBS volume. The team is launching a replacement server in `eu-central-1b`, and it needs the same data there. What should it do?
+
+- [ ] Attach the existing volume directly to the new server
+- [ ] Turn on Multi-Attach, so both Availability Zones share the volume
+- [ ] Change the volume's Availability Zone in its settings
+- [x] Take a snapshot, then create a new volume from it in `eu-central-1b`
+
+A volume is tied to one Availability Zone, while a snapshot can create a new volume in any Availability Zone of the Region.
+
+- **A:** The volume and the server must be in the same Availability Zone.
+- **B:** Multi-Attach works only within one Availability Zone, and only on `io1` and `io2`.
+- **C:** There's no such setting.
+
+Review: [Snapshots](#snapshots) in this part, and [Amazon EBS snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-snapshots.html) in the AWS docs.
+:::
+
+::: quiz
+A log-processing job reads huge files from start to finish all day. It needs high throughput at low cost, and this data isn't on the boot disk. Which EBS volume type fits best?
+
+- [ ] `io2`
+- [x] `st1`
+- [ ] `sc1`
+- [ ] `gp3`
+
+`st1` is a low-cost hard disk built for high throughput on frequently accessed data, which is what long sequential reads need.
+
+- **A:** You'd pay for very high IOPS, which sequential reads don't rely on.
+- **C:** This is for data accessed rarely, and its throughput is lower.
+- **D:** This works, but it's an SSD, and costs more per gigabyte for this job.
+
+Review: [Volume types](#volume-types) in this part, and [Amazon EBS volume types](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html) in the AWS docs.
+:::
+
+::: quiz
+Twenty Linux build servers across three Availability Zones need a shared folder for their build caches. The amount of data changes from day to day, and the team doesn't want to plan capacity. Which storage fits?
+
+- [x] Amazon EFS
+- [ ] An EBS volume with Multi-Attach
+- [ ] Instance store on each server
+- [ ] A large `gp3` volume on one server, shared with the others over NFS
+
+EFS mounts on many Linux servers across Availability Zones at once, and it grows and shrinks by itself.
+
+- **B:** Multi-Attach works within one Availability Zone only, and needs a file system built for it.
+- **C:** Each server would have its own disk, so nothing is shared.
+- **D:** This works, but you'd run the file server, size it yourself, and depend on one server in one zone.
+
+Review: [Shared file system](#shared-file-system-efs) in this part, and [How Amazon EFS works](https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html) in the AWS docs.
+:::
+
+::: quiz
+A simulation writes temporary files at very high speed, and it can regenerate them if they're lost. The team wants the fastest disk, without paying for durability it doesn't need. Which storage fits?
+
+- [ ] A `gp3` EBS volume
+- [ ] An `io2` EBS volume
+- [x] Instance store
+- [ ] Amazon EFS
+
+Instance store sits inside the machine itself, which makes it very fast. Its data is lost when the server stops, and that's acceptable here because the files can be regenerated.
+
+- **A:** This is a network disk, and it's slower than a local one.
+- **B:** This is fast, but you'd pay for durability the job doesn't need.
+- **D:** This is a network file system meant for sharing, not for the highest local speed.
+
+Review: [Local storage](#local-storage-instance-store) in this part, and [Data persistence for instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-lifetime.html) in the AWS docs.
+:::
+
+::: quiz
+New servers take 12 minutes to become ready, because User Data installs everything on first boot. During a traffic spike, that's too slow. How can the team get them ready **faster**?
+
+- [ ] Launch a larger instance type
+- [x] Prepare a server once, create an AMI from it, and launch new servers from that AMI
+- [ ] Store the install script in an S3 bucket
+- [ ] Run the same script from a scheduled cron job instead of User Data
+
+With an AMI, the software is already installed when the server boots. User Data can stay for the light settings that differ between servers.
+
+- **A:** A larger server may install a little faster, but it still installs everything.
+- **C:** Moving the script doesn't change the work it does.
+- **D:** The same installation still has to run, only at another time.
+
+Review: [System images](#system-images-ami) in this part, and [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) in the AWS docs.
+:::
+
 That completes the servers section. In [**part six**](/en/posts/aws-06-load-balancers/) we start the high availability section: how to spread visitors across several servers with a load balancer, so your site stays up if one of them fails.
