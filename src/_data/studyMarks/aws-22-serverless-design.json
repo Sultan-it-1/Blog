@@ -1,0 +1,74 @@
+{
+  "ar": {
+    "yellow": [
+      "Step Functions يطلع هذا المنطق من كودك إلى آلة حالات (State Machine)",
+      "IAM لفريقك وخدماتك، مو لمليون شخص يستخدمون تطبيقك",
+      "الطلب يخلص بسرعة، والباقي يصير بالأحداث",
+      "فلا تبدأ من هنا لتطبيق صغير، وقسّم بس لما تحتاج فعلاً"
+    ],
+    "blue": [
+      "تعيد الخطوة الفاشلة، وتنتظر أطول كل مرة",
+      "ترسل الفشل لخطوة تعالجه، مثل استرجاع المبلغ",
+      "من هذا المستخدم؟",
+      "وش يقدر يسوي في AWS؟",
+      "User Pools تتكفل بالتسجيل والدخول",
+      "Identity Pools تبدل التوكن بمفاتيح مؤقتة مربوطة بدور IAM"
+    ],
+    "green": [
+      "عمليات طويلة مثل الطلبات والموافقات",
+      "أحداث قصيرة ومتكررة جداً",
+      "DAX قدام الجدول",
+      "كاش API Gateway يوقف الطلب قبل ما يوصل للدالة، فيناسب الردود اللي ما تختلف من مستخدم لآخر",
+      "حاوية S3 خاصة وقدامها CloudFront مع OAC",
+      "وGlobal Tables تقرب البيانات من المستخدمين في كل منطقة",
+      "تحتاج الجواب الحين، مثل سعر",
+      "الشغل ممكن يجي بعدين، مثل فاتورة",
+      "Lambda للطلبات المتفرقة، وFargate للحمل الثابت، وEC2 للمتطلبات الخاصة",
+      "حط CloudFront قدامه، وما تغير شي ثاني"
+    ],
+    "pink": [
+      "خمس دقايق",
+      "لأن API Gateway حده 10 MB، ولأنك بتدفع وقت Lambda بس عشان تمرر بايتات",
+      "إطلاقات أكثر، ومراقبة أكثر، وأعطال أصعب في تتبعها بين الخدمات",
+      "SQS وSNS وLambda غير المتزامنة توصل مرة على الأقل",
+      "الفشل الصامت أسوأ أنواع الفشل",
+      "لو كتبت في نفس المجلد اللي تستمع له، كل ناتج بيشغلها مرة ثانية"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "Step Functions moves that logic out of your code, into a state machine",
+      "IAM is for your team and your services, not for a million people using your application",
+      "the request finishes quickly, and everything else happens through events",
+      "So don't start here for a small application, and split only when you really need to"
+    ],
+    "blue": [
+      "Retries a failed step, waiting longer each time",
+      "Sends a failure to a step that handles it, such as a refund",
+      "Who is this user?",
+      "What can they do in AWS?",
+      "User Pools handle sign-up and sign-in",
+      "Identity Pools exchange a token for temporary keys tied to an IAM role"
+    ],
+    "green": [
+      "Long processes such as orders and approvals",
+      "Short, very frequent events",
+      "DAX in front of the table",
+      "API Gateway's stops the request before it reaches the function, so it suits responses that don't change per user",
+      "a private S3 bucket with CloudFront and OAC in front of it",
+      "Global Tables place data close to users in each Region",
+      "You need the answer now, such as a price",
+      "The work can come later, such as an invoice",
+      "Lambda for scattered requests, Fargate for steady load, and EC2 for special requirements",
+      "Put CloudFront in front of it, and change nothing else"
+    ],
+    "pink": [
+      "Five minutes",
+      "Because API Gateway has a 10 MB limit, and because you'd pay for Lambda's time just to pass bytes along",
+      "more deployments, more to monitor, and failures harder to trace across services",
+      "SQS, SNS and asynchronous Lambda deliver at least once",
+      "A silent failure is the worst kind",
+      "If it wrote to the same folder it listens to, each output would trigger it again"
+    ]
+  }
+}

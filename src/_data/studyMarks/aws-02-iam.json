@@ -1,0 +1,82 @@
+{
+  "ar": {
+    "yellow": [
+      "كل شي ممنوع افتراضياً. أي مستخدم جديد ما يقدر يسوي شي، إلى أن تعطيه صلاحية صريحة.",
+      "لا تربط الصلاحيات بكل مستخدم على حدة. حط المستخدمين في مجموعات، واربط السياسات بالمجموعات",
+      "المنع دايم يفوز",
+      "أعطِ كل هوية أقل صلاحيات تكفيها لتسوي شغلها، لا أكثر",
+      "وAWS تزوّده تلقائياً بمفاتيح مؤقتة تتجدد لحالها",
+      "لأي خدمة أو تطبيق داخل AWS، استخدم دور، مو مفاتيح"
+    ],
+    "blue": [
+      "مين أنت؟ هذا التحقق من الهوية (Authentication)",
+      "هل مسموح لك تسوي هذا الشي؟ هذا التحقق من الصلاحية (Authorization)",
+      "هوية دائمة لشخص، بكلمة مرور أو مفاتيح وصول",
+      "مجموعة مستخدمين يتشاركون نفس الصلاحيات",
+      "ملف JSON يحدد المسموح والممنوع",
+      "هوية مؤقتة بدون كلمة مرور، يستلمها من يحتاجها وقت الحاجة",
+      "ARN وهو المعرّف الفريد لأي مورد في AWS",
+      "معرّف المفتاح (مثل اسم المستخدم)، والمفتاح السري (مثل كلمة المرور)",
+      "سياسة صلاحيات تحدد وش يقدر يسوي، وسياسة ثقة تحدد مين يقدر يستلم الدور"
+    ],
+    "green": [
+      "سياساتك أنت (Customer managed): تكتبها بنفسك وتعيد استخدامها، وهي الأفضل لتطبيق أقل صلاحية",
+      "استخدمها في حالات خاصة فقط",
+      "عملياً: ابدأ بصلاحيات ضيقة ووسّعها عند الحاجة",
+      "فـ AWS توصي بدخول البشر عن طريق IAM Identity Center",
+      "يكشف لك مثلاً مستخدم بدون MFA أو مفتاح قديم",
+      "IAM Access Analyzer: ينبّهك على الموارد المتاحة لجهات خارج حسابك، وعلى الصلاحيات غير المستخدمة"
+    ],
+    "pink": [
+      "عنده كل الصلاحيات، وما تقدر تقيّده بسياسات IAM",
+      "لا تنشئ له مفاتيح وصول (Access Keys) أبداً",
+      "لا تستخدمه في الشغل اليومي",
+      "بس المجموعة ما تقدر تحتوي مجموعة ثانية",
+      "كثير من أخطاء \"Access Denied\" سببها نسيان واحد منهم",
+      "فيه منع صريح (Deny) في أي سياسة؟ الطلب مرفوض، حتى لو فيه سماح في مكان ثاني",
+      "والمفتاح السري يظهر لك مرة وحدة بس",
+      "لا تحطها في الكود، ولا ترفعها على GitHub، ولا ترسلها لأحد",
+      "وإذا تسرّب مفتاح، عطّله من IAM فوراً وأنشئ غيره"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "everything is denied by default. A new user can do nothing until you explicitly allow it.",
+      "don't attach permissions to each user one by one. Put users in groups and attach policies to the groups",
+      "Deny always wins",
+      "Give each identity the fewest permissions it needs to do its job, and no more",
+      "AWS automatically supplies it with temporary credentials that renew themselves",
+      "for any service or application inside AWS, use a role, not keys"
+    ],
+    "blue": [
+      "Who are you? This is authentication",
+      "Are you allowed to do this? This is authorization",
+      "A permanent identity for a person, with a password or access keys",
+      "A set of users who share the same permissions",
+      "A JSON document stating what is allowed and denied",
+      "A temporary identity with no password, taken on by whoever needs it, when they need it",
+      "an ARN, the unique identifier of anything in AWS",
+      "the access key ID (like a username) and the secret access key (like a password)",
+      "a permissions policy saying what it can do, and a trust policy saying who can take it on"
+    ],
+    "green": [
+      "Customer managed: policies you write and reuse, the best way to apply least privilege",
+      "Use them only for special cases",
+      "In practice: start narrow and widen when needed",
+      "AWS recommends people sign in through IAM Identity Center",
+      "It reveals, for example, a user without MFA or an old key",
+      "IAM Access Analyzer: flags resources shared outside your account, and unused permissions"
+    ],
+    "pink": [
+      "It has every permission, IAM policies can't restrict it",
+      "Never create access keys for it",
+      "Don't use it for daily work",
+      "but a group can't contain another group",
+      "Many \"Access Denied\" errors come from forgetting one of them",
+      "Is there an explicit deny in any policy? The request is refused, even if something else allows it",
+      "The secret key is shown only once",
+      "Don't put them in code, push them to GitHub, or send them to anyone",
+      "If a key leaks, disable it in IAM immediately and create a new one"
+    ]
+  }
+}

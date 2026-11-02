@@ -1,0 +1,76 @@
+{
+  "ar": {
+    "yellow": [
+      "DNS دليل هاتف الإنترنت: تسأله باسم، ويجاوبك بعنوان",
+      "القاعدة بسيطة: لو الهدف على AWS، استخدم Alias",
+      "هي تختار وش الجواب اللي تعطيه فقط، وبعدها يتصل الزائر مباشرة بالعنوان",
+      "شراء النطاق وإدارة سجلاته شيئين منفصلين"
+    ],
+    "blue": [
+      "الحاوية اللي فيها سجلات النطاق",
+      "كم يقدر الـ Resolver يتذكر الجواب",
+      "Route 53 خدمة DNS من AWS",
+      "داخل شبكات VPC تحددها فقط",
+      "عنوان IPv4",
+      "عنوان IPv6",
+      "اسم ثاني",
+      "الداخلي (Inbound) يخلي شبكتك تسأل عن أسماء AWS الخاصة، والخارجي (Outbound) يخلي AWS تسأل عن أسماء شبكتك"
+    ],
+    "green": [
+      "قلّل TTL إلى 60 ثانية قبلها بيوم",
+      "تجربة نسخة جديدة على 10% من الزوار",
+      "الـ Region الأقل تأخير للزائر",
+      "التعافي من الكوارث",
+      "لغة أو محتوى حسب البلد",
+      "نقل الزيارات تدريجياً بين المناطق",
+      "لين 8 سجلات سليمة",
+      "لو هدفك السرعة، اختر Latency",
+      "يعتمد على إنذار، وهذا الحل للموارد الخاصة"
+    ],
+    "pink": [
+      "CNAME ما ينفع على النطاق الأساسي example.com",
+      "ولاحظ إنه ما يشير لاسم DNS حق سيرفر EC2",
+      "\"التوجيه\" هنا ما يعني إن الزيارات تمر عبر Route 53",
+      "توزيع بسيط، وما يغني عن موزّع الحمل",
+      "Geolocation يختار حسب مكان الزائر، حتى لو فيه موقع أسرع له",
+      "وأجهزة الفحص من الإنترنت، فما توصل لسيرفر في شبكة خاصة"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "DNS is the internet's phone book: you ask with a name and it answers with an address",
+      "The rule is simple: if the target is on AWS, use an Alias",
+      "It only chooses which answer to give, and the visitor then connects directly to that address",
+      "Buying a domain and managing its records are two separate things"
+    ],
+    "blue": [
+      "The container holding a domain's records",
+      "How long a resolver may remember the answer",
+      "Route 53 is AWS's DNS service",
+      "Only inside the VPCs you choose",
+      "An IPv4 address",
+      "An IPv6 address",
+      "Another name",
+      "inbound lets your network ask about AWS's private names, and outbound lets AWS ask about your network's names"
+    ],
+    "green": [
+      "lower the TTL to 60 seconds a day beforehand",
+      "Trying a new version on 10% of visitors",
+      "The Region with the lowest delay for the visitor",
+      "Disaster recovery",
+      "Language or content by country",
+      "Gradually shifting traffic between areas",
+      "Up to 8 healthy records",
+      "If your goal is speed, choose Latency",
+      "Relies on an alarm, which is the solution for private resources"
+    ],
+    "pink": [
+      "a CNAME can't be used on the root domain example.com",
+      "Note that it can't point to an EC2 server's DNS name",
+      "\"Routing\" here doesn't mean traffic passes through Route 53",
+      "Simple spreading, not a replacement for a load balancer",
+      "Geolocation chooses by where the visitor is, even if another site would be faster for them",
+      "The checkers come from the internet, so they can't reach a server in a private network"
+    ]
+  }
+}

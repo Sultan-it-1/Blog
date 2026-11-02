@@ -1,0 +1,76 @@
+{
+  "ar": {
+    "yellow": [
+      "هو بخير الحين؟",
+      "مين سوى هذا، ومتى؟",
+      "الإعدادات زي ما لازم، وكيف تغيرت؟",
+      "CloudTrail يسجله، وEventBridge يطابقه، وSNS يبلغك",
+      "المقاييس تقول إن فيه شي بطيء، وAWS X-Ray يقول وين"
+    ],
+    "blue": [
+      "المقياس (Metric) رقم ينقاس مع الوقت",
+      "وLogs Insights يبحث فيها بلغة استعلام بسيطة",
+      "الإنذار (Alarm) يراقب مقياس ويسوي شي لما يتجاوز حد",
+      "الإنذارات المركبة: إنذار واحد لـ \"معالج مرتفع وأخطاء كثيرة\"",
+      "EventBridge يستقبل هذي الأحداث على Bus، والقواعد ترسل المطابق منها لهدف",
+      "كل استدعاء لـ AWS، من الكونسول أو CLI أو خدمة، يسجله CloudTrail",
+      "Config يقول لك شكل المورد: يسجل إعدادات مواردك وكل تغيير عليها"
+    ],
+    "green": [
+      "عشان تجيبها، ثبّت CloudWatch Agent على السيرفر",
+      "أرشفة طويلة ورخيصة",
+      "الإرسال إلى Lambda أو Kinesis أو Firehose، مثل OpenSearch",
+      "set-alarm-state يحط الإنذار في أي حالة",
+      "شغّل دالة كل ليلة، وEventBridge Scheduler هو الخدمة لهذا الحين",
+      "وعشان تحفظها أكثر من 90 يوم، أنشئ Trail يكتب إلى S3",
+      "القاعدة تقدر تشغل مستند Systems Manager Automation يصلح المشكلة تلقائياً",
+      "هل عند AWS نفسها مشكلة تأثر على خدماتك ومواردك"
+    ],
+    "pink": [
+      "المقاييس الافتراضية تجي من خارج السيرفر، فما فيها الذاكرة ولا مساحة القرص",
+      "والسجلات تبقى للأبد افتراضياً، وأنت تدفع عليها",
+      "شغل دفعات، ومو فوري",
+      "مقفل بسبب كثرتها",
+      "ولاحظ إن CloudTrail Lake أقفل على العملاء الجدد في 2026",
+      "المنع: ما يمنع شي",
+      "يشتغل لكل منطقة"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "Is it healthy right now?",
+      "Who did this, and when?",
+      "Are the settings as they should be, and how have they changed?",
+      "CloudTrail records it, EventBridge matches it, and SNS tells you",
+      "Metrics tell you something is slow, and AWS X-Ray tells you where"
+    ],
+    "blue": [
+      "A metric is a number measured over time",
+      "Logs Insights searches through them with a simple query language",
+      "An alarm watches a metric and does something when it crosses a limit",
+      "Composite alarms: one alarm for \"high CPU and many errors\"",
+      "EventBridge receives these events on a bus, and rules send matching ones to a target",
+      "Every call to AWS, from the console, the CLI or a service, gets recorded by CloudTrail",
+      "Config tells you what a resource looks like: it records the configuration of your resources and every change to it"
+    ],
+    "green": [
+      "To get them, install the CloudWatch agent on the server",
+      "Cheap long-term archiving",
+      "Sending to Lambda, Kinesis or Firehose, such as for OpenSearch",
+      "set-alarm-state puts an alarm in any state",
+      "Run a function every night; EventBridge Scheduler is the service for this now",
+      "To keep them longer than 90 days, create a trail that writes to S3",
+      "a rule can run a Systems Manager Automation document to fix the problem automatically",
+      "Whether AWS itself has a problem affecting your services and resources"
+    ],
+    "pink": [
+      "The default metrics come from outside the server, so they don't include memory or disk space",
+      "Logs are kept forever by default, and you pay for that",
+      "A batch job, and not immediate",
+      "Off, because of their volume",
+      "Note that CloudTrail Lake closed to new customers in 2026",
+      "Prevention: it doesn't stop anything",
+      "it works per Region"
+    ]
+  }
+}

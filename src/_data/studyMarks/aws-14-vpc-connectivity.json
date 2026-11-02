@@ -1,0 +1,70 @@
+{
+  "ar": {
+    "yellow": [
+      "Peering يربط شبكتين VPC مباشرة",
+      "Endpoints تعطيك طريق خاص ومباشر",
+      "يربط شبكة مكتبك بالـ VPC عبر الإنترنت بنفق مشفّر",
+      "خط فعلي خاص بين مكانك وAWS",
+      "Transit Gateway محور مركزي تربط فيه الشبكات",
+      "نقل البيانات أكثر بند يفاجئ الناس"
+    ],
+    "blue": [
+      "Customer Gateway: يمثل جهازك في المكتب وعنوانه العام",
+      "Virtual Private Gateway: بوابة VPN من جهة AWS",
+      "VPN CloudHub: يربط عدة مكاتب ببعض",
+      "Direct Connect Gateway: يوصلك بشبكات VPC في عدة Regions",
+      "Egress-only Internet Gateway، وهو مثل NAT لـ IPv6"
+    ],
+    "green": [
+      "فعّل Gateway Endpoint لـ S3 في كل VPC",
+      "بدون Peering وحتى لو نطاقاتهم متداخلة",
+      "Client VPN: لأجهزة الموظفين بدل المكاتب",
+      "فلشبكتين أو ثلاث، Peering أبسط وأرخص",
+      "قدّم المحتوى عبر CloudFront، لأن النقل من مصدرك إليه مجاني"
+    ],
+    "pink": [
+      "النطاقات ما تتداخل",
+      "ما ينتقل. لو A مربوطة بـ B، وB مربوطة بـ C، فـ A ما توصل لـ C.",
+      "تحتاج طريق في الجهتين",
+      "S3 وDynamoDB فقط",
+      "التجهيز ياخذ أسابيع وأحياناً أشهر",
+      "والخط مو مشفّر تلقائياً",
+      "والخط الواحد نقطة فشل واحدة",
+      "كل عناوينه عامة"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "Peering connects two VPCs directly",
+      "Endpoints give you a private, direct path",
+      "connects your office network to the VPC over the internet through an encrypted tunnel",
+      "a real private line between your site and AWS",
+      "Transit Gateway is a central hub you connect networks to",
+      "Data transfer is the item that most often surprises people"
+    ],
+    "blue": [
+      "Customer gateway: represents your office device and its public address",
+      "Virtual private gateway: the VPN gateway on AWS's side",
+      "VPN CloudHub: connects several offices to each other",
+      "Direct Connect Gateway: connects you to VPCs in several Regions",
+      "egress-only internet gateway, which is like NAT for IPv6"
+    ],
+    "green": [
+      "Turn on a gateway endpoint for S3 in every VPC",
+      "with no peering and even if their ranges overlap",
+      "Client VPN: for employees' devices rather than offices",
+      "For two or three networks, peering is simpler and cheaper",
+      "Serve content through CloudFront, since transfer from your origin to it is free"
+    ],
+    "pink": [
+      "Ranges can't overlap",
+      "It isn't transitive. If A connects to B and B connects to C, A can't reach C.",
+      "You need a route on both sides",
+      "S3 and DynamoDB only",
+      "setup takes weeks and sometimes months",
+      "the line isn't encrypted automatically",
+      "one line is a single point of failure",
+      "all its addresses are public"
+    ]
+  }
+}

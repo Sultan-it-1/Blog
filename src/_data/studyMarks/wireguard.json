@@ -1,0 +1,38 @@
+{
+  "ar": {
+    "yellow": [
+      "هذا الأمر ينشئ مفتاح خاص (privatekey) ومفتاح عام (publickey)",
+      "إذا شفت المفاتيح والبيانات، معناته الاتصال شغال تمام"
+    ],
+    "blue": [
+      "عشان نقدر ننفذ أمر فيه بايب | بصلاحيات sudo"
+    ],
+    "green": [
+      "مناسب لأي شخص حاب يحمي اتصاله أو يربط عدة أجهزة بشبكة خاصة وآمنة",
+      "استبدل [public_key_client] بالمفتاح العام للعميل"
+    ],
+    "pink": [
+      "يهمنا ضروري جدا تفعيل خطوة 7. إعداد قواعد الدخول (Inbound Rules)",
+      "نحمي المفتاح الخاص من الوصول غير المصرح به",
+      "غير eth0 لاسم واجهتك"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "This command creates a private key (privatekey) and a public key (publickey)",
+      "If you see the keys and data, it means the connection is working perfectly"
+    ],
+    "blue": [
+      "So we can execute a command with pipes | with sudo privileges"
+    ],
+    "green": [
+      "Perfect for anyone who wants to secure their connection or connect multiple devices to a private and secure network",
+      "Replace [public_key_client] with the client's public key"
+    ],
+    "pink": [
+      "It's very important to enable step 7. Setting up Inbound Rules",
+      "We protect the private key from unauthorized access",
+      "Replace eth0 with your interface name"
+    ]
+  }
+}

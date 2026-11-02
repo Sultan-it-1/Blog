@@ -91,7 +91,16 @@ export default {
 
     highlight: {
       label: "تلوين النص",
-      hint: "تحديد أي نص يفتح ألوان التلوين",
+      study: "تحديد المذاكرة",
+      keyLabel: "معنى الألوان",
+      key: {
+        yellow: "الفكرة الأساسية",
+        blue: "تعريف",
+        green: "متى يُستخدم",
+        pink: "تنبيه",
+      },
+      clearAll: "إزالة تحديد الكل",
+      clearConfirm: "إزالة كل التحديد من هذا المقال؟",
       yellow: "تلوين بالأصفر",
       green: "تلوين بالأخضر",
       blue: "تلوين بالأزرق",
@@ -247,7 +256,16 @@ export default {
 
     highlight: {
       label: "Highlight text",
-      hint: "Selecting any text opens the highlighter",
+      study: "Study highlights",
+      keyLabel: "What the colours mean",
+      key: {
+        yellow: "Key idea",
+        blue: "Definition",
+        green: "When to use",
+        pink: "Caution",
+      },
+      clearAll: "Clear all",
+      clearConfirm: "Clear all highlights from this article?",
       yellow: "Highlight in yellow",
       green: "Highlight in green",
       blue: "Highlight in blue",

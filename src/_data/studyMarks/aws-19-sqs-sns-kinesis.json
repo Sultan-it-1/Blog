@@ -1,0 +1,94 @@
+{
+  "ar": {
+    "yellow": [
+      "افصل الخدمات عن بعض، عشان كل وحدة تشتغل بسرعتها، وتعطل وحدة ما يوقف الباقي",
+      "المستهلكين هم اللي يطلبون الرسائل من الطابور، والطابور ما يدفعها لأحد",
+      "خل معالجتها مرتين ما تضر",
+      "لو طاح السيرفر في نص المعالجة، الرسالة ترجع لحالها",
+      "SNS ينشر الرسالة، وطابور لكل خدمة يحفظها لين تكون الخدمة جاهزة",
+      "السجلات تبقى فيه طول مدة الحفظ سواء انقرأت أو لا",
+      "قاعدة سريعة: شغلة؟ SQS. حدث يهم كثيرين؟ SNS. تيار بيانات يقرأه كثيرين ويعيدون قراءته؟ Kinesis."
+    ],
+    "blue": [
+      "SQS (Simple Queue Service) طابور مُدار بالكامل بدون سيرفرات تديرها",
+      "يخفيها SQS عن الباقين لفترة اسمها Visibility Timeout",
+      "مع Long Polling الطلب ينتظر حتى 20 ثانية لين تجي رسالة",
+      "بعد عدد محاولات تحدده، الرسالة تنتقل له",
+      "SNS (Simple Notification Service) يشتغل بـ النشر والاشتراك",
+      "Shards: التيار ينقسم إلى أجزاء",
+      "مفتاح التقسيم: يحدد أي Shard يروح له السجل",
+      "Amazon Data Firehose (اسمه القديم Kinesis Data Firehose) ياخذ البيانات، ويجمعها، ويوصلها بدون كود ولا سيرفرات",
+      "Amazon MQ يشغّل لك وسيط معروف كخدمة مُدارة"
+    ],
+    "green": [
+      "وأي شي أكبر من رسالة، خزّن الملف في S3 وأرسل مساره في الرسالة",
+      "لما يكون الترتيب مهم، مثل عمليات على نفس الحساب، استخدم طابور FIFO",
+      "مجموعة Auto Scaling من العمّال تكبر وتصغر حسب طول الطابور",
+      "بدل ما تضرب موجة طلبات RDS مباشرة، تدخل في طابور",
+      "فعشان توصل لأكثر من وجهة، أرسل الحدث لموضوع SNS واحد ووزعه من هناك",
+      "حمل مجهول أو متغير، وابدأ به",
+      "حمل ثابت ومعروف، وممكن يكون أرخص",
+      "لو تنقل تطبيق مبني على بروتوكولات مفتوحة مثل AMQP أو MQTT أو STOMP"
+    ],
+    "pink": [
+      "حتى 1 MiB",
+      "مرة على الأقل، فممكن تجيك الرسالة مرتين",
+      "أفضل محاولة، وغير مضمون",
+      "قصيرة زيادة: الرسالة ترجع تظهر وهي لسا تحت المعالجة، فتنعالج مرتين",
+      "طويلة زيادة: لو فشل مستهلك، الرسالة تنتظر طويل قبل ما أحد يعيد المحاولة",
+      "ولازم اسمه ينتهي بـ .fifo",
+      "300 رسالة في الثانية، أو 3,000 مع الدفعات",
+      "وهذا يناسب الشغل اللي ما يحتاج جواب فوري فقط",
+      "SNS ما يخزن الرسائل",
+      "ومحدودة بـ 100 اشتراك للموضوع",
+      "فهو يناسب التحميل شبه الفوري، مو رد الفعل اللحظي",
+      "فما يتوسع بلا حدود مثل SQS وSNS"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "separate the services, so that each one works at its own pace and a failure in one doesn't bring down the others",
+      "consumers ask the queue for messages. The queue doesn't push them to anyone.",
+      "make processing it twice harmless",
+      "if the server crashes halfway through, the message comes back by itself",
+      "SNS spreads the message, and a queue for each service keeps it until that service is ready",
+      "records stay in it for the retention period, whether they've been read or not",
+      "A quick rule: a job? SQS. An event many want to know about? SNS. A stream of data many read and replay? Kinesis."
+    ],
+    "blue": [
+      "SQS (Simple Queue Service) is a fully managed queue with no servers to run",
+      "SQS hides it from the others for a period, called the visibility timeout",
+      "With long polling, the request waits up to 20 seconds for a message",
+      "after a number of failed attempts you choose, the message moves there",
+      "SNS (Simple Notification Service) works by publishing and subscribing",
+      "Shards: the stream is split into shards",
+      "Partition key: decides which shard a record goes to",
+      "Amazon Data Firehose (formerly Kinesis Data Firehose) takes data, collects it, and delivers it with no code or servers",
+      "Amazon MQ runs a familiar broker as a managed service"
+    ],
+    "green": [
+      "For anything larger than a message, store the file in S3 and send its path in the message",
+      "When order matters, as with transactions on one account, use a FIFO queue",
+      "an Auto Scaling group of workers grows and shrinks according to the queue's length",
+      "Instead of a spike of orders hitting RDS directly, they go into a queue",
+      "So to reach several destinations, send the event to one SNS topic and fan it out from there",
+      "Unknown or changing load; start here",
+      "Steady, known load, which can be cheaper",
+      "If you're moving an application built on open protocols such as AMQP, MQTT or STOMP"
+    ],
+    "pink": [
+      "Up to 1 MiB",
+      "At least once, so a message can arrive twice",
+      "Best effort, not guaranteed",
+      "Too short: the message appears again while it's still being worked on, and it gets processed twice",
+      "Too long: if a consumer fails, the message waits a long time before anyone retries it",
+      "Its name must end in .fifo",
+      "300 messages per second, or 3,000 with batching",
+      "This only suits work that doesn't need an immediate answer",
+      "SNS doesn't store messages",
+      "These are limited to 100 subscriptions per topic",
+      "So it suits near-real-time loading, not an instant reaction",
+      "so it doesn't scale without limit like SQS and SNS"
+    ]
+  }
+}

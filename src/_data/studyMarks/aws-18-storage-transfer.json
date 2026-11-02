@@ -1,0 +1,70 @@
+{
+  "ar": {
+    "yellow": [
+      "FSx يشغّل لك أنظمة ملفات معروفة كخدمة مُدارة",
+      "ينقل اللي تغيّر فقط في كل تشغيل",
+      "قبل ما تختار طريقة النقل، احسب"
+    ],
+    "blue": [
+      "Scratch رخيص وسريع لبيانات مؤقتة",
+      "وPersistent لبيانات طويلة المدى مع نسخ داخل منطقة التوفر",
+      "Storage Gateway برنامج تشغّله عندك كجهاز افتراضي، ويقدم تخزين عادي لتطبيقاتك، وبياناته فعلياً في AWS",
+      "DataSync ينقل ويزامن بيانات كبيرة بشكل مجدول",
+      "Transfer Family يعطيك نقطة استقبال مُدارة",
+      "Data Transfer Terminal: مواقع فعلية تجيبها بأجهزة تخزينك"
+    ],
+    "green": [
+      "تطبيقات Windows ومجلدات مشتركة، ومربوط بـ Active Directory",
+      "الحوسبة العالية وتدريب النماذج، ويتكامل مع S3",
+      "نقل أنظمة NetApp، وأنظمة تشغيل مختلفة على نفس البيانات",
+      "أحمال Linux، ونقل أنظمة ZFS",
+      "مجلدات مشتركة ونسخ احتياطية للملفات",
+      "أقراص لخوادم قائمة",
+      "برامج نسخ احتياطي تعتمد على الأشرطة",
+      "DataSync لو خطك يتحمل، مع مزامنة مستمرة",
+      "Direct Connect لو النقل كبير ومستمر"
+    ],
+    "pink": [
+      "بس البيانات ما لها نسخ، فلو تعطل قرص تضيع",
+      "FSx File Gateway ما عاد متاح للعملاء الجدد",
+      "تحتاج تشغّل وكيل (Agent) عندك للنقل من مكتبك",
+      "ولاحظ إن FTP غير مشفّر، فما يتوفر إلا داخل VPC",
+      "وتدفع بالساعة على كل نقطة، حتى بدون استخدام",
+      "ما عادت متاحة للعملاء الجدد منذ نوفمبر 2025"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "FSx runs well-known file systems for you as a managed service",
+      "It moves only what changed on each run",
+      "Before choosing how to move data, do the math"
+    ],
+    "blue": [
+      "Scratch is cheap and fast for temporary data",
+      "Persistent is for long-term data, with copies inside the Availability Zone",
+      "Storage Gateway is software you run on-site as a virtual machine. It presents ordinary storage to your applications, while the data actually lives in AWS",
+      "DataSync moves and syncs large data on a schedule",
+      "Transfer Family gives you a managed receiving endpoint",
+      "Data Transfer Terminal: physical sites you visit with your own storage devices"
+    ],
+    "green": [
+      "Windows applications and shared folders, tied into Active Directory",
+      "High-performance computing and model training, integrates with S3",
+      "Moving NetApp systems, and different operating systems on the same data",
+      "Linux workloads, moving ZFS systems",
+      "Shared folders and file backups",
+      "Disks for existing servers",
+      "Backup software that relies on tape",
+      "DataSync if your line can take it, with ongoing sync",
+      "Direct Connect if the transfer is large and continuous"
+    ],
+    "pink": [
+      "but the data has no copies, so a failed disk loses it",
+      "FSx File Gateway that's no longer available to new customers",
+      "you run an agent on-site to move from your office",
+      "Note that FTP is unencrypted, so it's available only inside a VPC",
+      "You pay by the hour for each endpoint, even without use",
+      "closed to new customers since November 2025"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "ar": {
+    "yellow": [
+      "هذه الخطوات ضرورية لحماية خادمك من الهجمات الشائعة"
+    ],
+    "green": [
+      "هذا الدليل مخصص لأوبونتو سيرفر 20.04 LTS",
+      "خادم مخصص أو VPS مع وصول root"
+    ],
+    "pink": [
+      "قم بتحديث نظامك بانتظام وتأكد من عمل نسخ احتياطية دورية"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "These steps are essential to protect your server from common attacks"
+    ],
+    "green": [
+      "This guide is for Ubuntu Server 20.04 LTS",
+      "Dedicated server or VPS with root access"
+    ],
+    "pink": [
+      "Update your system regularly and make sure to perform periodic backups"
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "ar": {
+    "yellow": [
+      "هذا الملف هو اللي راح تستخدمه عشان تدخل للسيرفر عبر SSH",
+      "السيرفر بيشتغل ويعطيك عنوان Public IPv4 address"
+    ],
+    "blue": [
+      "AWS يعني Amazon Web Services",
+      "السيرفر هو كمبيوتر قوي يشتغل 24 ساعة",
+      "خدمة EC2 هي خدمة إنشاء سيرفرات افتراضية"
+    ],
+    "green": [
+      "خذ الخيارات الافتراضية أو الصغيرة عشان التجربة تكون سهلة ورخيصة"
+    ],
+    "pink": [
+      "راح يطلب منك بطاقة ائتمان",
+      "احتفظ بالملف في مكان آمن، لأنه بدون هذا الملف ما تقدر تدخل للسيرفر",
+      "احرص على عدم مشاركة ملف المفتاح (.pem) مع أي شخص"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "This file is what you'll use to access the server via SSH",
+      "the server will start and give you a Public IPv4 address"
+    ],
+    "blue": [
+      "AWS stands for Amazon Web Services",
+      "A server is a powerful computer that runs 24/7",
+      "EC2 service is for creating virtual servers"
+    ],
+    "green": [
+      "Choose default or small options to make the experience easy and cheap"
+    ],
+    "pink": [
+      "You'll be asked for a credit card",
+      "Keep the file in a safe place, because without it you can't access the server",
+      "Make sure not to share your key file (.pem) with anyone"
+    ]
+  }
+}

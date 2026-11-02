@@ -1,0 +1,66 @@
+{
+  "ar": {
+    "yellow": [
+      "CloudFront يحفظ نسخة قريبة من الزائر، وGlobal Accelerator يختصر الطريق نفسه",
+      "الزوار ما يتخطون CloudFront ويوصلون له مباشرة",
+      "Global Accelerator يدخّل الزائر شبكة AWS الخاصة من أقرب موقع حافة"
+    ],
+    "blue": [
+      "CloudFront شبكة توصيل محتوى (CDN)",
+      "OAC يخلي CloudFront وحده يقرأ منها",
+      "مفتاح الكاش (Cache Key): افتراضياً الرابط",
+      "السلوكيات (Behaviors): قواعد حسب المسار",
+      "CloudFront Functions وLambda@Edge: كود قصير يشتغل عند الحافة",
+      "وفي Anycast، عدة أماكن تشارك نفس العنوان، والشبكة توصلك لأقربها"
+    ],
+    "green": [
+      "وهذا الحل الأفضل للملفات الثابتة",
+      "Geo Restriction: تسمح أو تمنع دول معينة",
+      "روابط موقّعة (Signed URLs): لمحتوى مدفوع أو خاص",
+      "محتوى ثابت لكل العالم",
+      "بيانات متغيرة تبيها قريبة في Regions محددة",
+      "عناوين ما تتغير: عميلك يقدر يسمح لها في جدار الحماية",
+      "مواقع وصور وفيديو وواجهات API",
+      "ألعاب ومكالمات وIoT، أو حاجة لعناوين ثابتة"
+    ],
+    "pink": [
+      "وكل ما أضفت له ترويسات أو كوكيز، قلّت فرص إيجاد نسخة جاهزة",
+      "لو غيّرت ملف، النسخة القديمة تبقى لين تنتهي صلاحيتها",
+      "وتكلفته رسم ثابت بالساعة مع رسم إضافي على البيانات",
+      "لا، يوصّل الطلب فقط",
+      "التوزيعة ما تنحذف مباشرة"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "CloudFront keeps a copy near the visitor, and Global Accelerator shortens the road itself",
+      "visitors shouldn't be able to skip CloudFront and reach it directly",
+      "Global Accelerator brings the visitor onto AWS's private network at the nearest edge location"
+    ],
+    "blue": [
+      "CloudFront is a content delivery network (CDN)",
+      "OAC lets only CloudFront read from it",
+      "Cache key: the URL by default",
+      "Behaviors: rules by path",
+      "CloudFront Functions and Lambda@Edge: short code running at the edge",
+      "With Anycast, several places share the same address, and the network takes you to the nearest"
+    ],
+    "green": [
+      "This is the better solution for static files",
+      "Geo restriction: allow or block certain countries",
+      "Signed URLs: for paid or private content",
+      "Static content for the whole world",
+      "Changing data you want close in specific Regions",
+      "Addresses that don't change: your customers can allow them in their firewalls",
+      "Sites, images, video and APIs",
+      "Games, calls and IoT, or a need for static addresses"
+    ],
+    "pink": [
+      "The more headers or cookies you add to it, the lower the chance of finding a ready copy",
+      "If you change a file, the old copy stays until it expires",
+      "It costs a fixed hourly fee plus an extra data charge",
+      "No, it only carries the request",
+      "A distribution can't be deleted straight away"
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "ar": {
+    "yellow": [
+      "واحد يحميك من الأعطال، والثاني يساعدك تخدم قراءات أكثر",
+      "فتقدر ترجع لأي ثانية داخل فترة الاحتفاظ",
+      "الاسترجاع ينشئ قاعدة جديدة بعنوان جديد، وما يكتب فوق القديمة",
+      "قاعدة البيانات في شبكة خاصة، وما تقبل إلا من مجموعة أمان السيرفرات",
+      "والفرق الجوهري: التخزين منفصل عن السيرفرات"
+    ],
+    "blue": [
+      "RDS (Relational Database Service) تشغّل محرك قاعدة البيانات اللي تختاره على سيرفرات تديرها AWS",
+      "متزامن معناها إن الكتابة ما تتأكد إلا بعد ما توصل النسختين",
+      "RDS Proxy يجلس في النص ويعيد استخدام الاتصالات",
+      "Aurora محرك قاعدة بيانات بنته AWS للسحابة، ومتوافق مع MySQL أو PostgreSQL",
+      "ويحفظ ست نسخ على ثلاث مناطق توفر",
+      "سيرفر كتابة واحد ولين 15 نسخة قراءة"
+    ],
+    "green": [
+      "التوفر: تنجو من العطل",
+      "التوسّع: تخدم قراءات أكثر",
+      "تقارير لوحة التحكم الثقيلة تقرأ من نسخة",
+      "فمناسبة قبل أي تغيير كبير",
+      "لو عندك اتصالات كثيرة وقصيرة",
+      "يناسب الضغط المتقلب",
+      "Region واحدة للكتابة ولين 10 Regions للقراءة",
+      "نسخة سريعة من الإنتاج للتجربة",
+      "يخلي Aurora PostgreSQL تفهم لغة T-SQL حقت SQL Server",
+      "RDS، فـ Aurora متوافقة مع MySQL وPostgreSQL فقط"
+    ],
+    "pink": [
+      "ما تقدر تدخل على السيرفر بـ SSH، ولا تلمس نظام التشغيل",
+      "التخزين يكبر فقط، وما تقدر تصغّره بعدها",
+      "لا، الاحتياطية تنتظر فقط",
+      "RDS ما توزّع القراءات عنك",
+      "ممكن المستخدم ما يشوف اللي كتبه قبل لحظة",
+      "وMulti-AZ تقريباً تضاعف تكلفة القاعدة",
+      "وRDS تشغّلها من جديد تلقائياً بعد 7 أيام",
+      "وقرره عند الإنشاء",
+      "سيرفرات Aurora أغلى في الساعة"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "One protects you from failures; the other helps you serve more reads",
+      "so you can restore to any second within the retention period",
+      "a restore creates a new database with a new endpoint; it doesn't overwrite the old one",
+      "the database sits in a private network and accepts traffic only from the servers' security group",
+      "The fundamental difference is that storage is separate from the servers"
+    ],
+    "blue": [
+      "RDS (Relational Database Service) runs the database engine you choose on servers AWS manages",
+      "Synchronous means a write isn't confirmed until it reaches both copies",
+      "RDS Proxy sits in between and reuses connections",
+      "Aurora is a database engine AWS built for the cloud, compatible with MySQL or PostgreSQL",
+      "keeps six copies across three Availability Zones",
+      "one writer and up to 15 readers"
+    ],
+    "green": [
+      "Availability: survive a failure",
+      "Scaling: serve more reads",
+      "your dashboard's heavy reports read from a replica",
+      "a good step before any big change",
+      "If you have many short-lived connections",
+      "It suits irregular load",
+      "One Region for writes and up to 10 Regions for reads",
+      "A fast copy of production for testing",
+      "Lets Aurora PostgreSQL understand SQL Server's T-SQL",
+      "RDS, since Aurora is compatible only with MySQL and PostgreSQL"
+    ],
+    "pink": [
+      "you can't SSH into the server or touch the operating system",
+      "it only grows: you can't shrink it afterwards",
+      "No, the standby only waits",
+      "RDS doesn't split reads for you",
+      "A user may not see what they wrote a moment ago",
+      "Multi-AZ roughly doubles the cost of the database",
+      "RDS starts it again automatically after 7 days",
+      "decide at creation",
+      "Aurora's servers are pricier per hour"
+    ]
+  }
+}

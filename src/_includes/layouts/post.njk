@@ -9,6 +9,7 @@ bodyClass: page-post
 {%- set older = langPosts | getNextCollectionItem(page) -%}
 {%- set toc = content | toc -%}
 {%- set hasToc = toc.length > 2 -%}
+{%- set studyMark = studyMarks[page.fileSlug][lang] -%}
 
 {%- macro tocList(items) -%}
 <ol class="toc-list{% if numbered %} is-numbered{% endif %}">
@@ -44,8 +45,21 @@ bodyClass: page-post
       <li>{{ t.post.updated }} <time datetime="{{ updated | isoDate }}">{{ updated | readableDate(lang) }}</time></li>
       {%- endif %}
       <li>{% icon "clock" %}{{ t.readingTime(content | readingMinutes) }}</li>
-      <li data-highlight-hint hidden>{% icon "highlighter" %}{{ t.highlight.hint }}</li>
     </ul>
+    <div class="hl-tools" data-highlight-tools hidden>
+      {%- if studyMark %}
+      <button type="button" class="btn hl-tool" aria-pressed="false" data-study-toggle>{% icon "highlighter" %}{{ t.highlight.study }}</button>
+      {%- endif %}
+      <button type="button" class="btn hl-tool" disabled data-highlight-clear data-confirm="{{ t.highlight.clearConfirm }}">{% icon "close" %}{{ t.highlight.clearAll }}</button>
+      {%- if studyMark %}
+      <ul class="hl-key" aria-label="{{ t.highlight.keyLabel }}" data-study-key hidden>
+        {%- for color in ["yellow", "blue", "green", "pink"] %}
+        <li><span class="hl-{{ color }}"></span>{{ t.highlight.key[color] }}</li>
+        {%- endfor %}
+      </ul>
+      <script type="application/json" data-study-marks>{{ studyMark | dump | safe }}</script>
+      {%- endif %}
+    </div>
   </header>
 
   <div class="container post-layout{% if hasToc %} has-toc{% endif %}">

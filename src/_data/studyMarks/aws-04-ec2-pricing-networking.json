@@ -1,0 +1,68 @@
+{
+  "ar": {
+    "yellow": [
+      "نفس السيرفر ممكن تدفع عليه أقل بكثير، حسب طريقة استخدامك له",
+      "القاعدة العملية لأي مشروع حقيقي، هي خليط"
+    ],
+    "blue": [
+      "تستخدم السعة الفائضة عند AWS",
+      "Elastic IP عنوان عام ثابت تملكه في حسابك وتربطه بأي سيرفر",
+      "ENI (Elastic Network Interface) بطاقة شبكة افتراضية، تحمل العنوان الخاص ومجموعات الأمان",
+      "السبات فيحفظ محتوى الذاكرة في قرص النظام"
+    ],
+    "green": [
+      "التراخيص المرتبطة بالجهاز والامتثال",
+      "أحداث مهمة ما تتحمل نقص السعة",
+      "ممتازة للمهام اللي تقدر تتوقف وتكمّل",
+      "الحد الأدنى اللي دايماً شغّال: غطّيه بـ Savings Plans",
+      "الزيادات وقت الضغط: On-Demand",
+      "المهام اللي تتحمل الانقطاع: Spot",
+      "أقل تأخير: الحوسبة العالية والأنظمة المالية",
+      "عدد قليل من السيرفرات الحرجة",
+      "الأنظمة الموزعة الضخمة مثل Kafka وCassandra وHadoop"
+    ],
+    "pink": [
+      "AWS تقدر تسترجعها متى ما احتاجت السعة، وتعطيك إشعار قبلها بدقيقتين فقط",
+      "ولا تصلح لقاعدة بيانات أو أي شي ما يتحمل الانقطاع المفاجئ",
+      "ولا تلتزم بسنة قبل ما تعرف استهلاكك الفعلي",
+      "AWS تحسب رسوم على كل عنوان IPv4 عام",
+      "تعطّل الجهاز يوقفهم كلهم",
+      "حد أقصى 7 سيرفرات لكل منطقة توفر",
+      "قرص النظام لازم يكون EBS مشفّر وفيه مساحة تكفي الذاكرة",
+      "وما يقدر يبقى في السبات أكثر من 60 يوم"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "you can pay far less for the same server, depending on how you use it",
+      "The practical rule for any real project is a mix"
+    ],
+    "blue": [
+      "Use AWS's spare capacity",
+      "An Elastic IP is a fixed public address you own in your account and attach to any server",
+      "An ENI (Elastic Network Interface) is a virtual network card that carries the private address and security groups",
+      "Hibernation saves the memory's contents to the system disk"
+    ],
+    "green": [
+      "Hardware-bound licences and compliance",
+      "Key events that can't risk a shortage",
+      "excellent for work that can stop and resume",
+      "The minimum that always runs: cover it with Savings Plans",
+      "Extra capacity at peak times: On-Demand",
+      "Work that tolerates interruption: Spot",
+      "Lowest latency: high-performance computing, financial systems",
+      "A small number of critical servers",
+      "Huge distributed systems such as Kafka, Cassandra and Hadoop"
+    ],
+    "pink": [
+      "AWS can take them back whenever it needs the capacity, with only two minutes' notice",
+      "They're wrong for a database or anything that can't survive a sudden stop",
+      "Don't commit to a year before you know your real usage",
+      "AWS charges for every public IPv4 address",
+      "A rack failure takes them all down",
+      "Maximum of 7 servers per Availability Zone",
+      "the system disk must be encrypted EBS with enough room for the memory",
+      "a server can't stay hibernated for more than 60 days"
+    ]
+  }
+}

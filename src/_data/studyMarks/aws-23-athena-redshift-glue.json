@@ -1,0 +1,82 @@
+{
+  "ar": {
+    "yellow": [
+      "سر خدمات التحليل إنها تخزن البيانات بالأعمدة",
+      "بما إن السعر يعتمد على اللي ينقرأ، القراءة الأقل تعني فاتورة أقل وجواب أسرع",
+      "ابدأ بـ Athena، وانتقل لـ Redshift لما تصير استعلاماتك متكررة لدرجة تبرر تكلفته",
+      "Lake Formation يعطيك مكان واحد تمنح فيه الوصول بقاعدة البيانات والجدول والعمود وحتى الصف"
+    ],
+    "blue": [
+      "Athena يخليك تستعلم من ملفات S3 مباشرة بـ SQL",
+      "Redshift مبني على PostgreSQL، ويخزن البيانات بالأعمدة",
+      "Redshift Spectrum: استعلم من ملفات S3 داخل Redshift بدون تحميلها",
+      "قائمة مركزية بجداولك وأعمدتها",
+      "تمسح S3 وتستنتج الأعمدة، ثم تضيفها للفهرس",
+      "تتذكر اللي تمت معالجته، فما يعيد الشغل الملفات القديمة",
+      "S3 مع ملفات Parquet وفهرس هو اللي يسمونه بحيرة بيانات (Data Lake)",
+      "SPICE: محرك في الذاكرة",
+      "Amazon MSK هو Apache Kafka مُدار"
+    ],
+    "green": [
+      "ويناسب الأسئلة العابرة وتحليل السجلات",
+      "تنسيقات الأعمدة: حوّل الملفات إلى Parquet أو ORC",
+      "التقسيم (Partitions): قسّم البيانات إلى مسارات",
+      "Federated Query يخلي Athena يوصل لمصادر ثانية مثل DynamoDB أو RDS",
+      "الطريقة المعتادة: يحمّل دفعة وحدة وبالتوازي",
+      "نسخ تلقائي من مصادر مثل Aurora وRDS وDynamoDB، بدون بناء مسار",
+      "بحث على جدول: DynamoDB Streams ثم Lambda ثم OpenSearch",
+      "تحليل السجلات: CloudWatch Logs ثم Firehose ثم OpenSearch",
+      "عندك شغل Spark أو Hadoop قائم؟",
+      "Spot مثالي لها",
+      "عندك تطبيقات وأدوات Kafka"
+    ],
+    "pink": [
+      "حوالي 5 دولار لكل TB يتم مسحه",
+      "آلاف الملفات الصغيرة تبطئ الشغل",
+      "تجنبه مع الكميات الكبيرة، لأنه بطيء جداً",
+      "وهي مقفلة على العملاء الجدد وفي وضع الصيانة",
+      "لأن S3 يعرف الملفات، مو الأعمدة",
+      "وغالباً يكون نسخة من بياناتك، مو المصدر"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "The secret of analytics services is storing data by column",
+      "Since the price depends on what's read, reading less means both a lower bill and a faster answer",
+      "Start with Athena, and move to Redshift when your queries become frequent enough for it to pay off",
+      "Lake Formation gives you one place to grant access by database, table, column and even row"
+    ],
+    "blue": [
+      "Athena lets you query files in S3 directly with SQL",
+      "Redshift is based on PostgreSQL, stores data by column",
+      "Redshift Spectrum: query files in S3 from Redshift without loading them",
+      "A central list of your tables and their columns",
+      "Scan S3 and work out the columns, then add them to the catalog",
+      "Remember what's been processed, so a job doesn't repeat old files",
+      "S3 with Parquet files and a catalog is what's called a data lake",
+      "SPICE: an in-memory engine",
+      "Amazon MSK is a managed Apache Kafka"
+    ],
+    "green": [
+      "It suits occasional questions and analyzing logs",
+      "Columnar formats: convert files to Parquet or ORC",
+      "Partitions: split the data into paths",
+      "Federated Query lets Athena reach other sources, such as DynamoDB or RDS",
+      "The usual way: loads in bulk and in parallel",
+      "Automatically replicating from sources like Aurora, RDS and DynamoDB, with no pipeline to build",
+      "Search over a table: DynamoDB Streams, then Lambda, then OpenSearch",
+      "Log analysis: CloudWatch Logs, then Firehose, then OpenSearch",
+      "Do you have existing Spark or Hadoop jobs?",
+      "Spot is ideal",
+      "You have Kafka applications and tools"
+    ],
+    "pink": [
+      "about $5 per TB of data scanned",
+      "thousands of tiny files slow things down",
+      "Avoid it for large amounts; it's very slow",
+      "It's closed to new customers and in maintenance mode",
+      "because S3 knows about files, not columns",
+      "It's usually a copy of your data, not the source"
+    ]
+  }
+}

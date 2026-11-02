@@ -1,0 +1,70 @@
+{
+  "ar": {
+    "yellow": [
+      "AWS تقدم ثلاث مستويات، وأغلب الناس يبدأون من فوق",
+      "النموذج ما يعرف سياسات شركتك. وبدل ما تدربه، تلقى المقاطع المناسبة وتعطيه إياها مع السؤال",
+      "ابدأ بـ Bedrock مع الأوامر وKnowledge Bases، وانتقل لـ SageMaker AI لما تحتاج تغيّر سلوك النموذج",
+      "القوة الحقيقية في ربطها مع اللي تعلمته"
+    ],
+    "blue": [
+      "Rekognition يحلل الصور والفيديو بدون أي تدريب منك",
+      "Transcribe يحول الكلام إلى نص",
+      "Polly يسوي العكس، ويحول النص إلى كلام",
+      "Amazon Translate يترجم بين 75 لغة",
+      "Lex يبني روبوتات محادثة كتابية وصوتية",
+      "Connect مركز اتصال في السحابة",
+      "Comprehend يقرأ النص ويطلع معناه",
+      "Textract أبعد من قراءة النص في ملف ممسوح: يفهم البنية",
+      "Personalize يبني \"ممكن يعجبك كمان\" من سلوك مستخدمينك",
+      "Bedrock يعطيك نماذج أساسية من مزودين كثير",
+      "هذا اسمه RAG",
+      "تمنع المواضيع غير المرغوبة، وتخفي البيانات الشخصية"
+    ],
+    "green": [
+      "Comprehend Medical يسوي هذا للنصوص الطبية",
+      "لما ما يكفي الجاهز، مثل توقع المخاطر من بيانات عندك أنت بس"
+    ],
+    "pink": [
+      "التعرف على الأشخاص له تبعات قانونية وأخلاقية",
+      "وقفت استقبال العملاء الجدد في 30 يوليو 2026",
+      "لا تخلط بينه وبين Amazon SageMaker الجديد",
+      "بس إخفاء البيانات الشخصية مو مدعوم لهم",
+      "لا: الإنجليزية والفرنسية والألمانية والإيطالية والبرتغالية والإسبانية فقط",
+      "بس لاحظ إن نصك يروح لهذي الخدمات"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "AWS offers three levels, and most people should start from the top",
+      "A model doesn't know your company's policies. Instead of training it, you find the relevant passages and hand them to it with the question",
+      "start with Bedrock using prompts and Knowledge Bases, and move to SageMaker AI when you need to change the model's behavior",
+      "The real strength lies in connecting them with what you've already learned"
+    ],
+    "blue": [
+      "Rekognition analyzes images and video without any training on your part",
+      "Transcribe turns speech into text",
+      "Polly does the opposite, turning text into speech",
+      "Amazon Translate translates between 75 languages",
+      "Lex builds chatbots and voice bots",
+      "Connect is a contact center in the cloud",
+      "Comprehend reads text and extracts its meaning",
+      "Textract goes beyond reading text from a scanned file: it understands structure",
+      "Personalize builds \"you might also like\" from your users' behavior",
+      "Bedrock gives you foundation models from many providers",
+      "This is called RAG",
+      "Blocks unwanted topics, hides personal data"
+    ],
+    "green": [
+      "Comprehend Medical does this for clinical text",
+      "When ready-made isn't enough, such as predicting risks from data only you have"
+    ],
+    "pink": [
+      "Identifying people has legal and ethical consequences",
+      "It stopped accepting new customers on July 30, 2026",
+      "Don't confuse it with the new Amazon SageMaker",
+      "though hiding personal data isn't supported for them",
+      "No: English, French, German, Italian, Portuguese and Spanish only",
+      "But note that your text goes to these services"
+    ]
+  }
+}

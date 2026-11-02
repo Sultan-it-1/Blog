@@ -1,0 +1,72 @@
+{
+  "ar": {
+    "yellow": [
+      "Auto Scaling Group تدير مجموعة سيرفرات بدالك",
+      "وتستبدل أي سيرفر معطّل",
+      "كل ما قام السيرفر أسرع، زادت سرعة استجابة المجموعة للضغط",
+      "أي سيرفر ممكن يختفي بأي لحظة",
+      "فكل نوع بيانات له مكانه خارج السيرفر"
+    ],
+    "blue": [
+      "أقل عدد مهما هدأ الضغط",
+      "العدد المطلوب الحين، ويتغيّر حسب الضغط",
+      "السقف، وهو اللي يحمي فاتورتك",
+      "تحتاج وصفة: صورة النظام، ونوع السيرفر، ومجموعة الأمان، ودور IAM، وUser Data",
+      "تطبيق عديم الحالة (Stateless)",
+      "البنية غير القابلة للتعديل (Immutable Infrastructure): ما تحدّث سيرفر شغال",
+      "Elastic Beanstalk يسويه عنك"
+    ],
+    "green": [
+      "أغلب الحالات، ابدأ بها",
+      "تحكم أدق",
+      "ضغط معروف، مثل عرض يبدأ الساعة 8",
+      "ضغط يتكرر بنمط يومي أو أسبوعي",
+      "لمواقع الويب غالباً عدد الطلبات لكل سيرفر (RequestCountPerTarget) أصدق",
+      "الحد الأدنى بسعر عادي أو خطة توفير، والزيادات بسيرفرات Spot",
+      "كاش مشترك مثل ElastiCache",
+      "S3 مع CloudFront",
+      "يناسبك لو تبي تركز على الكود في تطبيق تقليدي"
+    ],
+    "pink": [
+      "افتراضياً، المجموعة تفحص السيرفر نفسه فقط",
+      "فعّل خيار ELB health checks عشان تعتمد على فحص موزّع الحمل",
+      "لو حذفت السيرفرات بدون حذف المجموعة، بترجع تشغّلها",
+      "راجع الحد الأدنى كل فترة، وكثير يبالغون فيه"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "An Auto Scaling group manages a set of servers for you",
+      "replaces any that fail",
+      "the faster a server comes up, the faster the group responds to load",
+      "any server can vanish at any moment",
+      "Each kind of data has its place off the server"
+    ],
+    "blue": [
+      "The lowest count, however quiet it gets",
+      "The count wanted right now, which changes with load",
+      "The ceiling, which protects your bill",
+      "the group needs a recipe: the system image, instance type, security group, IAM role and User Data",
+      "a stateless application",
+      "immutable infrastructure: you don't update a running server",
+      "Elastic Beanstalk does it for you"
+    ],
+    "green": [
+      "Most cases; start here",
+      "Finer control",
+      "Known peaks, such as a sale starting at 8",
+      "Load that repeats daily or weekly",
+      "for websites requests per server (RequestCountPerTarget) is often more honest",
+      "the minimum at the regular price or under a Savings Plan, and the extras on Spot",
+      "A shared cache such as ElastiCache",
+      "S3 with CloudFront",
+      "It suits you if you want to focus on the code of a conventional application"
+    ],
+    "pink": [
+      "By default, the group checks only the server itself",
+      "Turn on ELB health checks so it relies on the load balancer's check",
+      "If you delete the servers without deleting the group, it will launch them again",
+      "Review your minimum regularly; many people set it too high"
+    ]
+  }
+}

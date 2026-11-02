@@ -1902,13 +1902,15 @@
         font-size: 0.85rem;
     }
 
-    /* Highlighter: the reader's own colours, which follow the theme through their tokens. */
+    /* Highlighter: colours that follow the theme through their tokens. */
     mark.hl {
-        border-radius: 3px;
         color: inherit;
-        cursor: pointer;
         -webkit-box-decoration-break: clone;
         box-decoration-break: clone;
+    }
+
+    mark[data-highlight] {
+        cursor: pointer;
     }
 
     .hl-yellow {
@@ -2013,6 +2015,54 @@
     .hl-remove:hover {
         background: var(--color-sunken);
         color: var(--color-ink);
+    }
+
+    .hl-tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.6rem;
+        margin-top: 1.1rem;
+    }
+
+    .hl-tool {
+        padding-block: 0.45rem;
+        padding-inline: 0.85rem;
+        font-size: 0.88rem;
+    }
+
+    .hl-tool[aria-pressed="true"] {
+        border-color: var(--color-line-strong);
+        background: var(--hl-yellow);
+        color: var(--color-ink);
+    }
+
+    .hl-tool:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .hl-key {
+        display: flex;
+        flex-basis: 100%;
+        flex-wrap: wrap;
+        gap: 0.35rem 1.1rem;
+        color: var(--color-muted);
+        font-size: 0.82rem;
+        list-style: none;
+    }
+
+    .hl-key li {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .hl-key span {
+        width: 12px;
+        height: 12px;
+        border: 1px solid var(--color-line-strong);
+        border-radius: 50%;
     }
 
     /* Code blocks — always dark, always left-to-right */

@@ -1,0 +1,78 @@
+{
+  "ar": {
+    "yellow": [
+      "تستأجر من مزوّد سحابي اللي تحتاجه وقت ما تحتاجه، وتدفع على قد استخدامك",
+      "الخدمات تختلف في كمية الشغل اللي تتركه لك",
+      "شبكة ضخمة موزّعة على ثلاث طبقات",
+      "كل منطقة مستقلة عن غيرها",
+      "لو شغّلت تطبيقك في أكثر من منطقة توفر، تعطّل وحدة منها ما يوقف تطبيقك",
+      "AWS تحمي السحابة نفسها، وأنت تحمي اللي تحطه داخلها",
+      "وكل ما كانت الخدمة مُدارة أكثر، قلّت مسؤوليتك"
+    ],
+    "blue": [
+      "المنطقة موقع جغرافي فيه مجموعة مراكز بيانات تابعة لـ AWS",
+      "منطقة التوفر الوحدة عبارة عن مركز بيانات أو أكثر، بكهرباء وتبريد وشبكة مستقلة عن غيرها",
+      "مواقع الحافة نقاط تابعة لـ AWS في مدن كثيرة حول العالم",
+      "CloudShell: طرفية داخل لوحة التحكم",
+      "الجذر هو الحساب اللي سجّلت فيه بإيميلك، وعنده كل الصلاحيات"
+    ],
+    "green": [
+      "زمن استجابة قليل جداً لمستخدمي هذي المدينة",
+      "زمن استجابة قليل جداً للجوالات وأجهزة 5G",
+      "بيانات أو أنظمة لازم تبقى عندك",
+      "الأنظمة والامتثال:",
+      "القرب من المستخدمين:",
+      "توفر الخدمات:",
+      "التكلفة:",
+      "لو مستخدمينك في الخليج، me-central-1 (الإمارات) أو me-south-1 (البحرين) تعطيك أقل تأخير",
+      "وللتعلّم والتجارب، كثير يستخدمون us-east-1"
+    ],
+    "pink": [
+      "اسم منطقة التوفر يختلف من حساب لحساب",
+      "اسمها لازم يكون فريد على مستوى AWS كلها",
+      "كل منطقة تعرض مواردها فقط",
+      "معطّلة افتراضياً في الحسابات الجديدة",
+      "فعّل التحقق بخطوتين (MFA) على حساب الجذر (Root)",
+      "لا تستخدم حساب الجذر في شغلك اليومي",
+      "ولا تترك موارد شغّالة بعد ما تخلص تجربتك"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "you rent what you need from a cloud provider, when you need it, and pay for what you use",
+      "services differ in how much work they leave to you",
+      "a huge network arranged in three layers",
+      "Regions are independent of each other",
+      "if you run your application in more than one Availability Zone, losing one of them doesn't take your application down",
+      "AWS protects the cloud itself, and you protect what you put in it",
+      "The more managed a service is, the less you're responsible for"
+    ],
+    "blue": [
+      "A Region is a geographic location containing a group of AWS data centers",
+      "An Availability Zone is one or more data centers with their own power, cooling and networking",
+      "Edge locations are AWS sites in many cities around the world",
+      "CloudShell: a terminal inside the console",
+      "The root user is the account you signed up with your email; it can do everything"
+    ],
+    "green": [
+      "Very low latency for users in that city",
+      "Ultra-low latency to phones and 5G devices",
+      "Data or systems that must stay on your site",
+      "Regulation and compliance:",
+      "Proximity to users:",
+      "Service availability:",
+      "Cost:",
+      "If your users are in the Gulf, me-central-1 (UAE) or me-south-1 (Bahrain) gives you the lowest latency",
+      "For learning and experiments, many people use us-east-1"
+    ],
+    "pink": [
+      "An AZ name can differ between accounts",
+      "its name must be unique across all of AWS",
+      "each Region only shows its own resources",
+      "are disabled by default in new accounts",
+      "Turn on multi-factor authentication (MFA) for the root user",
+      "Don't use the root user for daily work",
+      "don't leave resources running once you've finished experimenting"
+    ]
+  }
+}

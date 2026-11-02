@@ -1,0 +1,96 @@
+{
+  "ar": {
+    "yellow": [
+      "تجهيزها وتحديثها وتوسيعها ما عاد مشكلتك",
+      "Lambda تشغّل دالة (Function) تكتبها لما يطلقها حدث",
+      "ما فيه Joins، وتجيب العناصر بمفتاحها",
+      "ابدأ من استعلاماتك وصمم الجدول عليها",
+      "API Gateway يستقبل الطلب عبر HTTPS ويمرره للدالة"
+    ],
+    "blue": [
+      "كل بيئة تشغيل تخدم طلب واحد في نفس الوقت",
+      "Reserved Concurrency يحجز حصة للدالة، وهي سقف لها كمان",
+      "لما يجي طلب وما فيه بيئة جاهزة، Lambda تنشئ وحدة وتحمل كودك أول. هذي البداية الباردة",
+      "تبقي عدد من البيئات جاهز دايماً",
+      "تحفظ لقطة بعد التجهيز وتستعيد منها",
+      "DynamoDB قاعدة مفتاح وقيمة بدون خوادم",
+      "مفتاح التقسيم (Partition Key): يحدد وين ينحفظ العنصر",
+      "مفتاح الترتيب (Sort Key): اختياري، ويرتب العناصر اللي لها نفس مفتاح التقسيم",
+      "وحدة القراءة (RCU) تعني قراءة وحدة قوية التناسق في الثانية لعنصر حتى 4 KB، أو قراءتين متناسقتين لاحقاً",
+      "ووحدة الكتابة (WCU) تعني كتابة وحدة في الثانية لعنصر حتى 1 KB",
+      "كاش قدام الجدول، ينزل القراءة من الملي ثانية إلى الميكرو ثانية"
+    ],
+    "green": [
+      "لو شغلك ياخذ أكثر من 15 دقيقة، قسّمه بـ Step Functions، أو استخدم حاوية",
+      "فلو تحتاج استجابة سريعة جداً وثابتة، استخدم Provisioned Concurrency",
+      "التحويلات والهيدرز ومفاتيح الكاش",
+      "منطق أثقل والاتصال بخدمات ثانية",
+      "ولو تبي تستعلم بحقل ثاني مثل status، أضف فهرس ثانوي عام (GSI)",
+      "حمل مجهول أو متغير، وابدأ به",
+      "حمل ثابت ومتوقع، ويطلع أرخص",
+      "أغلب الواجهات: أبسط وأرخص، وبحد ثابت 30 ثانية",
+      "ميزات أكثر: كاش ومفاتيح API والتحقق من الطلبات",
+      "اتصالات باتجاهين، مثل الدردشة",
+      "مستخدمين تطبيقك"
+    ],
+    "pink": [
+      "حتى 15 دقيقة للطلب",
+      "مع حمل كبير وثابت، السيرفر أو الحاوية ممكن تطلع أرخص",
+      "الاستدعاء المتزامن، مثل من API، يجيه خطأ 429",
+      "والفخ المخفي إن دالة مشغولة وحدة ممكن تاكل الحد كله وتعطل الباقي",
+      "وما تقدر تجمع الاثنين على نفس الدالة",
+      "تفقد الوصول للإنترنت، إلا لو الـ Subnet يمر عبر NAT Gateway أو تستخدم نقاط اتصال",
+      "وأقصى حجم للعنصر 400 KB",
+      "وGlobal Tables متطابقة في النهاية افتراضياً",
+      "REST API ينتظر الرد 29 ثانية افتراضياً",
+      "والنوعين حدهم 10 MB للبيانات"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "provisioning, updating and scaling them are no longer your problem",
+      "Lambda runs a function you write when an event triggers it",
+      "there are no joins, and you fetch items by their key",
+      "start from your queries and design the table to suit them",
+      "API Gateway receives the request over HTTPS and passes it on to the function"
+    ],
+    "blue": [
+      "Each execution environment serves one request at a time",
+      "Reserved concurrency sets aside a share for a function, which is also a ceiling for it",
+      "When a request arrives with no environment ready, Lambda creates one and loads your code first. This is a cold start",
+      "Keeps a number of environments ready at all times",
+      "Saves a snapshot after setup and restores from it",
+      "DynamoDB is a serverless key-value database",
+      "Partition key: decides where the item is stored",
+      "Sort key: optional, and it orders items sharing the same partition key",
+      "One read capacity unit (RCU) is one strongly consistent read per second of an item up to 4 KB, or two eventually consistent ones",
+      "One write capacity unit (WCU) is one write per second of an item up to 1 KB",
+      "A cache in front of the table, taking reads from milliseconds to microseconds"
+    ],
+    "green": [
+      "If your work takes longer than 15 minutes, split it up with Step Functions, or use a container",
+      "so if you need very low, steady latency, use Provisioned Concurrency",
+      "Redirects, headers and cache keys",
+      "Heavier logic and calling other services",
+      "If you need to query by another attribute, such as status, add a global secondary index",
+      "Unknown or changing load; start here",
+      "Steady, predictable load, which comes out cheaper",
+      "Most APIs: simpler and cheaper, with a fixed 30-second limit",
+      "More features: caching, API keys and request validation",
+      "Two-way connections, such as chat",
+      "Your application's users"
+    ],
+    "pink": [
+      "Up to 15 minutes per request",
+      "with heavy, constant load, a server or container can come out cheaper",
+      "Synchronous calls, as from an API, get a 429 error",
+      "The hidden trap is that one busy function can consume the whole limit and throttle your others",
+      "The two can't be combined on one function",
+      "It loses its internet access, unless the subnet goes through a NAT gateway or you use endpoints",
+      "The maximum size of an item is 400 KB",
+      "Global Tables are eventually consistent by default",
+      "A REST API waits 29 seconds for a response by default",
+      "Both types have a 10 MB payload limit"
+    ]
+  }
+}

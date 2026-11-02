@@ -1,0 +1,70 @@
+{
+  "ar": {
+    "yellow": [
+      "تعطيك سيرفرات افتراضية تشغّلها خلال دقائق، تدفع عليها وهي شغالة، وتحذفها لما تخلص",
+      "اسم النوع يوصف السيرفر بالكامل",
+      "ابدأ صغير دايماً، وكبّر لما تشوف أرقام تقول إنك تحتاج",
+      "القواعد فيها سماح فقط. ما تكتب \"امنع\"، أي شي ما سمحت له ممنوع.",
+      "افتراضياً: كل الداخل ممنوع، وكل الخارج مسموح"
+    ],
+    "blue": [
+      "صورة النظام اللي يقلع منها السيرفر",
+      "m: العائلة، وتحدد الغرض من السيرفر",
+      "تشتغل بأداء أساسي وتقدر تتجاوزه لفترات قصيرة",
+      "جدار ناري افتراضي يحيط بالسيرفر",
+      "تتذكر الاتصال (Stateful): لو سمحت لطلب يدخل، رده يطلع تلقائياً بدون قاعدة خروج",
+      "ويتنفذ مرة وحدة أول ما يقلع وبصلاحيات الجذر"
+    ],
+    "green": [
+      "مواقع الويب وأغلب التطبيقات",
+      "المهام الحسابية، ترميز الفيديو، خوادم الألعاب",
+      "قواعد البيانات والكاش في الذاكرة",
+      "قراءة وكتابة سريعة جداً على قرص محلي",
+      "الذكاء الاصطناعي والرسوميات بمعالجات GPU",
+      "قاعدة البيانات تقبل فقط من مجموعة أمان سيرفرات التطبيق",
+      "إذا طلع لك Timeout، فالطلب ما وصل أصلاً: غالباً مجموعة الأمان",
+      "وإذا طلع Connection refused، فالطلب وصل للسيرفر لكن ما فيه برنامج يستقبل على هذا المنفذ"
+    ],
+    "pink": [
+      "ومو مناسب لحمل ثقيل ومستمر",
+      "لا تخلي المنفذ 22 مفتوح على 0.0.0.0/0",
+      "يُحذف قرص النظام افتراضياً",
+      "عنوان IP العام يتغيّر كل ما توقف السيرفر وتشغّله",
+      "السيرفر المنسي هو أشهر سبب لفاتورة ما توقعتها"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "gives you virtual servers you can launch in minutes, pay for while they run, and delete when you're done",
+      "The type's name describes the whole server",
+      "Always start small, and grow when the numbers say you need to",
+      "Rules can only allow. You never write \"deny\"; anything not allowed is blocked.",
+      "By default, all inbound traffic is blocked and all outbound traffic is allowed"
+    ],
+    "blue": [
+      "The system image the server boots from",
+      "m: the family, which sets the server's purpose",
+      "it runs at a baseline and can burst above it for short periods",
+      "a virtual firewall around the server",
+      "It's stateful: if a request is allowed in, the response goes back out without an outbound rule",
+      "It runs once, on first boot, as root"
+    ],
+    "green": [
+      "Websites and most applications",
+      "Heavy calculation, video encoding, game servers",
+      "In-memory databases and caches",
+      "Very fast reads and writes on a local disk",
+      "AI and graphics with GPUs",
+      "a database can accept traffic only from the application servers' security group",
+      "A timeout means the request never arrived: usually the security group",
+      "Connection refused means it reached the server, but nothing is listening on that port"
+    ],
+    "pink": [
+      "wrong for heavy, sustained load",
+      "Don't leave port 22 open to 0.0.0.0/0",
+      "System disk deleted by default",
+      "the public IP address changes every time you stop and start the server",
+      "A forgotten server is the most common cause of an unexpected bill"
+    ]
+  }
+}

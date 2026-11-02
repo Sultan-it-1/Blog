@@ -1,0 +1,72 @@
+{
+  "ar": {
+    "yellow": [
+      "كل ما قل الوصول للملف، قل سعر تخزينه، وزادت تكلفة أو مدة استرجاعه",
+      "لازم تطلب استرجاعه أول",
+      "قواعد Lifecycle تسوي هذا تلقائياً حسب عمر الملف"
+    ],
+    "blue": [
+      "المتانة (Durability): هل بيضيع الملف؟",
+      "التوفر (Availability): هل تقدر توصل له الحين؟",
+      "S3 Express One Zone: أداء عالي جداً بزمن استجابة أقل من 10 ملي ثانية",
+      "انقل الملف لفئة أرخص بعد عدد أيام",
+      "احذف الملف بعد مدة، أو الإصدارات القديمة، أو الرفعات اللي ما اكتملت",
+      "Requester Pays تخليهم يدفعون تكلفة الطلبات والتحميل بدالك"
+    ],
+    "green": [
+      "بيانات تنطلب كثير",
+      "نمط وصول غير معروف",
+      "مرة في الشهر تقريباً",
+      "بيانات تقدر تعيد إنشاءها",
+      "مرة في ثلاثة أشهر",
+      "مرة أو مرتين في السنة",
+      "أقل من مرة في السنة",
+      "Storage Class Analysis: تراقب الوصول لبادئة أو حاوية",
+      "Storage Lens: لوحة على مستوى الحسابات كلها",
+      "S3 Batch Operations تنفذه على قائمة من S3 Inventory"
+    ],
+    "pink": [
+      "الفئات بمنطقة توفر واحدة تضيع بياناتها لو تدمرت المنطقة",
+      "أقل مدة تخزين: لو حذفت ملف من Glacier Deep Archive بعد شهر، تدفع 180 يوم كاملة",
+      "أقل حجم محسوب: فئات IA وGlacier Instant تحسب أقل كائن 128 KB",
+      "رسوم الاسترجاع: لو تقرأ البيانات كثير، Standard-IA ممكن يصير أغلى من Standard",
+      "النقل نازل فقط على السلم، وأقل مدة قبل Standard-IA هي 30 يوم",
+      "احذف الرفعات الناقصة (Incomplete Multipart Uploads) بعد أسبوع، لأنها تنحسب وما تظهر في القائمة"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "the less a file is accessed, the less it costs to store, and the more it costs or the longer it takes to retrieve",
+      "You must first request its restore",
+      "Lifecycle rules do it automatically according to a file's age"
+    ],
+    "blue": [
+      "Durability: will the file be lost?",
+      "Availability: can you reach it right now?",
+      "S3 Express One Zone: very high performance with single-digit millisecond latency",
+      "Move the file to a cheaper class after a number of days",
+      "Delete the file after a period, or old versions, or uploads that never finished",
+      "Requester Pays has them pay the request and download costs instead of you"
+    ],
+    "green": [
+      "Frequently requested data",
+      "Unknown access patterns",
+      "About once a month",
+      "Data you can recreate",
+      "Once every three months",
+      "Once or twice a year",
+      "Less than once a year",
+      "Storage Class Analysis: watches access to a prefix or bucket",
+      "Storage Lens: a dashboard across all your accounts",
+      "S3 Batch Operations runs it on a list from S3 Inventory"
+    ],
+    "pink": [
+      "classes in a single Availability Zone lose their data if that zone is destroyed",
+      "Minimum storage period: delete a file from Glacier Deep Archive after a month, and you pay for the full 180 days",
+      "Minimum billable size: the IA classes and Glacier Instant bill any object as at least 128 KB",
+      "Retrieval fees: if you read data a lot, Standard-IA can end up pricier than Standard",
+      "Moves only go down the stairs, and the minimum before Standard-IA is 30 days",
+      "Delete incomplete multipart uploads after a week, since they're billed and don't appear in listings"
+    ]
+  }
+}

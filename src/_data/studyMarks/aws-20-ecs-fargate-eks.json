@@ -1,0 +1,77 @@
+{
+  "ar": {
+    "yellow": [
+      "تغلف التطبيق مع كل اللي يحتاجه في حزمة وحدة، ويشتغل بنفس الطريقة على جهازك وفي الإنتاج",
+      "ECS (Elastic Container Service) ياخذ صورك ويشغلها، ويبقيها شغالة، ويحطها خلف موزع حمل",
+      "لو فشلت المهمة عند التشغيل بخطأ في السحب، شوف Execution Role",
+      "ولو جاء كودك AccessDenied وهو شغال، شوف Task Role",
+      "لو ما فيه شي يدفعك لـ Kubernetes، ابدأ بـ ECS على Fargate"
+    ],
+    "blue": [
+      "الحاوية عملية معزولة لها ملفاتها ومكتباتها، وتتشارك نظام تشغيل المضيف",
+      "الصورة (Image): حزمة للقراءة فقط فيها التطبيق ومكتباته",
+      "المستودع (Registry): مكان تخزين الصور",
+      "وصفة: الصورة والمعالج والذاكرة والمنافذ والأدوار",
+      "يبقي عدد محدد من المهام شغال، ويعوض اللي تفشل",
+      "ECS نفسه، عشان يجهز المهمة",
+      "كودك داخل الحاوية",
+      "Capacity Provider يربط الـ Service بمجموعة Auto Scaling",
+      "EKS (Elastic Kubernetes Service) يشغّل لك طبقة التحكم فيه",
+      "المهمة اسمها Pod، والسيرفر اسمه Node"
+    ],
+    "green": [
+      "أغلب التطبيقات، وابدأ به",
+      "تحتاج GPU أو سيرفرات معينة بدون إدارتها",
+      "تحكم كامل، أو تقليل تكلفة حمل ثابت",
+      "وFargate Spot يخفض السعر كثير للمهام اللي تتحمل الانقطاع",
+      "ولمشاركة الملفات بين المهام، اربط EFS",
+      "ECS Express Mode ياخذ صورة ودورين",
+      "تبدأ من جديد وشغلك على AWS",
+      "فريقك يعرف Kubernetes أو تشتغل على أكثر من سحابة"
+    ],
+    "pink": [
+      "الحاوية هنا (Container) غير حاوية S3 (Bucket)",
+      "وخل لكل خدمة دورها، مو دور واحد مشترك",
+      "قرص الحاوية يروح معها",
+      "وقف استقبال العملاء الجدد في 30 أبريل 2026",
+      "بـ 0.10 دولار في الساعة لكل Cluster"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "you package the application with everything it needs in one unit, and it runs the same way on your laptop and in production",
+      "ECS (Elastic Container Service) takes your images and runs them, keeps them running, and places them behind a load balancer",
+      "If the task fails at startup with a pull error, look at the execution role",
+      "If your code gets AccessDenied while it's running, look at the task role",
+      "If nothing is pushing you toward Kubernetes, start with ECS on Fargate"
+    ],
+    "blue": [
+      "A container is an isolated process with its own files and libraries, which shares the host's operating system",
+      "Image: a read-only package of the application and its libraries",
+      "Registry: where images are stored",
+      "A recipe: the image, CPU, memory, ports and roles",
+      "Keeps a set number of tasks running, and replaces failed ones",
+      "ECS itself, to prepare the task",
+      "Your code inside the container",
+      "A capacity provider links the service to an Auto Scaling group",
+      "EKS (Elastic Kubernetes Service) runs its control plane for you",
+      "a task is a Pod, and a server is a Node"
+    ],
+    "green": [
+      "Most applications; start here",
+      "Needing GPUs or specific instances without the management",
+      "Full control, or reducing the cost of steady load",
+      "Fargate Spot cuts the price sharply for tasks that can tolerate interruption",
+      "To share files between tasks, mount EFS",
+      "ECS Express Mode takes an image and two roles",
+      "You're starting out, and your work is on AWS",
+      "Your team knows Kubernetes, or you run across several clouds"
+    ],
+    "pink": [
+      "give each service its own task role, not one shared role",
+      "A container's disk disappears with it",
+      "It stopped accepting new customers on April 30, 2026",
+      "at $0.10 per hour per cluster"
+    ]
+  }
+}

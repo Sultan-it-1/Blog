@@ -1,0 +1,72 @@
+{
+  "ar": {
+    "yellow": [
+      "لكنه مستقل عن السيرفر، فبياناته تبقى حتى لو حذفت السيرفر",
+      "يعني هي الطريقة الصحيحة لنقل قرص بين مناطق التوفر",
+      "جهّز سيرفر مرة وحدة وخذ منه صورة"
+    ],
+    "blue": [
+      "EBS (Elastic Block Store) قرص شبكي توصله بالسيرفر",
+      "IOPS عدد عمليات القراءة والكتابة في الثانية",
+      "وThroughput كمية البيانات المنقولة في الثانية",
+      "اللقطة نسخة احتياطية من القرص في لحظة معينة",
+      "AMI صورة جاهزة يقلع منها السيرفر",
+      "EFS (Elastic File System) نظام ملفات شبكي يتركّب على عشرات أو مئات السيرفرات في نفس الوقت"
+    ],
+    "green": [
+      "الخيار الافتراضي لأغلب الحالات",
+      "قواعد البيانات الحرجة",
+      "البيانات الضخمة والسجلات",
+      "أرشيف نادر الوصول",
+      "تسوي له لقطة، تنسخها مع تفعيل التشفير، ثم تنشئ من النسخة قرص جديد مشفّر",
+      "يناسب الكاش والملفات المؤقتة والبيانات اللي لها نسخ في مكان ثاني",
+      "يناسب المحتوى اللي لازم كل السيرفرات تشوفه"
+    ],
+    "pink": [
+      "مربوط بمنطقة توفر واحدة",
+      "قرص النظام ينحذف مع السيرفر افتراضياً، والأقراص الإضافية تبقى",
+      "تدفع على المساحة المحجوزة، مو المستخدمة",
+      "والأقراص الصلبة (st1 وsc1) ما تصلح أقراص إقلاع",
+      "الصورة مربوطة بمنطقة واحدة",
+      "لكنه مؤقت: بياناته تروح لو أوقفت السيرفر أو حذفته أو تعطّل الجهاز",
+      "يعمل مع لينكس فقط، وسعره أعلى من EBS للجيجا الواحدة",
+      "EFS يستخدم المنفذ 2049",
+      "الأقراص واللقطات تستمر تُحسب حتى بعد حذف السيرفر"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "is independent of the server, so its data survives even if you delete the server",
+      "this is the right way to move a disk between Availability Zones",
+      "prepare a server once and take an image of it"
+    ],
+    "blue": [
+      "EBS (Elastic Block Store) is a network disk you attach to a server",
+      "IOPS is read and write operations per second",
+      "Throughput is the amount of data moved per second",
+      "A snapshot is a point-in-time backup of a disk",
+      "An AMI is a ready-made image a server boots from",
+      "EFS (Elastic File System) is a network file system that mounts on dozens or hundreds of servers at once"
+    ],
+    "green": [
+      "The default choice for most cases",
+      "Critical databases",
+      "Big data and logs",
+      "Rarely accessed archives",
+      "snapshot it, copy the snapshot with encryption turned on, create a new encrypted disk from the copy",
+      "It suits caches, temporary files, and data with copies elsewhere",
+      "It suits content every server must see"
+    ],
+    "pink": [
+      "Tied to one Availability Zone",
+      "The system disk is deleted with the server by default; extra disks stay",
+      "You pay for the space you reserve, not the space you use",
+      "Hard disks (st1 and sc1) can't be boot disks",
+      "an image belongs to one Region",
+      "but it's temporary: its data is gone if you stop or terminate the server or the hardware fails",
+      "it works with Linux only, and it costs more per gigabyte than EBS",
+      "EFS uses port 2049",
+      "Disks and snapshots keep costing money even after the server is gone"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "ar": {
+    "yellow": [
+      "عندك سؤالين: وين يصير التشفير؟ ومين يمسك المفتاح؟",
+      "CORS حماية في المتصفح، مو في S3",
+      "حتى الصلاحيات الصحيحة ما تحميك من خطأ، أو حساب مخترق، أو برامج الفدية"
+    ],
+    "blue": [
+      "S3 Bucket Keys: مفتاح وسيط على مستوى الحاوية يقلل طلبات KMS بنسبة كبيرة",
+      "Pre-signed URL رابط فيه توقيع وله مدة صلاحية",
+      "الأصل (Origin) هو البروتوكول والنطاق والمنفذ",
+      "تطلب رمز MFA لحذف إصدار نهائياً أو إيقاف الإصدارات",
+      "مستخدمين عندهم صلاحية خاصة فقط",
+      "ما أحد، ولا حتى المستخدم الجذر",
+      "Legal Hold: قفل بدون مدة محددة، يبقى لين تشيله",
+      "Access Points تعطي كل فريق بوابة باسمها وسياستها"
+    ],
+    "green": [
+      "الافتراضي لكل كائن جديد، ويكفي لأغلب الحالات",
+      "تبي سجل بكل استخدام للمفتاح، وتحكم أدق",
+      "متطلبات تنظيمية تفرض طبقتين",
+      "ما تبي AWS تشوف البيانات أبداً",
+      "وعشان تفرض HTTPS، ارفض أي طلب غير مشفّر عبر الشرط aws:SecureTransport",
+      "مثل رفع صورة من المتصفح مباشرة لـ S3"
+    ],
+    "pink": [
+      "وKMS له حد لعدد الطلبات في الثانية حسب الـ Region",
+      "ولازم من يقرأ الكائن يكون عنده صلاحية على S3 وعلى مفتاح KMS معاً",
+      "يحمل صلاحيات اللي وقّعه، فلو هو ما يقدر يقرأ الملف، الرابط ما يشتغل",
+      "يفعّله المستخدم الجذر فقط، عبر الأوامر",
+      "لازم الإصدارات مفعّلة",
+      "لو قفلت ملف بوضع Compliance لمدة عشر سنين، بتدفع عليه عشر سنين، وما أحد يقدر يحذفه ولا دعم AWS",
+      "لا تخليها نفس الحاوية، لأن كل سجل يولّد سجل جديد"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "You have two questions: where does encryption happen? and who holds the key?",
+      "CORS is a protection in the browser, not in S3",
+      "Even correct permissions don't protect you from a mistake, a compromised account or ransomware"
+    ],
+    "blue": [
+      "S3 Bucket Keys: an intermediate key at the bucket level that greatly reduces KMS requests",
+      "A pre-signed URL is a link carrying a signature and an expiry",
+      "An origin is the protocol, domain and port",
+      "Requires an MFA code to permanently delete a version or suspend versioning",
+      "Only users with a special permission",
+      "Nobody, not even the root user",
+      "Legal Hold: a lock with no set period that stays until you remove it",
+      "Access Points give each team a door with its own name and policy"
+    ],
+    "green": [
+      "The default for every new object, and enough for most cases",
+      "You want a record of every use of the key, and finer control",
+      "Regulations requiring two layers",
+      "You never want AWS to see the data",
+      "To enforce HTTPS, deny any unencrypted request using the aws:SecureTransport condition",
+      "such as sending a photo from the browser directly to S3"
+    ],
+    "pink": [
+      "KMS has a limit on requests per second depending on the Region",
+      "Anyone reading the object also needs permission on S3 and on the KMS key together",
+      "It carries the signer's permissions, so if they can't read the file, the link won't work",
+      "Only the root user can enable it, through commands",
+      "Versioning must be on",
+      "Lock a file in Compliance mode for ten years and you'll pay for it for ten years, and nobody can delete it, not even AWS support",
+      "Don't use the same bucket, because every log entry generates another"
+    ]
+  }
+}

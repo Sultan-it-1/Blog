@@ -1,0 +1,70 @@
+{
+  "ar": {
+    "yellow": [
+      "فكل ما صغر الرقم كبر النطاق",
+      "\"عامة\" و\"خاصة\" مو إعداد. الشبكة تصير عامة لما يكون في جدول توجيهها طريق لبوابة الإنترنت.",
+      "ويطلّع طلبات السيرفرات الخاصة بعنوانه هو، وما يقبل اتصال يبدأ من الخارج",
+      "القاعدة العملية: خل NACL الافتراضية على حالها، واشتغل بمجموعات الأمان"
+    ],
+    "blue": [
+      "VPC (Virtual Private Cloud) شبكتك الخاصة داخل Region واحدة",
+      "الـ Subnet جزء من نطاق الـ VPC",
+      "بوابة الإنترنت (Internet Gateway) تربط الـ VPC بالإنترنت",
+      "وجدول التوجيه (Route Table) يحدد وين تروح كل زيارة",
+      "جدار ثاني اسمه NACL حول الشبكة الفرعية",
+      "Flow Logs تسجّل بيانات كل اتصال"
+    ],
+    "green": [
+      "استخدم النطاقات الخاصة: 10.0.0.0/8 أو 172.16.0.0/12 أو 192.168.0.0/16",
+      "نقطة داخل شبكتك توصلك بالسيرفر بدون عنوان عام",
+      "طرفية عبر خدمة SSM، بدون منفذ 22",
+      "واستخدم NACL لو تبي تمنع نطاق عناوين بسرعة",
+      "الدخول مرفوض: المشكلة في مجموعة الأمان أو NACL",
+      "الدخول مقبول والخروج مرفوض: المشكلة في NACL"
+    ],
+    "pink": [
+      "لو نطاقك يتداخل مع شبكة ثانية، ما تقدر تربطهم بسهولة بعدين",
+      "تعيش في منطقة توفر واحدة",
+      "AWS تحجز 5 عناوين في كل شبكة: أول أربعة وآخر عنوان",
+      "لازم واحد في كل منطقة توفر",
+      "NAT Gateway ينحسب بالساعة، وعلى كل جيجابايت تمر من خلاله",
+      "ما تتذكر، فلازم تسمح للرد كمان",
+      "لازم تسمح لردود السيرفر عبر المنافذ المؤقتة (عادةً 1024-65535)",
+      "لأن مجموعة الأمان ما تقدر تمنع"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "so the smaller the number, the bigger the range",
+      "\"Public\" and \"private\" aren't settings. A subnet becomes public when its route table has a route to an internet gateway.",
+      "sends the private servers' requests out under its own address, and accepts no connection started from outside",
+      "The practical rule: leave the default NACL alone and work with security groups"
+    ],
+    "blue": [
+      "A VPC (Virtual Private Cloud) is your private network within one Region",
+      "A subnet is a slice of the VPC's range",
+      "An internet gateway connects the VPC to the internet",
+      "A route table decides where each packet goes",
+      "a second firewall called a NACL that surrounds the subnet",
+      "Flow Logs record the details of each connection"
+    ],
+    "green": [
+      "Use the private ranges: 10.0.0.0/8, 172.16.0.0/12 or 192.168.0.0/16",
+      "A point inside your network that connects you with no public address",
+      "A terminal through the SSM service, with no port 22",
+      "Use a NACL when you want to block an address range quickly",
+      "Inbound rejected: the problem is the security group or the NACL",
+      "Inbound accepted and outbound rejected: the problem is the NACL"
+    ],
+    "pink": [
+      "If your range overlaps another network, you can't easily connect them later",
+      "It lives in one Availability Zone",
+      "AWS reserves 5 addresses in each one: the first four and the last",
+      "You need one in each Availability Zone",
+      "A NAT Gateway is billed by the hour and for every gigabyte passing through it",
+      "Doesn't remember, so you must allow the reply too",
+      "you must allow the server's replies through ephemeral ports (usually 1024-65535)",
+      "since a security group can't deny"
+    ]
+  }
+}

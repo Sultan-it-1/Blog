@@ -1,0 +1,74 @@
+{
+  "ar": {
+    "yellow": [
+      "كل ما صغر الرقمين، ارتفعت التكلفة",
+      "والفرق بينها كم شي شغال هناك قبل الكارثة",
+      "النسخة اللي ما رجعتها ولا مرة مجرد أمل",
+      "AWS DMS (Database Migration Service) ينقل قاعدة البيانات وهي مستخدمة"
+    ],
+    "blue": [
+      "كم بيانات نقدر نخسر؟",
+      "كم نقدر نبقى واقفين؟",
+      "Backup and Restore: نسخ تنتقل لمنطقة ثانية، وكل شي ينبني منها وقت الكارثة",
+      "Pilot Light: البيانات تتنسخ باستمرار",
+      "Warm Standby: نسخة كاملة صغيرة شغالة وتقدر تستقبل على طول",
+      "Multi-Site: المنطقتين يخدمون المستخدمين طول الوقت",
+      "AWS DRS ينسخ سيرفراتك باستمرار لتخزين رخيص، ويشغلها بس لما تحتاجها",
+      "جدول ومدة حفظ",
+      "مكان حفظ النسخ، مشفرة بـ KMS",
+      "وكيل على سيرفرك ينسخ أقراصه باستمرار إلى موارد AWS منخفضة التكلفة"
+    ],
+    "green": [
+      "الأنظمة غير الحرجة",
+      "البيانات الأساسية لازم تكون جاهزة دايماً",
+      "أنظمة مهمة بميزانية محدودة",
+      "لما دقيقة التوقف تكلف ثروة",
+      "وVault Lock أقوى دفاع عندك ضد برامج الفدية",
+      "DMS لحاله يكفي",
+      "DMS Schema Conversion أو SCT لتحويل الجداول والكود أول، ثم DMS للبيانات",
+      "من RDS بدون توقف حقيقي",
+      "وغالباً هو أسرع طريق للخروج من مركز بيانات"
+    ],
+    "pink": [
+      "حطها في حساب ثاني ومنطقة ثانية، لأن المهاجم اللي يدخل حسابك بيبدأ فيها",
+      "الحصص لكل منطقة، فالنسخة الصغيرة ممكن توصل حدها وقت ما تحتاج تكبر",
+      "ما عادت متاحة للعملاء الجدد"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "The smaller the two numbers, the higher the cost",
+      "The difference between them is how much is running there before the disaster",
+      "A backup you've never restored is only a hope",
+      "AWS DMS (Database Migration Service) moves a database while it stays in use"
+    ],
+    "blue": [
+      "How much data can we afford to lose?",
+      "How long can we stay down?",
+      "Backup and restore: backups copied to another Region, with everything built from them in a disaster",
+      "Pilot light: the data is replicating",
+      "Warm standby: a small full copy is running and can take traffic right away",
+      "Multi-site: both Regions serve users all the time",
+      "AWS DRS continuously replicates your servers to cheap storage, and launches them only when needed",
+      "A schedule and a retention period",
+      "Where the backups are stored, encrypted with KMS",
+      "An agent on your server replicates its disks continuously to low-cost AWS resources"
+    ],
+    "green": [
+      "Non-critical systems",
+      "The core data must always be ready",
+      "Important systems with a limited budget",
+      "Where a minute of downtime costs a fortune",
+      "Vault Lock is your strongest defense against ransomware",
+      "DMS alone is enough",
+      "DMS Schema Conversion or SCT, to convert the tables and code first, then DMS for the data",
+      "From RDS, with no real downtime",
+      "It's usually the fastest way out of a data center"
+    ],
+    "pink": [
+      "Put them in another account and another Region, because an attacker who gets into your account will go for them first",
+      "Quotas are per Region, so a small standby can hit its limit just when it has to grow",
+      "They're no longer open to new customers"
+    ]
+  }
+}

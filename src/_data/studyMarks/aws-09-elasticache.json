@@ -1,0 +1,72 @@
+{
+  "ar": {
+    "yellow": [
+      "احفظ الجواب في مكان سريع، وارجع له بدل ما تسأل قاعدة البيانات كل مرة",
+      "الكاش مو مصدر الحقيقة",
+      "لأن التطبيق هو اللي يقرر وش يحفظ ومتى يقرأ",
+      "الكاش يناسب البيانات اللي تنقرأ كثير وتتغير قليل"
+    ],
+    "blue": [
+      "الكاش نسخة مؤقتة من بيانات تكلّفك وقت أو جهد عشان تجيبها",
+      "Valkey مشروع مفتوح المصدر انفصل عن Redis",
+      "تطبيقك يسأل الكاش أول، ولو ما لقى الجواب يروح لقاعدة البيانات، ثم يحفظ الجواب للمرة الجاية",
+      "كل ما كتبت في قاعدة البيانات، تكتب في الكاش معها",
+      "لكل مفتاح مدة صلاحية (TTL)، وبعدها يختفي",
+      "يخرج الكاش بعض المفاتيح (Eviction)، عادةً الأقل استخداماً"
+    ],
+    "green": [
+      "أغلب الحالات: كاش وجلسات ولوحات صدارة",
+      "كاش بسيط ما يضر لو ضاع",
+      "لأي مشروع جديد، ابدأ به",
+      "الضغط المتقلب، وهو أسهل بداية",
+      "الضغط الثابت والتحكم الدقيق في التكلفة",
+      "أي سيرفر يقدر يقراها، فالمستخدم ما يخرج لو اختفى سيرفره",
+      "المجموعة المرتبة (Sorted Set) تبقي العناصر مرتبة حسب النقاط",
+      "عدّاد INCR مع مدة صلاحية يحسب طلبات كل مستخدم في الدقيقة"
+    ],
+    "pink": [
+      "ما فيه، البيانات في الذاكرة فقط",
+      "العيوب: أول طلب بطيء، والبيانات ممكن تكون قديمة لين تنتهي صلاحيتها",
+      "العيوب: كتابة زيادة في كل مرة، وممكن يمتلي الكاش ببيانات ما أحد يقرأها",
+      "لا تخزنه",
+      "لو انتهت صلاحية مفتاح مطلوب جداً، آلاف الطلبات تروح لقاعدة البيانات مرة وحدة",
+      "وأضف فرق عشوائي بسيط للمدد",
+      "الكاش ينحسب حتى لو ما أحد يستخدمه"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "keep the answer somewhere fast, and go back to it instead of asking the database every time",
+      "a cache isn't the source of truth",
+      "because the application decides what to store and when to read it",
+      "A cache suits data that's read often and changes rarely"
+    ],
+    "blue": [
+      "A cache is a temporary copy of data that takes time or effort to fetch",
+      "Valkey is an open-source project that split from Redis",
+      "your application asks the cache first, goes to the database if the answer isn't there, then stores the answer for next time",
+      "Whenever you write to the database, you write to the cache as well",
+      "Each key has a lifetime (TTL) after which it disappears",
+      "the cache evicts some keys, usually the least used"
+    ],
+    "green": [
+      "Most cases: caching, sessions, leaderboards",
+      "A simple cache where losing data doesn't hurt",
+      "For any new project, start with it",
+      "Irregular load, and the easiest start",
+      "Steady load and tight cost control",
+      "any server can read them, so users don't get signed out when their server disappears",
+      "a sorted set keeps items ordered by score",
+      "an INCR counter with a TTL counts each user's requests per minute"
+    ],
+    "pink": [
+      "None; data lives only in memory",
+      "Cons: the first request is slow, and data can be stale until it expires",
+      "Cons: an extra write every time, and the cache can fill with data nobody reads",
+      "Don't cache it",
+      "If a heavily requested key expires, thousands of requests hit the database at once",
+      "Add a little random variation to your TTLs",
+      "The cache is billed even if nobody uses it"
+    ]
+  }
+}

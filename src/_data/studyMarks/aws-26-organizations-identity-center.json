@@ -1,0 +1,76 @@
+{
+  "ar": {
+    "yellow": [
+      "SCP ما تعطي أي شي. تحدد سقف بس",
+      "بدون مشاركة مفاتيح طويلة المدى",
+      "والصلاحية الفعلية هي المسموح في سياسة الهوية والحد وSCP مع بعض",
+      "المنع الصريح يكسب دايماً، وأي شي غير مسموح ممنوع",
+      "بدل مستخدم في كل حساب، IAM Identity Center يعطي كل موظف دخول واحد"
+    ],
+    "blue": [
+      "Organizations يجمع عدة حسابات تحت حساب إدارة واحد",
+      "تحدد أقصى ما يقدر يسويه المستخدمين والأدوار في الحساب",
+      "تحدد أقصى ما ينعمل على موارد الحساب",
+      "AWS STS (Security Token Service). هي اللي تعطي الصلاحيات المؤقتة",
+      "Permissions Boundary يحدد الحد الأقصى لمستخدم أو دور معين",
+      "مجموعة سياسات تصير دور في كل حساب تربطها فيه",
+      "Federation يعني أشخاص أو أنظمة يدخلون بهوية موجودة خارج AWS وياخذون صلاحيات مؤقتة",
+      "Control Tower يبني Landing Zone بأفضل الممارسات فوق Organizations"
+    ],
+    "green": [
+      "من حسابات منظمتك فقط",
+      "الشغل بالكامل داخل الحساب الثاني",
+      "القراءة من جدول في A والكتابة في حاوية في B بنفس الوقت",
+      "Identity Center زي ما شرحنا، وهذي توصية AWS",
+      "Identity Provider في IAM عبر SAML 2.0 أو OIDC، مع دور يفترضونه",
+      "Identity Pools في Cognito",
+      "تطبيقات تعتمد على AD وتشتغل على AWS",
+      "إبقاء المستخدمين في AD حقك",
+      "لو تبدأ بيئة حسابات متعددة من الصفر، ابدأ من هنا"
+    ],
+    "pink": [
+      "ما تأثر على حساب الإدارة، فلا تشغّل شغلك فيه",
+      "تنطبق على الكل في الحساب العضو، ومعهم Root حق الحساب",
+      "إجراءات S3 تشتغل على مستويين، وكل واحد يحتاج ARN خاص فيه",
+      "يتركها طول ما هو في الدور",
+      "مقفل على العملاء الجدد منذ يوليو 2026"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "an SCP doesn't grant anything. It only sets a limit",
+      "without sharing long-term keys",
+      "The effective permissions are what's allowed by the identity policy and the boundary and the SCP together",
+      "an explicit Deny always wins, anything not allowed is denied",
+      "Instead of a user in every account, IAM Identity Center gives each employee one sign-in"
+    ],
+    "blue": [
+      "Organizations gathers many accounts under one management account",
+      "Sets the maximum for what users and roles in an account can do",
+      "Sets the maximum for what can be done to resources in an account",
+      "AWS STS (Security Token Service). It hands out the temporary credentials",
+      "A permissions boundary sets the maximum for a particular user or role",
+      "A set of policies that becomes a role in each account you assign it to",
+      "Federation means people or systems sign in with an identity that lives outside AWS and receive temporary credentials",
+      "Control Tower builds a best-practice landing zone over Organizations"
+    ],
+    "green": [
+      "Only from accounts in your organization",
+      "Working entirely inside the other account",
+      "Reading from a table in A and writing to a bucket in B at once",
+      "Identity Center, as above, which is what AWS recommends",
+      "An identity provider in IAM using SAML 2.0 or OIDC, with a role to assume",
+      "Cognito identity pools",
+      "AD-dependent applications running on AWS",
+      "Keeping the users in your own AD",
+      "If you're starting a multi-account environment from scratch, start here"
+    ],
+    "pink": [
+      "It doesn't affect the management account, so don't run workloads there",
+      "It applies to everyone in a member account, including that account's root user",
+      "S3 actions work at two levels, and each needs its own ARN",
+      "They give them up while in the role",
+      "Closed to new customers since July 2026"
+    ]
+  }
+}

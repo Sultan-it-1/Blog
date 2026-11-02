@@ -1,0 +1,76 @@
+{
+  "ar": {
+    "yellow": [
+      "S3 مو قرص تركّبه وتشغّل منه قاعدة بيانات، بس هو مثالي لأي ملف تقراه أو تكتبه كامل",
+      "كل شي في S3 خاص افتراضياً",
+      "يوصل لو فيه قاعدة تسمح له وما فيه قاعدة تمنعه",
+      "أي استبدال لكائن ينشئ إصدار جديد بدل ما يمسح القديم",
+      "والأفضل في الإنتاج: حاوية خاصة قدامها CloudFront مع OAC"
+    ],
+    "blue": [
+      "المفتاح هو مساره الكامل",
+      "قفل أمان يمنع الوصول العام مهما كانت السياسات",
+      "يضيف علامة حذف (Delete Marker)",
+      "ترفع الملف أجزاء بالتوازي",
+      "الرفع يمر بأقرب موقع حافة ثم شبكة AWS",
+      "تحمّل جزء محدد من الملف"
+    ],
+    "green": [
+      "مثال: سيرفر EC2 يقرأ من S3؟ أعطه دور IAM",
+      "وحساب ثاني يقرأ؟ Bucket Policy تسمح له",
+      "التوافق مع الأنظمة، والقرب من المستخدمين، والتعافي من الكوارث",
+      "جمع السجلات في مكان واحد، أو نسخ الإنتاج لبيئة تجربة",
+      "كل صورة ترتفع، دالة Lambda تسوي لها نسخة مصغرة",
+      "مفضل فوق 100 MB، ولازم فوق 5 GB"
+    ],
+    "pink": [
+      "تستبدل الكائن كامل",
+      "اسمها لازم يكون فريد على مستوى كل حسابات AWS",
+      "ما فيه مجلدات حقيقية",
+      "طفّه فقط لحاوية مقصود إنها عامة",
+      "وكل إصدار تدفع عليه",
+      "ولازم الإصدارات تكون مفعّلة في الجهتين",
+      "الكائنات القديمة ما تنتقل إلا بـ Batch Replication",
+      "والحذف النهائي لإصدار ما ينسخ",
+      "بس رابط الموقع هذا يشتغل بـ HTTP فقط",
+      "على الأقل 3,500 كتابة و5,500 قراءة في الثانية لكل بادئة (Prefix)"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "S3 isn't a disk you mount and run a database from, but it's ideal for any file you read or write as a whole",
+      "Everything in S3 is private by default",
+      "they get through if a rule allows them and no rule denies them",
+      "replacing an object creates a new version rather than wiping the old one",
+      "The better choice in production is a private bucket with CloudFront and OAC in front of it"
+    ],
+    "blue": [
+      "Its key is its full path",
+      "A safety lock that stops public access whatever the policies say",
+      "adds a delete marker",
+      "Uploads a file in parts in parallel",
+      "Uploads pass through the nearest edge location, then AWS's network",
+      "Download a specific part of a file"
+    ],
+    "green": [
+      "an EC2 server reading from S3? Give it an IAM role",
+      "Another account reading? A bucket policy allows it",
+      "Compliance, being close to users, and disaster recovery",
+      "Gathering logs in one place, or copying production to a test environment",
+      "for every photo uploaded, a Lambda function makes a thumbnail",
+      "Preferred above 100 MB, required above 5 GB"
+    ],
+    "pink": [
+      "You replace the whole object",
+      "Must have a name unique across all AWS accounts",
+      "There are no real folders",
+      "Turn it off only for a bucket that's meant to be public",
+      "You pay for every version",
+      "Versioning must be on at both ends",
+      "existing objects move only with Batch Replication",
+      "permanently deleting a version isn't replicated",
+      "That website link only works over HTTP",
+      "at least 3,500 writes and 5,500 reads per second per prefix"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "ar": {
+    "yellow": [
+      "تطبيقات الويب الحديثة تعتمد على التوسّع الأفقي في أكثر من منطقة توفر: يعطيك القدرة والحماية مع بعض",
+      "يكتشف السيرفر المعطّل ويوقف الإرسال له",
+      "ALB يفهم محتوى الطلب، وهذا اللي يميزه",
+      "يتكرر في كل تطبيق: السيرفرات ما تقبل إلا من الموزّع"
+    ],
+    "blue": [
+      "سيرفر أقوى",
+      "سيرفرات أكثر",
+      "التطبيق يعيش في أكثر من مكان، فيتحمل تعطّل واحد منها",
+      "موزّع الحمل (Load Balancer) يستقبل كل الطلبات، ويمررها للسيرفرات اللي خلفه",
+      "SNI اللي تخبر الموزّع أي نطاق يطلبه المتصفح",
+      "الجلسات اللاصقة (Sticky Sessions): تخلي نفس الزائر يرجع لنفس السيرفر عبر كوكي",
+      "التوزيع عبر المناطق (Cross-Zone): يوزّع الطلبات بالتساوي على كل السيرفرات مهما كانت منطقة توفرها",
+      "يوقف الموزّع إرسال طلبات جديدة له، ويعطي الطلبات الحالية وقت تكمل"
+    ],
+    "green": [
+      "مواقع وAPIs، وتبي توجيه حسب المسار أو النطاق. الخيار الافتراضي",
+      "تحتاج أداء عالي جداً وتأخير قليل، أو عنوان IP ثابت",
+      "تمرير الحركة عبر أجهزة أمان من شركات ثانية، مثل جدران الحماية",
+      "والأسهل من AWS Certificate Manager، اللي يصدر الشهادات العامة مجاناً ويجددها تلقائياً"
+    ],
+    "pink": [
+      "لكن له سقف، ويحتاج غالباً إيقاف السيرفر، وما يحميك من الأعطال",
+      "لا تستخدمه في أي مشروع جديد",
+      "السيرفر يشوف عنوان الموزّع مو الزائر",
+      "عنوان الزائر الحقيقي موجود في الترويسة X-Forwarded-For",
+      "وصفحة ثابتة ترجع 200 حتى لو قاعدة البيانات واقفة، ما تكشف لك المشكلة",
+      "لكنها تخل بالتوزيع",
+      "مفعّل افتراضياً في ALB وبدون رسوم نقل، ومعطّل في NLB وGWLB",
+      "موزّع الحمل يُحسب بالساعة حتى لو ما مر فيه طلب واحد"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "modern web applications rely on horizontal scaling across Availability Zones: it gives you capacity and protection together",
+      "it detects a failed server and stops sending it traffic",
+      "An ALB understands the content of a request, which is what sets it apart",
+      "it shows up in every application: servers accept traffic only from the load balancer"
+    ],
+    "blue": [
+      "A bigger server",
+      "More servers",
+      "The application lives in more than one place, so it survives losing one",
+      "A load balancer receives every request and passes it to the servers behind it",
+      "SNI, which tells it which domain the browser is asking for",
+      "Sticky sessions: keep a visitor on the same server using a cookie",
+      "Cross-zone load balancing: spreads requests evenly across all servers regardless of their Availability Zone",
+      "the load balancer stops sending it new requests and gives current ones time to finish"
+    ],
+    "green": [
+      "Websites and APIs, with routing by path or domain. The default choice",
+      "You need very high performance and low latency, or a fixed IP address",
+      "Passing traffic through third-party security appliances such as firewalls",
+      "most easily from AWS Certificate Manager, which issues public certificates for free and renews them automatically"
+    ],
+    "pink": [
+      "it has a ceiling, usually means stopping the server, and doesn't protect you from failures",
+      "Don't use it on anything new",
+      "the server sees the load balancer's address, not the visitor's",
+      "The real address is in the X-Forwarded-For header",
+      "A static page that returns 200 even when the database is down won't reveal the problem",
+      "they upset the balance",
+      "On by default for ALB with no transfer charge, off by default for NLB and GWLB",
+      "A load balancer is charged by the hour even if no request passes through it"
+    ]
+  }
+}

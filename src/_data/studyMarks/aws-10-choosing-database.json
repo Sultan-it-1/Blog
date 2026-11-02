@@ -1,0 +1,70 @@
+{
+  "ar": {
+    "yellow": [
+      "السؤال: وش يناسب هذي البيانات بالذات؟",
+      "تصمم الجداول، ثم تكتب أي استعلام",
+      "تحدد الاستعلامات أولاً، ثم تصمم عليها",
+      "أغلب التطبيقات تناسبها قاعدة علائقية",
+      "التطبيق الواحد عادةً يستخدم أكثر من نوع",
+      "كل خطوة جات بعد مشكلة حقيقية قستها، مو قبلها"
+    ],
+    "blue": [
+      "DynamoDB: مفتاح وقيمة بدون سيرفرات",
+      "DocumentDB: مستندات متوافقة مع MongoDB",
+      "MemoryDB: ذاكرة سريعة مثل Valkey لكن بيانات تدوم",
+      "Keyspaces: متوافقة مع Apache Cassandra",
+      "OpenSearch: بحث نصي وتحليل سجلات",
+      "Redshift: مستودع بيانات للتقارير الضخمة"
+    ],
+    "green": [
+      "Neptune: للبيانات اللي قيمتها في العلاقات",
+      "Timestream for InfluxDB: لقراءات الحساسات والمقاييس",
+      "الزوار زادوا والقراءة ثقلت: أضف ElastiCache",
+      "التقارير صارت تبطّئ الموقع: وجّهها لـ نسخة قراءة",
+      "بحث المنتجات ضعيف: أضف OpenSearch",
+      "الإدارة تبي تحليلات سنوات: انقل البيانات لـ S3 مع Athena أو Redshift",
+      "صار عندك زوار حول العالم: انتقل لـ Aurora Global Database"
+    ],
+    "pink": [
+      "اختيار NoSQL لأنها \"تتوسّع\"",
+      "تشغيل التقارير على قاعدة الإنتاج",
+      "تخزين الملفات داخل قاعدة البيانات",
+      "معاملة الكاش كمصدر للحقيقة",
+      "Multi-AZ في بيئة التطوير"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "The question is: what suits this particular data?",
+      "Design the tables, then write any query",
+      "Define the queries first, then design around them",
+      "Most applications suit a relational database",
+      "One application usually uses more than one type",
+      "Each step came after a real problem you measured, not before it"
+    ],
+    "blue": [
+      "DynamoDB: serverless key-value",
+      "DocumentDB: documents compatible with MongoDB",
+      "MemoryDB: fast memory like Valkey but with durable data",
+      "Keyspaces: compatible with Apache Cassandra",
+      "OpenSearch: text search and log analysis",
+      "Redshift: a data warehouse for huge reports"
+    ],
+    "green": [
+      "Neptune: for data whose value lies in relationships",
+      "Timestream for InfluxDB: for sensor readings and metrics",
+      "More visitors, heavier reads: add ElastiCache",
+      "Reports start slowing the site: send them to a read replica",
+      "Product search is weak: add OpenSearch",
+      "Management wants years of analysis: move the data to S3 with Athena or Redshift",
+      "Visitors from around the world: move to Aurora Global Database"
+    ],
+    "pink": [
+      "Choosing NoSQL because it \"scales\"",
+      "Running reports on the production database",
+      "Storing files inside the database",
+      "Treating the cache as a source of truth",
+      "Multi-AZ in development"
+    ]
+  }
+}

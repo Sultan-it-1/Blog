@@ -370,16 +370,24 @@
     // ---- Highlighter: select text in an article and colour it, the way you'd mark up a book ----
     // Kept per page in this browser, as positions in the article's text plus the text itself, so
     // highlights survive a small edit to the article. Their colours are theme tokens (see main.css).
+    // The study highlights are written for each article (src/_data/studyMarks) and found by their words.
     const article = document.querySelector('[data-highlightable]');
     const highlightBar = document.querySelector('[data-highlight-bar]');
     if (article && highlightBar) {
         const storageKey = `highlights:${location.pathname}`;
+        const studyStorageKey = 'study-highlights';
         const coarsePointer = window.matchMedia('(pointer: coarse)');
         const removeButton = highlightBar.querySelector('[data-highlight-remove]');
         const swatches = [...highlightBar.querySelectorAll('[data-highlight-color]')];
+        const tools = document.querySelector('[data-highlight-tools]');
+        const studyToggle = tools.querySelector('[data-study-toggle]');
+        const studyLegend = tools.querySelector('[data-study-key]');
+        const clearButton = tools.querySelector('[data-highlight-clear]');
         const skipped = 'svg, .quiz-deck, .quiz-intro, .code-bar, .heading-anchor';
         const wordCharacter = /[\p{L}\p{N}\p{M}_-]/u;
         let highlights = [];
+        let studyRanges = [];
+        let studyOn = false;
         let target = null; // What the bar acts on: { start, end, anchor }. The anchor is a Range or a <mark>.
         let pointerDown = false;
         let selectionTimer = null;
@@ -408,6 +416,19 @@
                 const start = text.indexOf(highlight.text);
                 return start < 0 ? [] : [{ ...highlight, start, end: start + highlight.text.length }];
             });
+
+            const marks = document.querySelector('[data-study-marks]');
+            if (!marks) return;
+            // A phrase that no longer matches the article is left out.
+            studyRanges = Object.entries(JSON.parse(marks.textContent)).flatMap(([color, phrases]) => phrases.flatMap((phrase) => {
+                const start = text.indexOf(phrase);
+                return start < 0 ? [] : [{ start, end: start + phrase.length, color, study: true }];
+            }));
+            try {
+                studyOn = localStorage.getItem(studyStorageKey) === 'on';
+            } catch (e) {
+                // Storage blocked: the study highlights start off.
+            }
         };
 
         const save = () => {
@@ -418,17 +439,42 @@
             }
         };
 
+        // A reader who turns these on is studying, so the choice carries over to the next article.
+        const setStudy = (on) => {
+            studyOn = on;
+            try {
+                if (on) localStorage.setItem(studyStorageKey, 'on');
+                else localStorage.removeItem(studyStorageKey);
+            } catch (e) {
+                // Storage blocked: the choice lasts for this page only.
+            }
+        };
+
+        // What's left of these highlights outside start..end.
+        const cut = (list, start, end, text) => list.flatMap((highlight) => {
+            if (highlight.end <= start || highlight.start >= end) return [highlight];
+            const parts = [];
+            if (highlight.start < start) parts.push({ ...highlight, end: start, text: text.slice(highlight.start, start) });
+            if (highlight.end > end) parts.push({ ...highlight, start: end, text: text.slice(end, highlight.end) });
+            return parts;
+        });
+
         const render = () => {
-            article.querySelectorAll('mark[data-highlight]').forEach((mark) => mark.replaceWith(...mark.childNodes));
+            article.querySelectorAll('mark.hl').forEach((mark) => mark.replaceWith(...mark.childNodes));
             article.normalize();
+            const text = articleText();
+            // Where the reader's own colour meets a study highlight, the reader's wins.
+            const shown = [
+                ...highlights.map((highlight, index) => ({ ...highlight, index })),
+                ...(studyOn ? highlights.reduce((rest, own) => cut(rest, own.start, own.end, text), studyRanges) : []),
+            ];
             let position = 0;
             textNodes().forEach((node) => {
                 const nodeStart = position;
                 const nodeEnd = nodeStart + node.length;
                 position = nodeEnd;
                 // From the end of the node backwards, so splitting leaves the earlier text in `node`.
-                highlights
-                    .map((highlight, index) => ({ ...highlight, index }))
+                shown
                     .filter((highlight) => highlight.start < nodeEnd && highlight.end > nodeStart)
                     .sort((a, b) => b.start - a.start)
                     .forEach((highlight) => {
@@ -440,11 +486,14 @@
                         if (to - from < piece.length) piece.splitText(to - from);
                         const mark = document.createElement('mark');
                         mark.className = `hl hl-${highlight.color}`;
-                        mark.dataset.highlight = highlight.index;
+                        if (!highlight.study) mark.dataset.highlight = highlight.index;
                         piece.replaceWith(mark);
                         mark.append(piece);
                     });
             });
+            studyToggle?.setAttribute('aria-pressed', String(studyOn));
+            if (studyLegend) studyLegend.hidden = !studyOn;
+            clearButton.disabled = !studyOn && !highlights.length;
         };
 
         // The article's text the range covers, trimmed of spaces and grown to whole words,
@@ -553,13 +602,7 @@
             const { start, end } = target;
             const text = articleText();
             // The new colour replaces whatever it covers; the parts of older highlights outside it stay.
-            highlights = highlights.flatMap((highlight) => {
-                if (highlight.end <= start || highlight.start >= end) return [highlight];
-                const parts = [];
-                if (highlight.start < start) parts.push({ ...highlight, end: start, text: text.slice(highlight.start, start) });
-                if (highlight.end > end) parts.push({ ...highlight, start: end, text: text.slice(end, highlight.end) });
-                return parts;
-            });
+            highlights = cut(highlights, start, end, text);
             if (button.dataset.highlightColor) {
                 highlights.push({ start, end, color: button.dataset.highlightColor, text: text.slice(start, end) });
             }
@@ -578,9 +621,24 @@
             }, { passive: true });
         });
 
-        document.querySelector('[data-highlight-hint]')?.removeAttribute('hidden');
+        studyToggle?.addEventListener('click', () => {
+            setStudy(!studyOn);
+            render();
+        });
+
+        // The reader's own highlights can't be brought back, so those ask first.
+        clearButton.addEventListener('click', () => {
+            if (highlights.length && !window.confirm(clearButton.dataset.confirm)) return;
+            highlights = [];
+            save();
+            setStudy(false);
+            closeBar();
+            render();
+        });
+
+        tools.hidden = false;
         load();
-        if (highlights.length) render();
+        render();
     }
 
     // ---- Blog search: filters the rows already on the page ----

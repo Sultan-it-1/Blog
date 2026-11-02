@@ -1,0 +1,84 @@
+{
+  "ar": {
+    "yellow": [
+      "أغلب الناس يخططون للسيرفرات والتخزين، ثم يتفاجأون بنقل البيانات",
+      "كل طبقة توفر الشغل على اللي وراها، فكل ما كان قدام كان أفضل",
+      "وأول خطوة هي الوسوم",
+      "والهدف مو إنك توصل الأقصى في كل شي، بل إنك تختار وأنت فاهم"
+    ],
+    "blue": [
+      "تنبهك لما توصل حد أو يتوقع توصله",
+      "تستخدم تعلم الآلة لكشف الصرف غير المعتاد",
+      "يوصي بالأحجام المناسبة حسب استخدامك الفعلي",
+      "AWS لخصت اللي تعلمته من عملائها في ست ركائز",
+      "Trusted Advisor: يفحص حسابك مقابل أفضل الممارسات",
+      "AWS CloudFormation يقرأ قالب (Template) ويبني Stack من الموارد بالترتيب الصحيح",
+      "Change Set يبين وش بيتغير قبل ما يصير",
+      "وDrift Detection يكشف التعديلات اليدوية",
+      "AWS Systems Manager يدير أساطيل السيرفرات عبر وكيل",
+      "طرفية بدون منفذ SSH وبدون مفاتيح",
+      "إرسال الإيميل، للمعاملات والتسويق"
+    ],
+    "green": [
+      "حط CloudFront قدام تطبيقك",
+      "أضف Gateway Endpoint لـ S3 وDynamoDB",
+      "NAT Gateway لكل منطقة توفر",
+      "أوقف سيرفرات التطوير بالليل",
+      "مجموعة Auto Scaling بسيرفر واحد وفحص صحة",
+      "RDS Proxy، ويحتاج نقطة وصول جديدة فقط",
+      "شغل دفعات بأي حجم، على EC2 أو Fargate، بدون حد 15 دقيقة مثل Lambda",
+      "نقل البيانات من تطبيقات SaaS مثل Salesforce إلى S3 أو Redshift بدون كود",
+      "كتالوج خدمات معتمدة، فالفرق تنشر المسموح فقط",
+      "Placement Group من نوع Cluster، مع Enhanced Networking أو EFA"
+    ],
+    "pink": [
+      "ولاحظ إن كل عنوان IPv4 عام عليه رسوم بالساعة كمان",
+      "والوسوم ما توصل لتقارير التكلفة إلا لما تفعّلها كـ Cost Allocation Tags",
+      "والركائز تتعارض أحياناً",
+      "وDeveloper وBusiness تنتهي في 1 يناير 2027",
+      "حذف الـ Stack يحذف كل اللي فيه",
+      "وصل لنهاية دعمه في 30 أكتوبر 2026"
+    ]
+  },
+  "en": {
+    "yellow": [
+      "Most people plan for servers and storage, then get surprised by data transfer",
+      "Each layer saves work for the ones behind it, so the further forward the better",
+      "And the first step is tags",
+      "The aim isn't to max out everything, but to make the trade-off knowingly"
+    ],
+    "blue": [
+      "Alerts you when you reach or are forecast to reach a limit",
+      "Uses machine learning to spot unusual spending",
+      "Recommends suitable sizes based on your actual use",
+      "AWS has summarized what it's learned from its customers in six pillars",
+      "Trusted Advisor: checks your account against best practices",
+      "AWS CloudFormation reads a template and builds a stack of resources, in the right order",
+      "a change set shows what will change before it happens",
+      "drift detection reveals manual changes",
+      "AWS Systems Manager manages fleets of servers through an agent",
+      "A terminal with no SSH port and no keys",
+      "Sending email, for transactions and marketing"
+    ],
+    "green": [
+      "Put CloudFront in front of your application",
+      "Add a gateway endpoint for S3 and DynamoDB",
+      "One NAT gateway per Availability Zone",
+      "Stop dev servers at night",
+      "An Auto Scaling group of one with a health check",
+      "RDS Proxy, which only needs a new endpoint",
+      "Batch jobs at any scale, on EC2 or Fargate, with no 15-minute limit like Lambda",
+      "Moving data from SaaS applications such as Salesforce into S3 or Redshift, with no code",
+      "A catalog of approved services, so teams deploy only what's allowed",
+      "A cluster placement group, with Enhanced Networking or EFA"
+    ],
+    "pink": [
+      "note that every public IPv4 address also has an hourly charge",
+      "tags only reach your cost reports once you activate them as cost allocation tags",
+      "The pillars pull against each other at times",
+      "with Developer and Business ending on January 1, 2027",
+      "deleting a stack deletes everything in it",
+      "reached its end of support on October 30, 2026"
+    ]
+  }
+}
