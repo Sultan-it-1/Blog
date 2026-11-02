@@ -110,7 +110,7 @@ tags: [aws, storage]
 - **Data Transfer Terminal**: مواقع فعلية تجيبها بأجهزة تخزينك، وتوصلها بشبكة AWS بسرعة عالية.
 
 ::: note ماذا عن Snowball؟
-ممكن تقرأ عن **AWS Snowball Edge**، وهي أجهزة ترسلها AWS، تعبيها، وترجعها لهم. بس الخدمة ما عادت متاحة للعملاء الجدد منذ نوفمبر 2025، وهي مستمرة لعملائها الحاليين. وللحوسبة في المواقع البعيدة، AWS توجّه لـ **Outposts**.
+ممكن تقرأ عن **AWS Snowball Edge**، وهي أجهزة ترسلها AWS، تعبيها، وترجعها لهم. بس الخدمة ما عادت متاحة للعملاء الجدد منذ نوفمبر 2025، و[أعلنت AWS](https://aws.amazon.com/snowball/) إنهاء دعمها في مناطقها التجارية يوم 31 ديسمبر 2026. وللحوسبة في المواقع البعيدة، AWS توجّه لـ **Outposts**.
 :::
 
 ## مقارنة خدمات التخزين
@@ -186,5 +186,93 @@ aws s3 rb s3://$DST --force
 - **Storage Gateway** يخلي مكتبك يشوف السحابة كتخزين عادي.
 - **DataSync** للمزامنة المجدولة، و**Transfer Family** لاستقبال SFTP.
 - احسب مدة النقل قبل ما تقرر، وSnowball ما عاد متاح للجدد.
+
+## اختبر نفسك
+
+::: quiz
+شركة تنقل تطبيق Windows يحفظ ملفاته في مجلد SMB مشترك، والمستخدمين يدخلون عبر Active Directory. وتبي خدمة مُدارة بدون سيرفرات ملفات تشغلها. وش يناسب؟
+
+- [x] FSx for Windows File Server
+- [ ] Amazon EFS
+- [ ] FSx for Lustre
+- [ ] Amazon S3
+
+هذا يعطي تطبيقات Windows مجلد SMB حقيقي مرتبط بـ Active Directory، وAWS تشغله لك.
+
+- **B:** EFS نظام ملفات مشترك لـ Linux، عبر NFS.
+- **C:** هذا للحوسبة عالية الأداء، ويشتغل مع أجهزة Linux فقط.
+- **D:** S3 توصل له عبر API، وهو مو مجلد يفتحه التطبيق عبر SMB.
+
+للمراجعة: [Amazon FSx: أنظمة ملفات جاهزة](#amazon-fsx-أنظمة-ملفات-جاهزة) في هذا الجزء، و[What is FSx for Windows File Server?](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html) في وثائق AWS.
+:::
+
+::: quiz
+فريق بحث يشغّل محاكاة ثلاثة أيام على مجموعة أجهزة Linux. تقرأ مدخلاتها من S3، وتحتاج سرعة نقل عالية جداً، وتحفظ نتائجها في S3، فلو تعطل نظام الملفات يعني بس إعادة تشغيل. أي خيار أقل تكلفة؟
+
+- [ ] FSx for Windows File Server
+- [ ] FSx for Lustre، بنظام ملفات Persistent
+- [x] FSx for Lustre، بنظام ملفات Scratch
+- [ ] Amazon EFS
+
+Lustre مبني لهذي السرعة ومتكامل مع S3، وScratch الخيار الرخيص للبيانات المؤقتة، لأن ما فيه شي هنا يعتمد على بقاء البيانات بعد العطل.
+
+- **A:** هذا لمجلدات SMB، مو لمجموعات Linux عالية الأداء.
+- **B:** هذا يناسب البيانات طويلة المدى، وبتدفع على نسخ ما يحتاجها الفريق.
+- **D:** هذا مجلد مشترك عام، وما هو مبني لهذا المستوى من الأداء.
+
+للمراجعة: [Amazon FSx: أنظمة ملفات جاهزة](#amazon-fsx-أنظمة-ملفات-جاهزة) في هذا الجزء، و[Deployment and storage class options for FSx for Lustre file systems](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html) في وثائق AWS.
+:::
+
+::: quiz
+برنامج النسخ الاحتياطي في مستشفى يكتب على أشرطة فعلية، والموظفين ملّوا من تخزينها وشحنها. والمستشفى يبي النسخ في AWS، بدون تغيير برنامج النسخ. وش يناسب؟
+
+- [ ] S3 File Gateway
+- [x] Tape Gateway
+- [ ] Volume Gateway
+- [ ] Transfer Family
+
+هذا يعرض مكتبة أشرطة افتراضية لبرنامج النسخ، والبيانات تروح لـ S3 ثم Glacier.
+
+- **A:** هذا يعرض للتطبيقات مجلد NFS أو SMB، وهذا البرنامج يكتب على أشرطة.
+- **C:** هذا يعرض للسيرفرات قرص iSCSI، مو مكتبة أشرطة.
+- **D:** هذا يستقبل ملفات عبر بروتوكولات مثل SFTP، وبرنامج الأشرطة ما يستخدمها.
+
+للمراجعة: [Storage Gateway: مكتبك والسحابة](#storage-gateway-مكتبك-والسحابة) في هذا الجزء، و[What is Tape Gateway?](https://docs.aws.amazon.com/storagegateway/latest/tgw/WhatIsStorageGateway.html) في وثائق AWS.
+:::
+
+::: quiz
+عميل جديد في AWS عنده 100 تيرابايت على أجهزة تخزين خاصة فيه، ولازم توصل S3 خلال أسبوعين. وخطه الوحيد سرعته 100 ميجابت. وش يناسب؟
+
+- [ ] DataSync عبر الخط الحالي
+- [ ] أجهزة Snowball Edge ترسلها AWS
+- [ ] خط Direct Connect جديد
+- [x] Data Transfer Terminal
+
+الفريق ياخذ أجهزة تخزينه لموقع فعلي من AWS فيه اتصال عالي السرعة، ويرفع من هناك، فما يعود الخط البطيء مشكلة.
+
+- **A:** بالسرعة الكاملة، 100 تيرابايت على هذا الخط تاخذ حوالي 93 يوم.
+- **B:** هذا مقفل على العملاء الجدد.
+- **C:** تجهيزه ياخذ أسابيع وأحياناً أشهر، فممكن يفوت الموعد.
+
+للمراجعة: [لما تكون البيانات أضخم من الإنترنت](#لما-تكون-البيانات-أضخم-من-الإنترنت) في هذا الجزء، و[What is Data Transfer Terminal?](https://docs.aws.amazon.com/datatransferterminal/latest/userguide/what-is-dtt.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تترك مركز بياناتها. وسيرفر NFS حقها بحجم 30 تيرابايت لازم ينسخ إلى AWS ويبقى متزامن لين الانتقال، وشركاؤها يرسلون ملفات يومية عبر SFTP وما يقدرون يغيرون طريقتهم. أي **خدمتين** تناسب؟ (اختر اثنين.)
+
+- [ ] Tape Gateway
+- [x] DataSync
+- [ ] FSx for Lustre
+- [ ] Volume Gateway
+- [x] Transfer Family
+
+DataSync ينسخ بيانات NFS، وفي كل تشغيل بعدها ينقل اللي تغيّر فقط. وTransfer Family يعطي الشركاء نقطة SFTP مُدارة، وملفاتهم تروح لـ S3 أو EFS.
+
+- **A:** هذا لبرامج النسخ الاحتياطي اللي تكتب على أشرطة.
+- **C:** هذا نظام ملفات عالي الأداء، وما ينقل البيانات من مركز البيانات.
+- **D:** هذا يعرض قرص iSCSI لسيرفرات الموقع، والشركة تترك موقعها.
+
+للمراجعة: [DataSync](#datasync) و[Transfer Family](#transfer-family) في هذا الجزء، و[How AWS DataSync works](https://docs.aws.amazon.com/datasync/latest/userguide/how-datasync-transfer-works.html) و[What is AWS Transfer Family?](https://docs.aws.amazon.com/transfer/latest/userguide/what-is-aws-transfer-family.html) في وثائق AWS.
+:::
 
 بهذا نكمل قسم التخزين. عندك الحين تطبيق قوي بقاعدة بيانات وشبكة وتخزين، بس كل أجزائه مربوطة ببعض مباشرة. في [**الجزء التاسع عشر**](/posts/aws-19-sqs-sns-kinesis/) نبدأ قسم التطبيقات الحديثة، ونفصل بينها بـ SQS وSNS وKinesis.

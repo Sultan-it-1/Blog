@@ -205,4 +205,92 @@ aws s3 cp s3://$BUCKET/index.html -
 - **الإصدارات** تحميك من الحذف والكتابة بالغلط، و**النسخ** ينقل الكائنات لحاوية ثانية.
 - لموقع ثابت في الإنتاج: حاوية خاصة مع CloudFront.
 
+## اختبر نفسك
+
+::: quiz
+وكالة تصميم تحفظ ملفات عملائها في S3. والأسبوع اللي فات حذف موظف ملفات بالغلط، وسكربت كتب فوق ملفات ثانية. والوكالة تبي تقدر ترجّع النوعين من الحين وطالع، **بأقل جهد**. وش تفعّل؟
+
+- [ ] Block Public Access
+- [ ] Same-Region Replication
+- [x] Versioning
+- [ ] Transfer Acceleration
+
+مع الإصدارات، الحذف يضيف علامة بس، والكتابة فوق الملف تنشئ إصدار جديد، فتبقى البيانات القديمة وتقدر ترجع لها.
+
+- **A:** هذا يمنع الوصول العام، وما يسوي شي مع الحذف أو الكتابة فوق الملفات.
+- **B:** هذا يحتاج الإصدارات أصلاً، ويضيف حاوية ثانية تدفع عليها.
+- **D:** هذا يسرّع الرفع للمسافات الطويلة، وما يحتفظ بنسخ قديمة.
+
+للمراجعة: [الإصدارات (Versioning)](#الإصدارات-versioning) في هذا الجزء، و[Retaining multiple versions of objects with S3 Versioning](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة تحفظ موقعها التسويقي في S3. وتبيه يشتغل بـ HTTPS على نطاقها، والحاوية تبقى خاصة. وش يناسب؟
+
+- [x] حاوية خاصة، قدامها CloudFront وOAC
+- [ ] Static website hosting، مع حاوية عامة
+- [ ] Static website hosting، مع إبقاء Block Public Access شغال
+- [ ] سيرفر EC2 ينسخ الملفات من S3 ويقدمها
+
+CloudFront يعطيك HTTPS على نطاقك، وOAC يخلي CloudFront وحده يقرأ من الحاوية، فتبقى مقفلة.
+
+- **B:** رابط الموقع يشتغل بـ HTTP فقط، ولازم تكون الحاوية عامة.
+- **C:** رابط الموقع يحتاج كائنات عامة، فمع القفل يطلع للزوار `403`.
+- **D:** هذا يضيف سيرفر تشغله وتحدّثه، لموقع ما يحتاج سيرفر.
+
+للمراجعة: [استضافة موقع ثابت](#استضافة-موقع-ثابت) في هذا الجزء، و[Website endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html) في وثائق AWS.
+:::
+
+::: quiz
+استوديو أفلام يرفع ملفات فيديو حجمها 40 جيجابايت إلى S3 عبر اتصال غير مستقر. والرفع يفشل كثير قرب النهاية ويبدأ من جديد. وش يحل هذا؟
+
+- [ ] Byte-range fetches
+- [ ] Transfer Acceleration لحاله
+- [ ] Versioning على الحاوية
+- [x] Multipart upload
+
+Multipart upload يرفع الملف أجزاء بالتوازي، ولو فشل جزء تعيده هو بس. وهو كمان إلزامي لأي ملف فوق 5 جيجابايت.
+
+- **A:** هذي لتحميل جزء من ملف، مو للرفع.
+- **B:** هذا يختصر الطريق للمسافات الطويلة، بس الرفع الفاشل لسا يبدأ من جديد.
+- **C:** هذا يحتفظ بالإصدارات القديمة، وما يساعد الرفع يكتمل.
+
+للمراجعة: [الأداء](#الأداء) في هذا الجزء، و[Uploading and copying objects using multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html) في وثائق AWS.
+:::
+
+::: quiz
+جهة تنظيمية تطلب من شركة تحتفظ بنسخة من حاوية سجلاتها في Region ثانية، بما فيها الملفات الموجودة حالياً. والإصدارات شغالة في الطرفين. وش تجهز؟
+
+- [ ] Cross-Region Replication لحاله
+- [x] Cross-Region Replication، مع Batch Replication للملفات الموجودة
+- [ ] Same-Region Replication، مع Batch Replication
+- [ ] قاعدة Lifecycle تنقل الملفات إلى الـ Region الثانية
+
+قاعدة النسخ تنسخ الكائنات الجديدة فقط، فالموجودة تحتاج Batch Replication. والاثنين مع بعض يعطونك نسخة كاملة في الـ Region الثانية تبقى محدثة.
+
+- **A:** هذا ينسخ الكائنات اللي انكتبت بعد القاعدة فقط.
+- **C:** هذا يبقي النسخة في نفس الـ Region، وهذا ما يحقق المطلوب.
+- **D:** قواعد Lifecycle تغير فئة الملف أو تحذفه، وما تنقله بين Regions.
+
+للمراجعة: [النسخ بين الحاويات (Replication)](#النسخ-بين-الحاويات-replication) في هذا الجزء، و[Replicating objects within and across Regions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html) في وثائق AWS.
+:::
+
+::: quiz
+سيرفر EC2 لازم يقرأ من حاوية خاصة، وفريق تحليل في حساب AWS ثاني لازم يقرأ منها كمان. وBlock Public Access لازم يبقى شغال. أي **خطوتين** تناسب؟ (اختر اثنين.)
+
+- [x] إعطاء السيرفر دور IAM بصلاحية قراءة
+- [ ] حفظ مفاتيح وصول مستخدم في ملف على السيرفر
+- [ ] جعل الحاوية مقروءة للعامة
+- [x] إضافة سياسة حاوية تسمح للحساب الثاني
+- [ ] نسخ الكائنات إلى قرص EBS يتشاركه الفريق
+
+الدور يعطي السيرفر صلاحيات مؤقتة بدون مفاتيح تحفظها، وسياسة الحاوية هي طريقتك تدخّل فيها حساب ثاني. وما فيهم شي يخلي البيانات عامة.
+
+- **B:** المفاتيح في ملف ممكن تتسرب، والدور يغنيك عنها تماماً.
+- **C:** هذا يكشف البيانات للكل، والقفل بيمنعه أصلاً.
+- **E:** هذا يزيد نسخ لازم تديرها، والقرص مو طريقة حساب ثاني يقرأ بياناتك.
+
+للمراجعة: [مين يقدر يوصل؟](#مين-يقدر-يوصل) في هذا الجزء، و[Example 2: Bucket owner granting cross-account bucket permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-walkthroughs-managing-access-example2.html) و[Use an IAM role to grant permissions to applications running on Amazon EC2 instances](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html) في وثائق AWS.
+:::
+
 بس هل كل ملف يستاهل نفس السعر؟ ملف ما ينفتح من سنتين لازم ما يكلفك مثل صورة تنطلب كل ثانية. في [**الجزء السادس عشر**](/posts/aws-16-s3-classes-lifecycle/) نوفر كثير بفئات التخزين ودورة الحياة.

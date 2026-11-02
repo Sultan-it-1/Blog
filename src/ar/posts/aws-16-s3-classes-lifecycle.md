@@ -199,4 +199,92 @@ aws s3api head-object --bucket $BUCKET --key archive/old.txt \
 - **Lifecycle** تنقل الملفات وتحذفها تلقائياً، وأضف قاعدة للرفعات الناقصة دايماً.
 - **Storage Lens وStorage Class Analysis** تقرر بأرقام، مو بالتخمين.
 
+## اختبر نفسك
+
+::: quiz
+شركة ناشئة تطلق منصة بيانات جديدة. بعض الملفات ممكن تبقى أشهر ما أحد يلمسها وبعدين تنقرأ كثير، وما أحد يقدر يتوقع أيها. وتبي تخفض تكلفة التخزين، بدون رسوم استرجاع وبدون قواعد تديرها. أي فئة تناسب؟
+
+- [ ] Standard-IA
+- [ ] One Zone-IA
+- [ ] Glacier Flexible Retrieval
+- [x] Intelligent-Tiering
+
+تراقب استخدام كل ملف وتنقله بين الطبقات لحالها، مقابل رسم مراقبة بسيط وبدون رسوم استرجاع.
+
+- **A:** هذي فيها رسم على كل استرجاع، فالملف اللي ينقرأ كثير ممكن تصير تكلفته أعلى.
+- **B:** هذي فيها رسم استرجاع كمان، وتحفظ البيانات في منطقة توفر وحدة.
+- **C:** الملفات هنا تحتاج استرجاع قبل القراءة، وممكن ياخذ ساعات.
+
+للمراجعة: [Intelligent-Tiering: لو ما تعرف](#intelligent-tiering-لو-ما-تعرف) في هذا الجزء، و[Managing storage costs with Amazon S3 Intelligent-Tiering](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering.html) في وثائق AWS.
+:::
+
+::: quiz
+خدمة فيديو تحتفظ بنسخ منخفضة الدقة من أفلامها، وتقدر تعيد إنتاجها من الأصول في أي وقت. وكل نسخة تنقرأ مرة في الشهر تقريباً، ولازم تفتح فوراً. أي فئة أقل تكلفة وتحقق هذا؟
+
+- [ ] Standard
+- [x] One Zone-IA
+- [ ] Glacier Deep Archive
+- [ ] Glacier Flexible Retrieval
+
+النسخ ممكن تنعاد، فخسارتها مع منطقة توفر مو كارثة، وما تحتاج تدفع على ثلاث مناطق. والاسترجاع يبقى فوري.
+
+- **A:** هذي تنفع، بس بسعر أعلى على حماية هذي البيانات ما تحتاجها.
+- **C:** الاسترجاع هنا ياخذ من 12 إلى 48 ساعة.
+- **D:** الملفات هنا تحتاج استرجاع قبل القراءة، ياخذ من دقايق لساعات.
+
+للمراجعة: [الفئات](#الفئات) في هذا الجزء، و[Understanding and managing Amazon S3 storage classes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) في وثائق AWS.
+:::
+
+::: quiz
+سجلات تطبيق شركة لازم تبقى مقروءة فوراً 30 يوم، ثم تتأرشف بسعر رخيص سنة، ثم تنحذف. والفريق ما يبي أي سكربتات يشغلها. وش يناسب؟
+
+- [x] قاعدة Lifecycle على بادئة `logs/`، فيها Transition وExpiration
+- [ ] دالة Lambda مجدولة تنقل الملفات وتحذفها
+- [ ] Storage Lens، بمقاييسه المتقدمة
+- [ ] Cross-Region Replication إلى Region أرخص
+
+قاعدة Lifecycle تنقل الملفات لفئة أرخص عند العمر اللي تحدده، وتحذفها بعدين، بدون أي شي تشغله أنت.
+
+- **B:** هذا ينفع، بس هو كود لازم تكتبه وتصونه.
+- **C:** هذا يعرض لك أرقام، وما ينقل ولا يحذف شي.
+- **D:** هذا يزيد النسخ، وما يأرشف الأصول ولا يحذفها.
+
+للمراجعة: [دورة الحياة (Lifecycle)](#دورة-الحياة-lifecycle) في هذا الجزء، و[Managing the lifecycle of objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html) في وثائق AWS.
+:::
+
+::: quiz
+سكربت مدقق يحاول يقرأ ملف حجمه 20 ميجابايت محفوظ في Glacier Flexible Retrieval، ويطلع له خطأ `InvalidObjectState`. والمدقق يحتاج الملف خلال 10 دقايق. وش يسوي الفريق؟
+
+- [ ] إعطاء دور السكربت صلاحية `s3:GetObject`
+- [ ] طلب استرجاع بخيار Bulk
+- [x] طلب استرجاع بخيار Expedited
+- [ ] إضافة قاعدة Lifecycle ترجّع الملف إلى Standard
+
+في هذي الفئة لازم ينسترجع الملف قبل ما ينقرأ، وExpedited عادةً يجهز ملف بهذا الحجم خلال 1 إلى 5 دقايق.
+
+- **A:** الصلاحية الناقصة ترجّع `AccessDenied`، مو هذا الخطأ.
+- **B:** هذا أرخص خيار، بس ياخذ من 5 إلى 12 ساعة.
+- **D:** نقل Lifecycle ينزل مع الدرج بس، وما يرجع أبداً إلى Standard.
+
+للمراجعة: [Glacier Flexible و Deep Archive: طلب قبل القراءة](#glacier-flexible-و-deep-archive-طلب-قبل-القراءة) في هذا الجزء، و[Understanding archive retrieval options](https://docs.aws.amazon.com/AmazonS3/latest/userguide/restoring-objects-retrieval-options.html) في وثائق AWS.
+:::
+
+::: quiz
+عشان يوفر، رفع فريق ملايين الصور بحجم 10 كيلوبايت إلى Standard-IA. والتطبيق يقرأها طول اليوم، والفاتورة زادت. أي **سببين** يفسرون هذا؟ (اختر اثنين.)
+
+- [ ] Standard-IA فيها رسم مراقبة لكل كائن
+- [x] كل كائن ينحسب 128 كيلوبايت على الأقل
+- [x] كل قراءة عليها رسم استرجاع
+- [ ] Standard-IA سعر الجيجابايت فيها أعلى من Standard
+- [ ] Standard-IA تحفظ نسخة زيادة في منطقة توفر رابعة
+
+الصورة بحجم 10 كيلوبايت تنحسب 128 كيلوبايت في هذي الفئة، وسعر التخزين المنخفض ما يفيد إلا مع البيانات اللي نادراً تنقرأ. وبيانات بهذا الصغر وهذا الاستخدام مكانها Standard.
+
+- **A:** رسم المراقبة حق Intelligent-Tiering.
+- **D:** سعر الجيجابايت فيها أقل، وعشان كذا تبدو مغرية.
+- **E:** تستخدم ثلاث مناطق أو أكثر زي Standard، فالتكلفة الزيادة مو من هنا.
+
+للمراجعة: [الفئات](#الفئات) في هذا الجزء، و[Understanding and managing Amazon S3 storage classes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) في وثائق AWS.
+:::
+
 بياناتك الحين في المكان المناسب بالسعر المناسب، بس مين يقدر يوصل لها؟ في [**الجزء السابع عشر**](/posts/aws-17-s3-security/) نغطي التشفير والروابط الموقّعة والقفل ضد الحذف.

@@ -199,4 +199,92 @@ The files are tiny, so they cost less than a cent, even with Glacier's minimum p
 - **Lifecycle** rules move and delete files automatically, and always add a rule for incomplete uploads.
 - **Storage Lens and Storage Class Analysis** let you decide with numbers, not guesses.
 
+## Test yourself
+
+::: quiz
+A startup is launching a new data platform. Some files may sit untouched for months and then be read heavily, and nobody can predict which. It wants lower storage costs, with no retrieval fees and no rules to maintain. Which class fits?
+
+- [ ] Standard-IA
+- [ ] One Zone-IA
+- [ ] Glacier Flexible Retrieval
+- [x] Intelligent-Tiering
+
+It watches each file's use and moves it between tiers by itself, for a small monitoring fee and with no retrieval fees.
+
+- **A:** This charges for every retrieval, so a heavily read file can end up costing more.
+- **B:** This also charges for retrieval, and keeps data in a single Availability Zone.
+- **C:** Files here need a restore before reading, which can take hours.
+
+Review: [Intelligent-Tiering: when you don't know](#intelligent-tiering-when-you-dont-know) in this part, and [Managing storage costs with Amazon S3 Intelligent-Tiering](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering.html) in the AWS docs.
+:::
+
+::: quiz
+A video service keeps low-resolution copies of its films, which it can regenerate from the originals at any time. Each is read about once a month and must open instantly. Which class costs the least while meeting this?
+
+- [ ] Standard
+- [x] One Zone-IA
+- [ ] Glacier Deep Archive
+- [ ] Glacier Flexible Retrieval
+
+The copies can be regenerated, so losing them with a zone isn't a disaster, and there's no need to pay for three zones. Retrieval stays instant.
+
+- **A:** This works, but at a higher price for protection this data doesn't need.
+- **C:** A restore here takes 12 to 48 hours.
+- **D:** Files here need a restore before reading, which takes minutes to hours.
+
+Review: [The classes](#the-classes) in this part, and [Understanding and managing Amazon S3 storage classes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) in the AWS docs.
+:::
+
+::: quiz
+A company's application logs must stay instantly readable for 30 days, then be archived cheaply for a year, then be removed. The team doesn't want any scripts to run. What fits?
+
+- [x] A lifecycle rule on the `logs/` prefix, with a transition and an expiration
+- [ ] A scheduled Lambda function that moves and deletes the files
+- [ ] Storage Lens, with its advanced metrics
+- [ ] Cross-Region Replication to a cheaper Region
+
+A lifecycle rule moves files to a cheaper class at the age you set and deletes them later, with nothing for you to run.
+
+- **B:** This works, but it's code you have to write and maintain.
+- **C:** This shows you numbers, and doesn't move or delete anything.
+- **D:** This makes more copies, and neither archives nor removes the originals.
+
+Review: [Lifecycle](#lifecycle) in this part, and [Managing the lifecycle of objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html) in the AWS docs.
+:::
+
+::: quiz
+An auditor's script tries to read a 20 MB file stored in Glacier Flexible Retrieval, and gets an `InvalidObjectState` error. The auditor needs the file within 10 minutes. What should the team do?
+
+- [ ] Give the script's role the `s3:GetObject` permission
+- [ ] Request a restore with the Bulk option
+- [x] Request a restore with the Expedited option
+- [ ] Add a lifecycle rule moving the file back to Standard
+
+In this class a file has to be restored before it can be read, and Expedited typically makes a file this size available in 1 to 5 minutes.
+
+- **A:** A missing permission returns `AccessDenied`, not this error.
+- **B:** This is the cheapest option, but it takes 5 to 12 hours.
+- **D:** Lifecycle moves only go down the stairs, never back up to Standard.
+
+Review: [Glacier Flexible and Deep Archive: request before reading](#glacier-flexible-and-deep-archive-request-before-reading) in this part, and [Understanding archive retrieval options](https://docs.aws.amazon.com/AmazonS3/latest/userguide/restoring-objects-retrieval-options.html) in the AWS docs.
+:::
+
+::: quiz
+To save money, a team uploaded millions of 10 KB images to Standard-IA. The application reads them all day, and the bill went up. Which **two** reasons explain this? (Choose two.)
+
+- [ ] Standard-IA charges a monitoring fee per object
+- [x] Each object is billed as at least 128 KB
+- [x] Every read carries a retrieval fee
+- [ ] Standard-IA costs more per gigabyte than Standard
+- [ ] Standard-IA stores an extra copy in a fourth Availability Zone
+
+A 10 KB image is billed as 128 KB in this class, and its low storage price only pays off for data that's rarely read. Data this small and this busy belongs in Standard.
+
+- **A:** The monitoring fee belongs to Intelligent-Tiering.
+- **D:** It costs less per gigabyte, which is why it looks attractive.
+- **E:** It uses three or more zones just like Standard, so the extra cost doesn't come from there.
+
+Review: [The classes](#the-classes) in this part, and [Understanding and managing Amazon S3 storage classes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) in the AWS docs.
+:::
+
 Your data is now in the right place at the right price, but who can reach it? In [**part seventeen**](/en/posts/aws-17-s3-security/) we cover encryption, signed links and locks against deletion.

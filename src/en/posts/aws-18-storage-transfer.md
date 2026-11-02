@@ -110,7 +110,7 @@ You have these options for large amounts:
 - **Data Transfer Terminal:** physical sites you visit with your own storage devices, connecting them to AWS's network at high speed.
 
 ::: note What about Snowball?
-You may read about **AWS Snowball Edge**, devices AWS ships to you to fill and send back. But the service has been closed to new customers since November 2025, and continues only for existing ones. For computing at remote sites, AWS points to **Outposts**.
+You may read about **AWS Snowball Edge**, devices AWS ships to you to fill and send back. But the service has been closed to new customers since November 2025, and [AWS has announced](https://aws.amazon.com/snowball/) the end of support in its commercial Regions on December 31, 2026. For computing at remote sites, AWS points to **Outposts**.
 :::
 
 ## Comparing storage services
@@ -186,5 +186,93 @@ aws s3 rb s3://$DST --force
 - **Storage Gateway** lets your office see the cloud as ordinary storage.
 - **DataSync** is for scheduled sync, and **Transfer Family** for receiving over SFTP.
 - Work out the transfer time before deciding, and note that Snowball is closed to new customers.
+
+## Test yourself
+
+::: quiz
+A company is moving a Windows application that keeps its files on a shared SMB folder, with users signing in through Active Directory. It wants a managed service with no file servers to run. What fits?
+
+- [x] FSx for Windows File Server
+- [ ] Amazon EFS
+- [ ] FSx for Lustre
+- [ ] Amazon S3
+
+This gives Windows applications a real SMB file share tied into Active Directory, and AWS runs it for you.
+
+- **B:** EFS is a shared file system for Linux, over NFS.
+- **C:** This is for high-performance computing, and works with Linux devices only.
+- **D:** S3 is reached through an API, and isn't a folder an application can open over SMB.
+
+Review: [Amazon FSx: ready-made file systems](#amazon-fsx-ready-made-file-systems) in this part, and [What is FSx for Windows File Server?](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html) in the AWS docs.
+:::
+
+::: quiz
+A research team runs a three-day simulation on a Linux cluster. It reads its input from S3, needs very high throughput, and saves its results back to S3, so a failed file system would only mean a re-run. Which option costs the least?
+
+- [ ] FSx for Windows File Server
+- [ ] FSx for Lustre, with a Persistent file system
+- [x] FSx for Lustre, with a Scratch file system
+- [ ] Amazon EFS
+
+Lustre is built for this speed and integrates with S3, and Scratch is the cheap option for temporary data, since nothing here depends on the data surviving a failure.
+
+- **A:** This is for SMB file shares, not high-performance Linux clusters.
+- **B:** This suits long-term data, and you'd pay for copies the team doesn't need.
+- **D:** This is a general shared folder, and isn't built for this level of performance.
+
+Review: [Amazon FSx: ready-made file systems](#amazon-fsx-ready-made-file-systems) in this part, and [Deployment and storage class options for FSx for Lustre file systems](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html) in the AWS docs.
+:::
+
+::: quiz
+A hospital's backup software writes to physical tapes, and staff are tired of storing and shipping them. It wants the backups in AWS, without changing the backup software. What fits?
+
+- [ ] S3 File Gateway
+- [x] Tape Gateway
+- [ ] Volume Gateway
+- [ ] Transfer Family
+
+This presents a virtual tape library to the backup software, and the data goes to S3 and then Glacier.
+
+- **A:** This shows applications an NFS or SMB folder, while this software writes to tape.
+- **C:** This shows servers an iSCSI disk, not a tape library.
+- **D:** This receives files over protocols such as SFTP, which tape-based software doesn't use.
+
+Review: [Storage Gateway: your office and the cloud](#storage-gateway-your-office-and-the-cloud) in this part, and [What is Tape Gateway?](https://docs.aws.amazon.com/storagegateway/latest/tgw/WhatIsStorageGateway.html) in the AWS docs.
+:::
+
+::: quiz
+A new AWS customer has 100 TB on its own storage devices, which must be in S3 within two weeks. Its only line runs at 100 Mbps. What fits?
+
+- [ ] DataSync over the current line
+- [ ] Snowball Edge devices shipped by AWS
+- [ ] A new Direct Connect line
+- [x] Data Transfer Terminal
+
+The team takes its own storage devices to a physical AWS site with a high-speed connection and uploads from there, so the slow line no longer matters.
+
+- **A:** At full speed, 100 TB over this line takes about 93 days.
+- **B:** This is closed to new customers.
+- **C:** Setting it up takes weeks and sometimes months, so it could miss the deadline.
+
+Review: [When your data outgrows the internet](#when-your-data-outgrows-the-internet) in this part, and [What is Data Transfer Terminal?](https://docs.aws.amazon.com/datatransferterminal/latest/userguide/what-is-dtt.html) in the AWS docs.
+:::
+
+::: quiz
+A company is leaving its data center. Its 30 TB NFS server must be copied to AWS and kept in sync until the cutover, and its partners send daily files over SFTP and can't change how they do it. Which **two** services fit? (Choose two.)
+
+- [ ] Tape Gateway
+- [x] DataSync
+- [ ] FSx for Lustre
+- [ ] Volume Gateway
+- [x] Transfer Family
+
+DataSync copies the NFS data, and on each later run moves only what changed. Transfer Family gives partners a managed SFTP endpoint, with their files going to S3 or EFS.
+
+- **A:** This is for backup software that writes to tape.
+- **C:** This is a high-performance file system, and doesn't move data out of a data center.
+- **D:** This shows on-site servers an iSCSI disk, and the company is leaving its site.
+
+Review: [DataSync](#datasync) and [Transfer Family](#transfer-family) in this part, and [How AWS DataSync works](https://docs.aws.amazon.com/datasync/latest/userguide/how-datasync-transfer-works.html) and [What is AWS Transfer Family?](https://docs.aws.amazon.com/transfer/latest/userguide/what-is-aws-transfer-family.html) in the AWS docs.
+:::
 
 That completes the storage section. You now have a strong application with a database, a network and storage, but its pieces are all wired directly together. In [**part nineteen**](/en/posts/aws-19-sqs-sns-kinesis/) we start the modern applications section, separating them with SQS, SNS and Kinesis.

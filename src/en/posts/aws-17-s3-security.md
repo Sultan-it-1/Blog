@@ -202,4 +202,92 @@ We no longer need this bucket. From the S3 page select it and choose **Empty**, 
 - **CORS** comes from the browser, and you solve it in the bucket's settings.
 - **Object Lock** protects you from deletion, even from root in Compliance mode.
 
+## Test yourself
+
+::: quiz
+A role has `s3:GetObject` on a bucket. It can read objects encrypted with SSE-S3, but gets `AccessDenied` on those encrypted with SSE-KMS and a customer managed key. What's missing?
+
+- [ ] S3 Bucket Keys on the bucket
+- [x] The `kms:Decrypt` permission on that key
+- [ ] A CORS rule on the bucket
+- [ ] The `aws:SecureTransport` condition
+
+Reading an SSE-KMS object needs permission on S3 and on the KMS key together, which is why this error appears even when the S3 policy is right.
+
+- **A:** These lower the number of KMS requests and the cost, and don't grant any permission.
+- **C:** CORS is a browser rule, and has nothing to do with a role's permissions.
+- **D:** This enforces HTTPS, and it denies rather than grants.
+
+Review: [Watch out with SSE-KMS](#watch-out-with-sse-kms) in this part, and [Using server-side encryption with AWS KMS keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html) in the AWS docs.
+:::
+
+::: quiz
+An online store wants each customer to download their invoice from a private bucket, using a link that stops working after 15 minutes. Customers have no AWS accounts. What fits?
+
+- [ ] A bucket policy allowing public reads on `invoices/*`
+- [ ] An IAM user for each customer
+- [ ] A CORS rule allowing the store's domain
+- [x] A pre-signed URL created by the store's backend
+
+A pre-signed URL carries a signature and an expiry and works with the signer's permissions, so the bucket stays private.
+
+- **A:** Anyone could read any invoice this way, at any time.
+- **B:** Creating and managing users for customers is heavy, and there's no need for it.
+- **C:** This is a browser permission between sites, and doesn't open private files to anyone.
+
+Review: [Sharing a private file: signed links](#sharing-a-private-file-signed-links) in this part, and [Download and upload objects with presigned URLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html) in the AWS docs.
+:::
+
+::: quiz
+A page at `https://app.example.com` loads JSON from a bucket using JavaScript. The browser console shows a CORS error, yet the same request from `curl` succeeds. What should the team do?
+
+- [x] Add a CORS rule on the bucket allowing that origin
+- [ ] Turn off Block Public Access
+- [ ] Encrypt the file with SSE-KMS
+- [ ] Turn on versioning
+
+CORS is a browser protection. The browser asks the bucket whether this origin is allowed, while `curl` doesn't ask, which is why only the browser complained.
+
+- **B:** The request already succeeds from `curl`, so access isn't the problem.
+- **C:** Encryption has nothing to do with the origins a browser accepts.
+- **D:** This keeps old versions, and changes nothing the browser checks.
+
+Review: [CORS: when the browser stops you](#cors-when-the-browser-stops-you) in this part, and [Using cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/cors.html) in the AWS docs.
+:::
+
+::: quiz
+A bank must keep records for seven years in a way that nobody can delete them during that time, not even the root user. What fits?
+
+- [ ] MFA Delete
+- [ ] Object Lock in Governance mode
+- [x] Object Lock in Compliance mode
+- [ ] A bucket policy denying `s3:DeleteObject`
+
+In Compliance mode, no user can delete or overwrite a locked version until its period ends, including the root user, and the period can't be shortened.
+
+- **A:** This only asks for an MFA code, so the root user holding that device can still delete.
+- **B:** Users with a special permission can still delete in this mode.
+- **D:** Someone with enough permissions can simply change the policy.
+
+Review: [Object Lock modes](#object-lock-modes) in this part, and [Locking objects with Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html) in the AWS docs.
+:::
+
+::: quiz
+An audit sets two requirements for a bucket: requests must only be accepted over HTTPS, and there must be a record of every use of the encryption key. Which **two** changes meet these? (Choose two.)
+
+- [ ] Keep Block Public Access on
+- [ ] Set default encryption to SSE-S3
+- [x] Add a bucket policy denying requests when `aws:SecureTransport` is false
+- [ ] Turn on Object Lock
+- [x] Set default encryption to SSE-KMS
+
+The policy rejects any unencrypted request, and with SSE-KMS you can audit the use of the key in CloudTrail.
+
+- **A:** This stops public access, and doesn't look at HTTP or HTTPS.
+- **B:** S3 holds the key entirely here, so you get no record of each use.
+- **D:** This protects against deletion, and meets neither requirement.
+
+Review: [Encryption at rest](#encryption-at-rest) and [Encryption in transit](#encryption-in-transit) in this part, and [Security best practices for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html) and [Using server-side encryption with AWS KMS keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html) in the AWS docs.
+:::
+
 S3 isn't the only option. What if you have a Windows system, an office wanting to reach cloud storage, or millions of files to move? In [**part eighteen**](/en/posts/aws-18-storage-transfer/) we cover the remaining storage and transfer services.
