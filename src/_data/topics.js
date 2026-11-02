@@ -16,6 +16,11 @@ export default {
     ar: { name: "EC2", description: "إنشاء الخوادم الافتراضية وإدارتها على AWS." },
     en: { name: "EC2", description: "Launching and managing virtual servers on AWS." },
   },
+  iam: {
+    icon: "user",
+    ar: { name: "IAM", description: "إدارة المستخدمين والمجموعات والصلاحيات في AWS." },
+    en: { name: "IAM", description: "Managing users, groups and permissions on AWS." },
+  },
   linux: {
     icon: "terminal",
     ar: { name: "لينكس", description: "أوامر وإعدادات خوادم Linux من الصفر." },

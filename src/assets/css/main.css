@@ -1449,6 +1449,7 @@
         font-size: 1.0625rem;
         line-height: 1.9;
         counter-reset: section;
+        overflow-wrap: break-word;
     }
 
     :lang(en) .prose {
@@ -1585,6 +1586,8 @@
         font-size: 0.86em;
         direction: ltr;
         unicode-bidi: isolate;
+        /* Long URLs and paths wrap instead of widening the page on phones. */
+        overflow-wrap: anywhere;
     }
 
     .prose blockquote {

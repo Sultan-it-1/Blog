@@ -12,7 +12,7 @@ import { renderIcon } from "./src/_includes/icons.js";
 
 const POSTS_GLOB = "src/*/posts/*.md";
 
-const byDateDesc = (a, b) => b.date - a.date;
+const byDateDesc = (a, b) => b.date - a.date || (b.data.part || 0) - (a.data.part || 0);
 const getPath = (obj, path) => path.split(".").reduce((value, key) => value?.[key], obj);
 const escapeAttr = (value) => String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 

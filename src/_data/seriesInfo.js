@@ -9,7 +9,6 @@ export default {
       description:
         "سلسلة مرتّبة تمشي معك خطوة بخطوة في أساسيات Amazon Web Services: من البنية العالمية والصلاحيات، إلى الخوادم والتخزين والشبكات. كل جزء يبني على اللي قبله.",
       upcoming: [
-        "الهوية والصلاحيات (IAM)",
         "الخوادم الافتراضية (EC2)",
         "تخزين الخوادم (EBS وEFS)",
         "توزيع الحمل والتوسّع التلقائي",
@@ -23,7 +22,6 @@ export default {
       description:
         "An ordered series that walks you through the fundamentals of Amazon Web Services: from the global infrastructure and permissions to servers, storage and networking. Each part builds on the one before.",
       upcoming: [
-        "Identity and permissions (IAM)",
         "Virtual servers (EC2)",
         "Server storage (EBS and EFS)",
         "Load balancing and auto scaling",

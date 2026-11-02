@@ -196,4 +196,4 @@ AWS gives new accounts limited free usage, but the terms change over time. Check
 
 If you want to see these ideas in practice, there's a hands-on guide: [How to create a server on AWS](/en/posts/aws/).
 
-In **part two** we'll get into identity and permissions (IAM): users, groups and policies, and how to actually secure your account.
+In [**part two**](/en/posts/aws-02-iam/) we get into identity and permissions (IAM): users, groups and policies, and how to actually secure your account.
