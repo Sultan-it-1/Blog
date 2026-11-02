@@ -291,4 +291,92 @@ These calls create no resources, and they cost a small fraction of a cent. But n
 - **Knowledge Bases** answers from your documents without training a model, and it's the alternative to Kendra.
 - Connecting these services with events is where the real value is.
 
+## Test yourself
+
+::: quiz
+An insurer receives thousands of scanned claim forms in English. It wants each form's fields, values and tables in its database, with no model to train. Which service fits?
+
+- [ ] Amazon Rekognition
+- [x] Amazon Textract
+- [ ] Amazon Comprehend
+- [ ] Amazon Transcribe
+
+Textract understands a document's structure, so it returns forms as field-and-value pairs, and tables as rows and columns.
+
+- **A:** This can read words in an image, but it doesn't understand forms and tables.
+- **C:** This extracts meaning from text you already have, and doesn't read scanned files.
+- **D:** This turns speech into text.
+
+Review: [Documents: Textract](#documents-textract) in this part, and [What is Amazon Textract?](https://docs.aws.amazon.com/textract/latest/dg/what-is.html) in the AWS docs.
+:::
+
+::: quiz
+A company new to AWS wants an assistant that answers employees' questions from its internal policy documents. It has no machine learning team. What fits?
+
+- [ ] Amazon Kendra
+- [ ] A model trained on the documents in SageMaker AI
+- [ ] Amazon Lex on its own
+- [x] Amazon Bedrock Knowledge Bases
+
+Knowledge Bases finds the relevant passages and hands them to a model along with the question, so there's nothing to train.
+
+- **A:** This no longer accepts new customers, and AWS points to Knowledge Bases instead.
+- **B:** This needs machine learning expertise, and answering from documents doesn't need a trained model.
+- **C:** This builds bots around intents you define, and doesn't answer from documents by itself.
+
+Review: [Knowledge Bases: answers from your documents](#knowledge-bases-answers-from-your-documents) in this part, and [Retrieve data and generate AI responses with Amazon Bedrock Knowledge Bases](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html) in the AWS docs.
+:::
+
+::: quiz
+A bank's data scientists want to predict loan risk from years of its own repayment records, and no ready-made service does this. What fits?
+
+- [x] Amazon SageMaker AI
+- [ ] Amazon Bedrock, using prompts
+- [ ] Amazon Personalize
+- [ ] Amazon Comprehend
+
+This is predicting from data only the bank has, which needs a model of its own. SageMaker AI covers preparing the data, training, then serving predictions from an endpoint.
+
+- **B:** This starts from a ready model, and doesn't train a prediction model on the bank's records.
+- **C:** This builds recommendations from user behavior, such as "you might also like".
+- **D:** This extracts meaning from text, such as sentiment and entities.
+
+Review: [Your own model: SageMaker AI](#your-own-model-sagemaker-ai) in this part, and [Amazon Bedrock or Amazon SageMaker AI?](https://docs.aws.amazon.com/decision-guides/latest/bedrock-or-sagemaker/bedrock-or-sagemaker.html) in the AWS docs.
+:::
+
+::: quiz
+A call center stores its recordings in S3, in English. A manager wants to know which calls ended badly, without any machine learning work. Which chain fits?
+
+- [ ] Polly, then Comprehend
+- [ ] Rekognition, then Translate
+- [x] Transcribe, then Comprehend
+- [ ] Textract, then Personalize
+
+Transcribe turns each recording into text, and Comprehend's sentiment analysis shows which calls were negative.
+
+- **A:** Polly does the opposite of what's needed, turning text into speech.
+- **B:** Rekognition analyzes images and video, and Translate only changes the language.
+- **D:** Textract reads documents, and Personalize builds recommendations.
+
+Review: [Chaining services](#chaining-services) in this part, and [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/what-is.html) and [Sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-sentiment.html) in the AWS docs.
+:::
+
+::: quiz
+A Saudi online store wants to detect the sentiment of its Arabic reviews directly, and translate them into English for its head office. Which **two** services fit? (Choose two.)
+
+- [ ] Amazon Textract
+- [ ] Amazon Polly
+- [x] Amazon Comprehend
+- [ ] Amazon Rekognition
+- [x] Amazon Translate
+
+Comprehend supports Arabic, including sentiment, and Translate handles the translation.
+
+- **A:** This reads documents, and it doesn't support Arabic.
+- **B:** This voices text, and doesn't analyze or translate it.
+- **D:** This analyzes images and video.
+
+Review: [And Arabic?](#and-arabic) in this part, and [Languages supported in Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) and [Supported languages and language codes](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html) in the AWS docs.
+:::
+
 This completes the data and AI section. Your application is big now, and it has a lot running in it. How do you know it's healthy, and who changed what? In [**part twenty-five**](/en/posts/aws-25-monitoring-auditing/) we start the final section, with monitoring and auditing through CloudWatch, CloudTrail and Config.

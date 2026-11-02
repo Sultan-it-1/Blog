@@ -365,4 +365,92 @@ aws s3 rb s3://$BUCKET --force
 - **Glue** catalogs and converts your data, and **Lake Formation** controls who sees which column.
 - **OpenSearch** is for search, **EMR** for Spark jobs, **Quick Sight** for dashboards, and **Flink** and **MSK** for streams.
 
+## Test yourself
+
+::: quiz
+A retail chain's analysts run heavy reports all day, with many joins across years of sales, and dozens of dashboards refresh from them. Which service was built for this?
+
+- [ ] Amazon Athena, querying CSV files in S3
+- [ ] An RDS read replica
+- [x] Amazon Redshift
+- [ ] Amazon OpenSearch Service
+
+This is a data warehouse's job. Redshift stores data by column and splits each query across many nodes, so heavy, repeated reports run fast.
+
+- **A:** This suits occasional questions, and with this many queries you'd pay for every scan.
+- **B:** This takes load off production, but it still stores data by row and isn't built for this scale of analysis.
+- **D:** This is for text search and log analysis.
+
+Review: [Athena or Redshift?](#athena-or-redshift) in this part, and [What is Amazon Redshift?](https://docs.aws.amazon.com/redshift/latest/mgmt/welcome.html) in the AWS docs.
+:::
+
+::: quiz
+Partners drop CSV files into an S3 bucket every day. A team wants them converted to Parquet on a schedule, with no servers to run and without reprocessing files already converted. What fits?
+
+- [x] A Glue ETL job, with job bookmarks turned on
+- [ ] A Glue crawler that runs every day
+- [ ] An EMR cluster running on EC2
+- [ ] A lifecycle rule moving the files to a cheaper class
+
+A Glue ETL job runs Spark with no servers to manage, and job bookmarks remember what's been processed, so each run handles only the new files.
+
+- **B:** A crawler works out the columns and updates the catalog, and doesn't convert anything.
+- **C:** This could do the conversion, but it's a cluster you'd have to run.
+- **D:** This moves files between classes, and doesn't change their format.
+
+Review: [AWS Glue: preparing the data](#aws-glue-preparing-the-data) in this part, and [Tracking processed data using job bookmarks](https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html) in the AWS docs.
+:::
+
+::: quiz
+A company's data lake holds an orders table in S3, queried through Athena. The sales team must see the table, but not its card number column. What fits?
+
+- [ ] A bucket policy that hides that column from the team
+- [ ] A Glue crawler that skips that column
+- [ ] An S3 Access Point for the sales team
+- [x] Lake Formation, with a column-level permission
+
+Lake Formation grants access down to the column and row, and those permissions apply through services like Athena.
+
+- **A:** S3 knows about files, not the columns inside them.
+- **B:** A crawler only describes the data, and controls nobody's access.
+- **C:** This gives a team its own door to a bucket, and still works at the level of files.
+
+Review: [Lake Formation: permissions for the lake](#lake-formation-permissions-for-the-lake) in this part, and [Data filtering and cell-level security in Lake Formation](https://docs.aws.amazon.com/lake-formation/latest/dg/data-filtering.html) in the AWS docs.
+:::
+
+::: quiz
+A store keeps its products in DynamoDB. Customers want to search for any word in a product's name or description, and the table must stay the source of truth. What fits?
+
+- [ ] A global secondary index on the description
+- [x] DynamoDB Streams and Lambda, feeding a copy into OpenSearch
+- [ ] Scanning the table with a filter on each search
+- [ ] DAX in front of the table
+
+OpenSearch finds any word in any field. Streams and Lambda keep it up to date, so you search there, then fetch the full item from the table.
+
+- **A:** An index finds items by key, not by any word inside a long text.
+- **C:** This reads the whole table for every search, so it's slow and costly.
+- **D:** This speeds up reads by key, and adds no text search.
+
+Review: [OpenSearch](#opensearch) in this part, and [Loading streaming data into Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/integrations.html) in the AWS docs.
+:::
+
+::: quiz
+A team's Athena bill is high. Its queries usually read two columns from one month of data, but everything sits in S3 as one big folder of CSV files. Which **two** changes lower the cost? (Choose two.)
+
+- [ ] Moving the files to Glacier Deep Archive
+- [x] Converting the files to Parquet
+- [ ] Running the queries at night
+- [ ] Turning on S3 Versioning
+- [x] Partitioning the data by month
+
+Athena charges for the data it scans. Parquet lets a query read only its columns, and partitions let it skip the other months.
+
+- **A:** Files in this class have to be restored before they can be read.
+- **C:** The price depends on what's read, not on when.
+- **D:** This keeps old versions, and changes nothing about what a query reads.
+
+Review: [Read less, pay less](#read-less-pay-less) in this part, and [Use columnar storage formats](https://docs.aws.amazon.com/athena/latest/ug/columnar-storage.html) and [Partition your data](https://docs.aws.amazon.com/athena/latest/ug/partitions.html) in the AWS docs.
+:::
+
 You now understand the data you hold. Can you get more out of it, such as reading documents, understanding speech or generating text? In [**part twenty-four**](/en/posts/aws-24-ai-services/) we go through AWS's ready-made AI services.

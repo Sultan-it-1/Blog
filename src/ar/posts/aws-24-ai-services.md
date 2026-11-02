@@ -291,4 +291,92 @@ aws rekognition detect-labels --image-bytes fileb://photo.jpg \
 - **Knowledge Bases** يجاوب من مستنداتك بدون تدريب نموذج، وهو البديل عن Kendra.
 - ربط هذي الخدمات بالأحداث هو مكان القيمة الحقيقية.
 
+## اختبر نفسك
+
+::: quiz
+شركة تأمين يوصلها آلاف نماذج المطالبات الممسوحة بالإنجليزي. وتبي حقول كل نموذج وقيمه وجداوله في قاعدة بياناتها، بدون نموذج تدربه. أي خدمة تناسب؟
+
+- [ ] Amazon Rekognition
+- [x] Amazon Textract
+- [ ] Amazon Comprehend
+- [ ] Amazon Transcribe
+
+Textract يفهم بنية المستند، فيرجع النماذج كأزواج حقل وقيمة، والجداول كصفوف وأعمدة.
+
+- **A:** هذا يقدر يقرأ كلمات في صورة، بس ما يفهم النماذج والجداول.
+- **C:** هذا يطلع المعنى من نص موجود عندك، وما يقرأ الملفات الممسوحة.
+- **D:** هذا يحول الكلام إلى نص.
+
+للمراجعة: [المستندات: Textract](#المستندات-textract) في هذا الجزء، و[What is Amazon Textract?](https://docs.aws.amazon.com/textract/latest/dg/what-is.html) في وثائق AWS.
+:::
+
+::: quiz
+شركة جديدة على AWS تبي مساعد يجاوب أسئلة الموظفين من مستندات سياساتها الداخلية. وما عندها فريق تعلم آلة. وش يناسب؟
+
+- [ ] Amazon Kendra
+- [ ] نموذج تدربه على المستندات في SageMaker AI
+- [ ] Amazon Lex لحاله
+- [x] Amazon Bedrock Knowledge Bases
+
+Knowledge Bases يلقى المقاطع المناسبة ويعطيها للنموذج مع السؤال، فما فيه شي تدربه.
+
+- **A:** هذا ما عاد يقبل عملاء جدد، وAWS توجّه لـ Knowledge Bases بدله.
+- **B:** هذا يحتاج خبرة في تعلم الآلة، والإجابة من المستندات ما تحتاج نموذج مدرب.
+- **C:** هذا يبني روبوتات حول نوايا تحددها، وما يجاوب من المستندات لحاله.
+
+للمراجعة: [Knowledge Bases: إجابات من مستنداتك](#knowledge-bases-إجابات-من-مستنداتك) في هذا الجزء، و[Retrieve data and generate AI responses with Amazon Bedrock Knowledge Bases](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html) في وثائق AWS.
+:::
+
+::: quiz
+علماء بيانات في بنك يبون يتوقعون مخاطر القروض من سجلات السداد الخاصة فيه لسنوات، وما فيه خدمة جاهزة تسوي هذا. وش يناسب؟
+
+- [x] Amazon SageMaker AI
+- [ ] Amazon Bedrock، باستخدام Prompts
+- [ ] Amazon Personalize
+- [ ] Amazon Comprehend
+
+هذا توقع من بيانات ما عند أحد غير البنك، فيحتاج نموذج خاص فيه. وSageMaker AI يغطي تجهيز البيانات والتدريب، ثم تقديم التوقعات من نقطة وصول.
+
+- **B:** هذا يبدأ من نموذج جاهز، وما يدرب نموذج توقع على سجلات البنك.
+- **C:** هذا يبني توصيات من سلوك المستخدمين، مثل "ممكن يعجبك كمان".
+- **D:** هذا يطلع المعنى من النص، مثل المشاعر والكيانات.
+
+للمراجعة: [نموذجك الخاص: SageMaker AI](#نموذجك-الخاص-sagemaker-ai) في هذا الجزء، و[Amazon Bedrock or Amazon SageMaker AI?](https://docs.aws.amazon.com/decision-guides/latest/bedrock-or-sagemaker/bedrock-or-sagemaker.html) في وثائق AWS.
+:::
+
+::: quiz
+مركز اتصال يحفظ تسجيلاته في S3، بالإنجليزي. ومدير يبي يعرف أي مكالمات انتهت بشكل سيئ، بدون أي شغل تعلم آلة. أي سلسلة تناسب؟
+
+- [ ] Polly، ثم Comprehend
+- [ ] Rekognition، ثم Translate
+- [x] Transcribe، ثم Comprehend
+- [ ] Textract، ثم Personalize
+
+Transcribe يحول كل تسجيل إلى نص، وتحليل المشاعر في Comprehend يبين أي مكالمات كانت سلبية.
+
+- **A:** Polly يسوي عكس المطلوب، يحول النص إلى كلام.
+- **B:** Rekognition يحلل الصور والفيديو، وTranslate يغير اللغة بس.
+- **D:** Textract يقرأ المستندات، وPersonalize يبني توصيات.
+
+للمراجعة: [ربط الخدمات](#ربط-الخدمات) في هذا الجزء، و[What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/what-is.html) و[Sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-sentiment.html) في وثائق AWS.
+:::
+
+::: quiz
+متجر إلكتروني سعودي يبي يكشف مشاعر تعليقاته العربية مباشرة، ويترجمها للإنجليزي لمكتبه الرئيسي. أي **خدمتين** يناسبون؟ (اختر اثنين.)
+
+- [ ] Amazon Textract
+- [ ] Amazon Polly
+- [x] Amazon Comprehend
+- [ ] Amazon Rekognition
+- [x] Amazon Translate
+
+Comprehend يدعم العربية، بما فيها المشاعر، وTranslate يتكفل بالترجمة.
+
+- **A:** هذا يقرأ المستندات، وما يدعم العربية.
+- **B:** هذا يحول النص إلى صوت، وما يحلله ولا يترجمه.
+- **D:** هذا يحلل الصور والفيديو.
+
+للمراجعة: [وماذا عن العربية؟](#وماذا-عن-العربية) في هذا الجزء، و[Languages supported in Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) و[Supported languages and language codes](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html) في وثائق AWS.
+:::
+
 بهذا نكمل قسم البيانات والذكاء الاصطناعي. تطبيقك صار كبير وفيه أشياء كثيرة شغالة. كيف تعرف إنه بخير، ومين غيّر وش؟ في [**الجزء الخامس والعشرين**](/posts/aws-25-monitoring-auditing/) نبدأ القسم الأخير، مع المراقبة والتدقيق عبر CloudWatch وCloudTrail وConfig.
