@@ -26,8 +26,6 @@ eleventyComputed:
 
   <div class="prose page-prose">
     <div class="quiz-deck" data-quiz-deck data-number="{{ text.number('{n}', '{total}') }}" data-next="{{ text.next }}" data-previous="{{ text.previous }}" data-finish="{{ text.finish }}" data-right="{{ text.right }}" data-wrong="{{ text.wrong }}" data-score="{{ text.score }}" data-retry="{{ text.exam.retry }}">
-      {#- With every question in the series on the page, keep them from showing before main.js takes over. -#}
-      <script>document.currentScript.parentElement.classList.add("is-waiting");</script>
       <div class="quiz-start" data-quiz-start hidden>
         <p class="quiz-start-title">{{ text.exam.howMany }}</p>
         <div class="quiz-start-sizes">
@@ -37,6 +35,13 @@ eleventyComputed:
         </div>
         <p class="quiz-start-note">{{ text.exam.note }}</p>
       </div>
+      {#- Show the start box and hold back the questions before the first paint, so nothing jumps when main.js takes over. -#}
+      <script>
+        (function (start) {
+          start.hidden = false;
+          start.parentElement.classList.add("is-waiting");
+        })(document.currentScript.previousElementSibling);
+      </script>
       {{ seriesPage | quizBank | safe }}
     </div>
   </div>

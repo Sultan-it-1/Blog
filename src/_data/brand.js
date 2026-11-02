@@ -92,7 +92,7 @@ export default {
     // Plex Sans Arabic follows Plex Mono so Arabic comments in code stay joined instead of falling back to a monospaced Arabic face.
     mono: "'IBM Plex Mono', 'IBM Plex Sans Arabic', ui-monospace, 'SFMono-Regular', Consolas, monospace",
     googleFontsUrl:
-      "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap",
+      "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap",
   },
 
   radius: { sm: "6px", md: "10px", lg: "16px" },

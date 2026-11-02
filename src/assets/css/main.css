@@ -242,7 +242,7 @@
         border-radius: var(--radius-sm);
         color: var(--color-muted);
         font-size: 0.95rem;
-        font-weight: 500;
+        font-weight: 600;
         transition: color 150ms ease;
     }
 
@@ -337,7 +337,7 @@
         color: var(--color-faint);
         font-family: var(--font-mono);
         font-size: 0.75rem;
-        font-weight: 500;
+        font-weight: 400;
         letter-spacing: 0.06em;
         text-transform: uppercase;
     }
@@ -387,7 +387,7 @@
         color: var(--color-muted);
         font-family: var(--font-mono);
         font-size: 0.78rem;
-        font-weight: 500;
+        font-weight: 400;
         letter-spacing: 0.04em;
     }
 
@@ -649,7 +649,7 @@
 
     .topic-label {
         color: var(--color-muted);
-        font-weight: 500;
+        font-weight: 600;
     }
 
     .topic-label + .topic-label::before {
@@ -718,7 +718,7 @@
         background: var(--color-surface);
         color: var(--color-ink);
         font-size: 0.88rem;
-        font-weight: 500;
+        font-weight: 600;
         transition:
             border-color 150ms ease,
             background-color 150ms ease;
@@ -1147,7 +1147,7 @@
         color: var(--color-faint);
         font-family: var(--font-mono);
         font-size: 0.85rem;
-        font-weight: 500;
+        font-weight: 400;
     }
 
     .chips-footer {
@@ -1179,6 +1179,10 @@
         gap: 0.5rem;
         color: var(--color-muted);
         font-size: 0.88rem;
+    }
+
+    .breadcrumb a {
+        padding-block: 0.25rem;
     }
 
     .breadcrumb a:hover {
@@ -1327,7 +1331,7 @@
         padding: 0.8rem 1rem;
         color: var(--color-muted);
         font-size: 0.92rem;
-        font-weight: 500;
+        font-weight: 600;
         cursor: pointer;
         list-style: none;
     }
@@ -1482,7 +1486,7 @@
         color: var(--color-accent);
         font-family: var(--font-mono);
         font-size: 0.8rem;
-        font-weight: 500;
+        font-weight: 400;
     }
 
     .prose h3 {
@@ -1507,6 +1511,13 @@
     .prose :is(h2, h3):hover .heading-anchor,
     .heading-anchor:focus-visible {
         opacity: 1;
+    }
+
+    /* Nothing reveals these on a touch screen, so they'd be invisible things to tap by accident. */
+    @media (hover: none) {
+        .heading-anchor {
+            display: none;
+        }
     }
 
     .prose a:not(.btn, .heading-anchor) {
@@ -1568,7 +1579,7 @@
         color: var(--color-ink);
         font-family: var(--font-mono);
         font-size: 0.75rem;
-        font-weight: 500;
+        font-weight: 400;
         line-height: 1;
     }
 
@@ -2233,6 +2244,7 @@
     }
 
     .series-mini li {
+        position: relative;
         display: flex;
         gap: 0.75rem;
         align-items: baseline;
@@ -2244,6 +2256,14 @@
 
     .series-mini a {
         color: var(--color-muted);
+    }
+
+    /* The whole row is the target, so it's easy to tap. */
+    .series-mini a::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
     }
 
     .series-mini a:hover {
@@ -2336,7 +2356,7 @@
         border-radius: var(--radius-md);
         background: var(--color-surface);
         font-size: 0.93rem;
-        font-weight: 500;
+        font-weight: 600;
         line-height: 1.5;
         transition: border-color 150ms ease;
     }
@@ -2450,7 +2470,7 @@
 
     .series-item.is-upcoming .series-item-title {
         color: var(--color-muted);
-        font-weight: 500;
+        font-weight: 400;
     }
 
     .series-item-text {
