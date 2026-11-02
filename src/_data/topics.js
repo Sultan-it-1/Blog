@@ -1,6 +1,11 @@
 // Display name, icon and blurb for each tag used in posts.
 // A tag missing from this list still works; it is shown as written, with the generic icon.
 export default {
+  ai: {
+    icon: "sparkle",
+    ar: { name: "الذكاء الاصطناعي", description: "خدمات جاهزة للصور والكلام والنصوص، ونماذج توليدية على بياناتك." },
+    en: { name: "AI", description: "Ready-made services for images, speech and text, and generative models on your data." },
+  },
   aws: {
     icon: "cloud",
     ar: { name: "AWS", description: "خدمات أمازون السحابية: الخوادم والشبكات والصلاحيات." },
@@ -15,6 +20,11 @@ export default {
     icon: "box",
     ar: { name: "الحاويات", description: "تغليف التطبيقات في حاويات وتشغيلها بـ ECS وFargate وEKS." },
     en: { name: "Containers", description: "Packaging applications in containers and running them with ECS, Fargate and EKS." },
+  },
+  data: {
+    icon: "chart",
+    ar: { name: "تحليل البيانات", description: "استعلامات على S3 ومستودعات البيانات واللوحات والتيارات." },
+    en: { name: "Data analytics", description: "Querying S3, data warehouses, dashboards and streams." },
   },
   databases: {
     icon: "database",

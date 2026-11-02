@@ -65,7 +65,7 @@ Most applications suit a relational database, especially if you don't know all y
 - **Neptune:** for data whose value lies in relationships, such as "friends of my friends who bought this".
 - **Timestream for InfluxDB:** for sensor readings and metrics. The older LiveAnalytics edition is closed to new customers.
 - **OpenSearch:** text search and log analysis, usually a copy of your data rather than the main source.
-- **Redshift:** a data warehouse for huge reports. We cover it in the [data and AI section](/en/series/aws/#section-8).
+- **Redshift:** a data warehouse for huge reports. We cover it in [part twenty-three](/en/posts/aws-23-athena-redshift-glue/).
 
 ## How to decide
 

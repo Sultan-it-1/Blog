@@ -441,4 +441,4 @@ aws iam delete-role --role-name series-flow-role
 - Have large files go **directly to S3**, and put **caching** where it stops the most work.
 - **Microservices** have a price, so split only when you really need to.
 
-This completes the modern applications section. Your application now generates a lot of data, but what does it tell you? In **part twenty-three** we start the data and AI section, analyzing data with Athena, Redshift and Glue.
+This completes the modern applications section. Your application now generates a lot of data, but what does it tell you? In [**part twenty-three**](/en/posts/aws-23-athena-redshift-glue/) we start the data and AI section, analyzing data with Athena, Redshift and Glue.
