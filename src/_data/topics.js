@@ -36,6 +36,11 @@ export default {
     ar: { name: "الشبكات", description: "DNS وتوصيل المحتوى والشبكات الخاصة وربطها ببعض." },
     en: { name: "Networking", description: "DNS, content delivery, private networks and connecting them." },
   },
+  s3: {
+    icon: "bucket",
+    ar: { name: "S3", description: "التخزين الكائني: الحاويات وفئات التخزين والتشفير والمشاركة الآمنة." },
+    en: { name: "S3", description: "Object storage: buckets, storage classes, encryption and safe sharing." },
+  },
   scaling: {
     icon: "network",
     ar: { name: "التوفر العالي", description: "توزيع الحمل والتوسّع التلقائي وبناء تطبيقات تتحمل الأعطال." },

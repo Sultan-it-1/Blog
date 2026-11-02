@@ -286,4 +286,4 @@ aws ec2 delete-vpc-peering-connection --vpc-peering-connection-id $PEER
 - **VPN** is quick to set up over the internet; **Direct Connect** is a private line that takes time.
 - **Data transfer** is among the biggest surprises on a bill, so plan for it from the start.
 
-That completes the networking section. You now know the visitor's path from your site's name to its data, and what's left is a place to store anything at any size. That's the next section's subject, starting in **part fifteen** with the basics of S3.
+That completes the networking section. You now know the visitor's path from your site's name to its data, and what's left is a place to store anything at any size. That's the next section's subject, starting in [**part fifteen**](/en/posts/aws-15-s3-basics/) with the basics of S3.
