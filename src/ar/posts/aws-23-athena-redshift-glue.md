@@ -470,4 +470,21 @@ Athena يحاسب على البيانات اللي يمسحها. وParquet يخ�
 للمراجعة: [اقرأ أقل، وادفع أقل](#اقرأ-أقل-وادفع-أقل) في هذا الجزء، و[Use columnar storage formats](https://docs.aws.amazon.com/athena/latest/ug/columnar-storage.html) و[Partition your data](https://docs.aws.amazon.com/athena/latest/ug/partitions.html) في وثائق AWS.
 :::
 
+::: quiz
+فريق تحليل يبي بيانات طقس من مزود تجاري في بحيرة بياناته، تتحدث باشتراك، بدون بناء قناة خاصة. وش يناسب؟
+
+- [x] AWS Data Exchange
+- [ ] AWS Transfer Family
+- [ ] Glue Crawlers
+- [ ] Kinesis Data Streams
+
+Data Exchange هو المكان اللي تلقى فيه مجموعات بيانات الشركات الثانية وتشترك فيها.
+
+- **B:** هذا يستقبل ملفات عبر SFTP وأخواته، والمزود لازم يرسلها لك.
+- **C:** هذا يوصف بيانات موجودة عندك، وما يجيب بيانات جديدة.
+- **D:** لازم تكتب اللي يغذيه، وهذا الشغل اللي يبي الفريق يتجنبه.
+
+للمراجعة: [كيف توصل البيانات؟](#كيف-توصل-البيانات) في هذا الجزء، و[What is AWS Data Exchange?](https://docs.aws.amazon.com/data-exchange/latest/userguide/what-is.html) في وثائق AWS.
+:::
+
 الحين فهمت البيانات اللي عندك. تقدر تطلع منها أكثر، مثل قراءة المستندات وفهم الكلام وتوليد النصوص؟ في [**الجزء الرابع والعشرين**](/posts/aws-24-ai-services/) نمر على خدمات الذكاء الاصطناعي الجاهزة في AWS.

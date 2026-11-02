@@ -379,4 +379,39 @@ Inspector يفحص اللي تشغله عن الثغرات المعروفة، و
 للمراجعة: [كشف التهديدات](#كشف-التهديدات) في هذا الجزء، و[What is Amazon Inspector?](https://docs.aws.amazon.com/inspector/latest/user/what-is-inspector.html) و[What is Amazon Macie?](https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html) في وثائق AWS.
 :::
 
+::: quiz
+جهة تنظيمية تطلب إن مفاتيح تشفير بنك تكون في وحدة أمان عتادية له وحده، معتمدة بمعيار FIPS، ويتحكم فيها البنك وحده. وش يناسب؟
+
+- [ ] KMS بمفتاح AWS Managed
+- [ ] KMS بمفتاح Customer Managed
+- [x] AWS CloudHSM
+- [ ] Secrets Manager
+
+CloudHSM يعطيك مجموعة HSM مخصصة لك، وأنت تتحكم في المفاتيح والمستخدمين بنفسك.
+
+- **A:** AWS تدير هذا المفتاح والعتاد، وما تقدر تغير صلاحياته.
+- **B:** أنت تتحكم في سياسة هذا المفتاح، بس AWS تدير العتاد اللي وراه.
+- **D:** هذا يحفظ أسرار مثل كلمات المرور، وهو مو وحدة عتادية.
+
+للمراجعة: [CloudHSM: عتادك الخاص](#cloudhsm-عتادك-الخاص) في هذا الجزء، و[What is AWS CloudHSM?](https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.html) في وثائق AWS.
+:::
+
+::: quiz
+مدقق يطلب من شركة تقرير امتثال PCI الخاص بـ AWS. وفريق الأمان يحتاج يحقق في السبب الجذري لنتيجة من GuardDuty. أي **خدمتين** يناسبون؟ (اختر اثنين.)
+
+- [x] AWS Artifact
+- [ ] Amazon Macie
+- [ ] AWS Config
+- [x] Amazon Detective
+- [ ] Amazon Inspector
+
+Artifact يعطيك تقارير امتثال AWS وقت ما تبي، وDetective يربط السجلات عشان تلقى السبب الجذري للنتيجة.
+
+- **B:** هذا يلقى البيانات الحساسة في S3.
+- **C:** هذا يسجل إعدادات مواردك ويحكم عليها، مو امتثال AWS.
+- **E:** هذا يدور الثغرات المعروفة في اللي تشغله.
+
+للمراجعة: [مستندات الامتثال: AWS Artifact](#مستندات-الامتثال-aws-artifact) و[كشف التهديدات](#كشف-التهديدات) في هذا الجزء، و[What is AWS Artifact?](https://docs.aws.amazon.com/artifact/latest/ug/what-is-aws-artifact.html) و[What is Amazon Detective?](https://docs.aws.amazon.com/detective/latest/userguide/what-is-detective.html) في وثائق AWS.
+:::
+
 حميت نفسك من الناس. طيب لو طاحت منطقة كاملة، أو لازم تنقل مركز بيانات إلى AWS؟ في [**الجزء الثامن والعشرين**](/posts/aws-28-disaster-recovery-migration/) نغطي التعافي من الكوارث والترحيل.

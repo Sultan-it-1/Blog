@@ -268,4 +268,38 @@ Elastic Beanstalk creates these resources from your code, and they stay visible 
 Review: [Elastic Beanstalk](#elastic-beanstalk-the-shortcut) in this part, and [What is AWS Elastic Beanstalk?](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html) in the AWS docs.
 :::
 
+::: quiz
+A team patches its Auto Scaling group's servers by logging in to each one. Over time the servers have drifted apart, and rolling back a bad patch is painful. What solves both?
+
+- [ ] Running the patch commands on all servers at once
+- [ ] Taking a snapshot of each server before patching
+- [ ] Moving to larger types that need fewer patches
+- [x] Building a new image, then using instance refresh with a new launch template
+
+This is immutable infrastructure: nothing changes on a running server. Every server comes from the same tested image, and going back means returning to the previous one.
+
+- **A:** This is faster, but servers still change while running and can still drift apart.
+- **B:** This helps bring back one server, and doesn't keep them alike.
+- **C:** A server's size has nothing to do with patches.
+
+Review: [The key rule: a server is replaceable](#the-key-rule-a-server-is-replaceable) in this part, and [Use an instance refresh to update instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-refresh.html) in the AWS docs.
+:::
+
+::: quiz
+An application uses an Auto Scaling group, ECS services, DynamoDB tables and Aurora replicas. The team wants to set up scaling for all of them from one place. What fits?
+
+- [x] AWS Auto Scaling, with a scaling plan
+- [ ] An Auto Scaling group with a larger maximum
+- [ ] Elastic Beanstalk
+- [ ] A scheduled policy on the group
+
+A scaling plan can manage the capacity of all these resources in one place.
+
+- **B:** This only scales the group's servers.
+- **C:** This sets up and manages an application's environment, and doesn't gather existing services, tables and replicas into one plan.
+- **D:** This only changes the group's size, at times you set.
+
+Review: [When to grow and when to shrink](#when-to-grow-and-when-to-shrink) in this part, and [What is a scaling plan?](https://docs.aws.amazon.com/autoscaling/plans/userguide/what-is-a-scaling-plan.html) in the AWS docs.
+:::
+
 That completes the high availability section. The question left is where the data lives once it's off the server. That's the next section's subject, starting in [**part eight**](/en/posts/aws-08-rds-aurora/) with the managed databases RDS and Aurora.

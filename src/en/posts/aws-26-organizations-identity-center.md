@@ -449,4 +449,38 @@ S3 actions work at two levels: listing applies to the bucket and reading applies
 Review: [A classic S3 mistake](#a-classic-s3-mistake) in this part, and [Grant read and write access to Amazon S3 bucket objects](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_s3_rw-bucket.html) in the AWS docs.
 :::
 
+::: quiz
+A nightly job in account A must work entirely inside account B for a few minutes. The security team forbids long-term keys. What fits?
+
+- [ ] An IAM user in account B, with its keys stored in the job
+- [ ] Copying the job's role to account B
+- [ ] An SCP that allows the job
+- [x] A role in account B that trusts account A, which the job assumes through STS
+
+The job calls `AssumeRole`, and STS checks the role's trust policy and returns temporary credentials, so there are no long-term keys to store.
+
+- **A:** These are the long-term keys the team forbids.
+- **B:** Roles aren't copied between accounts, and access still needs a trust policy.
+- **C:** An SCP grants nothing.
+
+Review: [A role or a resource policy?](#a-role-or-a-resource-policy) in this part, and [Temporary security credentials in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) in the AWS docs.
+:::
+
+::: quiz
+A GitHub Actions pipeline deploys to one AWS account, and its access keys are stored as repository secrets. The team wants to stop storing keys. What fits?
+
+- [ ] Rotating the access keys every week
+- [x] An OIDC identity provider in IAM, with a role the pipeline assumes
+- [ ] IAM Identity Center, with a user for the pipeline
+- [ ] A Cognito User Pool for the pipeline
+
+The pipeline proves who it is with a token from GitHub and gets temporary credentials through the role, so there are no keys to store.
+
+- **A:** This shortens the keys' life, and they're still stored.
+- **C:** This is for people signing in, not for systems such as a pipeline.
+- **D:** This is for your application's users, not for access to your AWS account.
+
+Review: [Federation: identities from outside](#federation-identities-from-outside) in this part, and [Identity providers and federation into AWS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) in the AWS docs.
+:::
+
 You've controlled who reaches your data. What if someone reaches it anyway, or attacks your site from outside? In [**part twenty-seven**](/en/posts/aws-27-encryption-secrets-protection/) we cover encryption, secrets and threat protection.

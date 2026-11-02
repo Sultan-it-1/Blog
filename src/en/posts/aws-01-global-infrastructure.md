@@ -292,6 +292,23 @@ AWS maps Availability Zone names to physical locations differently for each acco
 Review: [Availability Zones](#availability-zones) in this part, and [Availability Zone IDs](https://docs.aws.amazon.com/ram/latest/userguide/working-with-az-ids.html) in the AWS docs.
 :::
 
+::: quiz
+A company is building a cloud-gaming app for phones on 5G networks, and every millisecond between the phone and the server counts. Where should it run the servers?
+
+- [ ] An Availability Zone in the nearest Region
+- [ ] AWS Outposts in its own data center
+- [x] A Wavelength Zone
+- [ ] CloudFront edge locations
+
+Wavelength Zones sit inside telecom carriers' 5G networks, which keeps latency to phones very low.
+
+- **A:** This is farther from the phone than the carrier's own network.
+- **B:** This puts AWS hardware on your own site, which isn't near your players' phones.
+- **D:** You don't run your servers there, and they serve stored content.
+
+Review: [Closer still: Local Zones, Wavelength and Outposts](#closer-still-local-zones-wavelength-and-outposts) in this part, and [Regions and Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) in the AWS docs.
+:::
+
 If you want to see these ideas in practice, there's a hands-on guide: [How to create a server on AWS](/en/posts/aws/).
 
 In [**part two**](/en/posts/aws-02-iam/) we get into identity and permissions (IAM): users, groups and policies, and how to actually secure your account.

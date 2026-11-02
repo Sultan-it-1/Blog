@@ -480,4 +480,21 @@ Reserved Concurrency يحجز لدالة الدفع حصة ما تاخذها أ�
 للمراجعة: [التزامن (Concurrency)](#التزامن-concurrency) و[البداية الباردة (Cold Start)](#البداية-الباردة-cold-start) في هذا الجزء، و[Configuring reserved concurrency for an Event Function](https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html) و[Configuring provisioned concurrency for an Event Function](https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html) في وثائق AWS.
 :::
 
+::: quiz
+تطبيق يقرأ 50 عنصر في الثانية من جدول DynamoDB بوضع Provisioned. وكل عنصر حجمه 6 KB، والقراءة لازم تكون قوية التناسق. كم وحدة قراءة يحتاج؟
+
+- [ ] 25
+- [ ] 50
+- [x] 100
+- [ ] 300
+
+وحدة RCU تغطي قراءة قوية التناسق في الثانية حتى 4 KB، فعنصر 6 KB يحتاج وحدتين. وخمسين قراءة في الثانية تحتاج 100.
+
+- **A:** هذا يحسب القراءة نص وحدة، وما يغطي عنصر 6 KB.
+- **B:** هذا يكفي لو كانت نفس القراءات متناسقة لاحقاً.
+- **D:** هذا يضرب في حجم العنصر، والوحدات تنحسب لكل 4 KB.
+
+للمراجعة: [أوضاع السعة](#أوضاع-السعة) في هذا الجزء، و[DynamoDB provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html) في وثائق AWS.
+:::
+
 عندك الحين قطع البناء. كيف تبني منها تطبيق كامل، فيه مستخدمين وسير عمل طويل وأحداث تمشي بين الخدمات؟ هذا اللي بنغطيه في [**الجزء الثاني والعشرين**](/posts/aws-22-serverless-design/).

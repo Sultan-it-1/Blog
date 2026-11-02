@@ -532,4 +532,21 @@ SNS يوصّل الرسالة الوحدة لكل مشترك، وطابور كل
 للمراجعة: [طوابير FIFO](#طوابير-fifo) في هذا الجزء، و[FIFO queue delivery logic in Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-understanding-logic.html) في وثائق AWS.
 :::
 
+::: quiz
+مصنع يبي يرسل فيديو مباشر من كاميرات المراقبة إلى AWS، ويحفظه، ويحلله بعدين. أي خدمة مبنية لهذا؟
+
+- [ ] Data Firehose
+- [ ] طابور SQS
+- [ ] SNS
+- [x] Kinesis Video Streams
+
+تستقبل فيديو مباشر من الأجهزة، وتحفظه، وتخليك تشاهده أو تعالجه، مباشرة أو بعدين.
+
+- **A:** هذا يوصّل السجلات للتخزين، وما هو مبني لفيديو مباشر من الأجهزة.
+- **B:** الرسالة تحمل حتى 1 MiB، وهذا ما يناسب الفيديو.
+- **C:** هذا يدفع رسائل قصيرة للمشتركين، وما يحفظ شي.
+
+للمراجعة: [Kinesis Data Streams: تيار يبقى](#kinesis-data-streams-تيار-يبقى) في هذا الجزء، و[What is Amazon Kinesis Video Streams?](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/what-is-kinesis-video.html) في وثائق AWS.
+:::
+
 الخدمات الحين مفصولة، بس وين يشتغل الكود نفسه؟ إلى الآن جوابنا سيرفر EC2 بكل إعداداته. في [**الجزء العشرين**](/posts/aws-20-ecs-fargate-eks/) نغلف التطبيقات في حاويات ونشغلها بـ ECS وFargate وEKS.

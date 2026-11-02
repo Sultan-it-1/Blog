@@ -292,6 +292,23 @@ AWS تربط أسماء مناطق التوفر بالأماكن الفعلية 
 للمراجعة: [منطقة التوفر](#منطقة-التوفر-availability-zone) في هذا الجزء، و[Availability Zone IDs](https://docs.aws.amazon.com/ram/latest/userguide/working-with-az-ids.html) في وثائق AWS.
 :::
 
+::: quiz
+شركة تبني تطبيق ألعاب سحابية للجوالات على شبكات 5G، وكل ملي ثانية بين الجوال والسيرفر تفرق. وين تشغّل السيرفرات؟
+
+- [ ] منطقة توفر في أقرب منطقة
+- [ ] AWS Outposts في مركز بياناتها
+- [x] Wavelength Zone
+- [ ] مواقع حافة CloudFront
+
+Wavelength Zones تقعد داخل شبكات 5G عند شركات الاتصالات، فيبقى زمن الاستجابة للجوالات قليل جداً.
+
+- **A:** هذي أبعد عن الجوال من شبكة شركة الاتصالات نفسها.
+- **B:** هذا يحط أجهزة AWS في موقعك، وهو مو قريب من جوالات اللاعبين.
+- **D:** ما تشغّل فيها سيرفراتك، وهي تقدم محتوى محفوظ.
+
+للمراجعة: [أقرب من كذا: Local Zones وWavelength وOutposts](#أقرب-من-كذا-local-zones-وwavelength-وoutposts) في هذا الجزء، و[Regions and Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) في وثائق AWS.
+:::
+
 إذا تبي تشوف هذي المفاهيم على أرض الواقع، عندنا شرح عملي: [كيف تنشئ سيرفر على AWS](/posts/aws/).
 
 في [**الجزء الثاني**](/posts/aws-02-iam/) ندخل في الهوية والصلاحيات (IAM): المستخدمين والمجموعات والسياسات، وكيف تأمّن حسابك فعلياً.

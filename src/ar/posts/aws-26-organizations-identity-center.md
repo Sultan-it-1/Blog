@@ -449,4 +449,38 @@ aws iam simulate-custom-policy --policy-input-list file://list.json \
 للمراجعة: [غلطة S3 الكلاسيكية](#غلطة-s3-الكلاسيكية) في هذا الجزء، و[Grant read and write access to Amazon S3 bucket objects](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_s3_rw-bucket.html) في وثائق AWS.
 :::
 
+::: quiz
+مهمة ليلية في الحساب A لازم تشتغل بالكامل داخل الحساب B كم دقيقة. وفريق الأمان يمنع المفاتيح طويلة المدى. وش يناسب؟
+
+- [ ] مستخدم IAM في الحساب B، ومفاتيحه محفوظة في المهمة
+- [ ] نسخ دور المهمة إلى الحساب B
+- [ ] SCP تسمح للمهمة
+- [x] دور في الحساب B يثق في الحساب A، تفترضه المهمة عبر STS
+
+المهمة تنادي `AssumeRole`، وSTS تفحص سياسة الثقة في الدور وترجع صلاحيات مؤقتة، فما فيه مفاتيح طويلة المدى تحفظها.
+
+- **A:** هذي المفاتيح طويلة المدى اللي يمنعها الفريق.
+- **B:** الأدوار ما تنسخ بين الحسابات، والوصول لسا يحتاج سياسة ثقة.
+- **C:** الـ SCP ما تعطي شي.
+
+للمراجعة: [دور أو سياسة مورد؟](#دور-أو-سياسة-مورد) في هذا الجزء، و[Temporary security credentials in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) في وثائق AWS.
+:::
+
+::: quiz
+مسار GitHub Actions ينشر على حساب AWS واحد، ومفاتيح الوصول محفوظة كأسرار في المستودع. والفريق يبي يوقف حفظ المفاتيح. وش يناسب؟
+
+- [ ] تغيير مفاتيح الوصول كل أسبوع
+- [x] OIDC Identity Provider في IAM، مع دور يفترضه المسار
+- [ ] IAM Identity Center، مع مستخدم للمسار
+- [ ] Cognito User Pool للمسار
+
+المسار يثبت هويته بتوكن من GitHub، وياخذ صلاحيات مؤقتة عبر الدور، فما فيه مفاتيح تحفظها.
+
+- **A:** هذا يقصر عمر المفاتيح، ولسا محفوظة.
+- **C:** هذا لدخول الأشخاص، مو لأنظمة مثل مسار النشر.
+- **D:** هذا لمستخدمي تطبيقك، مو للوصول لحساب AWS.
+
+للمراجعة: [الدخول من هوية خارجية (Federation)](#الدخول-من-هوية-خارجية-federation) في هذا الجزء، و[Identity providers and federation into AWS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) في وثائق AWS.
+:::
+
 ضبطت مين يوصل لبياناتك. طيب لو وصل لها أحد بأي طريقة، أو هاجم موقعك من برا؟ في [**الجزء السابع والعشرين**](/posts/aws-27-encryption-secrets-protection/) نغطي التشفير والأسرار والحماية من الهجمات.

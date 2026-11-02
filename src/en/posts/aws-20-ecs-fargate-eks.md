@@ -438,4 +438,21 @@ Service Auto Scaling changes the number of tasks, and a capacity provider adds s
 Review: [Scaling](#scaling) in this part, and [Automatically scale your Amazon ECS service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html) and [Amazon ECS capacity providers for EC2 workloads](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html) in the AWS docs.
 :::
 
+::: quiz
+A company runs its containers on ECS in AWS. Some must now run on servers in its own factory, and the team wants to keep using the same ECS tools. What fits?
+
+- [ ] EKS Distro
+- [x] ECS Anywhere
+- [ ] Fargate Spot
+- [ ] AWS App Runner
+
+ECS Anywhere registers your own servers or virtual machines in an ECS cluster, so the team keeps its tools.
+
+- **A:** These are Kubernetes components to run and support yourself, and the team uses ECS.
+- **C:** This runs tasks on AWS capacity at a lower price, not on your servers.
+- **D:** This runs in AWS, and no longer accepts new customers.
+
+Review: [Containers on your own servers](#containers-on-your-own-servers) in this part, and [Amazon ECS clusters for external instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-anywhere.html) in the AWS docs.
+:::
+
 Containers still run and cost money while waiting. What if your code only ran when there was something to do, and you paid nothing otherwise? In [**part twenty-one**](/en/posts/aws-21-lambda-api-dynamodb/) we build an API with Lambda, API Gateway and DynamoDB.

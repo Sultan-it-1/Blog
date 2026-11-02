@@ -345,4 +345,21 @@ Both reach the server with no public address and no extra server to run. Session
 Review: [How do you reach a private server?](#how-do-you-reach-a-private-server) in this part, and [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) and [EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-with-ec2-instance-connect-endpoint.html) in the AWS docs.
 :::
 
+::: quiz
+A team sets up a NAT instance in a public subnet and points the private subnet's route table to it, yet private servers still can't reach the internet. The security groups allow the traffic. What did it most likely forget?
+
+- [ ] An Elastic IP on each private server
+- [x] Turning off the source/destination check on the NAT instance
+- [ ] A second route table for the public subnet
+- [ ] A gateway endpoint for the internet
+
+An EC2 server normally has to be the source or destination of its traffic. A NAT instance passes on traffic for others, so this check has to be off.
+
+- **A:** Private servers go out through the NAT instance's address, and don't need their own.
+- **C:** The public subnet only needs its route to the internet gateway, and this adds nothing.
+- **D:** Gateway endpoints reach S3 and DynamoDB, not the internet.
+
+Review: [NAT Gateway: out without in](#nat-gateway-out-without-in) in this part, and [Enable private resources to communicate outside the VPC](https://docs.aws.amazon.com/vpc/latest/userguide/work-with-nat-instances.html) in the AWS docs.
+:::
+
 Your network is now ready, but isolated. In [**part fourteen**](/en/posts/aws-14-vpc-connectivity/) we connect it to other networks, to AWS services and to your office.

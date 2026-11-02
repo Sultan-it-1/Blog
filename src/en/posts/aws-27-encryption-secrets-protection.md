@@ -379,4 +379,39 @@ Inspector scans what you run for known vulnerabilities, and Macie finds sensitiv
 Review: [Detecting threats](#detecting-threats) in this part, and [What is Amazon Inspector?](https://docs.aws.amazon.com/inspector/latest/user/what-is-inspector.html) and [What is Amazon Macie?](https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html) in the AWS docs.
 :::
 
+::: quiz
+A regulator requires a bank's encryption keys to live in a hardware security module dedicated to it, validated to FIPS, that only the bank controls. What fits?
+
+- [ ] KMS with an AWS managed key
+- [ ] KMS with a customer managed key
+- [x] AWS CloudHSM
+- [ ] Secrets Manager
+
+CloudHSM gives you a cluster of HSMs dedicated to you, and you control the keys and users yourself.
+
+- **A:** AWS manages this key and the hardware, and you can't change its permissions.
+- **B:** You control this key's policy, but AWS manages the hardware behind it.
+- **D:** This stores secrets such as passwords, and isn't a hardware module.
+
+Review: [CloudHSM: your own hardware](#cloudhsm-your-own-hardware) in this part, and [What is AWS CloudHSM?](https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.html) in the AWS docs.
+:::
+
+::: quiz
+An auditor asks a company for AWS's own PCI compliance report. Separately, the security team needs to investigate the root cause of a GuardDuty finding. Which **two** services fit? (Choose two.)
+
+- [x] AWS Artifact
+- [ ] Amazon Macie
+- [ ] AWS Config
+- [x] Amazon Detective
+- [ ] Amazon Inspector
+
+Artifact gives you AWS's compliance reports on demand, and Detective links the logs together to find the root cause of a finding.
+
+- **B:** This finds sensitive data in S3.
+- **C:** This records and judges your own resources' settings, not AWS's compliance.
+- **E:** This looks for known vulnerabilities in what you run.
+
+Review: [Compliance documents: AWS Artifact](#compliance-documents-aws-artifact) and [Detecting threats](#detecting-threats) in this part, and [What is AWS Artifact?](https://docs.aws.amazon.com/artifact/latest/ug/what-is-aws-artifact.html) and [What is Amazon Detective?](https://docs.aws.amazon.com/detective/latest/userguide/what-is-detective.html) in the AWS docs.
+:::
+
 You've protected yourself from people. What about a whole Region going down, or having to bring a data center over to AWS? In [**part twenty-eight**](/en/posts/aws-28-disaster-recovery-migration/) we cover disaster recovery and migration.

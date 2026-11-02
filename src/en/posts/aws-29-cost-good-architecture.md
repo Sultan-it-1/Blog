@@ -377,6 +377,41 @@ Patch Manager applies the updates, and Maintenance Windows sets when they're all
 Review: [Systems Manager: running your servers](#systems-manager-running-your-servers) in this part, and [AWS Systems Manager Patch Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager.html) and [AWS Systems Manager Maintenance Windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows.html) in the AWS docs.
 :::
 
+::: quiz
+A finance team wants the cost of each team in detailed files it can analyze itself. Resources are already tagged with `team`, but the tag doesn't appear in the reports. Which **two** steps fit? (Choose two.)
+
+- [ ] Turn on AWS Config
+- [x] Activate `team` as a cost allocation tag
+- [ ] Run Compute Optimizer
+- [ ] Turn on CloudTrail data events
+- [x] Set up a Cost and Usage Report delivered to S3
+
+Tags only reach cost reports once they're activated, and the Cost and Usage Report delivers the most detailed data as files in S3.
+
+- **A:** This records resource settings, not costs.
+- **C:** This recommends suitable sizes.
+- **D:** This records operations inside resources, not costs.
+
+Review: [Tools that watch your bill](#tools-that-watch-your-bill) in this part, and [What are AWS Cost and Usage Reports?](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html) and [Organizing and tracking costs using AWS cost allocation tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the AWS docs.
+:::
+
+::: quiz
+An old application runs on one EC2 server, and its clients connect to that server's address. The code can't be changed. If the hardware fails, the server must come back by itself with the same addresses. What fits?
+
+- [ ] Moving the application to Lambda
+- [ ] An Auto Scaling group of one
+- [x] Automatic instance recovery
+- [ ] A nightly AMI of the server
+
+Recovery brings the server back on new hardware, keeping its instance ID and its private, public and Elastic IP addresses.
+
+- **A:** This is a rewrite, and the code can't change.
+- **B:** The replacement is a new server, with new addresses.
+- **D:** You'd have to restore it by hand, onto a new server with new addresses.
+
+Review: [Applications you can't change](#applications-you-cant-change) in this part, and [Automatic instance recovery](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) in the AWS docs.
+:::
+
 ## What you've learned
 
 Twenty-nine parts in nine sections. Look at what you can do now:

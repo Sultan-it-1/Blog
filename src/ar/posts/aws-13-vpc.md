@@ -345,4 +345,21 @@ NACL ما تتذكر الاتصال، والجديدة تمنع كل شي ما �
 للمراجعة: [كيف توصل لسيرفر خاص؟](#كيف-توصل-لسيرفر-خاص) في هذا الجزء، و[Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) و[EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-with-ec2-instance-connect-endpoint.html) في وثائق AWS.
 :::
 
+::: quiz
+فريق جهّز NAT Instance في شبكة عامة ووجّه جدول توجيه الشبكة الخاصة له، ومع هذا السيرفرات الخاصة ما توصل للإنترنت. ومجموعات الأمان تسمح بالزيارات. وش الأرجح إنه نسيه؟
+
+- [ ] Elastic IP على كل سيرفر خاص
+- [x] إطفاء فحص Source/Destination على الـ NAT Instance
+- [ ] جدول توجيه ثاني للشبكة العامة
+- [ ] Gateway Endpoint للإنترنت
+
+سيرفر EC2 لازم عادةً يكون مصدر زياراته أو وجهتها. والـ NAT Instance يمرر زيارات غيره، فلازم يكون هذا الفحص مطفي.
+
+- **A:** السيرفرات الخاصة تطلع بعنوان الـ NAT Instance، وما تحتاج عناوين خاصة فيها.
+- **C:** الشبكة العامة تحتاج مسارها لبوابة الإنترنت فقط، وهذا ما يضيف شي.
+- **D:** الـ Gateway Endpoint يوصل لـ S3 وDynamoDB، مو للإنترنت.
+
+للمراجعة: [NAT Gateway: طلوع بدون دخول](#nat-gateway-طلوع-بدون-دخول) في هذا الجزء، و[Enable private resources to communicate outside the VPC](https://docs.aws.amazon.com/vpc/latest/userguide/work-with-nat-instances.html) في وثائق AWS.
+:::
+
 شبكتك الحين جاهزة، بس معزولة. في [**الجزء الرابع عشر**](/posts/aws-14-vpc-connectivity/) نربطها بشبكات ثانية، وبخدمات AWS، وبمكتبك.

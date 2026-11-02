@@ -480,4 +480,21 @@ Reserved concurrency sets aside a share for checkout that no other function can 
 Review: [Concurrency](#concurrency) and [Cold starts](#cold-starts) in this part, and [Configuring reserved concurrency for an Event Function](https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html) and [Configuring provisioned concurrency for an Event Function](https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html) in the AWS docs.
 :::
 
+::: quiz
+An application reads 50 items per second from a DynamoDB table in provisioned mode. Each item is 6 KB, and the reads must be strongly consistent. How many read capacity units does it need?
+
+- [ ] 25
+- [ ] 50
+- [x] 100
+- [ ] 300
+
+One RCU covers one strongly consistent read per second of up to 4 KB, so a 6 KB item needs two. Fifty reads per second need 100.
+
+- **A:** This counts each read as half a unit, which doesn't cover a 6 KB item.
+- **B:** This would be enough if the same reads were eventually consistent.
+- **D:** This multiplies by the item's size, while units are counted per 4 KB.
+
+Review: [Capacity modes](#capacity-modes) in this part, and [DynamoDB provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html) in the AWS docs.
+:::
+
 You now have the building blocks. How do you build a complete application from them, with users, long workflows and events flowing between the services? That's what we'll cover in [**part twenty-two**](/en/posts/aws-22-serverless-design/).

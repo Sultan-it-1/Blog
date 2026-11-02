@@ -532,4 +532,21 @@ A FIFO queue keeps order within a message group and removes duplicates within a 
 Review: [FIFO queues](#fifo-queues) in this part, and [FIFO queue delivery logic in Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-understanding-logic.html) in the AWS docs.
 :::
 
+::: quiz
+A factory wants to send live video from its security cameras to AWS, store it, and analyze it later. Which service was built for this?
+
+- [ ] Data Firehose
+- [ ] An SQS queue
+- [ ] SNS
+- [x] Kinesis Video Streams
+
+It takes live video from devices, stores it, and lets you watch or process it, live or later.
+
+- **A:** This delivers records to storage, and isn't built for live video from devices.
+- **B:** A message holds up to 1 MiB, which doesn't suit video.
+- **C:** This pushes short messages to subscribers, and stores nothing.
+
+Review: [Kinesis Data Streams: a stream that stays](#kinesis-data-streams-a-stream-that-stays) in this part, and [What is Amazon Kinesis Video Streams?](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/what-is-kinesis-video.html) in the AWS docs.
+:::
+
 The services are now separated, but where does the code itself run? So far our answer has been an EC2 server, with all the setup that entails. In [**part twenty**](/en/posts/aws-20-ecs-fargate-eks/) we package applications in containers and run them with ECS, Fargate and EKS.

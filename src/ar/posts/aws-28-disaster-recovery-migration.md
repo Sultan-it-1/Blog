@@ -390,4 +390,21 @@ Agent على كل سيرفر ينسخ أقراصه باستمرار إلى AWS،
 للمراجعة: [ترحيل قواعد البيانات: DMS](#ترحيل-قواعد-البيانات-dms) في هذا الجزء، و[What is AWS Database Migration Service?](https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html) و[Converting database schemas using DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_SchemaConversion.html) في وثائق AWS.
 :::
 
+::: quiz
+في تجربة تعافي، نسخة Warm Standby في منطقة ثانية بدأت تكبر، بس السيرفرات الجديدة فشلت بسبب حد في الحساب أقل هناك من المنطقة الرئيسية. وش يسوي الفريق؟
+
+- [x] رفع الحصص في منطقة الاحتياط قبلها
+- [ ] التحويل إلى Pilot Light
+- [ ] نسخ النسخ الاحتياطية إلى منطقة ثالثة
+- [ ] رفع الحصص في المنطقة الرئيسية
+
+الحصص لكل منطقة، فمنطقة الاحتياط لازم تكون حدودها كافية لسعة الإنتاج قبل الكارثة. وترفعها من صفحة Service Quotas.
+
+- **B:** هذا يشغّل أقل من كذا، وبيوصل لنفس الحد لما يكبر.
+- **C:** هذا يحمي البيانات، وما يغير الحد.
+- **D:** الحصص لكل منطقة، فهذا ما يفيد منطقة الاحتياط.
+
+للمراجعة: [نصائح تفرق](#نصائح-تفرق) في هذا الجزء، و[Disaster recovery options in the cloud](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html) و[What is Service Quotas?](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) في وثائق AWS.
+:::
+
 تطبيقك الحين مبني ومحمي وقابل للتعافي. يبقى سؤال أخير: كم يكلف، وهل هو مصمم صح؟ في [**الجزء التاسع والعشرين**](/posts/aws-29-cost-good-architecture/) نختم السلسلة بالتكلفة والتصميم الجيد.

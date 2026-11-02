@@ -377,6 +377,41 @@ Patch Manager يطبق التحديثات، وMaintenance Windows يحدد مت�
 للمراجعة: [Systems Manager: تشغيل سيرفراتك](#systems-manager-تشغيل-سيرفراتك) في هذا الجزء، و[AWS Systems Manager Patch Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager.html) و[AWS Systems Manager Maintenance Windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows.html) في وثائق AWS.
 :::
 
+::: quiz
+فريق مالية يبي تكلفة كل فريق في ملفات مفصلة يحللها بنفسه. والموارد فيها وسم `team`، بس الوسم ما يطلع في التقارير. أي **خطوتين** يناسبون؟ (اختر اثنين.)
+
+- [ ] تفعيل AWS Config
+- [x] تفعيل `team` كـ Cost Allocation Tag
+- [ ] تشغيل Compute Optimizer
+- [ ] تفعيل CloudTrail Data Events
+- [x] تجهيز Cost and Usage Report يوصل إلى S3
+
+الوسوم ما توصل لتقارير التكلفة إلا بعد تفعيلها، وCost and Usage Report يوصّل أدق البيانات كملفات في S3.
+
+- **A:** هذا يسجل إعدادات الموارد، مو التكاليف.
+- **C:** هذا يقترح الأحجام المناسبة.
+- **D:** هذا يسجل العمليات داخل الموارد، مو التكاليف.
+
+للمراجعة: [أدوات تراقب فاتورتك](#أدوات-تراقب-فاتورتك) في هذا الجزء، و[What are AWS Cost and Usage Reports?](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html) و[Organizing and tracking costs using AWS cost allocation tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) في وثائق AWS.
+:::
+
+::: quiz
+تطبيق قديم يشتغل على سيرفر EC2 واحد، وعملاؤه يتصلون بعنوان السيرفر. والكود ما يتغير. ولو تعطل العتاد، لازم يرجع السيرفر لحاله بنفس عناوينه. وش يناسب؟
+
+- [ ] نقل التطبيق إلى Lambda
+- [ ] مجموعة Auto Scaling بسيرفر واحد
+- [x] Automatic Instance Recovery
+- [ ] صورة AMI كل ليلة للسيرفر
+
+الاسترجاع يرجع السيرفر على عتاد جديد، بنفس Instance ID وعناوينه الخاصة والعامة وElastic IP.
+
+- **A:** هذا إعادة كتابة، والكود ما يتغير.
+- **B:** البديل سيرفر جديد، بعناوين جديدة.
+- **D:** لازم ترجعه يدوياً، على سيرفر جديد بعناوين جديدة.
+
+للمراجعة: [تطبيقات ما تقدر تغيرها](#تطبيقات-ما-تقدر-تغيرها) في هذا الجزء، و[Automatic instance recovery](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html) في وثائق AWS.
+:::
+
 ## اللي تعلمته
 
 تسعة وعشرين جزء في تسعة أقسام. شوف وش تقدر تسويه الحين:

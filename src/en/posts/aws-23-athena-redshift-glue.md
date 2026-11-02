@@ -470,4 +470,21 @@ Athena charges for the data it scans. Parquet lets a query read only its columns
 Review: [Read less, pay less](#read-less-pay-less) in this part, and [Use columnar storage formats](https://docs.aws.amazon.com/athena/latest/ug/columnar-storage.html) and [Partition your data](https://docs.aws.amazon.com/athena/latest/ug/partitions.html) in the AWS docs.
 :::
 
+::: quiz
+An analytics team wants weather data from a commercial provider in its data lake, kept current through a subscription, without building a custom feed. What fits?
+
+- [x] AWS Data Exchange
+- [ ] AWS Transfer Family
+- [ ] Glue crawlers
+- [ ] Kinesis Data Streams
+
+Data Exchange is where you find other companies' data sets and subscribe to them.
+
+- **B:** This receives files over SFTP and the like, so the provider would still have to send them to you.
+- **C:** This describes data you already have, and doesn't bring in new data.
+- **D:** You'd have to write what feeds it, which is the work the team wants to avoid.
+
+Review: [How does the data arrive?](#how-does-the-data-arrive) in this part, and [What is AWS Data Exchange?](https://docs.aws.amazon.com/data-exchange/latest/userguide/what-is.html) in the AWS docs.
+:::
+
 You now understand the data you hold. Can you get more out of it, such as reading documents, understanding speech or generating text? In [**part twenty-four**](/en/posts/aws-24-ai-services/) we go through AWS's ready-made AI services.

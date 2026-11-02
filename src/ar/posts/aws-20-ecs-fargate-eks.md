@@ -442,4 +442,21 @@ Service Auto Scaling يغير عدد المهام، والـ Capacity Provider �
 للمراجعة: [التوسع](#التوسع) في هذا الجزء، و[Automatically scale your Amazon ECS service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-auto-scaling.html) و[Amazon ECS capacity providers for EC2 workloads](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html) في وثائق AWS.
 :::
 
+::: quiz
+شركة تشغّل حاوياتها على ECS في AWS. وبعضها لازم الحين يشتغل على سيرفرات في مصنعها، والفريق يبي يكمل بنفس أدوات ECS. وش يناسب؟
+
+- [ ] EKS Distro
+- [x] ECS Anywhere
+- [ ] Fargate Spot
+- [ ] AWS App Runner
+
+ECS Anywhere يسجل سيرفراتك أو أجهزتك الافتراضية في مجموعة ECS، فيكمل الفريق بأدواته.
+
+- **A:** هذي مكونات Kubernetes تشغلها وتدعمها بنفسك، والفريق يستخدم ECS.
+- **C:** هذا يشغّل المهام على سعة AWS بسعر أقل، مو على سيرفراتك.
+- **D:** هذا يشتغل في AWS، وما عاد يقبل عملاء جدد.
+
+للمراجعة: [حاويات على سيرفراتك](#حاويات-على-سيرفراتك) في هذا الجزء، و[Amazon ECS clusters for external instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-anywhere.html) في وثائق AWS.
+:::
+
 الحاويات لسا تشتغل وتكلف وهي منتظرة. طيب لو كودك يشتغل بس لما يكون فيه شغل، وما تدفع شي غير كذا؟ في [**الجزء الحادي والعشرين**](/posts/aws-21-lambda-api-dynamodb/) نبني API بـ Lambda وAPI Gateway وDynamoDB.

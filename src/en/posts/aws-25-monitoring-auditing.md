@@ -360,4 +360,38 @@ Logs are kept forever by default, so a retention period removes the old ones. A 
 Review: [CloudWatch Logs](#cloudwatch-logs) in this part, and [Working with log groups and log streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html) and [Real-time processing of log data with subscriptions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions.html) in the AWS docs.
 :::
 
+::: quiz
+A checkout request passes through API Gateway, three Lambda functions and a DynamoDB table, and sometimes takes five seconds. Each service's metrics look normal on their own. What shows which step is slow?
+
+- [ ] CloudTrail
+- [ ] AWS Config
+- [x] AWS X-Ray
+- [ ] CloudWatch Contributor Insights
+
+X-Ray follows each request across your services and their calls, and shows which step is slow or failing.
+
+- **A:** This records who called which API, not how long each step of a request took.
+- **B:** This records resource settings.
+- **D:** This shows top contributors, such as the addresses sending the most requests, not a request's path.
+
+Review: [X-Ray: following one request](#x-ray-following-one-request) in this part, and [What is AWS X-Ray?](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) in the AWS docs.
+:::
+
+::: quiz
+Errors suddenly rise on an application in one Region, with nothing changed on the team's side. They want to know quickly whether AWS itself has a problem affecting their resources. Where should they look?
+
+- [ ] CloudTrail Event history
+- [x] AWS Health Dashboard
+- [ ] AWS Config
+- [ ] Trusted Advisor
+
+It shows the events affecting AWS services and your resources, with no setup and at no cost.
+
+- **A:** This shows the calls made in your account, and those didn't change here.
+- **C:** This shows how your settings changed, and those didn't change here.
+- **D:** This checks your account against best practices, and doesn't report outages.
+
+Review: [Other views](#other-views) in this part, and [What is AWS Health?](https://docs.aws.amazon.com/health/latest/ug/what-is-aws-health.html) in the AWS docs.
+:::
+
 You now know what's happening in one account. But companies have dozens of accounts and hundreds of employees. In [**part twenty-six**](/en/posts/aws-26-organizations-identity-center/) we manage them with Organizations and Identity Center.

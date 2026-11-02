@@ -390,4 +390,21 @@ The engines differ, so the tables and code are converted first. DMS then copies 
 Review: [Migrating databases: DMS](#migrating-databases-dms) in this part, and [What is AWS Database Migration Service?](https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html) and [Converting database schemas using DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_SchemaConversion.html) in the AWS docs.
 :::
 
+::: quiz
+In a recovery drill, a warm standby in a second Region starts to grow, but new servers fail to launch because of an account limit that's lower there than in the main Region. What should the team do?
+
+- [x] Raise the quotas in the standby Region ahead of time
+- [ ] Switch to pilot light
+- [ ] Copy the backups to a third Region
+- [ ] Raise the quotas in the main Region
+
+Quotas are per Region, so the standby needs limits high enough for production capacity before a disaster. You raise them from the Service Quotas console.
+
+- **B:** This keeps even less running, and would hit the same limit when it grows.
+- **C:** This protects data, and doesn't change the limit.
+- **D:** Quotas are per Region, so this doesn't help the standby.
+
+Review: [Tips that make the difference](#tips-that-make-the-difference) in this part, and [Disaster recovery options in the cloud](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html) and [What is Service Quotas?](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) in the AWS docs.
+:::
+
 Your application is now built, protected and recoverable. One last question remains: how much does it cost, and is it designed well? In [**part twenty-nine**](/en/posts/aws-29-cost-good-architecture/) we close the series with cost and good architecture.

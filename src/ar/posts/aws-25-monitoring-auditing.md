@@ -360,4 +360,38 @@ CloudTrail يسجل الاستدعاء، وEventBridge يطابقه، وSNS يخ
 للمراجعة: [سجلات CloudWatch](#سجلات-cloudwatch) في هذا الجزء، و[Working with log groups and log streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html) و[Real-time processing of log data with subscriptions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions.html) في وثائق AWS.
 :::
 
+::: quiz
+طلب الدفع يمر على API Gateway وثلاث دوال Lambda وجدول DynamoDB، وأحياناً ياخذ خمس ثواني. ومقاييس كل خدمة لحالها تبدو طبيعية. وش يبين أي خطوة بطيئة؟
+
+- [ ] CloudTrail
+- [ ] AWS Config
+- [x] AWS X-Ray
+- [ ] CloudWatch Contributor Insights
+
+X-Ray يتتبع كل طلب عبر خدماتك واتصالاتها، ويوريك أي خطوة بطيئة أو تفشل.
+
+- **A:** هذا يسجل مين نادى أي API، مو كم أخذت كل خطوة من الطلب.
+- **B:** هذا يسجل إعدادات الموارد.
+- **D:** هذا يعرض أكبر المساهمين، مثل العناوين اللي ترسل أكثر طلبات، مو مسار الطلب.
+
+للمراجعة: [X-Ray: تتبع طلب واحد](#x-ray-تتبع-طلب-واحد) في هذا الجزء، و[What is AWS X-Ray?](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) في وثائق AWS.
+:::
+
+::: quiz
+الأخطاء زادت فجأة في تطبيق في منطقة وحدة، وما تغير شي من جهة الفريق. ويبون يعرفون بسرعة هل عند AWS نفسها مشكلة تأثر على مواردهم. وين يشوفون؟
+
+- [ ] CloudTrail Event history
+- [x] AWS Health Dashboard
+- [ ] AWS Config
+- [ ] Trusted Advisor
+
+يعرض الأحداث اللي تأثر على خدمات AWS ومواردك، بدون تجهيز وبدون تكلفة.
+
+- **A:** هذا يعرض الاستدعاءات في حسابك، وهذي ما تغيرت هنا.
+- **C:** هذا يعرض كيف تغيرت إعداداتك، وهذي ما تغيرت هنا.
+- **D:** هذا يفحص حسابك مقابل أفضل الممارسات، وما يبلغ عن الأعطال.
+
+للمراجعة: [أدوات ثانية للمتابعة](#أدوات-ثانية-للمتابعة) في هذا الجزء، و[What is AWS Health?](https://docs.aws.amazon.com/health/latest/ug/what-is-aws-health.html) في وثائق AWS.
+:::
+
 الحين تعرف وش يصير في حساب واحد. بس الشركات عندها عشرات الحسابات ومئات الموظفين. في [**الجزء السادس والعشرين**](/posts/aws-26-organizations-identity-center/) نديرهم بـ Organizations وIdentity Center.
