@@ -177,6 +177,10 @@
 
     const resumeLink = document.querySelector('[data-progress-resume]');
     const resumeStart = resumeLink && { href: resumeLink.href, text: resumeLink.firstChild.textContent };
+    const resetButton = document.querySelector('[data-progress-reset]');
+    const resetLabel = resetButton?.textContent;
+    const undoSeconds = 8;
+    let resetUndo = null; // While a reset can still be taken back: { progress, timer }.
 
     const showParts = () => {
         const { parts = {}, last } = loadProgress();
@@ -195,8 +199,8 @@
         document.querySelectorAll('[data-progress-series]').forEach((series) => {
             const bar = [...series.querySelectorAll('.series-progress [data-progress-part]')];
             const started = bar.some((part) => part.matches('.is-read, .is-started'));
-            series.classList.toggle('has-progress', started);
-            series.querySelector('[data-progress-status]').hidden = !started;
+            series.classList.toggle('has-progress', started || Boolean(resetUndo));
+            series.querySelector('[data-progress-status]').hidden = !started && !resetUndo;
             series.querySelector('[data-progress-count]').textContent = `${bar.filter((part) => part.matches('.is-read')).length}/${bar.length}`;
         });
 
@@ -220,13 +224,30 @@
         }
     };
 
-    document.querySelector('[data-progress-reset]')?.addEventListener('click', (event) => {
-        if (!window.confirm(event.currentTarget.dataset.confirm)) return;
+    // Clearing happens at once, with a few seconds to take it back.
+    const endResetUndo = () => {
+        clearTimeout(resetUndo.timer);
+        resetUndo = null;
+        resetButton.textContent = resetLabel;
+        resetButton.classList.remove('is-undo');
+        showParts();
+    };
+
+    resetButton?.addEventListener('click', () => {
+        if (resetUndo) {
+            saveProgress(resetUndo.progress);
+            endResetUndo();
+            return;
+        }
+        const before = loadProgress();
         const progress = loadProgress();
         document.querySelectorAll('.series-item[data-progress-part]').forEach((row) => {
             if (progress.parts) delete progress.parts[row.dataset.progressPart];
         });
         saveProgress(progress);
+        resetUndo = { progress: before, timer: setTimeout(endResetUndo, undoSeconds * 1000) };
+        resetButton.textContent = resetButton.dataset.undoLabel;
+        resetButton.classList.add('is-undo');
         showParts();
     });
 
@@ -734,12 +755,25 @@
             }
         });
 
+        // Clearing happens at once, with a few seconds to take it back. Any new change ends that chance.
+        const undoButton = tools.querySelector('[data-highlight-undo]');
+        let undoState = null; // While clearing can still be taken back: { highlights, studyOn, timer }.
+        const endUndo = () => {
+            if (!undoState) return;
+            clearTimeout(undoState.timer);
+            undoState = null;
+            if (document.activeElement === undoButton) studyToggle?.focus({ preventScroll: true });
+            undoButton.hidden = true;
+            clearButton.hidden = false;
+        };
+
         // Pressing a colour shouldn't clear the selection before it's used.
         highlightBar.addEventListener('mousedown', (event) => event.preventDefault());
 
         highlightBar.addEventListener('click', (event) => {
             const button = event.target.closest('button');
             if (!button || !target) return;
+            endUndo();
             const { start, end } = target;
             const text = articleText();
             // The new colour replaces whatever it covers; the parts of older highlights outside it stay.
@@ -763,18 +797,31 @@
         });
 
         studyToggle?.addEventListener('click', () => {
+            endUndo();
             setStudy(!studyOn);
             render();
         });
 
-        // The reader's own highlights can't be brought back, so those ask first.
         clearButton.addEventListener('click', () => {
-            if (highlights.length && !window.confirm(clearButton.dataset.confirm)) return;
+            undoState = { highlights, studyOn, timer: setTimeout(endUndo, undoSeconds * 1000) };
             highlights = [];
             save();
             setStudy(false);
             closeBar();
             render();
+            clearButton.hidden = true;
+            undoButton.hidden = false;
+            undoButton.focus({ preventScroll: true });
+        });
+
+        undoButton.addEventListener('click', () => {
+            const before = undoState;
+            endUndo();
+            highlights = before.highlights;
+            save();
+            setStudy(before.studyOn);
+            render();
+            clearButton.focus({ preventScroll: true });
         });
 
         tools.hidden = false;

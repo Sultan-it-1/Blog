@@ -29,7 +29,7 @@ eleventyComputed:
       </div>
       <div class="series-status-row">
         <p class="series-status-text">{{ t.progress.finished }} <span class="series-status-count" data-progress-count></span></p>
-        <button type="button" class="series-status-reset" data-progress-reset data-confirm="{{ t.progress.resetConfirm }}">{{ t.progress.reset }}</button>
+        <button type="button" class="series-status-reset" data-progress-reset data-undo-label="{{ t.undo }}">{{ t.progress.reset }}</button>
       </div>
     </div>
     <div class="hero-actions">

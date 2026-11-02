@@ -50,7 +50,8 @@ bodyClass: page-post
       {%- if studyMark %}
       <button type="button" class="btn hl-tool" aria-pressed="false" data-study-toggle>{% icon "highlighter" %}{{ t.highlight.study }}</button>
       {%- endif %}
-      <button type="button" class="btn hl-tool" disabled data-highlight-clear data-confirm="{{ t.highlight.clearConfirm }}">{% icon "close" %}{{ t.highlight.clearAll }}</button>
+      <button type="button" class="btn hl-tool" disabled data-highlight-clear>{% icon "close" %}{{ t.highlight.clearAll }}</button>
+      <button type="button" class="btn hl-tool hl-undo" data-highlight-undo hidden>{% icon "undo", "flip-rtl" %}{{ t.undo }}</button>
       {%- if studyMark %}
       <ul class="hl-key" aria-label="{{ t.highlight.keyLabel }}" data-study-key hidden>
         {%- for color in ["yellow", "blue", "green", "pink"] %}

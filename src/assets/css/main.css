@@ -2066,6 +2066,11 @@
         cursor: not-allowed;
     }
 
+    .hl-undo {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+    }
+
     .hl-key {
         display: flex;
         flex-basis: 100%;
@@ -2364,6 +2369,11 @@
 
     .series-status-reset:hover {
         color: var(--color-ink);
+    }
+
+    .series-status-reset.is-undo {
+        color: var(--color-accent);
+        font-weight: 600;
     }
 
     .series-label {

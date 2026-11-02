@@ -33,6 +33,7 @@ export default {
     switchLanguage: "Read in English",
     search: "ابحث في المقالات",
     backToTop: "العودة للأعلى",
+    undo: "تراجع",
     rights: "جميع الحقوق محفوظة.",
     readingTime: arabicMinutes,
     postCount: arabicPosts,
@@ -100,7 +101,6 @@ export default {
         pink: "تنبيه",
       },
       clearAll: "إزالة تحديد الكل",
-      clearConfirm: "إزالة كل التحديد من هذا المقال؟",
       yellow: "تلوين بالأصفر",
       green: "تلوين بالأخضر",
       blue: "تلوين بالأزرق",
@@ -114,7 +114,6 @@ export default {
       finished: "الأجزاء المكتملة",
       resume: "كمل من الجزء {n}",
       reset: "مسح التقدم",
-      resetConfirm: "مسح تقدم القراءة في هذي السلسلة؟",
     },
 
     quiz: {
@@ -207,6 +206,7 @@ export default {
     switchLanguage: "اقرأ بالعربية",
     search: "Search articles",
     backToTop: "Back to top",
+    undo: "Undo",
     rights: "All rights reserved.",
     readingTime: (n) => `${n} min read`,
     postCount: (n) => (n === 1 ? "1 article" : `${n} articles`),
@@ -274,7 +274,6 @@ export default {
         pink: "Caution",
       },
       clearAll: "Clear all",
-      clearConfirm: "Clear all highlights from this article?",
       yellow: "Highlight in yellow",
       green: "Highlight in green",
       blue: "Highlight in blue",
@@ -288,7 +287,6 @@ export default {
       finished: "Parts finished",
       resume: "Continue with part {n}",
       reset: "Clear progress",
-      resetConfirm: "Clear reading progress for this series?",
     },
 
     quiz: {
