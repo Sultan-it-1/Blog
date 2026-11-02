@@ -158,29 +158,99 @@ Each step came after a real problem you measured, not before it. Every extra ser
 - **Treating the cache as a source of truth:** if it's lost, nothing important should go with it.
 - **Multi-AZ in development:** double the cost, usually for no benefit.
 
-## Test yourself
-
-What would you choose for each case? Think before reading the answers:
-
-1. A clinic booking system with appointments, patients and payments.
-2. A mobile game showing the top 100 players live.
-3. An app suggesting "people you may know".
-4. Ten thousand sensors sending the temperature every minute.
-5. A sales team wanting reports across five years of orders.
-
-::: note The answers
-1. **RDS or Aurora:** linked data and transactions.
-2. **ElastiCache:** a sorted set gives you the top entries instantly.
-3. **Neptune:** the value is in the relationships.
-4. **Timestream for InfluxDB:** readings over time.
-5. **Redshift or Athena:** huge reports, away from the production database.
-:::
-
 ## Summary
 
 - Ask about the **shape of the data and how you'll read it** before any service name.
 - Start **relational** unless you have a clear reason not to.
 - One application uses more than one type, with each kind of data going where it fits.
 - Add each service when you **measure a real problem**, not before.
+
+## Test yourself
+
+::: quiz
+A clinic is building a booking system with appointments, patients and payments. The data is linked, payments need strict transactions, and the small team doesn't yet know all the reports it will need. Where should it start?
+
+- [ ] DynamoDB, because it scales without limit
+- [x] RDS or Aurora, with a relational schema
+- [ ] ElastiCache, because memory is the fastest
+- [ ] Neptune, because the data has relationships
+
+Linked data, transactions and queries you can't fully predict all point to a relational database. It's the sensible default unless there's a clear reason otherwise.
+
+- **A:** You'd design around known queries up front, and new reports would be hard to add.
+- **C:** A cache isn't a source of truth, so it can't be where payments live.
+- **D:** Neptune suits deep webs of connections, not ordinary linked tables.
+
+Review: [Relational or NoSQL?](#relational-or-nosql) in this part, and [Choosing an AWS database service](https://docs.aws.amazon.com/decision-guides/latest/databases-on-aws-how-to-choose/databases-on-aws-how-to-choose.html) in the AWS docs.
+:::
+
+::: quiz
+A social app wants to suggest "people you may know" by following friends of friends across several hops, with fast responses. Which service fits best?
+
+- [ ] RDS, with a table join for each hop
+- [ ] ElastiCache, with a list for each user
+- [ ] Timestream for InfluxDB
+- [x] Amazon Neptune
+
+The value here is in the relationships themselves, and Neptune is built to walk through large numbers of them with low latency.
+
+- **A:** This works for one or two hops, but joins get heavy as the hops increase.
+- **B:** You could store ready-made lists, but something still has to work them out.
+- **C:** This is for readings over time, and has nothing to do with relationships.
+
+Review: [Services you'll come across](#services-youll-come-across) in this part, and [Choosing an AWS database service](https://docs.aws.amazon.com/decision-guides/latest/databases-on-aws-how-to-choose/databases-on-aws-how-to-choose.html) in the AWS docs.
+:::
+
+::: quiz
+Ten thousand sensors send a temperature reading every minute, and engineers want hourly averages for each sensor over the last week. Which service was built for this?
+
+- [x] Timestream for InfluxDB
+- [ ] Amazon Neptune
+- [ ] Amazon DocumentDB
+- [ ] Amazon OpenSearch Service
+
+These are readings over time, which is what a time series database is built to store and aggregate.
+
+- **B:** This is for connections between things.
+- **C:** This is for JSON documents with varied fields.
+- **D:** This is mainly for searching text and analyzing logs.
+
+Review: [Types of database](#types-of-database) in this part, and [What is Timestream for InfluxDB?](https://docs.aws.amazon.com/timestream/latest/developerguide/timestream-for-influxdb.html) in the AWS docs.
+:::
+
+::: quiz
+A company wants to move an existing MongoDB application to a managed AWS service with the **fewest code changes**. Which service fits?
+
+- [ ] Amazon DynamoDB
+- [ ] Amazon Keyspaces
+- [x] Amazon DocumentDB
+- [ ] Amazon Aurora
+
+DocumentDB is compatible with MongoDB, so the application's document model and much of its code can stay as they are.
+
+- **A:** This has a different API and data model, so the data access code would be rewritten.
+- **B:** This is compatible with Cassandra, not MongoDB.
+- **D:** This is relational, so the documents would need redesigning as tables.
+
+Review: [Services you'll come across](#services-youll-come-across) in this part, and [What is Amazon DocumentDB?](https://docs.aws.amazon.com/documentdb/latest/developerguide/what-is.html) in the AWS docs.
+:::
+
+::: quiz
+A sales team wants reports across five years of orders, which means billions of rows, and the queries must not slow down the production database. Which **two** approaches fit? (Choose two.)
+
+- [ ] Run the reports on the production database at night
+- [x] Load the data into Amazon Redshift
+- [ ] Store the orders in ElastiCache
+- [ ] Run the reports on the Multi-AZ standby
+- [x] Export the data to S3, and query it with Athena
+
+Both move heavy analysis away from production. Redshift suits frequent, heavy reports, and Athena suits occasional questions without any servers to run.
+
+- **A:** One heavy query can still hurt anything else running then, and it's a relational database that isn't built for this scale of analysis.
+- **C:** A cache is a temporary copy, and far too small and costly for five years of data.
+- **D:** The standby in a Multi-AZ instance can't be read from.
+
+Review: [Common mistakes](#common-mistakes) in this part, and [What is Amazon Athena?](https://docs.aws.amazon.com/athena/latest/ug/what-is.html) in the AWS docs.
+:::
 
 That completes the databases section. Your application now runs, scales and keeps its data safe, but how do visitors reach it by your site's name? That's the next section's subject, starting in [**part eleven**](/en/posts/aws-11-dns-route53/) with DNS and Route 53.

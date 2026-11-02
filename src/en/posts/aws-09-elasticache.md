@@ -228,4 +228,92 @@ aws ec2 delete-security-group --group-id sg-CACHE-GROUP
 - The **TTL** sets how much staleness you accept, and some data shouldn't be cached at all.
 - It also works for sessions, leaderboards and rate limiting.
 
+## Test yourself
+
+::: quiz
+A store's home page runs the same query on RDS thousands of times a minute, and the database's CPU is high. The data changes only a few times an hour. What gives the fastest responses and takes the most load off the database?
+
+- [ ] Turn on Multi-AZ
+- [ ] Move to a larger database server
+- [x] Cache the result in ElastiCache with a short TTL
+- [ ] Move the data to Redshift
+
+The answer rarely changes, so the database doesn't need to work it out again each time. Memory answers in under a millisecond, and even a short TTL removes most of the load.
+
+- **A:** The standby doesn't serve reads, so the load stays the same.
+- **B:** This buys capacity, but the same query still runs every time.
+- **D:** Redshift is for large reports, not for answering a page quickly.
+
+Review: [What a cache is](#what-a-cache-is) in this part, and [Caching strategies](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html) in the AWS docs.
+:::
+
+::: quiz
+A mobile game shows the top 100 players live. The leaderboard must keep working if a cache node fails, with automatic failover. Which option fits?
+
+- [x] ElastiCache for Valkey, using a sorted set, with replicas and Multi-AZ
+- [ ] ElastiCache for Memcached, in a cluster you design yourself
+- [ ] An `ORDER BY` query on RDS for every request
+- [ ] A file in S3 that's rewritten after every score
+
+A sorted set keeps players ordered by score and returns the top entries instantly, and Valkey supports replicas with automatic failover.
+
+- **B:** Memcached stores simple values, and it has no copies in a cluster you design.
+- **C:** Sorting millions of rows on every request puts heavy load on the database.
+- **D:** S3 isn't built for a file that changes constantly and must be read live.
+
+Review: [Choosing an engine](#choosing-an-engine) in this part, and [Comparing engines](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html) in the AWS docs.
+:::
+
+::: quiz
+A store uses lazy loading with a one-hour TTL, so customers can see an old price for up to an hour after it changes. Prices must now update within a minute, while keeping the benefit of the cache. What should the team do?
+
+- [ ] Remove the cache, and read every price from the database
+- [ ] Make the TTL longer
+- [ ] Add read replicas to the database
+- [x] Update or invalidate the cached price on each write, and shorten the TTL
+
+Lazy loading alone leaves data stale until it expires. Handling the cache on each write keeps it current, and a shorter TTL limits the damage if a write is ever missed.
+
+- **A:** This solves staleness, but brings all the load back to the database.
+- **B:** This makes the problem worse.
+- **C:** The stale value comes from the cache, not from the database.
+
+Review: [Write-through](#write-through) in this part, and [Caching strategies](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html) in the AWS docs.
+:::
+
+::: quiz
+An application fills its cache at startup, giving every key the same TTL. At the end of that period, the database gets a sharp spike in load, and the pattern repeats. What's the simplest fix?
+
+- [ ] Move the cache to a larger node type
+- [x] Add a small random value to each key's TTL
+- [ ] Remove the TTL from all keys
+- [ ] Turn on Multi-AZ for the cache
+
+When keys expire together, requests for all of them go to the database at the same moment. Randomizing the TTL spreads those expiries over time.
+
+- **A:** The problem is in the database at the moment of expiry, not in the cache's size.
+- **C:** Keys would never refresh, so stale data would stay.
+- **D:** This protects the cache from failures, and the keys still expire together.
+
+Review: [TTL and eviction](#ttl-and-eviction) in this part, and [Best practices for TTLs and jitter](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/semantic-caching-best-practices.html) in the AWS docs.
+:::
+
+::: quiz
+A team sees the `Evictions` metric rising and `CacheHitRate` falling on its cache. Which **two** actions address this? (Choose two.)
+
+- [x] Give the cache more memory
+- [ ] Add a read replica to the database
+- [x] Review what's stored, and stop caching data that's rarely read
+- [ ] Turn off encryption in transit
+- [ ] Move all the data from the cache to S3
+
+Evictions mean the cache is full and is pushing keys out, which turns into misses. Either make room with more memory, or stop filling it with what nobody reads.
+
+- **B:** This helps the database, but it doesn't change the cache's memory.
+- **D:** Encryption has nothing to do with evictions, and you'd lose its protection.
+- **E:** S3 is far slower, and this removes the point of having a cache.
+
+Review: [Security and monitoring](#security-and-monitoring) in this part, and [ElastiCache for e-commerce](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ecommerce-caching-valkey.html) in the AWS docs.
+:::
+
 You now know RDS, Aurora and ElastiCache, and AWS has many more. In [**part ten**](/en/posts/aws-10-choosing-database/) we answer the question that confuses everyone: which database should you choose?

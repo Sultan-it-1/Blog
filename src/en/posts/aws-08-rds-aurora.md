@@ -303,4 +303,92 @@ aws rds delete-db-snapshot --db-snapshot-identifier series-db-demo
 - Keep the database in a private network, accepting traffic only from the **servers' security group**.
 - **Aurora** has shared storage with six copies, up to 15 readers and fast failover, but is compatible only with MySQL and PostgreSQL.
 
+## Test yourself
+
+::: quiz
+A production PostgreSQL database on RDS must keep running if its Availability Zone fails. Failover must be automatic, with no change to the application's connection string. What should the team turn on?
+
+- [ ] A read replica in another Availability Zone
+- [x] Multi-AZ
+- [ ] Daily manual snapshots
+- [ ] A larger instance class
+
+Multi-AZ keeps a synchronous standby in another Availability Zone. On failure, RDS points the same DNS name at it, so the application reconnects with no changes.
+
+- **A:** A replica must be promoted by hand, and it has its own endpoint.
+- **C:** Restoring takes time, and it creates a new database with a new endpoint.
+- **D:** A larger server still sits in one Availability Zone.
+
+Review: [Multi-AZ and read replicas](#multi-az-and-read-replicas) in this part, and [Multi-AZ deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html) in the AWS docs.
+:::
+
+::: quiz
+A management dashboard runs heavy queries that slow down a store's RDS database during working hours. The reports can tolerate being a few seconds behind. What solves this with the **least change**?
+
+- [ ] Send the reports to the Multi-AZ standby
+- [ ] Turn on Storage Auto Scaling
+- [ ] Move the store's data to DynamoDB
+- [x] Create a read replica, and point the dashboard at its endpoint
+
+A read replica serves those queries on a separate server, which leaves the production database alone. Its small lag is acceptable for these reports.
+
+- **A:** The standby of a Multi-AZ instance can't serve reads.
+- **B:** This adds disk space, and the problem is the load from queries.
+- **C:** This means redesigning the data and rewriting the application.
+
+Review: [Read replicas](#read-replicas) in this part, and [Working with read replicas](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html) in the AWS docs.
+:::
+
+::: quiz
+A developer runs a wrong `UPDATE` on a production RDS database at 2:05 PM. Automatic backups are on. What happens if the team restores to 2:04 PM?
+
+- [x] RDS creates a new database, and the application must be pointed at its endpoint
+- [ ] RDS rewinds the existing database in place, with the same endpoint
+- [ ] It can't be done without a manual snapshot taken beforehand
+- [ ] The team should promote the Multi-AZ standby instead
+
+Point-in-time restore always creates a new database with a new endpoint, using the automatic backups and transaction logs.
+
+- **B:** A restore doesn't overwrite the existing database.
+- **C:** Automatic backups are enough for this.
+- **D:** The standby is a synchronous copy, so it received the same wrong `UPDATE`.
+
+Review: [Backups and restore](#backups-and-restore) in this part, and [Restoring to a specified time](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIT.html) in the AWS docs.
+:::
+
+::: quiz
+Hundreds of Lambda functions open short-lived connections to an RDS database, and at peak times it fails with too many connections. Which solution needs the **least code change**?
+
+- [ ] Turn on Multi-AZ
+- [ ] Add read replicas, and send the writes to them
+- [x] Put RDS Proxy between the functions and the database
+- [ ] Turn on Storage Auto Scaling
+
+RDS Proxy reuses a small pool of connections, and the application connects to it as if it were the database.
+
+- **A:** This adds a standby, which doesn't accept any connections.
+- **B:** Replicas are read-only, so they can't take the writes.
+- **D:** This grows the disk, and the limit here is on connections.
+
+Review: [RDS Proxy](#rds-proxy) in this part, and [Amazon RDS Proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html) in the AWS docs.
+:::
+
+::: quiz
+A team running RDS for MySQL is considering a move to Aurora MySQL. Which **two** statements about Aurora are true? (Choose two.)
+
+- [x] Storage grows by itself, without being reserved in advance
+- [ ] It can run Oracle and SQL Server databases
+- [ ] Every reader in a cluster accepts writes
+- [x] Up to 15 readers share one storage layer with the writer
+- [ ] Each reader keeps its own full copy of the data
+
+Aurora separates storage from servers, and that shared storage layer is what keeps replica lag small and failover fast.
+
+- **B:** Aurora is compatible only with MySQL and PostgreSQL.
+- **C:** One server writes, and the readers only read.
+- **E:** That's how RDS read replicas work, while Aurora's readers share storage.
+
+Review: [Aurora](#aurora) in this part, and [What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the AWS docs.
+:::
+
 Even with a strong database, repeating the same query thousands of times is wasteful. In [**part nine**](/en/posts/aws-09-elasticache/) we add a fast layer in front of it with ElastiCache.
