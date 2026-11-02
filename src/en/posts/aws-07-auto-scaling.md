@@ -177,4 +177,4 @@ It suits you if you want to focus on the code of a conventional application. If 
 - Start with a **target tracking** policy, and pick a metric that truly reflects load.
 - Keep servers **stateless**: anything important lives off them.
 
-That completes the high availability section. The question left is where the data lives once it's off the server. That's the next section's subject, starting in **part eight** with the managed databases RDS and Aurora.
+That completes the high availability section. The question left is where the data lives once it's off the server. That's the next section's subject, starting in [**part eight**](/en/posts/aws-08-rds-aurora/) with the managed databases RDS and Aurora.

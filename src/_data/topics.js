@@ -11,6 +11,11 @@ export default {
     ar: { name: "الحوسبة السحابية", description: "مفاهيم السحابة الأساسية: المناطق والتوفر والمسؤولية المشتركة." },
     en: { name: "Cloud computing", description: "Core cloud concepts: regions, availability and shared responsibility." },
   },
+  databases: {
+    icon: "database",
+    ar: { name: "قواعد البيانات", description: "قواعد البيانات المُدارة والكاش وكيف تختار المناسب لبياناتك." },
+    en: { name: "Databases", description: "Managed databases, caching and choosing the right one for your data." },
+  },
   ec2: {
     icon: "cpu",
     ar: { name: "EC2", description: "إنشاء الخوادم الافتراضية وإدارتها على AWS." },
