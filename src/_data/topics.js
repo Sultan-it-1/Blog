@@ -56,6 +56,11 @@ export default {
     ar: { name: "الشبكات", description: "DNS وتوصيل المحتوى والشبكات الخاصة وربطها ببعض." },
     en: { name: "Networking", description: "DNS, content delivery, private networks and connecting them." },
   },
+  operations: {
+    icon: "pulse",
+    ar: { name: "التشغيل", description: "المراقبة والتعافي من الكوارث والتكلفة وتشغيل ما بنيته." },
+    en: { name: "Operations", description: "Monitoring, disaster recovery, cost and running what you have built." },
+  },
   s3: {
     icon: "bucket",
     ar: { name: "S3", description: "التخزين الكائني: الحاويات وفئات التخزين والتشفير والمشاركة الآمنة." },

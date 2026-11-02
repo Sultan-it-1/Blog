@@ -317,7 +317,7 @@ Very often all you want is for the stream to land somewhere. **Amazon Data Fireh
 
 A quick rule: a **job**? SQS. An **event** many want to know about? SNS. A **stream of data** many read and replay? Kinesis.
 
-There's also **EventBridge**, which routes events by rules from AWS services and other applications, and we'll cover it in the [security and operations section](/en/series/aws/#section-9).
+There's also **EventBridge**, which routes events by rules from AWS services and other applications, and we'll cover it in [part twenty-five](/en/posts/aws-25-monitoring-auditing/).
 
 ## Amazon MQ: for what already exists
 

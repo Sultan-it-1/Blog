@@ -128,7 +128,7 @@ Lock a file in Compliance mode for ten years and you'll pay for it for ten years
 ## Logs and monitoring
 
 - **Access logs:** record every request in a **different** bucket. Don't use the same bucket, because every log entry generates another, growing endlessly and growing your bill.
-- **CloudTrail:** records management operations, plus data operations if you turn them on. We cover it in the [security and operations section](/en/series/aws/#section-9).
+- **CloudTrail:** records management operations, plus data operations if you turn them on. We cover it in [part twenty-five](/en/posts/aws-25-monitoring-auditing/).
 
 ## Access Points: a door for each team
 

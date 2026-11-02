@@ -239,7 +239,7 @@ Put **CloudFront** in front of it, and change nothing else. The files don't chan
 | **One role per function, with the least privilege** | A flaw in one doesn't open everything |
 | **Small functions with one job** | Easier to test, and quicker to start |
 | **Calculate the cost** | With heavy, constant load, containers can come out cheaper |
-| **Observe everything** | Requests pass through many services, and we cover the tools in the [security and operations section](/en/series/aws/#section-9) |
+| **Observe everything** | Requests pass through many services, and we cover the tools in [part twenty-five](/en/posts/aws-25-monitoring-auditing/) |
 
 ## Hands-on: a file triggers a function
 

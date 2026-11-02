@@ -34,6 +34,7 @@ export const icons = {
   bolt: '<path d="M13 3L5 13.5h6L10 21l8-10.5h-6L13 3z"/>',
   chart: '<path d="M4 4v16h16"/><path d="M8.5 16v-4M13 16V8M17.5 16v-6"/>',
   sparkle: '<path d="M11 3.5l1.9 5.6 5.6 1.9-5.6 1.9L11 18.5l-1.9-5.6-5.6-1.9 5.6-1.9L11 3.5z"/><path d="M18.5 15.5v5M16 18h5"/>',
+  pulse: '<path d="M3 12h4l2.5-6 4 12 2.5-6H21"/>',
   user: '<circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/>',
 };
 

@@ -62,7 +62,7 @@ export default {
           parts: [
             "المراقبة والتدقيق: CloudWatch وCloudTrail وConfig",
             "الهوية المتقدمة: Organizations وIdentity Center",
-            "التشفير وحماية الأسرار",
+            "التشفير والأسرار والحماية من الهجمات",
             "التعافي من الكوارث والترحيل",
             "التكلفة والتصميم الجيد",
           ],
@@ -126,7 +126,7 @@ export default {
           parts: [
             "Monitoring and auditing: CloudWatch, CloudTrail and Config",
             "Advanced identity: Organizations and Identity Center",
-            "Encryption and protecting secrets",
+            "Encryption, secrets and threat protection",
             "Disaster recovery and migration",
             "Cost and good architecture",
           ],

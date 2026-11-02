@@ -291,4 +291,4 @@ These calls create no resources, and they cost a small fraction of a cent. But n
 - **Knowledge Bases** answers from your documents without training a model, and it's the alternative to Kendra.
 - Connecting these services with events is where the real value is.
 
-This completes the data and AI section. Your application is big now, and it has a lot running in it. How do you know it's healthy, and who changed what? In **part twenty-five** we start the final section, with monitoring and auditing through CloudWatch, CloudTrail and Config.
+This completes the data and AI section. Your application is big now, and it has a lot running in it. How do you know it's healthy, and who changed what? In [**part twenty-five**](/en/posts/aws-25-monitoring-auditing/) we start the final section, with monitoring and auditing through CloudWatch, CloudTrail and Config.
